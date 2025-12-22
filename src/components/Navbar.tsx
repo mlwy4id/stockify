@@ -1,5 +1,5 @@
-import { LuCircleUser, LuBell, LuSearch } from "react-icons/lu";
-import { Input } from "./ui/input";
+import { LuCircleUser, LuBell, LuSearch } from 'react-icons/lu';
+import { Input } from './ui/input';
 
 const Navbar = () => {
   return (

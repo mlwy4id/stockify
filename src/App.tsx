@@ -1,8 +1,8 @@
-import { Route, Routes } from "react-router-dom";
-import Sidebar from "./components/sidebar/Sidebar";
-import Inventory from "./pages/Inventory";
-import Reports from "./pages/Reports";
-import Navbar from "./components/Navbar";
+import { Route, Routes } from 'react-router-dom';
+import Sidebar from './components/sidebar/Sidebar';
+import Inventory from './pages/Inventory';
+import Reports from './pages/Reports';
+import Navbar from './components/Navbar';
 
 function App() {
   return (
@@ -10,8 +10,8 @@ function App() {
       <Sidebar />
 
       <div className="overflow-y-auto px-5 w-screen min-h-screen">
-        <Navbar/>
-        
+        <Navbar />
+
         <Routes>
           <Route path="/inventory" element={<Inventory />} />
           <Route path="/reports" element={<Reports />} />

@@ -1,5 +1,5 @@
 type Props = {
-  title: String;
+  title: string;
   button?: React.ReactNode;
   children: React.ReactNode;
 };
