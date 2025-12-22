@@ -1,5 +1,11 @@
+import PageLayout from "./PageLayout";
+
 const Reports = () => {
-  return <h1>Reports</h1>;
+  return (
+    <PageLayout title={"Reports"}>
+      <p>Reports here!!</p>
+    </PageLayout>
+  );
 };
 
 export default Reports;

@@ -1,8 +1,11 @@
+import { Button } from "@/components/ui/button";
+import PageLayout from "./PageLayout";
+
 const Inventory = () => {
   return (
-    <>
-      <h1>Inventory</h1>
-    </>
+    <PageLayout title={"Inventory"} button={<Button>Add Inventory</Button>}>
+      <p>Inventory here!</p>
+    </PageLayout>
   );
 };
 
