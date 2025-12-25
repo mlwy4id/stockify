@@ -4,9 +4,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { CreateItemSchema } from "@/schemas/inventorySchema";
 import type { CreateItem } from "@/types/inventory";
 import useItemStore from "@/store/useItemStore";
+import { useModalActions } from "@/hooks/useModalActions";
 
 const CreateInventoryForm = () => {
   const addItem = useItemStore((state) => state.addItem);
+  const { closeModal } = useModalActions();
 
   const {
     register,
@@ -23,7 +25,7 @@ const CreateInventoryForm = () => {
   const onSubmit = (data: any) => {
     const dataWithId = { ...data, id: crypto.randomUUID() };
     addItem(dataWithId);
-    console.log(dataWithId);
+    closeModal();
   };
 
   return (

@@ -1,16 +1,16 @@
 import { Button } from "@/components/ui/button";
 import PageLayout from "./layout/PageLayout";
 import InventoryTableContainer from "@/containers/table/InventoryTableContainer";
-import useModalStore from "@/store/useModalStore";
+import { useModalActions } from "@/hooks/useModalActions";
 
 const Inventory = () => {
-  const openModal = useModalStore((state) => state.openModal);
+  const { openCreateItem } = useModalActions();
 
   return (
     <PageLayout
       title={"Inventory"}
       button={
-        <Button onClick={() => openModal("CREATE_ITEM")}>Add Inventory</Button>
+        <Button onClick={openCreateItem}>Add Inventory</Button>
       }
     >
       <InventoryTableContainer />
