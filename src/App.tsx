@@ -1,12 +1,14 @@
-import { Route, Routes } from 'react-router-dom';
-import Sidebar from './components/sidebar/Sidebar';
-import Inventory from './pages/Inventory';
-import Reports from './pages/Reports';
-import Navbar from './components/Navbar';
-import Modal from './components/Modal';
-import CreateInventoryForm from './containers/form/CreateInventoryForm';
+import { Route, Routes } from "react-router-dom";
+import Sidebar from "./components/sidebar/Sidebar";
+import Inventory from "./pages/Inventory";
+import Reports from "./pages/Reports";
+import Navbar from "./components/Navbar";
+import ModalContainer from "./containers/modal/ModalContainer";
+import useModalStore from "./store/useModalStore";
 
 function App() {
+  const isModalOpen = useModalStore((state) => state.isOpen);
+
   return (
     <div>
       <div className="h-screen flex">
@@ -22,9 +24,7 @@ function App() {
         </main>
       </div>
 
-      <Modal>
-        <CreateInventoryForm />
-      </Modal>
+      {isModalOpen && <ModalContainer />}
     </div>
   );
 }

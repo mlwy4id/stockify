@@ -1,8 +1,8 @@
-import PageLayout from './PageLayout';
+import PageLayout from "./layout/PageLayout";
 
 const Reports = () => {
   return (
-    <PageLayout title={'Reports'}>
+    <PageLayout title={"Reports"}>
       <p>Reports here!!</p>
     </PageLayout>
   );
