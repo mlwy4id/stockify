@@ -1,4 +1,4 @@
-import type { Item } from "@/types/inventory";
+import type { Item } from '@/types/inventory';
 
 type Props = {
   items: Item[];
