@@ -2,6 +2,7 @@ import type { CreateItemSchema, UpdateItemSchema } from "@/schemas/inventorySche
 import type z from "zod";
 
 export type Item = {
+    id: string;
     name: string;
     quantity: string;
 }
