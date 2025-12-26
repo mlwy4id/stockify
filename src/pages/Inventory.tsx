@@ -9,9 +9,7 @@ const Inventory = () => {
   return (
     <PageLayout
       title={"Inventory"}
-      button={
-        <Button onClick={openCreateItem}>Add Inventory</Button>
-      }
+      button={<Button onClick={openCreateItem}>Add Inventory</Button>}
     >
       <InventoryTableContainer />
     </PageLayout>

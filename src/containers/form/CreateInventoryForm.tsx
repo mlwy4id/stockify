@@ -33,6 +33,7 @@ const CreateInventoryForm = () => {
       register={register}
       onSubmitHandler={handleSubmit(onSubmit)}
       errors={errors}
+      cancelHandler={closeModal}
     />
   );
 };

@@ -6,10 +6,16 @@ import type { Item } from "@/types/inventory";
 type Props = {
   register: UseFormRegister<any>;
   errors: FieldErrors<Item>;
-  onSubmitHandler(): void;
+  onSubmitHandler: () => void;
+  cancelHandler: () => void;
 };
 
-const InventoryForm = ({ register, errors, onSubmitHandler }: Props) => {
+const InventoryForm = ({
+  register,
+  errors,
+  onSubmitHandler,
+  cancelHandler,
+}: Props) => {
   return (
     <form
       className="w-full h-full flex flex-col gap-4"
@@ -34,7 +40,9 @@ const InventoryForm = ({ register, errors, onSubmitHandler }: Props) => {
       </div>
 
       <div className="flex justify-end items-center gap-2">
-        <Button variant="outline">Cancel</Button>
+        <Button variant="outline" onClick={cancelHandler}>
+          Cancel
+        </Button>
         <Button className="bg-blue-600">Add Item</Button>
       </div>
     </form>

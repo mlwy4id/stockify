@@ -5,10 +5,9 @@ import { useModalActions } from "@/hooks/useModalActions";
 
 const ModalContainer = () => {
   const componentName = useModalStore((state) => state.componentName);
-  const {closeModal} = useModalActions();
+  const { closeModal } = useModalActions();
 
   if (!componentName) return null;
-
   const { title, Component } = MODAL_COMPONENT_STRATEGIES[componentName];
 
   return (
