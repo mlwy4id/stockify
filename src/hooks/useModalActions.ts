@@ -13,10 +13,14 @@ export const useModalActions = () => {
       navigate(id);
       openModal("EDIT_ITEM", { itemId: id });
     },
+    openDeleteItem: (id: string) => {
+      navigate(id);
+      openModal("DELETE_ITEM", { itemId: id });
+    },
     closeModal,
-    closeModalAndBackToPreviousPage: () => {
+    closeModalAndToInventory: () => {
       closeModal();
-      navigate(-1);
+      navigate("/Inventory", { replace: true });
     },
   };
 };

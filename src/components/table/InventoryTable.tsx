@@ -10,9 +10,10 @@ import {
 type Props = {
   items: Item[];
   openEditModal: (id: string) => void;
+  openDeleteModal: (id: string) => void;
 };
 
-const InventoryTable = ({ items, openEditModal }: Props) => {
+const InventoryTable = ({ items, openEditModal, openDeleteModal }: Props) => {
   return (
     <table className="w-full">
       <thead>
@@ -40,7 +41,9 @@ const InventoryTable = ({ items, openEditModal }: Props) => {
                   <DropdownMenuItem onClick={() => openEditModal(item.id)}>
                     Edit
                   </DropdownMenuItem>
-                  <DropdownMenuItem>Delete</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => openDeleteModal(item.id)}>
+                    Delete
+                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </td>

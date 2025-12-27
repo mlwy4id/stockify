@@ -11,7 +11,7 @@ import { useForm } from "react-hook-form";
 const EditItemForm = () => {
   const payload = useModalStore((state) => state.payload);
   const updateItem = useItemStore((state) => state.updateItem);
-  const { closeModalAndBackToPreviousPage } = useModalActions();
+  const { closeModalAndToInventory } = useModalActions();
 
   const item = useFindItem(payload?.itemId);
 
@@ -29,7 +29,7 @@ const EditItemForm = () => {
 
   const onSubmit = (data: any) => {
     updateItem(payload?.itemId, data);
-    closeModalAndBackToPreviousPage();
+    closeModalAndToInventory();
   };
 
   return (
@@ -37,7 +37,7 @@ const EditItemForm = () => {
       register={register}
       onSubmitHandler={handleSubmit(onSubmit)}
       errors={errors}
-      cancelHandler={closeModalAndBackToPreviousPage}
+      cancelHandler={closeModalAndToInventory}
     />
   );
 };
