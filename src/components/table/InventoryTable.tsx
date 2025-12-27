@@ -1,11 +1,11 @@
-import type { Item } from '@/types/inventory';
-import { LuEllipsisVertical } from 'react-icons/lu';
+import type { Item } from "@/types/inventory";
+import { LuEllipsisVertical } from "react-icons/lu";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@radix-ui/react-dropdown-menu';
+} from "@radix-ui/react-dropdown-menu";
 
 type Props = {
   items: Item[];
@@ -37,7 +37,9 @@ const InventoryTable = ({ items, openEditModal }: Props) => {
                   align="end"
                   side="left"
                 >
-                  <DropdownMenuItem onClick={() => openEditModal(item.id)}>Edit</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => openEditModal(item.id)}>
+                    Edit
+                  </DropdownMenuItem>
                   <DropdownMenuItem>Delete</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

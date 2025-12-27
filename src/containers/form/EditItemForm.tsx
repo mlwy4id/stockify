@@ -1,20 +1,19 @@
-import InventoryForm from '@/components/form/InventoryForm';
-import { useFindItem } from '@/hooks/useFindItem';
-import { useModalActions } from '@/hooks/useModalActions';
-import { UpdateItemSchema } from '@/schemas/inventorySchema';
-import useItemStore from '@/store/useItemStore';
-import type { UpdateItem } from '@/types/inventory';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { useParams } from 'react-router-dom';
+import InventoryForm from "@/components/form/InventoryForm";
+import { useFindItem } from "@/hooks/useFindItem";
+import { useModalActions } from "@/hooks/useModalActions";
+import { UpdateItemSchema } from "@/schemas/inventorySchema";
+import useItemStore from "@/store/useItemStore";
+import useModalStore from "@/store/useModalStore";
+import type { UpdateItem } from "@/types/inventory";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 
 const EditItemForm = () => {
+  const id = useModalStore((state) => state.id);
   const updateItem = useItemStore((state) => state.updateItem);
   const { closeModalAndBackToPreviousPage } = useModalActions();
 
-  const { id } = useParams();
   const item = useFindItem(id);
-  console.log(id);
 
   const {
     register,

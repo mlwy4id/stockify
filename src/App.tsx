@@ -1,11 +1,10 @@
-import { Route, Routes } from 'react-router-dom';
-import Sidebar from './components/sidebar/Sidebar';
-import Reports from './pages/Reports';
-import Navbar from './components/Navbar';
-import ModalContainer from './containers/modal/ModalContainer';
-import useModalStore from './store/useModalStore';
-import { EmptyRouting } from './pages/Inventory/InventoryRoute';
-import InventoryLayout from './pages/Inventory/InventoryLayout';
+import { Route, Routes } from "react-router-dom";
+import Sidebar from "./components/sidebar/Sidebar";
+import Reports from "./pages/Reports";
+import Navbar from "./components/Navbar";
+import ModalContainer from "./containers/modal/ModalContainer";
+import useModalStore from "./store/useModalStore";
+import InventoryLayout from "./pages/Inventory/InventoryLayout";
 
 function App() {
   const isModalOpen = useModalStore((state) => state.isOpen);
@@ -21,7 +20,7 @@ function App() {
           <div className="px-6">
             <Routes>
               <Route path="/inventory" element={<InventoryLayout />}>
-                <Route path=":id" element={<EmptyRouting />} />
+                <Route path=":id" element={<InventoryRoute />} />
               </Route>
               <Route path="/reports" element={<Reports />} />
             </Routes>

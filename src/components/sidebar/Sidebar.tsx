@@ -1,6 +1,6 @@
-import SidebarOptions from './SidebarOptions';
-import { LuArchive } from 'react-icons/lu';
-import { LuChartColumn } from 'react-icons/lu';
+import SidebarOptions from "./SidebarOptions";
+import { LuArchive } from "react-icons/lu";
+import { LuChartColumn } from "react-icons/lu";
 
 const Sidebar = () => {
   return (
@@ -12,7 +12,9 @@ const Sidebar = () => {
     "
     >
       <nav>
-        <h1 className="font-semibold text-2xl mx-2 pb-4 border-b border-b-gray-200 ">Stockify</h1>
+        <h1 className="font-semibold text-2xl mx-2 pb-4 border-b border-b-gray-200 ">
+          Stockify
+        </h1>
         <ul className="mt-2">
           <SidebarOptions icon={LuArchive} name="Inventory" />
           <SidebarOptions icon={LuChartColumn} name="Reports" />

@@ -1,1 +1,1 @@
-export const EmptyRouting = () => null;
+export const InventoryRoute = () => null;
