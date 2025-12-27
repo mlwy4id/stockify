@@ -1,31 +1,32 @@
-import type { ModalType } from '@/types/modal';
-import { create } from 'zustand';
+import type { ModalType } from "@/types/modal";
+import { create } from "zustand";
 
 interface ModalState {
-  id?: string;
   componentName: ModalType | null;
   isOpen: boolean;
-  setId: (id: string) => void;
-  openModal: (componentName: ModalType) => void;
+  payload?: {
+    itemId?: string;
+  };
+
+  openModal: (componentName: ModalType, payload?: { itemId: string }) => void;
   closeModal: () => void;
 }
 
 const useModalStore = create<ModalState>()((set) => ({
-  id: undefined,
   componentName: null,
   isOpen: false,
 
-  setId: (id) => set({ id }),
-  openModal: (componentName) =>
+  openModal: (componentName, payload) =>
     set({
       componentName,
       isOpen: true,
+      payload: payload,
     }),
   closeModal: () =>
     set({
-      id: undefined,
       componentName: null,
       isOpen: false,
+      payload: undefined,
     }),
 }));
 

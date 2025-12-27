@@ -1,5 +1,5 @@
-import { LuX } from 'react-icons/lu';
-import { Card, CardContent, CardHeader } from './ui/card';
+import { LuX } from "react-icons/lu";
+import { Card, CardContent, CardHeader } from "./ui/card";
 
 type Props = {
   title: string;
