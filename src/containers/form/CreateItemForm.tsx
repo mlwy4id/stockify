@@ -1,12 +1,12 @@
-import InventoryForm from "@/components/form/InventoryForm";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { CreateItemSchema } from "@/schemas/inventorySchema";
-import type { CreateItem } from "@/types/inventory";
-import useItemStore from "@/store/useItemStore";
-import { useModalActions } from "@/hooks/useModalActions";
+import InventoryForm from '@/components/form/InventoryForm';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { CreateItemSchema } from '@/schemas/inventorySchema';
+import type { CreateItem } from '@/types/inventory';
+import useItemStore from '@/store/useItemStore';
+import { useModalActions } from '@/hooks/useModalActions';
 
-const CreateInventoryForm = () => {
+const CreateItemForm = () => {
   const addItem = useItemStore((state) => state.addItem);
   const { closeModal } = useModalActions();
 
@@ -17,7 +17,7 @@ const CreateInventoryForm = () => {
   } = useForm<CreateItem>({
     resolver: zodResolver(CreateItemSchema),
     defaultValues: {
-      name: "",
+      name: '',
       quantity: 0,
     },
   });
@@ -38,4 +38,4 @@ const CreateInventoryForm = () => {
   );
 };
 
-export default CreateInventoryForm;
+export default CreateItemForm;

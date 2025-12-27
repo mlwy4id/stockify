@@ -1,9 +1,9 @@
-import { LuCircleUser, LuBell, LuSearch } from "react-icons/lu";
-import { Input } from "./ui/input";
+import { LuCircleUser, LuBell, LuSearch } from 'react-icons/lu';
+import { Input } from './ui/input';
 
 const Navbar = () => {
   return (
-    <header className="py-4 pr-2 sticky top-0 bg-white">
+    <header className="p-4 sticky top-0 bg-white/50 backdrop-blur-md">
       <nav>
         <ul className="flex justify-between items-center">
           <div className="w-[20%] relative">

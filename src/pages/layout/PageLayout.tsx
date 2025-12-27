@@ -11,7 +11,7 @@ const PageLayout = ({ title, button, children }: Props) => {
         <h1 className="text-3xl font-semibold">{title}</h1>
         {button}
       </div>
-      <div>{children}</div>
+      <div className="pb-8">{children}</div>
     </div>
   );
 };

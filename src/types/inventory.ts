@@ -1,8 +1,5 @@
-import type {
-  CreateItemSchema,
-  UpdateItemSchema,
-} from "@/schemas/inventorySchema";
-import type z from "zod";
+import type { CreateItemSchema, UpdateItemSchema } from '@/schemas/inventorySchema';
+import type z from 'zod';
 
 export type Item = {
   id: string;
