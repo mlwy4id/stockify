@@ -1,7 +1,7 @@
-import Modal from "@/components/Modal";
-import useModalStore from "@/store/useModalStore";
-import { MODAL_COMPONENT_STRATEGIES } from "./ModalStrategies";
-import { useModalActions } from "@/hooks/useModalActions";
+import Modal from '@/components/Modal';
+import useModalStore from '@/store/useModalStore';
+import { MODAL_COMPONENT_STRATEGIES } from './ModalStrategies';
+import { useModalActions } from '@/hooks/useModalActions';
 
 const ModalContainer = () => {
   const componentName = useModalStore((state) => state.componentName);
@@ -13,11 +13,7 @@ const ModalContainer = () => {
   return (
     <Modal
       title={title}
-      closeModal={
-        componentName.startsWith("EDIT")
-          ? closeModalAndBackToPreviousPage
-          : closeModal
-      }
+      closeModal={componentName.startsWith('EDIT') ? closeModalAndBackToPreviousPage : closeModal}
     >
       <Component />
     </Modal>

@@ -1,7 +1,7 @@
-import InventoryTable from "@/components/table/InventoryTable";
-import { Card, CardContent } from "@/components/ui/card";
-import { useModalActions } from "@/hooks/useModalActions";
-import useItemStore from "@/store/useItemStore";
+import InventoryTable from '@/components/table/InventoryTable';
+import { Card, CardContent } from '@/components/ui/card';
+import { useModalActions } from '@/hooks/useModalActions';
+import useItemStore from '@/store/useItemStore';
 
 const InventoryTableContainer = () => {
   const inventoryItems = useItemStore((state) => state.inventoryItems);
