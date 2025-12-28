@@ -2,7 +2,7 @@ import useItemStore from '@/store/useItemStore';
 import type { Item } from '@/types/inventory';
 import { useModalActions } from './useModalActions';
 
-export const useConfirmUpdate = (item?: Item) => {
+export const useConfirmUpdateItem = (item?: Item) => {
   const updateItem = useItemStore((state) => state.updateItem);
   const { closeModalAndToInventory } = useModalActions();
 

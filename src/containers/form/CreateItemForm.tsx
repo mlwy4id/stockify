@@ -3,11 +3,11 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateItemSchema } from '@/schemas/inventorySchema';
 import type { CreateItem } from '@/types/inventory';
-import useItemStore from '@/store/useItemStore';
 import { useModalActions } from '@/hooks/useModalActions';
+import { useConfirmCreateItem } from '@/hooks/useConfirmCreateItem';
 
 const CreateItemForm = () => {
-  const addItem = useItemStore((state) => state.addItem);
+  const { confirmCreate } = useConfirmCreateItem();
   const { closeModal } = useModalActions();
 
   const {
@@ -22,16 +22,10 @@ const CreateItemForm = () => {
     },
   });
 
-  const onSubmit = (data: any) => {
-    const dataWithId = { ...data, id: crypto.randomUUID() };
-    addItem(dataWithId);
-    closeModal();
-  };
-
   return (
     <InventoryForm
       register={register}
-      onSubmitHandler={handleSubmit(onSubmit)}
+      onSubmitHandler={handleSubmit(confirmCreate)}
       errors={errors}
       cancelHandler={closeModal}
     />

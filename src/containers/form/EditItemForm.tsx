@@ -1,5 +1,5 @@
 import InventoryForm from '@/components/form/InventoryForm';
-import { useConfirmUpdate } from '@/hooks/useConfirmUpdate';
+import { useConfirmUpdateItem } from '@/hooks/useConfirmUpdateItem';
 import { useCurrentItem } from '@/hooks/useCurrentItem';
 import { useModalActions } from '@/hooks/useModalActions';
 import { UpdateItemSchema } from '@/schemas/inventorySchema';
@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 const EditItemForm = () => {
   const { item } = useCurrentItem();
   const { closeModalAndToInventory } = useModalActions();
-  const { confirmUpdate } = useConfirmUpdate(item);
+  const { confirmUpdate } = useConfirmUpdateItem(item);
 
   const {
     register,
