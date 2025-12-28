@@ -8,7 +8,7 @@ const PageLayout = ({ title, button, children }: Props) => {
   return (
     <div className="w-full h-screen mt-4 flex flex-col gap-2">
       <div className="flex justify-between items-start">
-        <h1 className="text-3xl font-semibold">{title}</h1>
+        <h1 className="text-3xl font-bold heading">{title}</h1>
         {button}
       </div>
       <div className="pb-8">{children}</div>

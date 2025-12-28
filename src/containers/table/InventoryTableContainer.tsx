@@ -1,3 +1,4 @@
+import EmptyTable from '@/components/table/EmptyTable';
 import InventoryTable from '@/components/table/InventoryTable';
 import { Card, CardContent } from '@/components/ui/card';
 import { useModalActions } from '@/hooks/useModalActions';
@@ -9,12 +10,16 @@ const InventoryTableContainer = () => {
 
   return (
     <Card className="h-screen mt-2">
-      <CardContent>
-        <InventoryTable
-          items={inventoryItems}
-          openEditModal={openEditItem}
-          openDeleteModal={openDeleteItem}
-        />
+      <CardContent className="h-full">
+        {inventoryItems.length === 0 ? (
+          <EmptyTable />
+        ) : (
+          <InventoryTable
+            items={inventoryItems}
+            openEditModal={openEditItem}
+            openDeleteModal={openDeleteItem}
+          />
+        )}
       </CardContent>
     </Card>
   );

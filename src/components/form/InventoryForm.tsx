@@ -13,7 +13,10 @@ type Props = {
 
 const InventoryForm = ({ register, errors, onSubmitHandler, cancelHandler, submitBtn }: Props) => {
   return (
-    <form className="w-full h-full flex flex-col gap-4" onSubmit={onSubmitHandler}>
+    <form
+      className="w-full h-full flex flex-col gap-4 font-jakarta-sans"
+      onSubmit={onSubmitHandler}
+    >
       <div className="grid gap-2">
         <label htmlFor="itemName">Item Name:</label>
         <Input id="itemName" type="text" {...register('name')} />
