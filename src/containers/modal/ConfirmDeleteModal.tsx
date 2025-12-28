@@ -12,7 +12,7 @@ const ConfirmDeleteModal = () => {
   return (
     <ConfirmationModal
       button={
-        <Button className="bg-red-600" onClick={confirmDelete}>
+        <Button className="bg-red-600 hover:bg-red-500" onClick={confirmDelete}>
           Delete
         </Button>
       }

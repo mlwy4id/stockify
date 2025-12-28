@@ -8,9 +8,10 @@ type Props = {
   errors: FieldErrors<Item>;
   onSubmitHandler: () => void;
   cancelHandler: () => void;
+  submitBtn: React.ReactNode;
 };
 
-const InventoryForm = ({ register, errors, onSubmitHandler, cancelHandler }: Props) => {
+const InventoryForm = ({ register, errors, onSubmitHandler, cancelHandler, submitBtn }: Props) => {
   return (
     <form className="w-full h-full flex flex-col gap-4" onSubmit={onSubmitHandler}>
       <div className="grid gap-2">
@@ -33,7 +34,7 @@ const InventoryForm = ({ register, errors, onSubmitHandler, cancelHandler }: Pro
         <Button variant="outline" onClick={cancelHandler}>
           Cancel
         </Button>
-        <Button className="bg-blue-600">Add Item</Button>
+        {submitBtn}
       </div>
     </form>
   );

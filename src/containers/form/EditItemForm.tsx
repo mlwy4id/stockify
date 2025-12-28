@@ -1,4 +1,5 @@
 import InventoryForm from '@/components/form/InventoryForm';
+import { Button } from '@/components/ui/button';
 import { useConfirmUpdateItem } from '@/hooks/useConfirmUpdateItem';
 import { useCurrentItem } from '@/hooks/useCurrentItem';
 import { useModalActions } from '@/hooks/useModalActions';
@@ -30,6 +31,7 @@ const EditItemForm = () => {
       onSubmitHandler={handleSubmit(confirmUpdate)}
       errors={errors}
       cancelHandler={closeModalAndToInventory}
+      submitBtn={<Button className="bg-blue-600 hover:bg-blue-500">Update Item</Button>}
     />
   );
 };

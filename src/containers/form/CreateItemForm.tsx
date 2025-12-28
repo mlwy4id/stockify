@@ -5,6 +5,7 @@ import { CreateItemSchema } from '@/schemas/inventorySchema';
 import type { CreateItem } from '@/types/inventory';
 import { useModalActions } from '@/hooks/useModalActions';
 import { useConfirmCreateItem } from '@/hooks/useConfirmCreateItem';
+import { Button } from '@/components/ui/button';
 
 const CreateItemForm = () => {
   const { confirmCreate } = useConfirmCreateItem();
@@ -28,6 +29,7 @@ const CreateItemForm = () => {
       onSubmitHandler={handleSubmit(confirmCreate)}
       errors={errors}
       cancelHandler={closeModal}
+      submitBtn={<Button className="bg-blue-600 hover:bg-blue-500">Add Item</Button>}
     />
   );
 };
