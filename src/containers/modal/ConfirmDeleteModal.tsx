@@ -1,26 +1,18 @@
 import ConfirmationModal from "@/components/modal/ConfirmationModal";
 import { Button } from "@/components/ui/button";
-import { useFindItem } from "@/hooks/useFindItem";
+import { useConfirmDeleteItem } from "@/hooks/useConfirmDeleteItem";
+import { useCurrentItem } from "@/hooks/useCurrentItem";
 import { useModalActions } from "@/hooks/useModalActions";
-import useItemStore from "@/store/useItemStore";
-import useModalStore from "@/store/useModalStore";
 
 const ConfirmDeleteModal = () => {
-  const payload = useModalStore((state) => state.payload);
-  const item = useFindItem(payload?.itemId);
-
+  const { item } = useCurrentItem();
+  const { confirmDelete } = useConfirmDeleteItem(item);
   const { closeModalAndToInventory } = useModalActions();
-  const deleteItem = useItemStore((state) => state.deleteItem);
-
-  const deleteHandler = () => {
-    deleteItem(item?.id || "");
-    closeModalAndToInventory();
-  };
 
   return (
     <ConfirmationModal
       button={
-        <Button className="bg-red-600" onClick={deleteHandler}>
+        <Button className="bg-red-600" onClick={confirmDelete}>
           Delete
         </Button>
       }
