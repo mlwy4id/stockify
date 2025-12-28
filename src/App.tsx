@@ -2,14 +2,12 @@ import { Route, Routes } from 'react-router-dom';
 import Sidebar from './components/sidebar/Sidebar';
 import Reports from './pages/Reports';
 import Navbar from './components/Navbar';
-import ModalContainer from './containers/modal/ModalContainer';
-import useModalStore from './store/useModalStore';
 import InventoryLayout from './pages/Inventory/InventoryLayout';
-import { InventoryRoute } from './pages/Inventory/InventoryRoute';
+import CreateItemPage from './pages/Inventory/Create';
+import EditItemPage from './pages/Inventory/Edit';
+import DeleteItemPage from './pages/Inventory/Delete';
 
 function App() {
-  const isModalOpen = useModalStore((state) => state.isOpen);
-
   return (
     <div>
       <div className="h-screen flex">
@@ -21,15 +19,15 @@ function App() {
           <div className="px-6">
             <Routes>
               <Route path="/inventory" element={<InventoryLayout />}>
-                <Route path=":id" element={<InventoryRoute />} />
+                <Route path="new" element={<CreateItemPage />} />
+                <Route path=":id/edit" element={<EditItemPage />} />
+                <Route path=":id/delete" element={<DeleteItemPage />} />
               </Route>
               <Route path="/reports" element={<Reports />} />
             </Routes>
           </div>
         </main>
       </div>
-
-      {isModalOpen && <ModalContainer />}
     </div>
   );
 }

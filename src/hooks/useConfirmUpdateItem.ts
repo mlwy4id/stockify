@@ -1,14 +1,14 @@
 import useItemStore from '@/store/useItemStore';
 import type { Item } from '@/types/inventory';
-import { useModalActions } from './useModalActions';
+import { useInventoryPathNavigation } from './useInventoryPathNavigation';
 
 export const useConfirmUpdateItem = (item?: Item) => {
   const updateItem = useItemStore((state) => state.updateItem);
-  const { closeModalAndToInventory } = useModalActions();
+  const { toInventory } = useInventoryPathNavigation();
 
   const confirmUpdate = (data: any) => {
     updateItem(item?.id, data);
-    closeModalAndToInventory();
+    toInventory();
   };
 
   return { confirmUpdate };

@@ -3,13 +3,13 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateItemSchema } from '@/schemas/inventorySchema';
 import type { CreateItem } from '@/types/inventory';
-import { useModalActions } from '@/hooks/useModalActions';
 import { useConfirmCreateItem } from '@/hooks/useConfirmCreateItem';
 import { Button } from '@/components/ui/button';
+import { useInventoryPathNavigation } from '@/hooks/useInventoryPathNavigation';
 
 const CreateItemForm = () => {
   const { confirmCreate } = useConfirmCreateItem();
-  const { closeModal } = useModalActions();
+  const { toInventory } = useInventoryPathNavigation();
 
   const {
     register,
@@ -28,7 +28,7 @@ const CreateItemForm = () => {
       register={register}
       onSubmitHandler={handleSubmit(confirmCreate)}
       errors={errors}
-      cancelHandler={closeModal}
+      cancelHandler={toInventory}
       submitBtn={<Button className="bg-blue-600 hover:bg-blue-500">Add Item</Button>}
     />
   );

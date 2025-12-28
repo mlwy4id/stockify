@@ -1,9 +1,9 @@
-import useModalStore from '@/store/useModalStore';
+import { useParams } from 'react-router-dom';
 import { useFindItem } from './useFindItem';
 
 export const useCurrentItem = () => {
-  const payload = useModalStore((state) => state.payload);
-  const item = useFindItem(payload?.itemId);
+  const { id } = useParams();
+  const item = useFindItem(id);
 
   return { item };
 };

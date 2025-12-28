@@ -2,7 +2,7 @@ import InventoryForm from '@/components/form/InventoryForm';
 import { Button } from '@/components/ui/button';
 import { useConfirmUpdateItem } from '@/hooks/useConfirmUpdateItem';
 import { useCurrentItem } from '@/hooks/useCurrentItem';
-import { useModalActions } from '@/hooks/useModalActions';
+import { useInventoryPathNavigation } from '@/hooks/useInventoryPathNavigation';
 import { UpdateItemSchema } from '@/schemas/inventorySchema';
 import type { UpdateItem } from '@/types/inventory';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 
 const EditItemForm = () => {
   const { item } = useCurrentItem();
-  const { closeModalAndToInventory } = useModalActions();
+  const { toInventory } = useInventoryPathNavigation();
   const { confirmUpdate } = useConfirmUpdateItem(item);
 
   const {
@@ -30,7 +30,7 @@ const EditItemForm = () => {
       register={register}
       onSubmitHandler={handleSubmit(confirmUpdate)}
       errors={errors}
-      cancelHandler={closeModalAndToInventory}
+      cancelHandler={toInventory}
       submitBtn={<Button className="bg-blue-600 hover:bg-blue-500">Update Item</Button>}
     />
   );

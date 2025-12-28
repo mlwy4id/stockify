@@ -1,14 +1,14 @@
 import useItemStore from '@/store/useItemStore';
-import { useModalActions } from './useModalActions';
 import type { Item } from '@/types/inventory';
+import { useInventoryPathNavigation } from './useInventoryPathNavigation';
 
 export const useConfirmDeleteItem = (item?: Item) => {
-  const { closeModalAndToInventory } = useModalActions();
+  const { toInventory } = useInventoryPathNavigation();
   const deleteItem = useItemStore((state) => state.deleteItem);
 
   const confirmDelete = () => {
     deleteItem(item?.id || '');
-    closeModalAndToInventory();
+    toInventory();
   };
 
   return { confirmDelete };

@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import InventoryPage from './InventoryPage';
+import InventoryPage from './page';
 
 const InventoryLayout = () => {
   return (

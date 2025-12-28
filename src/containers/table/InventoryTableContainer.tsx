@@ -1,12 +1,12 @@
 import EmptyTable from '@/components/table/EmptyTable';
 import InventoryTable from '@/components/table/InventoryTable';
 import { Card, CardContent } from '@/components/ui/card';
-import { useModalActions } from '@/hooks/useModalActions';
+import { useInventoryPathNavigation } from '@/hooks/useInventoryPathNavigation';
 import useItemStore from '@/store/useItemStore';
 
 const InventoryTableContainer = () => {
   const inventoryItems = useItemStore((state) => state.inventoryItems);
-  const { openEditItem, openDeleteItem } = useModalActions();
+  const { toEditItem, toDeleteItem } = useInventoryPathNavigation();
 
   return (
     <Card className="h-screen mt-2">
@@ -16,8 +16,8 @@ const InventoryTableContainer = () => {
         ) : (
           <InventoryTable
             items={inventoryItems}
-            openEditModal={openEditItem}
-            openDeleteModal={openDeleteItem}
+            openEditModal={toEditItem}
+            openDeleteModal={toDeleteItem}
           />
         )}
       </CardContent>

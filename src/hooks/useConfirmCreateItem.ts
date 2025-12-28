@@ -1,14 +1,14 @@
 import useItemStore from '@/store/useItemStore';
-import { useModalActions } from './useModalActions';
+import { useInventoryPathNavigation } from './useInventoryPathNavigation';
 
 export const useConfirmCreateItem = () => {
   const addItem = useItemStore((state) => state.addItem);
-  const { closeModal } = useModalActions();
+  const { toInventory } = useInventoryPathNavigation();
 
   const confirmCreate = (data: any) => {
     const dataWithId = { ...data, id: crypto.randomUUID() };
     addItem(dataWithId);
-    closeModal();
+    toInventory();
   };
 
   return { confirmCreate };
