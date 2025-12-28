@@ -1,19 +1,16 @@
-import InventoryForm from "@/components/form/InventoryForm";
-import { useFindItem } from "@/hooks/useFindItem";
-import { useModalActions } from "@/hooks/useModalActions";
-import { UpdateItemSchema } from "@/schemas/inventorySchema";
-import useItemStore from "@/store/useItemStore";
-import useModalStore from "@/store/useModalStore";
-import type { UpdateItem } from "@/types/inventory";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import InventoryForm from '@/components/form/InventoryForm';
+import { useConfirmUpdate } from '@/hooks/useConfirmUpdate';
+import { useCurrentItem } from '@/hooks/useCurrentItem';
+import { useModalActions } from '@/hooks/useModalActions';
+import { UpdateItemSchema } from '@/schemas/inventorySchema';
+import type { UpdateItem } from '@/types/inventory';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 
 const EditItemForm = () => {
-  const payload = useModalStore((state) => state.payload);
-  const updateItem = useItemStore((state) => state.updateItem);
+  const { item } = useCurrentItem();
   const { closeModalAndToInventory } = useModalActions();
-
-  const item = useFindItem(payload?.itemId);
+  const { confirmUpdate } = useConfirmUpdate(item);
 
   const {
     register,
@@ -27,15 +24,10 @@ const EditItemForm = () => {
     },
   });
 
-  const onSubmit = (data: any) => {
-    updateItem(payload?.itemId, data);
-    closeModalAndToInventory();
-  };
-
   return (
     <InventoryForm
       register={register}
-      onSubmitHandler={handleSubmit(onSubmit)}
+      onSubmitHandler={handleSubmit(confirmUpdate)}
       errors={errors}
       cancelHandler={closeModalAndToInventory}
     />

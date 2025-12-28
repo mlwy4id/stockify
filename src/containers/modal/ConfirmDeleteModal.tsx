@@ -1,8 +1,8 @@
-import ConfirmationModal from "@/components/modal/ConfirmationModal";
-import { Button } from "@/components/ui/button";
-import { useConfirmDeleteItem } from "@/hooks/useConfirmDeleteItem";
-import { useCurrentItem } from "@/hooks/useCurrentItem";
-import { useModalActions } from "@/hooks/useModalActions";
+import ConfirmationModal from '@/components/modal/ConfirmationModal';
+import { Button } from '@/components/ui/button';
+import { useConfirmDeleteItem } from '@/hooks/useConfirmDeleteItem';
+import { useCurrentItem } from '@/hooks/useCurrentItem';
+import { useModalActions } from '@/hooks/useModalActions';
 
 const ConfirmDeleteModal = () => {
   const { item } = useCurrentItem();

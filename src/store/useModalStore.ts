@@ -1,5 +1,5 @@
-import type { ModalType } from "@/types/modal";
-import { create } from "zustand";
+import type { ModalType } from '@/types/modal';
+import { create } from 'zustand';
 
 interface ModalState {
   componentName: ModalType | null;

@@ -1,14 +1,14 @@
-import { Button } from "@/components/ui/button";
-import PageLayout from "../layout/PageLayout";
-import InventoryTableContainer from "@/containers/table/InventoryTableContainer";
-import { useModalActions } from "@/hooks/useModalActions";
+import { Button } from '@/components/ui/button';
+import PageLayout from '../layout/PageLayout';
+import InventoryTableContainer from '@/containers/table/InventoryTableContainer';
+import { useModalActions } from '@/hooks/useModalActions';
 
 const InventoryPage = () => {
   const { openCreateItem } = useModalActions();
 
   return (
     <PageLayout
-      title={"Inventory"}
+      title={'Inventory'}
       button={<Button onClick={openCreateItem}>Add Inventory</Button>}
     >
       <InventoryTableContainer />
