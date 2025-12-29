@@ -3,12 +3,12 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateItemSchema } from '@/schemas/inventorySchema';
 import type { CreateItem } from '@/types/inventory';
-import { useConfirmCreateItem } from '@/hooks/useConfirmCreateItem';
 import { Button } from '@/components/ui/button';
 import { useInventoryPathNavigation } from '@/hooks/useInventoryPathNavigation';
+import { useConfirmSubmitItem } from '@/hooks/useConfirmSubmitItem';
 
 const CreateItemForm = () => {
-  const { confirmCreate } = useConfirmCreateItem();
+  const { confirmCreate } = useConfirmSubmitItem();
   const { toInventory } = useInventoryPathNavigation();
 
   const {

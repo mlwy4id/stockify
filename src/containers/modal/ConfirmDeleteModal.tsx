@@ -1,12 +1,12 @@
 import ConfirmationModal from '@/components/modal/ConfirmationModal';
 import { Button } from '@/components/ui/button';
-import { useConfirmDeleteItem } from '@/hooks/useConfirmDeleteItem';
+import { useConfirmSubmitItem } from '@/hooks/useConfirmSubmitItem';
 import { useCurrentItem } from '@/hooks/useCurrentItem';
 import { useInventoryPathNavigation } from '@/hooks/useInventoryPathNavigation';
 
 const ConfirmDeleteModal = () => {
   const { item } = useCurrentItem();
-  const { confirmDelete } = useConfirmDeleteItem(item);
+  const { confirmDelete } = useConfirmSubmitItem(item);
   const { toInventory } = useInventoryPathNavigation();
 
   return (

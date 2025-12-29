@@ -6,7 +6,7 @@ interface ItemState {
   setItems: (items: Item[]) => void;
   addItem: (item: Item) => void;
   deleteItem: (id: string) => void;
-  updateItem: (id: string | undefined, newItem: Item) => void;
+  updateItem: (id: string | undefined, newItem: Partial<Item>) => void;
 }
 
 const useItemStore = create<ItemState>()((set) => ({

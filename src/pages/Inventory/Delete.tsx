@@ -6,7 +6,7 @@ const DeleteItemPage = () => {
   const { toInventory } = useInventoryPathNavigation();
 
   return (
-    <Modal title="Edit Item" closeModal={toInventory}>
+    <Modal title="Delete Item?" closeModal={toInventory}>
       <ConfirmDeleteModal />
     </Modal>
   );
