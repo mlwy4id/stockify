@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import Sidebar from './components/sidebar/Sidebar';
-import Reports from './pages/Reports';
+import Reports from './pages/Reports/page';
 import Navbar from './components/Navbar';
 import InventoryLayout from './pages/Inventory/InventoryLayout';
 import CreateItemPage from './pages/Inventory/Create';

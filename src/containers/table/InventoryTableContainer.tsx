@@ -9,7 +9,7 @@ const InventoryTableContainer = () => {
   const { toEditItem, toDeleteItem } = useInventoryPathNavigation();
 
   return (
-    <Card className="h-screen mt-2">
+    <Card className="h-screen">
       <CardContent className="h-full">
         {inventoryItems.length === 0 ? (
           <EmptyTable />
