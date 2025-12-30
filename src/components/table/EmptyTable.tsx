@@ -6,7 +6,7 @@ const EmptyTable = () => {
       <LuBox size={56} />
       <div className="text-center">
         <p>No items yet</p>
-        <p>Start by adding your first inventory item</p>
+        <p>Start by adding your first item</p>
       </div>
     </div>
   );

@@ -13,7 +13,7 @@ const InventoryPage = () => {
       button={
         <Button className="bg-blue-600 hover:bg-blue-500" onClick={toCreateItem}>
           <LuPlus />
-          Add Inventory
+          Add Item
         </Button>
       }
     >

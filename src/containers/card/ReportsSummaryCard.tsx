@@ -1,4 +1,4 @@
-import SummaryCard from '@/components/summary card/SummaryCard';
+import SummaryCard from '@/components/card/SummaryCard';
 import { LuArrowUp, LuArrowDown, LuDiff } from 'react-icons/lu';
 
 const ReportsSummaryCard = () => {
@@ -25,8 +25,8 @@ const ReportsSummaryCard = () => {
         cardTitle="Net Change"
         cardContent="0 item"
         cardBgColor="bg-blue-100"
-        cardTitleColor='text-blue-700'
-        cardContentColor='text-blue-800'
+        cardTitleColor="text-blue-700"
+        cardContentColor="text-blue-800"
       />
     </div>
   );
