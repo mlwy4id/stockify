@@ -1,6 +1,6 @@
 import InventoryForm from '@/components/form/InventoryForm';
 import { Button } from '@/components/ui/button';
-import { useConfirmSubmitItem } from '@/hooks/useConfirmSubmitItem';
+import { useUpdateInventoryItem } from '@/hooks/queries/inventory.query';
 import { useCurrentItem } from '@/hooks/useCurrentItem';
 import { useInventoryPathNavigation } from '@/hooks/useInventoryPathNavigation';
 import { UpdateItemSchema } from '@/schemas/inventorySchema';
@@ -11,7 +11,7 @@ import { useForm } from 'react-hook-form';
 const EditItemForm = () => {
   const { item } = useCurrentItem();
   const { toInventory } = useInventoryPathNavigation();
-  const { confirmUpdate } = useConfirmSubmitItem(item);
+  const { mutate: confirmUpdateItem } = useUpdateInventoryItem();
 
   const {
     register,
@@ -24,6 +24,11 @@ const EditItemForm = () => {
       quantity: Number(item?.quantity),
     },
   });
+
+  const confirmUpdate = (updatedItem: UpdateItem) => {
+    confirmUpdateItem({ id: item?.id, item: updatedItem });
+    toInventory();
+  };
 
   return (
     <InventoryForm

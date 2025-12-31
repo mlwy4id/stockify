@@ -1,9 +1,9 @@
 import { useParams } from 'react-router-dom';
-import { useFindItem } from './useFindItem';
+import { useGetItem } from './queries/inventory.query';
 
 export const useCurrentItem = () => {
   const { id } = useParams();
-  const item = useFindItem(id);
+  const { data: item } = useGetItem(id);
 
   return { item };
 };

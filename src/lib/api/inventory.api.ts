@@ -1,4 +1,4 @@
-import type { Item } from '@/types/inventory';
+import type { CreateItem, UpdateItemRequest } from '@/types/inventory';
 import api from '../axios/axios';
 
 export const getAllItems = async () => {
@@ -6,7 +6,17 @@ export const getAllItems = async () => {
   return res.data.data;
 };
 
-export const createItem = async (item: Item) => {
+export const getItem = async (id?: string) => {
+  const res = await api.get(`inventory/${id}`);
+  return res.data.data;
+};
+
+export const createItem = async (item: CreateItem) => {
   const res = await api.post('/inventory', item);
+  return res.data;
+};
+
+export const updateItem = async ({ id, item }: UpdateItemRequest) => {
+  const res = await api.patch(`/inventory/${id}`, item);
   return res.data;
 };
