@@ -1,4 +1,4 @@
-import { createItem, getAllItems, getItem, updateItem } from '@/lib/api/inventory.api';
+import { createItem, deleteItem, getAllItems, getItem, updateItem } from '@/lib/api/inventory.api';
 import type { UpdateItemRequest } from '@/types/inventory';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
@@ -34,6 +34,19 @@ export const useUpdateInventoryItem = () => {
 
   return useMutation<unknown, Error, UpdateItemRequest>({
     mutationFn: updateItem,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['Items'],
+      });
+    },
+  });
+};
+
+export const useDeleteInventoryItem = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: deleteItem,
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['Items'],

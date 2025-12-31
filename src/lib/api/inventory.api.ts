@@ -20,3 +20,8 @@ export const updateItem = async ({ id, item }: UpdateItemRequest) => {
   const res = await api.patch(`/inventory/${id}`, item);
   return res.data;
 };
+
+export const deleteItem = async (id: string) => {
+  const res = await api.delete(`/inventory/${id}`);
+  return res.data;
+};

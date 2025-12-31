@@ -6,6 +6,7 @@ import { useInventoryPathNavigation } from '@/hooks/useInventoryPathNavigation';
 import { UpdateItemSchema } from '@/schemas/inventorySchema';
 import type { UpdateItem } from '@/types/inventory';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 const EditItemForm = () => {
@@ -16,6 +17,7 @@ const EditItemForm = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<UpdateItem>({
     resolver: zodResolver(UpdateItemSchema),
@@ -25,8 +27,15 @@ const EditItemForm = () => {
     },
   });
 
+  useEffect(() => {
+    reset({
+      name: item?.name,
+      quantity: Number(item?.quantity),
+    });
+  }, [item, reset]);
+
   const confirmUpdate = (updatedItem: UpdateItem) => {
-    confirmUpdateItem({ id: item?.id, item: updatedItem });
+    confirmUpdateItem({ id: item.id, item: updatedItem });
     toInventory();
   };
 
