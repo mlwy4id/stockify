@@ -11,7 +11,6 @@ const ConfirmDeleteModal = () => {
 
   const confirmDelete = () => {
     deleteItem(item.id);
-    toInventory();
   };
 
   return (

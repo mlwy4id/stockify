@@ -36,7 +36,6 @@ const EditItemForm = () => {
 
   const confirmUpdate = (updatedItem: UpdateItem) => {
     confirmUpdateItem({ id: item.id, item: updatedItem });
-    toInventory();
   };
 
   return (

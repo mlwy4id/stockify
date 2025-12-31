@@ -25,7 +25,6 @@ const CreateItemForm = () => {
 
   const confirmCreate = (item: any) => {
     createItem(item);
-    toInventory();
   };
 
   return (
