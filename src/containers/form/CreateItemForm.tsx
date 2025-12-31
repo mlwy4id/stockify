@@ -5,10 +5,10 @@ import { CreateItemSchema } from '@/schemas/inventorySchema';
 import type { CreateItem } from '@/types/inventory';
 import { Button } from '@/components/ui/button';
 import { useInventoryPathNavigation } from '@/hooks/useInventoryPathNavigation';
-import { useConfirmSubmitItem } from '@/hooks/useConfirmSubmitItem';
+import { useCreateInventoryItem } from '@/hooks/queries/inventory.query';
 
 const CreateItemForm = () => {
-  const { confirmCreate } = useConfirmSubmitItem();
+  const { mutate: createItem } = useCreateInventoryItem();
   const { toInventory } = useInventoryPathNavigation();
 
   const {
@@ -22,6 +22,11 @@ const CreateItemForm = () => {
       quantity: 0,
     },
   });
+
+  const confirmCreate = (item: any) => {
+    createItem(item);
+    toInventory();
+  };
 
   return (
     <InventoryForm
