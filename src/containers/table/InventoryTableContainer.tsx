@@ -1,17 +1,19 @@
 import EmptyTable from '@/components/table/EmptyTable';
 import InventoryTable from '@/components/table/InventoryTable';
 import { Card, CardContent } from '@/components/ui/card';
+import { useGetInventoryItems } from '@/hooks/queries/inventory.query';
 import { useInventoryPathNavigation } from '@/hooks/useInventoryPathNavigation';
-import useItemStore from '@/store/useItemStore';
 
 const InventoryTableContainer = () => {
-  const inventoryItems = useItemStore((state) => state.inventoryItems);
   const { toEditItem, toDeleteItem } = useInventoryPathNavigation();
+  const { isLoading, data: inventoryItems } = useGetInventoryItems();
 
   return (
     <Card className="h-screen">
       <CardContent className="h-full">
-        {inventoryItems.length === 0 ? (
+        {isLoading ? (
+          <h1>Loading...</h1>
+        ) : inventoryItems.length === 0 ? (
           <EmptyTable />
         ) : (
           <InventoryTable
