@@ -48,7 +48,6 @@ const EditItemForm = () => {
           Update Item
         </Button>
       }
-      isPending={isPending}
     />
   );
 };
