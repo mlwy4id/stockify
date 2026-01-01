@@ -9,9 +9,19 @@ type Props = {
   onSubmitHandler: () => void;
   cancelHandler: () => void;
   submitBtn: React.ReactNode;
+  isPending?: boolean;
 };
 
-const InventoryForm = ({ register, errors, onSubmitHandler, cancelHandler, submitBtn }: Props) => {
+const InventoryForm = ({
+  register,
+  errors,
+  onSubmitHandler,
+  cancelHandler,
+  submitBtn,
+  isPending,
+}: Props) => {
+  const disabled = isPending;
+
   return (
     <form
       className="w-full h-full flex flex-col gap-4 font-jakarta-sans"
@@ -34,7 +44,7 @@ const InventoryForm = ({ register, errors, onSubmitHandler, cancelHandler, submi
       </div>
 
       <div className="flex justify-end items-center gap-2">
-        <Button variant="outline" onClick={cancelHandler}>
+        <Button variant="outline" onClick={cancelHandler} disabled={disabled}>
           Cancel
         </Button>
         {submitBtn}

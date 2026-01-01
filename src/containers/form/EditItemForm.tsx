@@ -1,6 +1,7 @@
 import InventoryForm from '@/components/form/InventoryForm';
 import { Button } from '@/components/ui/button';
-import { useUpdateInventoryItem } from '@/hooks/queries/inventory.query';
+import { Spinner } from '@/components/ui/spinner';
+import { useConfirmUpdate } from '@/hooks/useConfirmUpdate';
 import { useCurrentItem } from '@/hooks/useCurrentItem';
 import { useInventoryPathNavigation } from '@/hooks/useInventoryPathNavigation';
 import { UpdateItemSchema } from '@/schemas/inventorySchema';
@@ -10,9 +11,9 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 const EditItemForm = () => {
-  const { item } = useCurrentItem();
+  const { isLoading, isFetching, item } = useCurrentItem();
   const { toInventory } = useInventoryPathNavigation();
-  const { mutate: confirmUpdateItem } = useUpdateInventoryItem();
+  const { confirmUpdate, isPending } = useConfirmUpdate(item);
 
   const {
     register,
@@ -34,9 +35,7 @@ const EditItemForm = () => {
     });
   }, [item, reset]);
 
-  const confirmUpdate = (updatedItem: UpdateItem) => {
-    confirmUpdateItem({ id: item.id, item: updatedItem });
-  };
+  if (isLoading || isFetching) return <Spinner />;
 
   return (
     <InventoryForm
@@ -44,7 +43,12 @@ const EditItemForm = () => {
       onSubmitHandler={handleSubmit(confirmUpdate)}
       errors={errors}
       cancelHandler={toInventory}
-      submitBtn={<Button className="bg-blue-600 hover:bg-blue-500">Update Item</Button>}
+      submitBtn={
+        <Button className="bg-blue-600 hover:bg-blue-500" disabled={isPending}>
+          Update Item
+        </Button>
+      }
+      isPending={isPending}
     />
   );
 };
