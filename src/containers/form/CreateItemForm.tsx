@@ -5,11 +5,11 @@ import { CreateItemSchema } from '@/schemas/inventorySchema';
 import type { CreateItem } from '@/types/inventory';
 import { Button } from '@/components/ui/button';
 import { useInventoryPathNavigation } from '@/hooks/useInventoryPathNavigation';
-import { useCreateInventoryItem } from '@/hooks/queries/inventory.query';
+import { useConfirmCreateItem } from '@/hooks/useConfirmCreateItem';
 
 const CreateItemForm = () => {
-  const { mutate: createItem } = useCreateInventoryItem();
   const { toInventory } = useInventoryPathNavigation();
+  const { confirmCreate } = useConfirmCreateItem();
 
   const {
     register,
@@ -22,10 +22,6 @@ const CreateItemForm = () => {
       quantity: 0,
     },
   });
-
-  const confirmCreate = (item: any) => {
-    createItem(item);
-  };
 
   return (
     <InventoryForm
