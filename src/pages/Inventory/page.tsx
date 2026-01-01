@@ -3,6 +3,7 @@ import PageLayout from '../layout/PageLayout';
 import InventoryTableContainer from '@/containers/table/InventoryTableContainer';
 import { LuPlus } from 'react-icons/lu';
 import { useInventoryPathNavigation } from '@/hooks/useInventoryPathNavigation';
+import { Card, CardContent } from '@/components/ui/card';
 
 const InventoryPage = () => {
   const { toCreateItem } = useInventoryPathNavigation();
@@ -17,7 +18,11 @@ const InventoryPage = () => {
         </Button>
       }
     >
-      <InventoryTableContainer />
+      <Card className="h-screen">
+        <CardContent className="h-full">
+          <InventoryTableContainer />
+        </CardContent>
+      </Card>
     </PageLayout>
   );
 };
