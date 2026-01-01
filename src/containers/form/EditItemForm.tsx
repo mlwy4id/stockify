@@ -1,32 +1,17 @@
 import InventoryForm from '@/components/form/InventoryForm';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
+import { useEditItemForm } from '@/hooks/form/useEditItemForm';
 import { useConfirmUpdateItem } from '@/hooks/useConfirmUpdateItem';
 import { useCurrentItem } from '@/hooks/useCurrentItem';
 import { useInventoryPathNavigation } from '@/hooks/useInventoryPathNavigation';
-import { UpdateItemSchema } from '@/schemas/inventorySchema';
-import type { UpdateItem } from '@/types/inventory';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
 
 const EditItemForm = () => {
-  const { isLoading, isFetching, item } = useCurrentItem();
+  const { isFetching, item } = useCurrentItem();
   const { toInventory } = useInventoryPathNavigation();
   const { confirmUpdate, isPending } = useConfirmUpdateItem(item);
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<UpdateItem>({
-    resolver: zodResolver(UpdateItemSchema),
-    defaultValues: {
-      name: item?.name,
-      quantity: Number(item?.quantity),
-    },
-  });
+  const { register, handleSubmit, errors, reset } = useEditItemForm(item);
 
   useEffect(() => {
     reset({
@@ -35,7 +20,7 @@ const EditItemForm = () => {
     });
   }, [item, reset]);
 
-  if (isLoading || isFetching) return <Spinner />;
+  if (isFetching) return <Spinner />;
 
   return (
     <InventoryForm

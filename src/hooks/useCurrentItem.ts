@@ -3,7 +3,7 @@ import { useGetItem } from './queries/inventory.query';
 
 export const useCurrentItem = () => {
   const { id } = useParams();
-  const { isLoading, isFetching, data: item } = useGetItem(id);
+  const { isFetching, data: item } = useGetItem(id);
 
-  return { isLoading, isFetching, item };
+  return {  isFetching, item };
 };

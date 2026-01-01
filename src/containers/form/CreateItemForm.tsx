@@ -1,27 +1,13 @@
 import InventoryForm from '@/components/form/InventoryForm';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { CreateItemSchema } from '@/schemas/inventorySchema';
-import type { CreateItem } from '@/types/inventory';
 import { Button } from '@/components/ui/button';
 import { useInventoryPathNavigation } from '@/hooks/useInventoryPathNavigation';
 import { useConfirmCreateItem } from '@/hooks/useConfirmCreateItem';
+import { useCreateItemForm } from '@/hooks/form/useCreateItemForm';
 
 const CreateItemForm = () => {
   const { toInventory } = useInventoryPathNavigation();
   const { confirmCreate } = useConfirmCreateItem();
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<CreateItem>({
-    resolver: zodResolver(CreateItemSchema),
-    defaultValues: {
-      name: '',
-      quantity: 0,
-    },
-  });
+  const { register, handleSubmit, errors } = useCreateItemForm();
 
   return (
     <InventoryForm
