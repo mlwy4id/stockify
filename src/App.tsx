@@ -6,6 +6,7 @@ import InventoryLayout from './pages/Inventory/InventoryLayout';
 import CreateItemPage from './pages/Inventory/Create';
 import EditItemPage from './pages/Inventory/Edit';
 import DeleteItemPage from './pages/Inventory/Delete';
+import TransactionsPage from './pages/Transactions/page';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
 
           <div className="px-6">
             <Routes>
+              <Route path="/transactions" element={<TransactionsPage />} />
               <Route path="/inventory" element={<InventoryLayout />}>
                 <Route path="new" element={<CreateItemPage />} />
                 <Route path=":id/edit" element={<EditItemPage />} />

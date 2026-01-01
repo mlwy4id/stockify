@@ -5,5 +5,5 @@ export const useCurrentItem = () => {
   const { id } = useParams();
   const { isFetching, data: item } = useGetItem(id);
 
-  return {  isFetching, item };
+  return { isFetching, item };
 };

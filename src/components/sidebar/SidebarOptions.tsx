@@ -22,7 +22,7 @@ const SidebarOptions = ({ icon: Icon, name }: Props) => {
       <Icon className={`${isActive ? 'text-blue-500' : 'text-black'}`} />
       <p
         className={`
-        ${isActive ? 'text-blue-700' : 'text-black'}  
+        ${isActive ? 'text-blue-700 font-semibold' : 'text-black'} heading
       `}
       >
         {name}
