@@ -1,22 +1,25 @@
 import ConfirmationModal from '@/components/modal/ConfirmationModal';
 import { Button } from '@/components/ui/button';
-import { useDeleteInventoryItem } from '@/hooks/queries/inventory.query';
+import { Spinner } from '@/components/ui/spinner';
+import { useConfirmDeleteItem } from '@/hooks/useConfirmDeleteItem';
 import { useCurrentItem } from '@/hooks/useCurrentItem';
 import { useInventoryPathNavigation } from '@/hooks/useInventoryPathNavigation';
 
 const ConfirmDeleteModal = () => {
-  const { item } = useCurrentItem();
+  const { isFetching, item } = useCurrentItem();
   const { toInventory } = useInventoryPathNavigation();
-  const { mutate: deleteItem } = useDeleteInventoryItem();
+  const { isPending, confirmDelete } = useConfirmDeleteItem(item);
 
-  const confirmDelete = () => {
-    deleteItem(item.id);
-  };
+  if (isFetching) return <Spinner />;
 
   return (
     <ConfirmationModal
       button={
-        <Button className="bg-red-600 hover:bg-red-500" onClick={confirmDelete}>
+        <Button
+          className="bg-red-600 hover:bg-red-500"
+          disabled={isPending}
+          onClick={confirmDelete}
+        >
           Delete
         </Button>
       }

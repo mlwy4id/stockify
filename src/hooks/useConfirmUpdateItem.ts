@@ -1,7 +1,7 @@
 import type { Item, UpdateItem } from '@/types/inventory';
 import { useUpdateInventoryItem } from './queries/inventory.query';
 
-export const useConfirmUpdate = (item: Item) => {
+export const useConfirmUpdateItem = (item: Item) => {
   const { mutate, isPending } = useUpdateInventoryItem();
 
   const confirmUpdate = (updatedItem: UpdateItem) => {

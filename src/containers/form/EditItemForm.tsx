@@ -1,7 +1,7 @@
 import InventoryForm from '@/components/form/InventoryForm';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
-import { useConfirmUpdate } from '@/hooks/useConfirmUpdateItem';
+import { useConfirmUpdateItem } from '@/hooks/useConfirmUpdateItem';
 import { useCurrentItem } from '@/hooks/useCurrentItem';
 import { useInventoryPathNavigation } from '@/hooks/useInventoryPathNavigation';
 import { UpdateItemSchema } from '@/schemas/inventorySchema';
@@ -13,7 +13,7 @@ import { useForm } from 'react-hook-form';
 const EditItemForm = () => {
   const { isLoading, isFetching, item } = useCurrentItem();
   const { toInventory } = useInventoryPathNavigation();
-  const { confirmUpdate, isPending } = useConfirmUpdate(item);
+  const { confirmUpdate, isPending } = useConfirmUpdateItem(item);
 
   const {
     register,
