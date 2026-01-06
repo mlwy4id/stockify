@@ -1,7 +1,7 @@
 import type { FieldErrors, UseFormRegister } from 'react-hook-form';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
-import type { Item } from '@stockify/schema/src';
+import type { Item } from '@stockify/schema';
 type Props = {
   register: UseFormRegister<any>;
   errors: FieldErrors<Item>;

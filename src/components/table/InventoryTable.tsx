@@ -1,4 +1,4 @@
-import type { Item } from '@/types/inventory';
+import type { Item } from '@stockify/schema';
 import { LuEllipsisVertical } from 'react-icons/lu';
 import {
   DropdownMenu,

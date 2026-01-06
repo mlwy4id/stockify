@@ -119,7 +119,8 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
+    background-color: rgb(249 250 251 / var(--tw-bg-opacity, 1));
     font-family: 'Inter', system-ui, sans-serif;
   }
   .heading {
