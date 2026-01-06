@@ -1,5 +1,5 @@
 import { createItem, deleteItem, getAllItems, getItem, updateItem } from '@/lib/api/inventory.api';
-import type { Item, UpdateItemRequest } from '@/types/inventory';
+import type { Item, UpdateItemRequest } from '@stockify/schema';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useInventoryPathNavigation } from '../useInventoryPathNavigation';
 
@@ -28,22 +28,9 @@ export const useCreateInventoryItem = () => {
 
   return useMutation({
     mutationFn: createItem,
-    onMutate: async (newItem) => {
-      // optimistic updates
-      await queryClient.cancelQueries({ queryKey: ['Items'] });
-      const previousItems = queryClient.getQueryData(['Items']);
-      queryClient.setQueryData(['Items'], (old: Item[]) => [...old, newItem]);
-      toInventory();
-
-      return { previousItems };
-    },
-    onError: (_err, _newItem, context) => {
-      if (context?.previousItems) {
-        queryClient.setQueryData(['Items'], context.previousItems);
-      }
-    },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['Items'] });
+      toInventory();
     },
   });
 };
@@ -54,21 +41,6 @@ export const useUpdateInventoryItem = () => {
 
   return useMutation<unknown, Error, UpdateItemRequest, UpdateContext>({
     mutationFn: updateItem,
-    onMutate: async (updatedItem) => {
-      await queryClient.cancelQueries({ queryKey: ['Items'] });
-      const previousItems = queryClient.getQueryData<Item[]>(['Items']);
-
-      queryClient.setQueryData<Item[]>(['Items'], (old = []) =>
-        old.map((item) => (item.id === updatedItem.id ? { ...item, ...updatedItem } : item))
-      );
-
-      return { previousItems };
-    },
-    onError: (_err, _updatedItem, context) => {
-      if (context?.previousItems) {
-        queryClient.setQueryData(['Items'], context.previousItems);
-      }
-    },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['Items'] });
       toInventory();
@@ -82,11 +54,9 @@ export const useDeleteInventoryItem = () => {
 
   return useMutation({
     mutationFn: deleteItem,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['Items'],
-      });
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['Items'] });
+      toInventory();
     },
-    onSettled: () => toInventory(),
   });
 };

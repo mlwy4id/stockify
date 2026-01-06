@@ -6,7 +6,7 @@ import { useCreateItemForm } from '@/hooks/form/useCreateItemForm';
 
 const CreateItemForm = () => {
   const { toInventory } = useInventoryPathNavigation();
-  const { confirmCreate } = useConfirmCreateItem();
+  const { confirmCreate, isPending } = useConfirmCreateItem();
   const { register, handleSubmit, errors } = useCreateItemForm();
 
   return (
@@ -15,7 +15,11 @@ const CreateItemForm = () => {
       onSubmitHandler={handleSubmit(confirmCreate)}
       errors={errors}
       cancelHandler={toInventory}
-      submitBtn={<Button className="bg-blue-600 hover:bg-blue-500">Add Item</Button>}
+      submitBtn={
+        <Button className="bg-blue-600 hover:bg-blue-500" disabled={isPending}>
+          Add Item
+        </Button>
+      }
     />
   );
 };

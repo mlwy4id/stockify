@@ -16,7 +16,7 @@ const EditItemForm = () => {
   useEffect(() => {
     reset({
       name: item?.name,
-      quantity: Number(item?.quantity),
+      initQuantity: Number(item?.currentQuantity),
     });
   }, [item, reset]);
 

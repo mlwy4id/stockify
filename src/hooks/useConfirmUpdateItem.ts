@@ -1,4 +1,4 @@
-import type { Item, UpdateItem } from '@/types/inventory';
+import type { Item, UpdateItem } from '@stockify/schema';
 import { useUpdateInventoryItem } from './queries/inventory.query';
 
 export const useConfirmUpdateItem = (item: Item) => {

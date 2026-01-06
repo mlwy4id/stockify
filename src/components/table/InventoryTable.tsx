@@ -26,7 +26,7 @@ const InventoryTable = ({ items, openEditModal, openDeleteModal }: Props) => {
         {items.map((item) => (
           <tr key={item.id} className="hover:bg-slate-50 cursor-pointer group">
             <td className="py-3 px-4">{item.name}</td>
-            <td className="py-3 px-4">{item.quantity}</td>
+            <td className="py-3 px-4">{item.currentQuantity}</td>
 
             <td>
               <DropdownMenu>

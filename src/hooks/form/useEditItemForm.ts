@@ -1,5 +1,5 @@
-import { UpdateItemSchema } from '@/schemas/inventorySchema';
-import type { Item, UpdateItem } from '@/types/inventory';
+import { UpdateItemSchema } from '@stockify/schema';
+import type { Item, UpdateItem } from '@stockify/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
@@ -13,7 +13,7 @@ export const useEditItemForm = (item: Item) => {
     resolver: zodResolver(UpdateItemSchema),
     defaultValues: {
       name: item?.name,
-      quantity: Number(item?.quantity),
+      initQuantity: Number(item?.currentQuantity),
     },
   });
 

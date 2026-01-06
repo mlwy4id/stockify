@@ -1,4 +1,4 @@
-import type { Item } from '@/types/inventory';
+import type { Item } from '@stockify/schema';
 import { useDeleteInventoryItem } from './queries/inventory.query';
 
 export const useConfirmDeleteItem = (item: Item) => {

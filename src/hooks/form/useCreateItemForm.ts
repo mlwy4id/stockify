@@ -1,5 +1,5 @@
-import { CreateItemSchema } from '@/schemas/inventorySchema';
-import type { CreateItem } from '@/types/inventory';
+import { CreateItemSchema } from '@stockify/schema';
+import type { CreateItem } from '@stockify/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
@@ -12,7 +12,7 @@ export const useCreateItemForm = () => {
     resolver: zodResolver(CreateItemSchema),
     defaultValues: {
       name: '',
-      quantity: 0,
+      initQuantity: 0,
     },
   });
 

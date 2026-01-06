@@ -1,8 +1,7 @@
 import type { FieldErrors, UseFormRegister } from 'react-hook-form';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
-import type { Item } from '@/types/inventory';
-
+import type { Item } from '@stockify/schema/src';
 type Props = {
   register: UseFormRegister<any>;
   errors: FieldErrors<Item>;
@@ -28,9 +27,9 @@ const InventoryForm = ({ register, errors, onSubmitHandler, cancelHandler, submi
           id="itemQuantity"
           type="number"
           min={0}
-          {...register('quantity', { valueAsNumber: true })}
+          {...register('initQuantity', { valueAsNumber: true })}
         />
-        {errors.quantity && <p className="text-red-500">{errors.quantity.message}</p>}
+        {errors.initQuantity && <p className="text-red-500">{errors.initQuantity.message}</p>}
       </div>
 
       <div className="flex justify-end items-center gap-2">

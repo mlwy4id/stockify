@@ -1,4 +1,4 @@
-import type { CreateItem, UpdateItemRequest } from '@/types/inventory';
+import type { CreateItem, UpdateItemRequest } from '@stockify/schema/src';
 import api from '../axios/axios';
 
 export const getAllItems = async () => {
