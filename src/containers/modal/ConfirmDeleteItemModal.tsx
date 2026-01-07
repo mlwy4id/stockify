@@ -1,7 +1,7 @@
 import ConfirmationModal from '@/components/modal/ConfirmationModal';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
-import { useConfirmDeleteItem } from '@/hooks/useConfirmDeleteItem';
+import { useConfirmDeleteItem } from '@/hooks/inventory/useConfirmDeleteItem';
 import { useCurrentItem } from '@/hooks/useCurrentItem';
 import { useInventoryPathNavigation } from '@/hooks/useInventoryPathNavigation';
 
