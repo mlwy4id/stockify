@@ -2,23 +2,23 @@ import PageLayout from '../layout/PageLayout';
 import { Button } from '@/components/ui/button';
 import { LuPlus } from 'react-icons/lu';
 import { Card, CardContent } from '@/components/ui/card';
-import TransactionForm from '@/components/form/TransactionForm';
+import { useTransactionPathNavigation } from '@/hooks/useTransactionPathNavigation';
 
 const TransactionsPage = () => {
+  const { toCreateTransaction } = useTransactionPathNavigation();
+
   return (
     <PageLayout
       title="Transactions"
       button={
-        <Button className="bg-blue-600 hover:bg-blue-500">
+        <Button className="bg-blue-600 hover:bg-blue-500" onClick={toCreateTransaction}>
           <LuPlus />
           Add Transaction
         </Button>
       }
     >
       <Card className="h-screen">
-        <CardContent className="h-full">
-          <TransactionForm />
-        </CardContent>
+        <CardContent className="h-full"></CardContent>
       </Card>
     </PageLayout>
   );
