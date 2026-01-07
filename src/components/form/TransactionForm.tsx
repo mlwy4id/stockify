@@ -2,9 +2,11 @@ import type { FieldErrors, UseFormRegister } from 'react-hook-form';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import Select from '../ui/select';
-import type { Transaction } from '@stockify/schema';
+import type { Item, Transaction } from '@stockify/schema';
+import ItemsOption from '../ItemsOption';
 
 type Props = {
+  inventoryItems: Item[];
   register: UseFormRegister<any>;
   errors: FieldErrors<Transaction>;
   onSubmitHandler: () => void;
@@ -13,6 +15,7 @@ type Props = {
 };
 
 const TransactionForm = ({
+  inventoryItems,
   register,
   errors,
   onSubmitHandler,
@@ -35,17 +38,18 @@ const TransactionForm = ({
       </div>
 
       <div className="grid gap-2">
-        <label htmlFor="transitionQuantity">Quantity:</label>
-        <Input id="transitionQuantity" type="number" min={0} {...register('quantity')} />
-        {errors.quantity && <p className="text-red-500">{errors.quantity.message}</p>}
-      </div>
-
-      <div className="grid gap-2">
         <label htmlFor="itemName">Item Name:</label>
         <Select id="itemName" {...register('itemId')}>
           <option value="">Select Item</option>
+          <ItemsOption inventoryItems={inventoryItems} />
         </Select>
         {errors.itemId && <p className="text-red-500">{errors.itemId.message}</p>}
+      </div>
+
+      <div className="grid gap-2">
+        <label htmlFor="transitionQuantity">Quantity:</label>
+        <Input id="transitionQuantity" type="number" min={0} {...register('quantity')} />
+        {errors.quantity && <p className="text-red-500">{errors.quantity.message}</p>}
       </div>
 
       <div className="flex justify-end items-center gap-2">
