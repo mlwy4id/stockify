@@ -48,7 +48,12 @@ const TransactionForm = ({
 
       <div className="grid gap-2">
         <label htmlFor="transitionQuantity">Quantity:</label>
-        <Input id="transitionQuantity" type="number" min={0} {...register('quantity')} />
+        <Input
+          id="transitionQuantity"
+          type="number"
+          min={0}
+          {...register('quantity', { valueAsNumber: true })}
+        />
         {errors.quantity && <p className="text-red-500">{errors.quantity.message}</p>}
       </div>
 

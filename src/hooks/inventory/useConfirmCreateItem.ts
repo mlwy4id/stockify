@@ -1,4 +1,4 @@
-import { useCreateInventoryItem } from './queries/inventory.query';
+import { useCreateInventoryItem } from '../queries/inventory.query';
 
 export const useConfirmCreateItem = () => {
   const { mutate, isPending } = useCreateInventoryItem();

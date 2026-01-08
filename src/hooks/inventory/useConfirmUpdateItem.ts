@@ -1,5 +1,5 @@
 import type { Item, UpdateItem } from '@stockify/schema';
-import { useUpdateInventoryItem } from './queries/inventory.query';
+import { useUpdateInventoryItem } from '../queries/inventory.query';
 
 export const useConfirmUpdateItem = (item: Item) => {
   const { mutate, isPending } = useUpdateInventoryItem();

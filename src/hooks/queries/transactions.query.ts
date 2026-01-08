@@ -4,7 +4,7 @@ import { useTransactionPathNavigation } from '../useTransactionPathNavigation';
 
 export const useGetTransactions = () => {
   return useQuery({
-    queryKey: ['transactions'],
+    queryKey: ['Transactions'],
     queryFn: getAllTransactions,
     staleTime: 1000 * 30,
   });
@@ -17,7 +17,10 @@ export const useCreateTransaction = () => {
   return useMutation({
     mutationFn: createTransaction,
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['transactions'] });
+      Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['Transactions'] }),
+        queryClient.invalidateQueries({ queryKey: ['Items'] }),
+      ]);
       toTransaction();
     },
   });
