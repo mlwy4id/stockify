@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { LuPlus } from 'react-icons/lu';
 import { Card, CardContent } from '@/components/ui/card';
 import { useTransactionPathNavigation } from '@/hooks/useTransactionPathNavigation';
+import TransactionsTableContainer from '@/containers/table/TransactionsTableContainer';
 
 const TransactionsPage = () => {
   const { toCreateTransaction } = useTransactionPathNavigation();
@@ -18,7 +19,9 @@ const TransactionsPage = () => {
       }
     >
       <Card className="h-screen">
-        <CardContent className="h-full"></CardContent>
+        <CardContent className="h-full">
+          <TransactionsTableContainer />
+        </CardContent>
       </Card>
     </PageLayout>
   );
