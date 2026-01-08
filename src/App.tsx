@@ -8,6 +8,7 @@ import EditItemPage from './pages/Inventory/Edit';
 import DeleteItemPage from './pages/Inventory/Delete';
 import TransactionLayout from './pages/Transactions/TransactionLayout';
 import CreateTransactionPage from './pages/Transactions/Create';
+import EditTransactionPage from './pages/Transactions/Edit';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Routes>
               <Route path="/transactions" element={<TransactionLayout />}>
                 <Route path="new" element={<CreateTransactionPage />} />
+                <Route path=":id/edit" element={<EditTransactionPage />} />
               </Route>
 
               <Route path="/inventory" element={<InventoryLayout />}>
