@@ -6,5 +6,7 @@ export const useTransactionPathNavigation = () => {
   return {
     toTransaction: () => navigate('/Transactions'),
     toCreateTransaction: () => navigate('new'),
+    toEditTransaction: (id: string) => navigate(`${id}/edit`),
+    toDeleteTransaction: (id: string) => navigate(`${id}/delete`),
   };
 };

@@ -9,8 +9,8 @@ import {
 
 type Props = {
   transactions: Transaction[];
-  openEditModal?: (id: string) => void;
-  openDeleteModal?: (id: string) => void;
+  openEditModal: (id: string) => void;
+  openDeleteModal: (id: string) => void;
 };
 
 const TransactionsTable = ({ transactions, openEditModal, openDeleteModal }: Props) => {
