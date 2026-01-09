@@ -20,3 +20,8 @@ export const updateTransaction = async ({ id, transaction }: UpdateTransactionRe
   const res = await api.patch(`/transactions/${id}`, transaction);
   return res.data;
 };
+
+export const deleteTransaction = async (id: string) => {
+  const res = await api.delete(`/transaction/${id}`);
+  return res.data;
+};

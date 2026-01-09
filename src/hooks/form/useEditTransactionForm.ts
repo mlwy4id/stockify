@@ -12,9 +12,9 @@ export const useEditTransactionForm = (transaction: Transaction) => {
   } = useForm<UpdateTransaction>({
     resolver: zodResolver(UpdateTransactionSchema),
     defaultValues: {
-        type: transaction?.type,
-        quantity: Number(transaction?.quantity),
-        itemId: transaction?.itemId,
+      type: transaction?.type,
+      quantity: Number(transaction?.quantity),
+      itemId: transaction?.itemId,
     },
   });
 

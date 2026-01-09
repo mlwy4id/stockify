@@ -1,12 +1,12 @@
 import {
   createTransaction,
+  deleteTransaction,
   getAllTransactions,
   getTransaction,
   updateTransaction,
 } from '@/lib/api/transactions.api';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTransactionPathNavigation } from '../useTransactionPathNavigation';
-import { useParams } from 'react-router-dom';
 import type { UpdateTransactionRequest } from '@stockify/schema';
 
 export const useGetAllTransactions = () => {
@@ -51,6 +51,19 @@ export const useUpdateTransaction = () => {
         queryClient.invalidateQueries({ queryKey: ['Transactions'] }),
         queryClient.invalidateQueries({ queryKey: ['Items'] }),
       ]);
+      toTransaction();
+    },
+  });
+};
+
+export const useDeleteTransaction = () => {
+  const queryClient = useQueryClient();
+  const { toTransaction } = useTransactionPathNavigation();
+
+  return useMutation({
+    mutationFn: deleteTransaction,
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['Transactions'] });
       toTransaction();
     },
   });
