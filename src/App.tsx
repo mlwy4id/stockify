@@ -9,6 +9,7 @@ import DeleteItemPage from './pages/Inventory/Delete';
 import TransactionLayout from './pages/Transactions/TransactionLayout';
 import CreateTransactionPage from './pages/Transactions/Create';
 import EditTransactionPage from './pages/Transactions/Edit';
+import DeleteTransactionPage from './pages/Transactions/Delete';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
               <Route path="/transactions" element={<TransactionLayout />}>
                 <Route path="new" element={<CreateTransactionPage />} />
                 <Route path=":id/edit" element={<EditTransactionPage />} />
+                <Route path=":id/delete" element={<DeleteTransactionPage />} />
               </Route>
 
               <Route path="/inventory" element={<InventoryLayout />}>

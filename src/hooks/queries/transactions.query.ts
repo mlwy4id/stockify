@@ -63,7 +63,10 @@ export const useDeleteTransaction = () => {
   return useMutation({
     mutationFn: deleteTransaction,
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['Transactions'] });
+      Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['Transactions'] }),
+        queryClient.invalidateQueries({ queryKey: ['Items'] }),
+      ]);
       toTransaction();
     },
   });

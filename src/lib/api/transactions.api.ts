@@ -22,6 +22,6 @@ export const updateTransaction = async ({ id, transaction }: UpdateTransactionRe
 };
 
 export const deleteTransaction = async (id: string) => {
-  const res = await api.delete(`/transaction/${id}`);
+  const res = await api.delete(`/transactions/${id}`);
   return res.data;
 };
