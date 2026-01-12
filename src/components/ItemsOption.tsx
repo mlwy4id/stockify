@@ -1,4 +1,4 @@
-import type { Item } from '@stockify/schema';
+import type { Item } from 'src/types/inventory.type';
 
 type Props = {
   inventoryItems: Item[];

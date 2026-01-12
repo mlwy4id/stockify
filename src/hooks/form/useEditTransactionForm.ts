@@ -1,5 +1,5 @@
 import { UpdateTransactionSchema } from '@stockify/schema';
-import type { Transaction, UpdateTransaction } from '@stockify/schema';
+import type { Transaction, UpdateTransaction } from 'src/types/transaction.type';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
@@ -14,7 +14,7 @@ export const useEditTransactionForm = (transaction: Transaction) => {
     defaultValues: {
       type: transaction?.type,
       quantity: Number(transaction?.quantity),
-      itemId: transaction?.itemId,
+      itemId: transaction?.item.id,
     },
   });
 

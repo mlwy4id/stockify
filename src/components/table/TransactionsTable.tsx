@@ -1,4 +1,4 @@
-import type { Transaction } from '@stockify/schema';
+import type { Transaction } from 'src/types/transaction.type';
 import { LuEllipsisVertical } from 'react-icons/lu';
 import {
   DropdownMenu,
@@ -26,7 +26,7 @@ const TransactionsTable = ({ transactions, openEditModal, openDeleteModal }: Pro
       <tbody>
         {transactions.map((transaction) => (
           <tr key={transaction.id} className="hover:bg-slate-50 cursor-pointer group">
-            <td className="py-3 px-4">{transaction.itemId}</td>
+            <td className="py-3 px-4">{transaction.item.name}</td>
             <td className="py-3 px-4">{transaction.type}</td>
             <td className="py-3 px-4">{transaction.quantity}</td>
 

@@ -2,7 +2,8 @@ import type { FieldErrors, UseFormRegister } from 'react-hook-form';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import Select from '../ui/select';
-import type { Item, Transaction } from '@stockify/schema';
+import type { Transaction } from 'src/types/transaction.type';
+import type { Item } from '@/types/inventory.type';
 import ItemsOption from '../ItemsOption';
 
 type Props = {
@@ -43,7 +44,7 @@ const TransactionForm = ({
           <option value="">Select Item</option>
           <ItemsOption inventoryItems={inventoryItems} />
         </Select>
-        {errors.itemId && <p className="text-red-500">{errors.itemId.message}</p>}
+        {errors?.item?.id && <p className="text-red-500">{errors?.item?.id.message}</p>}
       </div>
 
       <div className="grid gap-2">
