@@ -7,7 +7,7 @@ import {
 } from '@/lib/api/transactions.api';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTransactionPathNavigation } from '../useTransactionPathNavigation';
-import type { UpdateTransactionRequest } from '@stockify/schema';
+import type { UpdateTransactionRequest } from 'src/types/transaction.type';
 
 export const useGetAllTransactions = () => {
   return useQuery({

@@ -1,5 +1,5 @@
-import z from "zod";
-import { CreateItemSchema, UpdateItemSchema } from "@stockify/schema";
+import z from 'zod';
+import { CreateItemSchema, UpdateItemSchema } from '@stockify/schema';
 
 export type Item = {
   id: string;

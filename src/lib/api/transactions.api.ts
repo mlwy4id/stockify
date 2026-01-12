@@ -1,4 +1,4 @@
-import type { CreateTransaction, UpdateTransactionRequest } from '@stockify/schema';
+import type { CreateTransaction, UpdateTransactionRequest } from 'src/types/transaction.type';
 import api from '../axios/axios';
 
 export const getAllTransactions = async () => {

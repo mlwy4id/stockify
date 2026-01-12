@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { CreateTransactionSchema, type CreateTransaction } from '@stockify/schema';
+import { CreateTransactionSchema } from '@stockify/schema';
+import type { CreateTransaction } from '@/types/transaction.type';
 
 export const useCreateTransactionForm = () => {
   const {

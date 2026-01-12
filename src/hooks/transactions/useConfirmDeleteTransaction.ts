@@ -1,4 +1,4 @@
-import type { Transaction } from '@stockify/schema';
+import type { Transaction } from 'src/types/transaction.type';
 import { useDeleteTransaction } from '../queries/transactions.query';
 
 export const useConfirmDeleteTransaction = (transaction: Transaction) => {

@@ -1,4 +1,4 @@
-import type { Transaction, UpdateTransaction } from '@stockify/schema';
+import type { Transaction, UpdateTransaction } from 'src/types/transaction.type';
 import { useUpdateTransaction } from '../queries/transactions.query';
 
 export const useConfirmUpdateTransaction = (transaction: Transaction) => {
