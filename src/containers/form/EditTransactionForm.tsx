@@ -23,6 +23,7 @@ const EditTransactionForm = () => {
       type: transaction?.type,
       quantity: Number(transaction?.quantity),
       itemId: transaction?.item.id,
+      previousItemId: transaction?.item.id,
     });
   }, [transaction, reset]);
 

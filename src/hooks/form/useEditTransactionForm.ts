@@ -15,6 +15,7 @@ export const useEditTransactionForm = (transaction: Transaction) => {
       type: transaction?.type,
       quantity: Number(transaction?.quantity),
       itemId: transaction?.item.id,
+      previousItemId: transaction?.item.id,
     },
   });
 
