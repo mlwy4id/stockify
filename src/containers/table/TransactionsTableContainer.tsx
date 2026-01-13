@@ -1,3 +1,4 @@
+import EmptyTransactionTable from '@/components/table/EmptyTransactionTable';
 import TransactionsTable from '@/components/table/TransactionsTable';
 import { Spinner } from '@/components/ui/spinner';
 import { useGetAllTransactions } from '@/hooks/queries/transactions.query';
@@ -9,13 +10,17 @@ const TransactionsTableContainer = () => {
 
   if (isFetching) return <Spinner />;
 
-  return (
-    <TransactionsTable
-      transactions={transactionsData}
-      openEditModal={toEditTransaction}
-      openDeleteModal={toDeleteTransaction}
-    />
-  );
+  if (transactionsData.length === 0) {
+    return <EmptyTransactionTable />;
+  } else {
+    return (
+      <TransactionsTable
+        transactions={transactionsData}
+        openEditModal={toEditTransaction}
+        openDeleteModal={toDeleteTransaction}
+      />
+    );
+  }
 };
 
 export default TransactionsTableContainer;
