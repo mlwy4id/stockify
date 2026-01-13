@@ -1,6 +1,6 @@
 import Modal from '@/components/modal/Modal';
 import CreateTransactionForm from '@/containers/form/CreateTransactionForm';
-import { useTransactionPathNavigation } from '@/hooks/useTransactionPathNavigation';
+import { useTransactionPathNavigation } from '@/hooks/transactions/useTransactionPathNavigation';
 
 const CreateTransactionPage = () => {
   const { toTransaction } = useTransactionPathNavigation();

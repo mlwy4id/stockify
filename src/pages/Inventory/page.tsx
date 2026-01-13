@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import PageLayout from '../layout/PageLayout';
 import InventoryTableContainer from '@/containers/table/InventoryTableContainer';
 import { LuPlus } from 'react-icons/lu';
-import { useInventoryPathNavigation } from '@/hooks/useInventoryPathNavigation';
+import { useInventoryPathNavigation } from '@/hooks/inventory/useInventoryPathNavigation';
 import { Card, CardContent } from '@/components/ui/card';
 
 const InventoryPage = () => {

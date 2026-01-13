@@ -1,10 +1,10 @@
 import InventoryForm from '@/components/form/InventoryForm';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
-import { useEditItemForm } from '@/hooks/form/useEditItemForm';
+import { useEditItemForm } from '@/hooks/inventory/useEditItemForm';
 import { useConfirmUpdateItem } from '@/hooks/inventory/useConfirmUpdateItem';
-import { useCurrentItem } from '@/hooks/useCurrentItem';
-import { useInventoryPathNavigation } from '@/hooks/useInventoryPathNavigation';
+import { useCurrentItem } from '@/hooks/inventory/useCurrentItem';
+import { useInventoryPathNavigation } from '@/hooks/inventory/useInventoryPathNavigation';
 import { useEffect } from 'react';
 
 const EditItemForm = () => {

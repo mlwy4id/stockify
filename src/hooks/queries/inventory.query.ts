@@ -1,7 +1,7 @@
 import { createItem, deleteItem, getAllItems, getItem, updateItem } from '@/lib/api/inventory.api';
 import type { UpdateItemRequest } from 'src/types/inventory.type';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useInventoryPathNavigation } from '../useInventoryPathNavigation';
+import { useInventoryPathNavigation } from '../inventory/useInventoryPathNavigation';
 
 export const useGetInventoryItems = () => {
   return useQuery({

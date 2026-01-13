@@ -1,11 +1,11 @@
 import TransactionForm from '@/components/form/TransactionForm';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
-import { useEditTransactionForm } from '@/hooks/form/useEditTransactionForm';
+import { useEditTransactionForm } from '@/hooks/transactions/useEditTransactionForm';
 import { useGetInventoryItems } from '@/hooks/queries/inventory.query';
 import { useConfirmUpdateTransaction } from '@/hooks/transactions/useConfirmUpdateTransaction';
-import { useCurrentTransaction } from '@/hooks/useCurrentTransaction';
-import { useTransactionPathNavigation } from '@/hooks/useTransactionPathNavigation';
+import { useCurrentTransaction } from '@/hooks/transactions/useCurrentTransaction';
+import { useTransactionPathNavigation } from '@/hooks/transactions/useTransactionPathNavigation';
 import { useEffect } from 'react';
 
 const EditTransactionForm = () => {

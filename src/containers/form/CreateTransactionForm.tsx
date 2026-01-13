@@ -1,10 +1,10 @@
 import TransactionForm from '@/components/form/TransactionForm';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
-import { useCreateTransactionForm } from '@/hooks/form/useCreateTransactionForm';
+import { useCreateTransactionForm } from '@/hooks/transactions/useCreateTransactionForm';
 import { useGetInventoryItems } from '@/hooks/queries/inventory.query';
 import { useConfirmCreateTransaction } from '@/hooks/transactions/useConfirmCreateTransaction';
-import { useTransactionPathNavigation } from '@/hooks/useTransactionPathNavigation';
+import { useTransactionPathNavigation } from '@/hooks/transactions/useTransactionPathNavigation';
 
 const CreateTransactionForm = () => {
   const { toTransaction } = useTransactionPathNavigation();

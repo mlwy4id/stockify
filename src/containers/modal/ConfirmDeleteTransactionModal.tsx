@@ -2,8 +2,8 @@ import ConfirmationModal from '@/components/modal/ConfirmationModal';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { useConfirmDeleteTransaction } from '@/hooks/transactions/useConfirmDeleteTransaction';
-import { useCurrentTransaction } from '@/hooks/useCurrentTransaction';
-import { useTransactionPathNavigation } from '@/hooks/useTransactionPathNavigation';
+import { useCurrentTransaction } from '@/hooks/transactions/useCurrentTransaction';
+import { useTransactionPathNavigation } from '@/hooks/transactions/useTransactionPathNavigation';
 
 const ConfirmDeleteTransactionModal = () => {
   const { isFetching, transaction } = useCurrentTransaction();

@@ -2,7 +2,7 @@ import PageLayout from '../layout/PageLayout';
 import { Button } from '@/components/ui/button';
 import { LuPlus } from 'react-icons/lu';
 import { Card, CardContent } from '@/components/ui/card';
-import { useTransactionPathNavigation } from '@/hooks/useTransactionPathNavigation';
+import { useTransactionPathNavigation } from '@/hooks/transactions/useTransactionPathNavigation';
 import TransactionsTableContainer from '@/containers/table/TransactionsTableContainer';
 
 const TransactionsPage = () => {

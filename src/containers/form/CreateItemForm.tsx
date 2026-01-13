@@ -1,8 +1,8 @@
 import InventoryForm from '@/components/form/InventoryForm';
 import { Button } from '@/components/ui/button';
-import { useInventoryPathNavigation } from '@/hooks/useInventoryPathNavigation';
+import { useInventoryPathNavigation } from '@/hooks/inventory/useInventoryPathNavigation';
 import { useConfirmCreateItem } from '@/hooks/inventory/useConfirmCreateItem';
-import { useCreateItemForm } from '@/hooks/form/useCreateItemForm';
+import { useCreateItemForm } from '@/hooks/inventory/useCreateItemForm';
 
 const CreateItemForm = () => {
   const { toInventory } = useInventoryPathNavigation();
