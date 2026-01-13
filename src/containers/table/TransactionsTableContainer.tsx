@@ -1,6 +1,6 @@
 import EmptyTransactionTable from '@/components/table/EmptyTransactionTable';
+import TableSkeleton from '@/components/table/TableSkeleton';
 import TransactionsTable from '@/components/table/TransactionsTable';
-import { Spinner } from '@/components/ui/spinner';
 import { useGetAllTransactions } from '@/hooks/queries/transactions.query';
 import { useTransactionPathNavigation } from '@/hooks/useTransactionPathNavigation';
 
@@ -8,7 +8,7 @@ const TransactionsTableContainer = () => {
   const { isFetching, data: transactionsData } = useGetAllTransactions();
   const { toEditTransaction, toDeleteTransaction } = useTransactionPathNavigation();
 
-  if (isFetching) return <Spinner />;
+  if (isFetching) return <TableSkeleton />;
 
   if (transactionsData.length === 0) {
     return <EmptyTransactionTable />;

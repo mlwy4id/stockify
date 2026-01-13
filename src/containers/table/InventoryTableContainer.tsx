@@ -1,6 +1,6 @@
 import EmptyTable from '@/components/table/EmptyTable';
 import InventoryTable from '@/components/table/InventoryTable';
-import { Spinner } from '@/components/ui/spinner';
+import TableSkeleton from '@/components/table/TableSkeleton';
 import { useGetInventoryItems } from '@/hooks/queries/inventory.query';
 import { useInventoryPathNavigation } from '@/hooks/useInventoryPathNavigation';
 
@@ -8,7 +8,7 @@ const InventoryTableContainer = () => {
   const { toEditItem, toDeleteItem } = useInventoryPathNavigation();
   const { isFetching, data: inventoryItems } = useGetInventoryItems();
 
-  if (isFetching) return <Spinner />;
+  if (isFetching) return <TableSkeleton />;
 
   if (inventoryItems.length === 0) {
     return <EmptyTable />;
