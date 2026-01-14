@@ -1,12 +1,12 @@
 import SidebarOptions from './SidebarOptions';
-import { LuArchive, LuNotebookText } from 'react-icons/lu';
+import { LuArchive, LuHouse, LuNotebookText } from 'react-icons/lu';
 import { LuChartColumn } from 'react-icons/lu';
 
 const Sidebar = () => {
   return (
     <aside
       className="
-        bg-gray-50 pt-5 flex flex-col gap-2
+        bg-blue-50 pt-5 flex flex-col gap-2
         h-screen sticky w-[20%] top-0
         shadow-md border border-gray-200
     "
@@ -16,6 +16,7 @@ const Sidebar = () => {
           Stockify
         </h1>
         <ul className="mt-2 heading">
+          <SidebarOptions icon={LuHouse} name="Dashboard" />
           <SidebarOptions icon={LuNotebookText} name="Transactions" />
           <SidebarOptions icon={LuArchive} name="Inventory" />
           <SidebarOptions icon={LuChartColumn} name="Reports" />

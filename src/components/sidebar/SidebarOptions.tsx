@@ -8,11 +8,11 @@ type Props = {
 
 const SidebarOptions = ({ icon: Icon, name }: Props) => {
   const { pathname } = useLocation();
-  const isActive = matchPath(`/${name}/*`, pathname);
+  const isActive = matchPath(`/${name.toLowerCase()}/*`, pathname);
 
   return (
     <NavLink
-      to={`/${name}`}
+      to={`/${name.toLowerCase()}`}
       className={`
         group flex gap-2 items-center mx-2 mb-1 p-2 rounded-md
         hover:cursor-pointer hover:bg-gray-100

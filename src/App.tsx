@@ -10,6 +10,7 @@ import TransactionLayout from './pages/Transactions/TransactionLayout';
 import CreateTransactionPage from './pages/Transactions/Create';
 import EditTransactionPage from './pages/Transactions/Edit';
 import DeleteTransactionPage from './pages/Transactions/Delete';
+import DashboardPage from './pages/dashboard/page';
 
 function App() {
   return (
@@ -22,6 +23,8 @@ function App() {
 
           <div className="px-6">
             <Routes>
+              <Route path="/dashboard" element={<DashboardPage />} />
+
               <Route path="/transactions" element={<TransactionLayout />}>
                 <Route path="new" element={<CreateTransactionPage />} />
                 <Route path=":id/edit" element={<EditTransactionPage />} />
