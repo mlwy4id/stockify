@@ -1,7 +1,10 @@
 import { UpdateTransactionSchema } from '@stockify/schema';
-import type { Transaction, UpdateTransaction } from 'src/types/transaction.type';
+import type { Transaction } from 'src/types/transaction.type';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import type z from 'zod';
+
+type UpdateTransaction = z.infer<typeof UpdateTransactionSchema>
 
 export const useEditTransactionForm = (transaction: Transaction) => {
   const {
