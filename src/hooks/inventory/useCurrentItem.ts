@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { useGetItem } from './queries/inventory.query';
+import { useGetItem } from '../queries/inventory.query';
 
 export const useCurrentItem = () => {
   const { id } = useParams();
