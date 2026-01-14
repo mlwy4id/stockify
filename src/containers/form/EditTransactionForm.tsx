@@ -18,7 +18,6 @@ const EditTransactionForm = () => {
   const { toTransaction } = useTransactionPathNavigation();
 
   useEffect(() => {
-    console.log(transaction);
     reset({
       type: transaction?.type,
       quantity: Number(transaction?.quantity),
