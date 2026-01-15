@@ -11,7 +11,7 @@ import { useEffect } from 'react';
 const EditTransactionForm = () => {
   const { data: inventoryItems } = useGetInventoryItems();
 
-  const { isFetching, transaction } = useCurrentTransaction();
+  const { isLoading, transaction } = useCurrentTransaction();
   const { isPending, confirmUpdate } = useConfirmUpdateTransaction(transaction);
   const { register, reset, handleSubmit, errors } = useEditTransactionForm(transaction);
 
@@ -26,7 +26,7 @@ const EditTransactionForm = () => {
     });
   }, [transaction, reset]);
 
-  if (isFetching) return <Spinner />;
+  if (isLoading) return <Spinner />;
 
   return (
     <TransactionForm

@@ -8,7 +8,7 @@ import { useInventoryPathNavigation } from '@/hooks/inventory/useInventoryPathNa
 import { useEffect } from 'react';
 
 const EditItemForm = () => {
-  const { isFetching, item } = useCurrentItem();
+  const { isLoading, item } = useCurrentItem();
   const { toInventory } = useInventoryPathNavigation();
   const { confirmUpdate, isPending } = useConfirmUpdateItem(item);
   const { register, handleSubmit, errors, reset } = useEditItemForm(item);
@@ -20,7 +20,7 @@ const EditItemForm = () => {
     });
   }, [item, reset]);
 
-  if (isFetching) return <Spinner />;
+  if (isLoading) return <Spinner />;
 
   return (
     <InventoryForm

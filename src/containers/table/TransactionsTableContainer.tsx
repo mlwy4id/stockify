@@ -5,10 +5,10 @@ import { useGetAllTransactions } from '@/hooks/queries/transactions.query';
 import { useTransactionPathNavigation } from '@/hooks/transactions/useTransactionPathNavigation';
 
 const TransactionsTableContainer = () => {
-  const { isFetching, data: transactionsData } = useGetAllTransactions();
+  const { isLoading, data: transactionsData } = useGetAllTransactions();
   const { toEditTransaction, toDeleteTransaction } = useTransactionPathNavigation();
 
-  if (isFetching) return <TableSkeleton />;
+  if (isLoading) return <TableSkeleton />;
 
   if (transactionsData.length === 0) {
     return <EmptyTransactionTable />;

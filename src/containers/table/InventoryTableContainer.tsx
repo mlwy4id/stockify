@@ -5,10 +5,10 @@ import { useGetInventoryItems } from '@/hooks/queries/inventory.query';
 import { useInventoryPathNavigation } from '@/hooks/inventory/useInventoryPathNavigation';
 
 const InventoryTableContainer = () => {
+  const { isLoading, data: inventoryItems } = useGetInventoryItems();
   const { toEditItem, toDeleteItem } = useInventoryPathNavigation();
-  const { isFetching, data: inventoryItems } = useGetInventoryItems();
 
-  if (isFetching) return <TableSkeleton />;
+  if (isLoading) return <TableSkeleton />;
 
   if (inventoryItems.length === 0) {
     return <EmptyTable />;

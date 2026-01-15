@@ -9,11 +9,11 @@ import { useTransactionPathNavigation } from '@/hooks/transactions/useTransactio
 const CreateTransactionForm = () => {
   const { toTransaction } = useTransactionPathNavigation();
 
-  const { isFetching, data: inventoryItems } = useGetInventoryItems();
+  const { isLoading, data: inventoryItems } = useGetInventoryItems();
   const { isPending, confirmCreate } = useConfirmCreateTransaction();
   const { register, handleSubmit, errors } = useCreateTransactionForm();
 
-  if (isFetching) return <Spinner />;
+  if (isLoading) return <Spinner />;
 
   return (
     <TransactionForm
