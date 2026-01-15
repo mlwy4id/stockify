@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import Sidebar from './components/sidebar/Sidebar';
 import Reports from './pages/Reports/page';
 import Navbar from './components/Navbar';
@@ -23,6 +23,8 @@ function App() {
 
           <div className="px-6">
             <Routes>
+              <Route path="/" element={<Navigate to={'/dashboard'} />} />
+
               <Route path="/dashboard" element={<DashboardPage />} />
 
               <Route path="/transactions" element={<TransactionLayout />}>
