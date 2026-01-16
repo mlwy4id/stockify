@@ -7,6 +7,7 @@ export type Transaction = {
   id: string;
   type: TransactionType;
   quantity: string;
+  createdAt: Date;
   item: {
     id: string;
     name: string;

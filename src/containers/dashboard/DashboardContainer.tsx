@@ -16,7 +16,7 @@ const DashboardContainer = () => {
     <>
       <StocksSummaryCard itemIn={itemIn} itemOut={itemOut} itemNet={itemNet} />
       <LowStockItemCard lowStockItems={lowStockItem} />
-      <RecentActivityCard />
+      <RecentActivityCard recentTransactions={recentTransactions} />
     </>
   );
 };

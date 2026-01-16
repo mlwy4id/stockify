@@ -9,12 +9,10 @@ type Props = {
 
 const LowStockItemCard = ({ lowStockItems }: Props) => {
   return (
-    <Card>
-      <CardHeader>
-        <div className="flex items-center gap-2">
-          <LuTriangleAlert size={24} fill="yellow" />
-          <h1 className="text-2xl font-semibold heading">Low Stock Items</h1>
-        </div>
+    <Card className="h-full">
+      <CardHeader className="font-semibold flex items-center">
+        <LuTriangleAlert size={20} fill="yellow" />
+        <h1>Low Stock Items</h1>
       </CardHeader>
       <CardContent>
         <InventoryTable items={lowStockItems} openEditModal={() => {}} openDeleteModal={() => {}} />

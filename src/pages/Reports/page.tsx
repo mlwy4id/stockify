@@ -1,10 +1,9 @@
 import PageLayout from '../layout/PageLayout';
-import ReportsRecentActivityCard from '@/containers/card/ReportsRecentActivityCard';
 
 const Reports = () => {
   return (
     <PageLayout title={'Reports'}>
-      <ReportsRecentActivityCard />
+      <h1>Empty</h1>
     </PageLayout>
   );
 };
