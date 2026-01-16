@@ -1,7 +1,7 @@
 import { useGetStocksSummary } from '@/hooks/queries/dashboard.query';
 import StocksSummaryCard from '../card/StocksSummaryCard';
 import { Spinner } from '@/components/ui/spinner';
-import LowStockItemCard from '../card/LowStockItemCard';
+import LowStockItemCardContainer from '../card/LowStockItemCardContainer';
 import RecentActivityCard from '../card/RecentActivityCard';
 
 const DashboardContainer = () => {
@@ -15,7 +15,7 @@ const DashboardContainer = () => {
   return (
     <>
       <StocksSummaryCard itemIn={itemIn} itemOut={itemOut} itemNet={itemNet} />
-      <LowStockItemCard lowStockItems={lowStockItem} />
+      <LowStockItemCardContainer lowStockItems={lowStockItem} />
       <RecentActivityCard recentTransactions={recentTransactions} />
     </>
   );

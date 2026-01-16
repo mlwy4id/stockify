@@ -13,7 +13,7 @@ const StocksSummaryCard = ({ itemIn, itemOut, itemNet }: Props) => {
       <SummaryCard
         icon={LuArrowUp}
         cardTitle="Today Item In"
-        cardContent={`${itemIn} item`}
+        cardContent={`${itemIn} items`}
         cardBgColor="bg-green-100"
         cardTitleColor="text-green-700"
         cardContentColor="text-green-800"
@@ -21,7 +21,7 @@ const StocksSummaryCard = ({ itemIn, itemOut, itemNet }: Props) => {
       <SummaryCard
         icon={LuArrowDown}
         cardTitle="Today Item Out"
-        cardContent={`${itemOut} item`}
+        cardContent={`${itemOut} items`}
         cardBgColor="bg-red-100"
         cardTitleColor="text-red-700"
         cardContentColor="text-red-800"
@@ -29,7 +29,7 @@ const StocksSummaryCard = ({ itemIn, itemOut, itemNet }: Props) => {
       <SummaryCard
         icon={LuDiff}
         cardTitle="Net Change"
-        cardContent={`${itemNet} item`}
+        cardContent={`${itemNet} items`}
         cardBgColor="bg-blue-100"
         cardTitleColor="text-blue-700"
         cardContentColor="text-blue-800"
