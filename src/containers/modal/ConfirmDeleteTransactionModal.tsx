@@ -6,11 +6,11 @@ import { useCurrentTransaction } from '@/hooks/transactions/useCurrentTransactio
 import { useTransactionPathNavigation } from '@/hooks/transactions/useTransactionPathNavigation';
 
 const ConfirmDeleteTransactionModal = () => {
-  const { isFetching, transaction } = useCurrentTransaction();
+  const { isLoading, transaction } = useCurrentTransaction();
   const { toTransaction } = useTransactionPathNavigation();
   const { isPending, confirmDelete } = useConfirmDeleteTransaction(transaction);
 
-  if (isFetching) return <Spinner />;
+  if (isLoading) return <Spinner />;
 
   return (
     <ConfirmationModal

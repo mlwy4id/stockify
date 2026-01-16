@@ -6,11 +6,11 @@ import { useCurrentItem } from '@/hooks/inventory/useCurrentItem';
 import { useInventoryPathNavigation } from '@/hooks/inventory/useInventoryPathNavigation';
 
 const ConfirmDeleteItemModal = () => {
-  const { isFetching, item } = useCurrentItem();
+  const { isLoading, item } = useCurrentItem();
   const { toInventory } = useInventoryPathNavigation();
   const { isPending, confirmDelete } = useConfirmDeleteItem(item);
 
-  if (isFetching) return <Spinner />;
+  if (isLoading) return <Spinner />;
 
   return (
     <ConfirmationModal
