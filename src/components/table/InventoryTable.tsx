@@ -19,7 +19,7 @@ const InventoryTable = ({ items, openEditModal, openDeleteModal }: Props) => {
       <thead>
         <tr className="border-b">
           <th className="text-left py-3 px-4 font-semibold">Item Name</th>
-          <th className="text-left py-3 px-4 font-semibold">Stocks</th>
+          <th className="text-left py-3 px-4 font-semibold">Stock</th>
         </tr>
       </thead>
       <tbody>

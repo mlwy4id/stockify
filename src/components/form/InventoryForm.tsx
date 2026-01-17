@@ -23,7 +23,7 @@ const InventoryForm = ({ register, errors, onSubmitHandler, cancelHandler, submi
         {errors.name && <p className="text-red-500">{errors.name.message}</p>}
       </div>
       <div className="grid gap-2">
-        <label htmlFor="itemQuantity">Stocks:</label>
+        <label htmlFor="itemQuantity">Stock:</label>
         <Input
           id="itemQuantity"
           type="number"

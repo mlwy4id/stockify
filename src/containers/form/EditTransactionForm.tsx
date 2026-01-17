@@ -19,7 +19,7 @@ const EditTransactionForm = () => {
 
   useEffect(() => {
     reset({
-      type: transaction?.type,
+      action: transaction?.action,
       quantity: Number(transaction?.quantity),
       itemId: transaction?.item.id,
       previousItemId: transaction?.item.id,

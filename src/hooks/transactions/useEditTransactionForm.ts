@@ -15,7 +15,7 @@ export const useEditTransactionForm = (transaction: Transaction) => {
   } = useForm<UpdateTransaction>({
     resolver: zodResolver(UpdateTransactionSchema),
     defaultValues: {
-      type: transaction?.type,
+      action: transaction?.action,
       quantity: Number(transaction?.quantity),
       itemId: transaction?.item.id,
       previousItemId: transaction?.item.id,

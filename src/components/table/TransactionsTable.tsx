@@ -27,7 +27,7 @@ const TransactionsTable = ({ transactions, openEditModal, openDeleteModal }: Pro
         {transactions.map((transaction) => (
           <tr key={transaction.id} className="hover:bg-slate-50 cursor-pointer group">
             <td className="py-3 px-4">{transaction.item.name}</td>
-            <td className="py-3 px-4">{transaction.type}</td>
+            <td className="py-3 px-4">{transaction.action}</td>
             <td className="py-3 px-4">{transaction.quantity}</td>
 
             <td>

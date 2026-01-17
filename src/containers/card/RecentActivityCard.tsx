@@ -18,7 +18,7 @@ const RecentActivityCard = ({ recentTransactions }: Props) => {
         {recentTransactions.map((transaction) => (
           <ActivityCard
             key={transaction.id}
-            transactionType={transaction.type}
+            transactionType={transaction.action}
             quantity={transaction.quantity}
             createdAt={transaction.createdAt}
             itemName={transaction.item.name}

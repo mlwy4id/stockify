@@ -30,12 +30,12 @@ const TransactionForm = ({
     >
       <div className="grid gap-2">
         <label htmlFor="transactionType">Transaction Type:</label>
-        <Select id="transactionType" {...register('type')}>
-          <option value="">Select Type</option>
-          <option value="In">In</option>
-          <option value="Out">Out</option>
+        <Select id="transactionType" {...register('action')}>
+          <option value="">Select action</option>
+          <option value="Restock">Restock</option>
+          <option value="Sold">Sold</option>
         </Select>
-        {errors.type && <p className="text-red-500">{errors.type.message}</p>}
+        {errors.action && <p className="text-red-500">{errors.action.message}</p>}
       </div>
 
       <div className="grid gap-2">

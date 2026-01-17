@@ -1,11 +1,11 @@
 import z from 'zod';
 import { CreateTransactionSchema, UpdateTransactionSchema } from '@stockify/schema';
 
-type TransactionType = z.infer<typeof CreateTransactionSchema>['type'];
+type TransactionAction = z.infer<typeof CreateTransactionSchema>['action'];
 
 export type Transaction = {
   id: string;
-  type: TransactionType;
+  action: TransactionAction;
   quantity: string;
   createdAt: Date;
   item: {

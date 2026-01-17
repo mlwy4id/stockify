@@ -11,7 +11,7 @@ export const useCreateTransactionForm = () => {
   } = useForm<CreateTransaction>({
     resolver: zodResolver(CreateTransactionSchema),
     defaultValues: {
-      type: undefined,
+      action: undefined,
       quantity: 0,
       itemId: '',
     },
