@@ -2,55 +2,27 @@ import { Skeleton } from '../ui/skeleton';
 
 const TableSkeleton = () => {
   return (
-    <table className="w-full flex flex-col gap-5">
+    <table className="w-full">
       <thead>
-        <Skeleton className="py-4 px-4" />
+        <tr>
+          {Array.from({ length: 4 }).map((_, i) => (
+            <th key={i} className="px-4 py-2">
+              <Skeleton className="h-4 w-full" />
+            </th>
+          ))}
+        </tr>
       </thead>
-      <tbody className="flex flex-col gap-4">
-        <tr className="grid grid-cols-3 gap-3">
-          <td>
-            <Skeleton className="py-3 px-4" />
-          </td>
-          <td>
-            <Skeleton className="py-3 px-4" />
-          </td>
-          <td>
-            <Skeleton className="py-3 px-4" />
-          </td>
-        </tr>
-        <tr className="grid grid-cols-3 gap-3">
-          <td>
-            <Skeleton className="py-3 px-4" />
-          </td>
-          <td>
-            <Skeleton className="py-3 px-4" />
-          </td>
-          <td>
-            <Skeleton className="py-3 px-4" />
-          </td>
-        </tr>
-        <tr className="grid grid-cols-3 gap-3">
-          <td>
-            <Skeleton className="py-3 px-4" />
-          </td>
-          <td>
-            <Skeleton className="py-3 px-4" />
-          </td>
-          <td>
-            <Skeleton className="py-3 px-4" />
-          </td>
-        </tr>
-        <tr className="grid grid-cols-3 gap-3">
-          <td>
-            <Skeleton className="py-3 px-4" />
-          </td>
-          <td>
-            <Skeleton className="py-3 px-4" />
-          </td>
-          <td>
-            <Skeleton className="py-3 px-4" />
-          </td>
-        </tr>
+
+      <tbody>
+        {Array.from({ length: 20 }).map((_, row) => (
+          <tr key={row}>
+            {Array.from({ length: 4 }).map((_, col) => (
+              <td key={col} className="px-4 py-3">
+                <Skeleton className="h-4 w-full" />
+              </td>
+            ))}
+          </tr>
+        ))}
       </tbody>
     </table>
   );
