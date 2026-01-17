@@ -23,14 +23,14 @@ const InventoryForm = ({ register, errors, onSubmitHandler, cancelHandler, submi
         {errors.name && <p className="text-red-500">{errors.name.message}</p>}
       </div>
       <div className="grid gap-2">
-        <label htmlFor="itemQuantity">Quantity:</label>
+        <label htmlFor="itemQuantity">Stocks:</label>
         <Input
           id="itemQuantity"
           type="number"
           min={0}
-          {...register('initQuantity', { valueAsNumber: true })}
+          {...register('initStock', { valueAsNumber: true })}
         />
-        {errors.initQuantity && <p className="text-red-500">{errors.initQuantity.message}</p>}
+        {errors.initStock && <p className="text-red-500">{errors.initStock.message}</p>}
       </div>
 
       <div className="flex justify-end items-center gap-2">

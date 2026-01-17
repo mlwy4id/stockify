@@ -19,14 +19,14 @@ const InventoryTable = ({ items, openEditModal, openDeleteModal }: Props) => {
       <thead>
         <tr className="border-b">
           <th className="text-left py-3 px-4 font-semibold">Item Name</th>
-          <th className="text-left py-3 px-4 font-semibold">Quantity</th>
+          <th className="text-left py-3 px-4 font-semibold">Stocks</th>
         </tr>
       </thead>
       <tbody>
         {items.map((item) => (
           <tr key={item.id} className="hover:bg-slate-50 cursor-pointer group">
             <td className="py-3 px-4">{item.name}</td>
-            <td className="py-3 px-4">{item.currentQuantity}</td>
+            <td className="py-3 px-4">{item.currentStock}</td>
 
             <td>
               <DropdownMenu>

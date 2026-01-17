@@ -19,7 +19,7 @@ const TransactionsTable = ({ transactions, openEditModal, openDeleteModal }: Pro
       <thead>
         <tr className="border-b">
           <th className="text-left py-3 px-4 font-semibold">Item Name</th>
-          <th className="text-left py-3 px-4 font-semibold">Type</th>
+          <th className="text-left py-3 px-4 font-semibold">Action</th>
           <th className="text-left py-3 px-4 font-semibold">Quantity</th>
         </tr>
       </thead>

@@ -12,7 +12,7 @@ export const useCreateItemForm = () => {
     resolver: zodResolver(CreateItemSchema),
     defaultValues: {
       name: '',
-      initQuantity: 0,
+      initStock: 0,
     },
   });
 

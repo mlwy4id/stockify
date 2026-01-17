@@ -19,7 +19,7 @@ const LowStockItemCardContainer = ({ lowStockItems }: Props) => {
       </CardHeader>
       <CardContent>
         {lowStockItems.map((item) => (
-          <LowStockItemCard key={item.id} itemName={item.name} quantity={item.currentQuantity} />
+          <LowStockItemCard key={item.id} itemName={item.name} quantity={item.currentStock} />
         ))}
       </CardContent>
       <CardFooter>

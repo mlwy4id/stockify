@@ -13,7 +13,7 @@ export const useEditItemForm = (item: Item) => {
     resolver: zodResolver(UpdateItemSchema),
     defaultValues: {
       name: item?.name,
-      initQuantity: Number(item?.currentQuantity),
+      initStock: Number(item?.currentStock),
     },
   });
 

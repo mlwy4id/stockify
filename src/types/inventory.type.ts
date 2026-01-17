@@ -4,8 +4,8 @@ import { CreateItemSchema, UpdateItemSchema } from '@stockify/schema';
 export type Item = {
   id: string;
   name: string;
-  initQuantity?: string;
-  currentQuantity?: string;
+  initStock?: string;
+  currentStock?: string;
 };
 
 export type CreateItem = z.infer<typeof CreateItemSchema>;
