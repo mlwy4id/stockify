@@ -17,7 +17,7 @@ const LowStockItemCardContainer = ({ lowStockItems }: Props) => {
         <LuTriangleAlert size={20} fill="yellow" />
         <h1>Low Stock Items</h1>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex flex-col gap-3">
         {lowStockItems.map((item) => (
           <LowStockItemCard key={item.id} itemName={item.name} quantity={item.currentStock} />
         ))}

@@ -14,7 +14,7 @@ const TableSkeleton = () => {
       </thead>
 
       <tbody>
-        {Array.from({ length: 20 }).map((_, row) => (
+        {Array.from({ length: 15 }).map((_, row) => (
           <tr key={row}>
             {Array.from({ length: 4 }).map((_, col) => (
               <td key={col} className="px-4 py-3">

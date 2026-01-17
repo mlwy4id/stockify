@@ -2,26 +2,26 @@ import SummaryCard from '@/components/card/SummaryCard';
 import { LuArrowUp, LuArrowDown, LuDiff } from 'react-icons/lu';
 
 type Props = {
-  itemIn: number;
-  itemOut: number;
+  itemRestock: number;
+  itemSold: number;
   itemNet: number;
 };
 
-const StocksSummaryCard = ({ itemIn, itemOut, itemNet }: Props) => {
+const StocksSummaryCard = ({ itemRestock, itemSold, itemNet }: Props) => {
   return (
     <div className="grid grid-cols-3 gap-5">
       <SummaryCard
         icon={LuArrowUp}
-        cardTitle="Today Item In"
-        cardContent={`${itemIn} items`}
+        cardTitle="Total Restocked Today"
+        cardContent={`+ ${itemRestock} items`}
         cardBgColor="bg-green-100"
         cardTitleColor="text-green-700"
         cardContentColor="text-green-800"
       />
       <SummaryCard
         icon={LuArrowDown}
-        cardTitle="Today Item Out"
-        cardContent={`${itemOut} items`}
+        cardTitle="Total Sold Today"
+        cardContent={`- ${itemSold} items`}
         cardBgColor="bg-red-100"
         cardTitleColor="text-red-700"
         cardContentColor="text-red-800"

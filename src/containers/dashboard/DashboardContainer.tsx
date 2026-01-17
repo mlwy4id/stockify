@@ -10,11 +10,11 @@ const DashboardContainer = () => {
   if (isLoading) return <Spinner />;
 
   const { itemSummary, lowStockItem, recentTransactions } = stocksSummary;
-  const { itemIn, itemOut, itemNet } = itemSummary;
+  const { itemRestock, itemSold, itemNet } = itemSummary;
 
   return (
     <>
-      <StocksSummaryCard itemIn={itemIn} itemOut={itemOut} itemNet={itemNet} />
+      <StocksSummaryCard itemRestock={itemRestock} itemSold={itemSold} itemNet={itemNet} />
       <LowStockItemCardContainer lowStockItems={lowStockItem} />
       <RecentActivityCard recentTransactions={recentTransactions} />
     </>

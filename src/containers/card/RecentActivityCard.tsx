@@ -14,7 +14,7 @@ const RecentActivityCard = ({ recentTransactions }: Props) => {
         <LuClock size={20} stroke="blue" />
         <h1>Recent Activity</h1>
       </CardHeader>
-      <CardContent className="h-full">
+      <CardContent className="flex flex-col gap-3 h-full">
         {recentTransactions.map((transaction) => (
           <ActivityCard
             key={transaction.id}
