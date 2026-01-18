@@ -6,6 +6,7 @@ export type Item = {
   name: string;
   initStock?: string;
   currentStock?: string;
+  status: string;
 };
 
 export type CreateItem = z.infer<typeof CreateItemSchema>;

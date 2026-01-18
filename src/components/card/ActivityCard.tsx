@@ -49,7 +49,7 @@ const ActivityCard = ({ transactionType, quantity, createdAt, itemName }: Props)
             : `text-red-600 font-semibold min-w-20 text-left`
         }
       >
-        {transactionType === 'Restock' ? `+ ${quantity} items` : `- ${quantity} items`}
+        {transactionType === 'Restock' ? `+${quantity} items` : `-${quantity} items`}
       </p>
     </div>
   );
