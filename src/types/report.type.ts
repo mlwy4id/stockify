@@ -3,4 +3,5 @@ export type Reports = {
   itemName: string;
   restock: string;
   sold: string;
+  status: string;
 };
