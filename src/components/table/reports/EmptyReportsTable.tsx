@@ -6,7 +6,7 @@ const EmptyReportsTable = () => {
       <LuFileSpreadsheet size={56} />
       <div className="text-center">
         <p>No reports found</p>
-        <p>There are no stock activities for the selected period</p>
+        <p>There are no activities for the selected period</p>
       </div>
     </div>
   );

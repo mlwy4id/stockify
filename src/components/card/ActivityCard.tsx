@@ -1,3 +1,4 @@
+import { nameFormatter } from '@/lib/formatters/nameFormatter';
 import { LuArrowDown, LuArrowUp } from 'react-icons/lu';
 
 type Props = {
@@ -31,7 +32,7 @@ const ActivityCard = ({ transactionType, quantity, createdAt, itemName }: Props)
                 : `text-red-600 font-semibold`
             }
           >
-            {itemName}
+            {nameFormatter(itemName)}
           </p>
           <p className="text-xs">
             {new Date(createdAt).toLocaleDateString('id-ID', {

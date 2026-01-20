@@ -7,6 +7,7 @@ import {
   DropdownMenuTrigger,
 } from '@radix-ui/react-dropdown-menu';
 import ActionBadge from '../../ActionBadge';
+import { nameFormatter } from '@/lib/formatters/nameFormatter';
 
 type Props = {
   transactions: Transaction[];
@@ -27,7 +28,7 @@ const TransactionsTable = ({ transactions, openEditModal, openDeleteModal }: Pro
       <tbody>
         {transactions.map((transaction) => (
           <tr key={transaction.id} className="hover:bg-slate-50 cursor-pointer group">
-            <td className="py-3 px-4">{transaction.item.name}</td>
+            <td className="py-3 px-4">{nameFormatter(transaction.item.name)}</td>
             <td className="py-3 px-4 text-center">
               <ActionBadge action={transaction.action} />
             </td>

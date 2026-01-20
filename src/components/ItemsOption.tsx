@@ -1,3 +1,4 @@
+import { nameFormatter } from '@/lib/formatters/nameFormatter';
 import type { Item } from 'src/types/inventory.type';
 
 type Props = {
@@ -9,7 +10,7 @@ const ItemsOption = ({ inventoryItems }: Props) => {
     <>
       {inventoryItems.map((item: Item) => (
         <option key={item.id} value={`${item.id}`}>
-          {item.name}
+          {nameFormatter(item.name)}
         </option>
       ))}
     </>

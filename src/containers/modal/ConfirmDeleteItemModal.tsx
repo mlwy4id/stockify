@@ -25,9 +25,6 @@ const ConfirmDeleteItemModal = () => {
       }
       cancelHandler={toInventory}
     >
-      <p>
-        Delete "<b>{item?.name}</b>" ?
-      </p>
       <p>This action cannot be undone</p>
     </ConfirmationModal>
   );

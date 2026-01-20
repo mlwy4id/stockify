@@ -7,6 +7,7 @@ import {
   DropdownMenuTrigger,
 } from '@radix-ui/react-dropdown-menu';
 import ItemBadge from '../../ItemBadge';
+import { nameFormatter } from '@/lib/formatters/nameFormatter';
 
 type Props = {
   items: Item[];
@@ -27,7 +28,7 @@ const InventoryTable = ({ items, openEditModal, openDeleteModal }: Props) => {
       <tbody>
         {items.map((item) => (
           <tr key={item.id} className="hover:bg-slate-50 cursor-pointer group">
-            <td className="py-3 px-4">{item.name}</td>
+            <td className="py-3 px-4">{nameFormatter(item.name)}</td>
             <td className="py-3 px-4 text-center">
               <ItemBadge status={item.status} />
             </td>

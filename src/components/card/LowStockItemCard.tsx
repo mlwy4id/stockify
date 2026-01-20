@@ -1,3 +1,5 @@
+import { nameFormatter } from '@/lib/formatters/nameFormatter';
+
 type Props = {
   itemName: string;
   quantity: string | undefined;
@@ -6,7 +8,7 @@ type Props = {
 const LowStockItemCard = ({ itemName, quantity }: Props) => {
   return (
     <div className="flex-col items-center gap-4 p-2 border-l-yellow-400 border-l-4 hover:bg-yellow-50 cursor-pointer group">
-      <p className="text-md font-semibold text-yellow-500">{itemName}</p>
+      <p className="text-md font-semibold text-yellow-500">{nameFormatter(itemName)}</p>
       <p className="text-xs">Stock: {quantity}</p>
     </div>
   );

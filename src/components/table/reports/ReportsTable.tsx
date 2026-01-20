@@ -1,3 +1,4 @@
+import { nameFormatter } from '@/lib/formatters/nameFormatter';
 import type { Reports } from '@/types/report.type';
 
 type Props = {
@@ -17,7 +18,7 @@ const ReportsTable = ({ reportsData }: Props) => {
       <tbody>
         {reportsData.map((report) => (
           <tr key={report.id} className="hover:bg-slate-50 cursor-pointer group">
-            <td className="py-3 px-4">{report.itemName}</td>
+            <td className="py-3 px-4">{nameFormatter(report.itemName)}</td>
             <td className="py-3 px-4">{report.restock}</td>
             <td className="py-3 px-4">{report.sold}</td>
           </tr>
