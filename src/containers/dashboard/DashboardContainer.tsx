@@ -13,7 +13,7 @@ const DashboardContainer = () => {
   const { isLoading: recentTransactionsLoading, data: recentTransactions } = useGetRecentActivity();
   const { isLoading: itemSummaryLoading, data: itemSummary } = useGetItemSummary();
 
-  if (lowStockItemLoading && recentTransactionsLoading && itemSummaryLoading) return <Spinner />;
+  if (lowStockItemLoading || recentTransactionsLoading || itemSummaryLoading) return <Spinner />;
 
   const { itemRestock, itemSold } = itemSummary;
 
