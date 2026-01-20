@@ -1,4 +1,5 @@
 import ActivityCard from '@/components/card/ActivityCard';
+import EmptyRecentTransaction from '@/components/card/EmptyRecentTransaction';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import type { Transaction } from '@/types/transaction.type';
 import { LuClock } from 'react-icons/lu';
@@ -15,15 +16,19 @@ const RecentActivityCard = ({ recentTransactions }: Props) => {
         <h1>Recent Activity</h1>
       </CardHeader>
       <CardContent className="flex flex-col gap-3 h-full">
-        {recentTransactions.map((transaction) => (
-          <ActivityCard
-            key={transaction.id}
-            transactionType={transaction.action}
-            quantity={transaction.quantity}
-            createdAt={transaction.createdAt}
-            itemName={transaction.item.name}
-          />
-        ))}
+        {recentTransactions.length === 0 ? (
+          <EmptyRecentTransaction />
+        ) : (
+          recentTransactions.map((transaction) => (
+            <ActivityCard
+              key={transaction.id}
+              transactionType={transaction.action}
+              quantity={transaction.quantity}
+              createdAt={transaction.createdAt}
+              itemName={transaction.item.name}
+            />
+          ))
+        )}
       </CardContent>
     </Card>
   );

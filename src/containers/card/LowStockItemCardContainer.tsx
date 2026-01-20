@@ -1,3 +1,4 @@
+import EmptyLowStockItem from '@/components/card/EmptyLowStockItem';
 import LowStockItemCard from '@/components/card/LowStockItemCard';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
@@ -11,6 +12,7 @@ type Props = {
 
 const LowStockItemCardContainer = ({ lowStockItems }: Props) => {
   const { toInventory } = useInventoryPathNavigation();
+
   return (
     <Card className="h-full">
       <CardHeader className="font-semibold flex items-center border-b">
@@ -18,14 +20,20 @@ const LowStockItemCardContainer = ({ lowStockItems }: Props) => {
         <h1>Low Stock Items</h1>
       </CardHeader>
       <CardContent className="flex flex-col gap-3">
-        {lowStockItems.map((item) => (
-          <LowStockItemCard key={item.id} itemName={item.name} quantity={item.currentStock} />
-        ))}
+        {lowStockItems.length === 0 ? (
+          <EmptyLowStockItem />
+        ) : (
+          lowStockItems.map((item) => (
+            <LowStockItemCard key={item.id} itemName={item.name} quantity={item.currentStock} />
+          ))
+        )}
       </CardContent>
       <CardFooter>
-        <Button variant="outline" size="sm" className="cursor-pointer" onClick={toInventory}>
-          View Inventory
-        </Button>
+        {lowStockItems.length > 0 && (
+          <Button variant="outline" size="sm" className="cursor-pointer" onClick={toInventory}>
+            View Inventory
+          </Button>
+        )}
       </CardFooter>
     </Card>
   );
