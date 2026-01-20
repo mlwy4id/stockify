@@ -8,6 +8,7 @@ import {
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTransactionPathNavigation } from '../transactions/useTransactionPathNavigation';
 import type { UpdateTransactionRequest } from 'src/types/transaction.type';
+import { invalidateTransactionsQuery } from './helper/invalidateTransactionsQuery';
 
 export const useGetAllTransactions = () => {
   return useQuery({
@@ -31,11 +32,7 @@ export const useCreateTransaction = () => {
   return useMutation({
     mutationFn: createTransaction,
     onSuccess: () => {
-      Promise.all([
-        queryClient.invalidateQueries({ queryKey: ['Transactions'] }),
-        queryClient.invalidateQueries({ queryKey: ['Items'] }),
-        queryClient.invalidateQueries({ queryKey: ['Dashboard', 'Recent Activity'] }),
-      ]);
+      invalidateTransactionsQuery(queryClient);
     },
     onSettled: () => {
       toTransaction();
@@ -50,11 +47,7 @@ export const useUpdateTransaction = () => {
   return useMutation<unknown, Error, UpdateTransactionRequest>({
     mutationFn: updateTransaction,
     onSuccess: () => {
-      Promise.all([
-        queryClient.invalidateQueries({ queryKey: ['Transactions'] }),
-        queryClient.invalidateQueries({ queryKey: ['Items'] }),
-        queryClient.invalidateQueries({ queryKey: ['Dashboard', 'Recent Activity'] }),
-      ]);
+      invalidateTransactionsQuery(queryClient);
     },
     onSettled: () => {
       toTransaction();
@@ -69,11 +62,7 @@ export const useDeleteTransaction = () => {
   return useMutation({
     mutationFn: deleteTransaction,
     onSuccess: () => {
-      Promise.all([
-        queryClient.invalidateQueries({ queryKey: ['Transactions'] }),
-        queryClient.invalidateQueries({ queryKey: ['Items'] }),
-        queryClient.invalidateQueries({ queryKey: ['Dashboard', 'Recent Activity'] }),
-      ]);
+      invalidateTransactionsQuery(queryClient);
     },
     onSettled: () => {
       toTransaction();

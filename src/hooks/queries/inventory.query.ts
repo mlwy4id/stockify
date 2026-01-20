@@ -2,6 +2,7 @@ import { createItem, deleteItem, getAllItems, getItem, updateItem } from '@/lib/
 import type { UpdateItemRequest } from 'src/types/inventory.type';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useInventoryPathNavigation } from '../inventory/useInventoryPathNavigation';
+import { invalidateInventoryQuery } from './helper/invalidateInventoryQuery';
 
 export const useGetInventoryItems = () => {
   return useQuery({
@@ -25,10 +26,7 @@ export const useCreateInventoryItem = () => {
   return useMutation({
     mutationFn: createItem,
     onSuccess: () => {
-      Promise.all([
-        queryClient.invalidateQueries({ queryKey: ['Items'] }),
-        queryClient.invalidateQueries({ queryKey: ['Dashboard', 'Low Stock'] }),
-      ]);
+      invalidateInventoryQuery(queryClient);
     },
     onSettled: () => {
       toInventory();
@@ -43,10 +41,7 @@ export const useUpdateInventoryItem = () => {
   return useMutation<unknown, Error, UpdateItemRequest>({
     mutationFn: updateItem,
     onSuccess: () => {
-      Promise.all([
-        queryClient.invalidateQueries({ queryKey: ['Items'] }),
-        queryClient.invalidateQueries({ queryKey: ['Dashboard', 'Low Stock'] }),
-      ]);
+      invalidateInventoryQuery(queryClient);
     },
     onSettled: () => {
       toInventory();
@@ -61,10 +56,7 @@ export const useDeleteInventoryItem = () => {
   return useMutation({
     mutationFn: deleteItem,
     onSuccess: () => {
-      Promise.all([
-        queryClient.invalidateQueries({ queryKey: ['Items'] }),
-        queryClient.invalidateQueries({ queryKey: ['Dashboard', 'Low Stock'] }),
-      ]);
+      invalidateInventoryQuery(queryClient);
     },
     onSettled: () => {
       toInventory();
