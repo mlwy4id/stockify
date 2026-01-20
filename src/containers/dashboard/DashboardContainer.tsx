@@ -1,15 +1,19 @@
-import { useGetItemSummary, useGetRecentActivity, useGetLowStockItem } from '@/hooks/queries/dashboard.query';
+import {
+  useGetItemSummary,
+  useGetRecentActivity,
+  useGetLowStockItem,
+} from '@/hooks/queries/dashboard.query';
 import StocksSummaryCard from '../card/StocksSummaryCard';
 import { Spinner } from '@/components/ui/spinner';
 import LowStockItemCardContainer from '../card/LowStockItemCardContainer';
 import RecentActivityCard from '../card/RecentActivityCard';
 
 const DashboardContainer = () => {
-  const {data: lowStockItem} = useGetLowStockItem();
-  const {data: recentTransactions} = useGetRecentActivity();
-  const { isLoading, data: itemSummary } = useGetItemSummary();
-  
-  if (isLoading) return <Spinner />;
+  const { isLoading: lowStockItemLoading, data: lowStockItem } = useGetLowStockItem();
+  const { isLoading: recentTransactionsLoading, data: recentTransactions } = useGetRecentActivity();
+  const { isLoading: itemSummaryLoading, data: itemSummary } = useGetItemSummary();
+
+  if (lowStockItemLoading && recentTransactionsLoading && itemSummaryLoading) return <Spinner />;
 
   const { itemRestock, itemSold } = itemSummary;
 
