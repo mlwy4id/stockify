@@ -11,7 +11,7 @@ const Reports = () => {
 
   return (
     <PageLayout title={'Monthly Reports'}>
-      <ReportsFilterDropdown setMonthValue={setMonth} />
+      <ReportsFilterDropdown monthValue={month} setMonthValue={setMonth} />
       <Card className="h-screen">
         <CardHeader className="font-semibold">
           <h1>{month}</h1>

@@ -1,4 +1,4 @@
-import type { Transaction } from 'src/types/transaction.type';
+import type { Item } from 'src/types/inventory.type';
 import { LuEllipsisVertical } from 'react-icons/lu';
 import {
   DropdownMenu,
@@ -6,32 +6,32 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@radix-ui/react-dropdown-menu';
-import ActionBadge from '../ActionBadge';
+import ItemBadge from '../../ItemBadge';
 
 type Props = {
-  transactions: Transaction[];
+  items: Item[];
   openEditModal: (id: string) => void;
   openDeleteModal: (id: string) => void;
 };
 
-const TransactionsTable = ({ transactions, openEditModal, openDeleteModal }: Props) => {
+const InventoryTable = ({ items, openEditModal, openDeleteModal }: Props) => {
   return (
     <table className="w-full">
       <thead>
         <tr className="border-b">
           <th className="text-left py-3 px-4 font-semibold">Item Name</th>
-          <th className="text-center py-3 px-4 font-semibold">Action</th>
-          <th className="text-left py-3 px-4 font-semibold">Quantity</th>
+          <th className="text-center py-3 px-4 font-semibold">Status</th>
+          <th className="text-left py-3 px-4 font-semibold">Stock</th>
         </tr>
       </thead>
       <tbody>
-        {transactions.map((transaction) => (
-          <tr key={transaction.id} className="hover:bg-slate-50 cursor-pointer group">
-            <td className="py-3 px-4">{transaction.item.name}</td>
+        {items.map((item) => (
+          <tr key={item.id} className="hover:bg-slate-50 cursor-pointer group">
+            <td className="py-3 px-4">{item.name}</td>
             <td className="py-3 px-4 text-center">
-              <ActionBadge action={transaction.action} />
+              <ItemBadge status={item.status} />
             </td>
-            <td className="py-3 px-4">{transaction.quantity}</td>
+            <td className="py-3 px-4">{item.currentStock}</td>
 
             <td>
               <DropdownMenu>
@@ -43,10 +43,8 @@ const TransactionsTable = ({ transactions, openEditModal, openDeleteModal }: Pro
                   align="end"
                   side="left"
                 >
-                  <DropdownMenuItem onClick={() => openEditModal(transaction.id)}>
-                    Edit
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => openDeleteModal(transaction.id)}>
+                  <DropdownMenuItem onClick={() => openEditModal(item.id)}>Edit</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => openDeleteModal(item.id)}>
                     Delete
                   </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -59,4 +57,4 @@ const TransactionsTable = ({ transactions, openEditModal, openDeleteModal }: Pro
   );
 };
 
-export default TransactionsTable;
+export default InventoryTable;

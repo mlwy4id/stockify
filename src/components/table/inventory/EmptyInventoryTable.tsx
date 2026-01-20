@@ -1,6 +1,6 @@
 import { LuBox } from 'react-icons/lu';
 
-const EmptyTable = () => {
+const EmptyInventoryTable = () => {
   return (
     <div className="h-full flex flex-col items-center justify-center gap-4">
       <LuBox size={56} />
@@ -12,4 +12,4 @@ const EmptyTable = () => {
   );
 };
 
-export default EmptyTable;
+export default EmptyInventoryTable;
