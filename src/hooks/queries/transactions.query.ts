@@ -30,11 +30,14 @@ export const useCreateTransaction = () => {
 
   return useMutation({
     mutationFn: createTransaction,
-    onSettled: () => {
+    onSuccess: () => {
       Promise.all([
         queryClient.invalidateQueries({ queryKey: ['Transactions'] }),
         queryClient.invalidateQueries({ queryKey: ['Items'] }),
+        queryClient.invalidateQueries({ queryKey: ['Dashboard', 'Recent Activity'] }),
       ]);
+    },
+    onSettled: () => {
       toTransaction();
     },
   });
@@ -46,11 +49,14 @@ export const useUpdateTransaction = () => {
 
   return useMutation<unknown, Error, UpdateTransactionRequest>({
     mutationFn: updateTransaction,
-    onSettled: () => {
+    onSuccess: () => {
       Promise.all([
         queryClient.invalidateQueries({ queryKey: ['Transactions'] }),
         queryClient.invalidateQueries({ queryKey: ['Items'] }),
+        queryClient.invalidateQueries({ queryKey: ['Dashboard', 'Recent Activity'] }),
       ]);
+    },
+    onSettled: () => {
       toTransaction();
     },
   });
@@ -62,11 +68,14 @@ export const useDeleteTransaction = () => {
 
   return useMutation({
     mutationFn: deleteTransaction,
-    onSettled: () => {
+    onSuccess: () => {
       Promise.all([
         queryClient.invalidateQueries({ queryKey: ['Transactions'] }),
         queryClient.invalidateQueries({ queryKey: ['Items'] }),
+        queryClient.invalidateQueries({ queryKey: ['Dashboard', 'Recent Activity'] }),
       ]);
+    },
+    onSettled: () => {
       toTransaction();
     },
   });

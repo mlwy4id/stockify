@@ -24,8 +24,13 @@ export const useCreateInventoryItem = () => {
 
   return useMutation({
     mutationFn: createItem,
+    onSuccess: () => {
+      Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['Items'] }),
+        queryClient.invalidateQueries({ queryKey: ['Dashboard', 'Low Stock'] }),
+      ]);
+    },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['Items'] });
       toInventory();
     },
   });
@@ -37,8 +42,13 @@ export const useUpdateInventoryItem = () => {
 
   return useMutation<unknown, Error, UpdateItemRequest>({
     mutationFn: updateItem,
+    onSuccess: () => {
+      Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['Items'] }),
+        queryClient.invalidateQueries({ queryKey: ['Dashboard', 'Low Stock'] }),
+      ]);
+    },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['Items'] });
       toInventory();
     },
   });
@@ -50,8 +60,13 @@ export const useDeleteInventoryItem = () => {
 
   return useMutation({
     mutationFn: deleteItem,
+    onSuccess: () => {
+      Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['Items'] }),
+        queryClient.invalidateQueries({ queryKey: ['Dashboard', 'Low Stock'] }),
+      ]);
+    },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['Items'] });
       toInventory();
     },
   });
