@@ -3,18 +3,27 @@ import PageLayout from '../layout/PageLayout';
 import ReportsTableContainer from '@/containers/table/ReportsTableContainer';
 import ReportsFilterDropdown from '@/components/ReportsFilterDropdown';
 import { useState } from 'react';
-import { useGetCurrentMonth } from '@/hooks/reports/useGetCurrentMonth';
+import { useGetCurrentMonthAndYear } from '@/hooks/reports/useGetCurrentMonthAndYear';
 
 const Reports = () => {
-  const currentMonth = useGetCurrentMonth();
-  const [month, setMonth] = useState<string | undefined>(currentMonth);
+  const { currentMonthName, currentYear } = useGetCurrentMonthAndYear();
+
+  const [month, setMonth] = useState<string | undefined>(currentMonthName);
+  const [year, setYear] = useState<number | undefined>(currentYear);
 
   return (
     <PageLayout title={'Monthly Reports'}>
-      <ReportsFilterDropdown monthValue={month} setMonthValue={setMonth} />
+      <ReportsFilterDropdown
+        yearValue={year}
+        monthValue={month}
+        setYearValue={setYear}
+        setMonthValue={setMonth}
+      />
       <Card className="h-screen">
-        <CardHeader className="font-semibold">
-          <h1>{month}</h1>
+        <CardHeader className="font-semibold text-md">
+          <h1>
+            Report Summary — {month} {year}
+          </h1>
         </CardHeader>
         <CardContent className="h-full">
           <ReportsTableContainer monthValue={month} />
