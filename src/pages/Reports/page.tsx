@@ -26,7 +26,7 @@ const Reports = () => {
           </h1>
         </CardHeader>
         <CardContent className="h-full">
-          <ReportsTableContainer monthValue={month} />
+          <ReportsTableContainer monthValue={month} yearValue={String(year)} />
         </CardContent>
       </Card>
     </PageLayout>

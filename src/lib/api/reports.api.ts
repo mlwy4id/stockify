@@ -1,8 +1,8 @@
 import api from '../axios/axios';
 
-export const getReportsData = async (month?: string) => {
+export const getReportsData = async (month?: string, year?: string) => {
   const res = await api.get('/reports', {
-    params: month ? { month } : undefined,
+    params: { month, year },
   });
   return res.data.data;
 };

@@ -4,11 +4,12 @@ import { Spinner } from '@/components/ui/spinner';
 import { useGetReportsData } from '@/hooks/queries/reports.query';
 
 type Props = {
+  yearValue: string | undefined;
   monthValue: string | undefined;
 };
 
-const ReportsTableContainer = ({ monthValue }: Props) => {
-  const { isLoading, data: reports } = useGetReportsData(monthValue);
+const ReportsTableContainer = ({ monthValue, yearValue }: Props) => {
+  const { isLoading, data: reports } = useGetReportsData(monthValue, yearValue);
 
   if (isLoading) return <Spinner />;
   if (reports.length === 0) return <EmptyReportsTable />;
