@@ -22,7 +22,7 @@ const TransactionsTable = ({ transactions, openEditModal, openDeleteModal }: Pro
         <tr className="border-b">
           <th className="text-left py-3 px-4 font-semibold">Item Name</th>
           <th className="text-left py-3 px-4 font-semibold">Quantity</th>
-          <th className="text-center py-3 px-4 font-semibold">Action</th>
+          <th className="text-left py-3 px-4 font-semibold">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -30,7 +30,7 @@ const TransactionsTable = ({ transactions, openEditModal, openDeleteModal }: Pro
           <tr key={transaction.id} className="hover:bg-slate-50 cursor-pointer group">
             <td className="py-3 px-4">{nameFormatter(transaction.item.name)}</td>
             <td className="py-3 px-4">{transaction.quantity}</td>
-            <td className="py-3 px-4 text-center">
+            <td className="py-3 px-4 text-left">
               <ActionBadge action={transaction.action} />
             </td>
 

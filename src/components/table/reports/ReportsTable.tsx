@@ -14,7 +14,7 @@ const ReportsTable = ({ reportsData }: Props) => {
           <th className="text-left py-3 px-4 font-semibold">Item Name</th>
           <th className="text-left py-3 px-4 font-semibold">Restock</th>
           <th className="text-left py-3 px-4 font-semibold">Sold</th>
-          <th className="text-center py-3 px-4 font-semibold">Status</th>
+          <th className="text-left py-3 px-4 font-semibold">Status</th>
         </tr>
       </thead>
       <tbody>
@@ -23,7 +23,7 @@ const ReportsTable = ({ reportsData }: Props) => {
             <td className="py-3 px-4">{nameFormatter(report.itemName)}</td>
             <td className="py-3 px-4">{report.restock}</td>
             <td className="py-3 px-4">{report.sold}</td>
-            <td className="py-3 px-4 text-center">
+            <td className="py-3 px-4">
               <ItemBadge status={report.status} />
             </td>
           </tr>
