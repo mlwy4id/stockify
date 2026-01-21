@@ -1,4 +1,4 @@
-import SummaryCard from '@/components/card/SummaryCard';
+import SummaryCard from '@/components/card/summary/SummaryCard';
 import { LuArrowUp, LuArrowDown } from 'react-icons/lu';
 
 type Props = {

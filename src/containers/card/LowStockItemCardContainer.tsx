@@ -1,5 +1,5 @@
-import EmptyLowStockItem from '@/components/card/EmptyLowStockItem';
-import LowStockItemCard from '@/components/card/LowStockItemCard';
+import EmptyLowStockItem from '@/components/card/low stock/EmptyLowStockItem';
+import LowStockItemCard from '@/components/card/low stock/LowStockItemCard';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { useInventoryPathNavigation } from '@/hooks/inventory/useInventoryPathNavigation';

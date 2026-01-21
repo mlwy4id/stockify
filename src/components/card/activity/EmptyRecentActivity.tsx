@@ -1,6 +1,6 @@
 import { LuClock } from 'react-icons/lu';
 
-const EmptyRecentTransaction = () => {
+const EmptyRecentActivity = () => {
   return (
     <div className="h-full flex flex-col items-center justify-center gap-4">
       <LuClock size={40} />
@@ -12,4 +12,4 @@ const EmptyRecentTransaction = () => {
   );
 };
 
-export default EmptyRecentTransaction;
+export default EmptyRecentActivity;

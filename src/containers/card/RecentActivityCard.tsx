@@ -1,5 +1,5 @@
-import ActivityCard from '@/components/card/ActivityCard';
-import EmptyRecentTransaction from '@/components/card/EmptyRecentTransaction';
+import ActivityCard from '@/components/card/activity/ActivityCard';
+import EmptyRecentActivity from '@/components/card/activity/EmptyRecentActivity';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import type { Transaction } from '@/types/transaction.type';
 import { LuClock } from 'react-icons/lu';
@@ -17,7 +17,7 @@ const RecentActivityCard = ({ recentTransactions }: Props) => {
       </CardHeader>
       <CardContent className="flex flex-col gap-3 h-full">
         {recentTransactions.length === 0 ? (
-          <EmptyRecentTransaction />
+          <EmptyRecentActivity />
         ) : (
           recentTransactions.map((transaction) => (
             <ActivityCard

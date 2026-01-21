@@ -1,5 +1,5 @@
 import type { IconType } from 'react-icons/lib';
-import { Card, CardContent, CardHeader } from '../ui/card';
+import { Card, CardContent, CardHeader } from '../../ui/card';
 
 type Props = {
   icon: IconType;
@@ -20,7 +20,7 @@ const SummaryCard = ({
 }: Props) => {
   return (
     <Card className={`${cardBgColor}`}>
-      <CardHeader className={`heading font-medium ${cardTitleColor}`}>
+      <CardHeader className={`heading font-medium ${cardTitleColor}`} >
         <div className="flex items-center gap-2">
           <Icon size={22} />
           {cardTitle}

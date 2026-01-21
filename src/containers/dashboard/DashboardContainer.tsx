@@ -4,16 +4,17 @@ import {
   useGetLowStockItem,
 } from '@/hooks/queries/dashboard.query';
 import StocksSummaryCard from '../card/StocksSummaryCard';
-import { Spinner } from '@/components/ui/spinner';
 import LowStockItemCardContainer from '../card/LowStockItemCardContainer';
 import RecentActivityCard from '../card/RecentActivityCard';
+import DashboardSkeleton from '@/components/card/DashboardSkeleton';
 
 const DashboardContainer = () => {
   const { isLoading: lowStockItemLoading, data: lowStockItem } = useGetLowStockItem();
   const { isLoading: recentTransactionsLoading, data: recentTransactions } = useGetRecentActivity();
   const { isLoading: itemSummaryLoading, data: itemSummary } = useGetItemSummary();
 
-  if (lowStockItemLoading || recentTransactionsLoading || itemSummaryLoading) return <Spinner />;
+  if (lowStockItemLoading || recentTransactionsLoading || itemSummaryLoading)
+    return <DashboardSkeleton />;
 
   const { itemRestock, itemSold } = itemSummary;
 
