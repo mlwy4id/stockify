@@ -11,6 +11,8 @@ import CreateTransactionPage from './pages/Transactions/Create';
 import EditTransactionPage from './pages/Transactions/Edit';
 import DeleteTransactionPage from './pages/Transactions/Delete';
 import DashboardPage from './pages/dashboard/page';
+import LoginPage from './pages/login/page';
+import SignUpPage from './pages/sign-up/page';
 
 function App() {
   return (
@@ -23,6 +25,9 @@ function App() {
 
           <div className="px-6">
             <Routes>
+              <Route path="/sign-up" element={<SignUpPage />} />
+              <Route path="/login" element={<LoginPage />} />
+
               <Route path="/" element={<Navigate to={'/dashboard'} />} />
 
               <Route path="/dashboard" element={<DashboardPage />} />

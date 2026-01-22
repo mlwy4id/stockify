@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import type { UserSignIn } from '@/types/user.type';
 import { UserSignInSchema } from '@stockify/schema';
 
-export const useSignUpForm = () => {
+export const useSignInForm = () => {
   const {
     register,
     handleSubmit,
