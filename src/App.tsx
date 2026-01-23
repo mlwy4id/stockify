@@ -11,8 +11,8 @@ import CreateTransactionPage from './pages/Transactions/Create';
 import EditTransactionPage from './pages/Transactions/Edit';
 import DeleteTransactionPage from './pages/Transactions/Delete';
 import DashboardPage from './pages/dashboard/page';
-import LoginPage from './pages/login/page';
 import SignUpPage from './pages/sign-up/page';
+import SignInPage from './pages/sign-in/page';
 
 function App() {
   return (
@@ -26,7 +26,7 @@ function App() {
           <div className="px-6">
             <Routes>
               <Route path="/sign-up" element={<SignUpPage />} />
-              <Route path="/login" element={<LoginPage />} />
+              <Route path="/sign-in" element={<SignInPage />} />
 
               <Route path="/" element={<Navigate to={'/dashboard'} />} />
 
