@@ -13,6 +13,7 @@ import DeleteTransactionPage from './pages/Transactions/Delete';
 import DashboardPage from './pages/dashboard/page';
 import SignUpPage from './pages/sign-up/page';
 import SignInPage from './pages/sign-in/page';
+import { PrivateRoute } from './components/PrivateRoute';
 
 function App() {
   return (
@@ -28,23 +29,24 @@ function App() {
               <Route path="/sign-up" element={<SignUpPage />} />
               <Route path="/sign-in" element={<SignInPage />} />
 
-              <Route path="/" element={<Navigate to={'/dashboard'} />} />
+              <Route element={<PrivateRoute />}>
+                <Route path="/" element={<Navigate to={'/dashboard'} />} />
+                <Route path="/dashboard" element={<DashboardPage />} />
 
-              <Route path="/dashboard" element={<DashboardPage />} />
+                <Route path="/transactions" element={<TransactionLayout />}>
+                  <Route path="new" element={<CreateTransactionPage />} />
+                  <Route path=":id/edit" element={<EditTransactionPage />} />
+                  <Route path=":id/delete" element={<DeleteTransactionPage />} />
+                </Route>
 
-              <Route path="/transactions" element={<TransactionLayout />}>
-                <Route path="new" element={<CreateTransactionPage />} />
-                <Route path=":id/edit" element={<EditTransactionPage />} />
-                <Route path=":id/delete" element={<DeleteTransactionPage />} />
+                <Route path="/inventory" element={<InventoryLayout />}>
+                  <Route path="new" element={<CreateItemPage />} />
+                  <Route path=":id/edit" element={<EditItemPage />} />
+                  <Route path=":id/delete" element={<DeleteItemPage />} />
+                </Route>
+
+                <Route path="/reports" element={<Reports />} />
               </Route>
-
-              <Route path="/inventory" element={<InventoryLayout />}>
-                <Route path="new" element={<CreateItemPage />} />
-                <Route path=":id/edit" element={<EditItemPage />} />
-                <Route path=":id/delete" element={<DeleteItemPage />} />
-              </Route>
-
-              <Route path="/reports" element={<Reports />} />
             </Routes>
           </div>
         </main>

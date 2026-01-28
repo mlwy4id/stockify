@@ -2,7 +2,7 @@ import type { UserSignIn, UserSignUp } from '@/types/user.type';
 import api from '../axios/axios';
 
 export const getUser = async () => {
-  const res = await api.get('/api/me');
+  const res = await api.get('/api/auth/me');
   return res.data;
 };
 

@@ -1,4 +1,4 @@
-import { Skeleton } from "@/components/ui/skeleton"
+import { Skeleton } from '@/components/ui/skeleton';
 
 const LowStockItemCardSkeleton = () => {
   return (
@@ -6,7 +6,7 @@ const LowStockItemCardSkeleton = () => {
       <Skeleton className="h-4 w-40" />
       <Skeleton className="h-3 w-24" />
     </div>
-  )
-}
+  );
+};
 
-export default LowStockItemCardSkeleton
+export default LowStockItemCardSkeleton;

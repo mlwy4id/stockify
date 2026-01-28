@@ -28,7 +28,7 @@ const DashboardSkeleton = () => {
           <Skeleton className="h-8 w-32 rounded-md" />
         </CardFooter>
       </Card>
-      
+
       <Card className="h-full">
         <CardHeader className="flex flex-row items-center gap-2 border-b">
           <Skeleton className="h-5 w-5 rounded-full" />
@@ -41,7 +41,6 @@ const DashboardSkeleton = () => {
           ))}
         </CardContent>
       </Card>
-
     </>
   );
 };

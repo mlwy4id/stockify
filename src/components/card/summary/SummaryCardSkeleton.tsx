@@ -6,12 +6,12 @@ const SummaryCardSkeleton = () => {
     <Card>
       <CardHeader>
         <div className="flex items-center gap-2">
-          <Skeleton className='h-6 w-8'/>
-          <Skeleton className='h-6 w-2/5'/>
+          <Skeleton className="h-6 w-8" />
+          <Skeleton className="h-6 w-2/5" />
         </div>
       </CardHeader>
       <CardContent>
-        <Skeleton className='h-10 w-1/4'/>
+        <Skeleton className="h-10 w-1/4" />
       </CardContent>
     </Card>
   );

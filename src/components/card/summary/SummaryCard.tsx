@@ -20,7 +20,7 @@ const SummaryCard = ({
 }: Props) => {
   return (
     <Card className={`${cardBgColor}`}>
-      <CardHeader className={`heading font-medium ${cardTitleColor}`} >
+      <CardHeader className={`heading font-medium ${cardTitleColor}`}>
         <div className="flex items-center gap-2">
           <Icon size={22} />
           {cardTitle}
