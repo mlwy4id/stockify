@@ -2,7 +2,7 @@ import { LuCircleUser, LuMenu } from 'react-icons/lu';
 
 const Navbar = ({ setIsOpen }: { setIsOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
   return (
-    <header className="p-4 sticky top-0 bg-white/50 backdrop-blur-md">
+    <header className="p-4 md:hidden sticky top-0 bg-white/50 backdrop-blur-md">
       <nav>
         <ul className="flex justify-between items-center">
           <div className="flex gap-4 items-center">
