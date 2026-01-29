@@ -1,17 +1,17 @@
-import { LuCircleUser, LuBell, LuSearch } from 'react-icons/lu';
-import { Input } from './ui/input';
+import { LuCircleUser, LuMenu } from 'react-icons/lu';
 
 const Navbar = () => {
   return (
     <header className="p-4 sticky top-0 bg-white/50 backdrop-blur-md">
       <nav>
         <ul className="flex justify-between items-center">
-          <div className="w-[20%] relative">
-            <Input className="w-full h-full py-1" placeholder="Search..." />
-            <LuSearch className="absolute top-[23%] right-[5%]" />
-          </div>
           <div className="flex gap-4 items-center">
-            <LuBell size={24} />
+            <LuMenu size={24} className='md:hidden' />
+            <h1 className="font-bold text-xl heading md:hidden">
+              Stockify
+            </h1>
+          </div>
+          <div className="flex items-center">
             <LuCircleUser size={24} />
           </div>
         </ul>
