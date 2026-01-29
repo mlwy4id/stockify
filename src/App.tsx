@@ -15,6 +15,7 @@ import SignUpPage from './pages/sign-up/page';
 import SignInPage from './pages/sign-in/page';
 import { PrivateRoute } from './components/PrivateRoute';
 import { useState } from 'react';
+import MobileSidebar from './components/sidebar/MobileSidebar';
 
 function App() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -22,7 +23,8 @@ function App() {
   return (
     <div>
       <div className="h-screen flex">
-        <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
+        <Sidebar />
+        <MobileSidebar isOpen={isOpen} setIsOpen={setIsOpen} />
 
         <main className="overflow-y-auto w-screen min-h-screen">
           <Navbar setIsOpen={setIsOpen} />
