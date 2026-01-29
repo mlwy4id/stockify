@@ -19,7 +19,7 @@ const InventoryPage = () => {
       }
     >
       <Card className="h-screen">
-        <CardContent className="h-full">
+        <CardContent className="h-full overflow-x-scroll">
           <InventoryTableContainer />
         </CardContent>
       </Card>

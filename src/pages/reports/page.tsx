@@ -26,7 +26,7 @@ const Reports = () => {
             Report Summary — {month} {year}
           </h1>
         </CardHeader>
-        <CardContent className="h-full">
+        <CardContent className="h-full overflow-x-scroll">
           <ReportsTableContainer monthValue={month} yearValue={String(year)} />
         </CardContent>
       </Card>

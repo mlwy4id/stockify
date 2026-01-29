@@ -19,7 +19,7 @@ const TransactionsPage = () => {
       }
     >
       <Card className="h-screen">
-        <CardContent className="h-full">
+        <CardContent className="h-full overflow-x-scroll">
           <TransactionsTableContainer />
         </CardContent>
       </Card>
