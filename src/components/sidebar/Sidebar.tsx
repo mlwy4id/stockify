@@ -1,18 +1,28 @@
 import SidebarOptions from './SidebarOptions';
-import { LuArchive, LuHouse, LuNotebookText } from 'react-icons/lu';
+import { LuArchive, LuHouse, LuNotebookText, LuX } from 'react-icons/lu';
 import { LuChartColumn } from 'react-icons/lu';
 
-const Sidebar = () => {
+const Sidebar = ({
+  isOpen,
+  setIsOpen,
+}: {
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   return (
     <aside
-      className="
-        bg-blue-50 pt-5 flex flex-col gap-2
-        h-screen sticky w-[20%] top-0
-        shadow-md border border-gray-200
-    "
+      className={`
+        bg-blue-50 pt-5 md:flex flex-col gap-2
+        h-screen md:sticky w-[50%] sm:w-[30%] md:w-[20%] top-0
+        shadow-md border border-gray-200 
+        ${isOpen ? `fixed z-20` : `hidden`}   
+      `}
     >
       <nav>
-        <h1 className="font-bold text-2xl mx-2 pb-4 border-b border-b-gray-200 heading">
+        <div className="w-full md:hidden flex justify-end px-4 pb-2">
+          <LuX size={20} onClick={() => setIsOpen(false)} />
+        </div>
+        <h1 className="font-bold text-2xl mx-2 pb-4 border-b border-b-gray-200 heading hidden md:block">
           Stockify
         </h1>
         <ul className="mt-2 heading">

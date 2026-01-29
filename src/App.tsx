@@ -14,15 +14,18 @@ import DashboardPage from './pages/dashboard/page';
 import SignUpPage from './pages/sign-up/page';
 import SignInPage from './pages/sign-in/page';
 import { PrivateRoute } from './components/PrivateRoute';
+import { useState } from 'react';
 
 function App() {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
   return (
     <div>
       <div className="h-screen flex">
-        <Sidebar />
+        <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
 
         <main className="overflow-y-auto w-screen min-h-screen">
-          <Navbar />
+          <Navbar setIsOpen={setIsOpen} />
 
           <div className="px-6">
             <Routes>
