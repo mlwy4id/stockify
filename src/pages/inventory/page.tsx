@@ -1,10 +1,10 @@
 import { Button } from '@/components/ui/button';
 import PageLayout from '../layout/PageLayout';
-import InventoryTableContainer from '@/containers/table/InventoryTableContainer';
 import { LuPlus } from 'react-icons/lu';
 import { useInventoryPathNavigation } from '@/hooks/inventory/useInventoryPathNavigation';
+import InventoryCardsContainer from '@/containers/card/inventory/InventoryCardsContainer';
 import { Card, CardContent } from '@/components/ui/card';
-import InventoryCard from '@/components/card/inventory/ItemCard';
+import InventoryPrimaryFilters from '@/components/filters/inventory/InventoryPrimaryFilters';
 
 const InventoryPage = () => {
   const { toCreateItem } = useInventoryPathNavigation();
@@ -19,10 +19,10 @@ const InventoryPage = () => {
         </Button>
       }
     >
-      <Card className="h-screen">
-        <CardContent className="h-full overflow-x-scroll">
-          <InventoryCard />
-          <InventoryTableContainer />
+      <Card className="h-screen bg-muted border-0 shadow-none">
+        <CardContent className="h-full px-0">
+          <InventoryPrimaryFilters />
+          <InventoryCardsContainer />
         </CardContent>
       </Card>
     </PageLayout>

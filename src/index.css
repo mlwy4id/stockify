@@ -120,7 +120,7 @@
   }
   body {
     @apply text-foreground;
-    background-color: rgb(249 250 251 / var(--tw-bg-opacity, 1));
+    background-color: var(--muted);
     font-family: 'Inter', system-ui, sans-serif;
   }
   .heading {
