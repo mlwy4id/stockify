@@ -1,3 +1,4 @@
+import { nameFormatter } from '@/lib/formatters/nameFormatter';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,7 +26,7 @@ const ItemCard = ({ id, name, currentStock, status, openEditModal, openDeleteMod
   return (
     <div className="flex items-center justify-between gap-4 rounded-xl border border-gray-200 bg-white p-4 shadow-sm hover:shadow-md transition">
       <div className="flex flex-col gap-1">
-        <span className="text-base font-semibold text-gray-900">{name}</span>
+        <span className="text-base font-semibold text-gray-900">{nameFormatter(name)}</span>
 
         <div className="flex items-center gap-2 text-sm text-gray-500">
           <span>Stock: {currentStock} items</span>

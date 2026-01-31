@@ -23,6 +23,7 @@ const InventoryFilters = ({ statusValue, setStatusValue }: Props) => {
         states={status}
         setState={setStatusValue}
         applyFilter={applyStatusFilter}
+        type='status'
       />
     </div>
   );

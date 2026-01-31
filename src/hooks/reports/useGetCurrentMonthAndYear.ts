@@ -5,8 +5,12 @@ export const useGetCurrentMonthAndYear = () => {
     return month.id === new Date().getMonth();
   });
 
-  const currentMonthName = currentMonth?.name;
-  const currentYear = new Date().getFullYear();
+  if (currentMonth === undefined) {
+    throw new Error;
+  }
+
+  const currentMonthName = currentMonth.name;
+  const currentYear = String(new Date().getFullYear());
 
   return {
     currentMonthName,

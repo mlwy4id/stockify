@@ -17,9 +17,10 @@ type Props = {
   states: filtersState[];
   setState: React.Dispatch<React.SetStateAction<string>>;
   applyFilter: (params: FiltersParams) => void;
+  type: keyof FiltersParams;
 };
 
-const FiltersDropdown = ({ state, states, setState, applyFilter }: Props) => {
+const FiltersDropdown = ({ state, states, setState, applyFilter, type }: Props) => {
   return (
     <div className="flex flex-wrap gap-2 justify-end">
       <DropdownMenu>
@@ -32,7 +33,7 @@ const FiltersDropdown = ({ state, states, setState, applyFilter }: Props) => {
             <DropdownMenuItem
               onClick={() => {
                 setState(s.name);
-                applyFilter({ status: s.name });
+                applyFilter({ [type]: s.name });
               }}
               key={s.id}
             >
