@@ -1,8 +1,9 @@
 import type { CreateItem, UpdateItemRequest } from 'src/types/inventory.type';
 import api from '../axios/axios';
 
-export const getAllItems = async () => {
-  const res = await api.get('/inventory');
+export const getAllItems = async (status?: string) => {
+  const paramsValue = status === 'All' ? { undefined } : { status };
+  const res = await api.get('/inventory', { params: paramsValue });
   return res.data.data;
 };
 

@@ -4,10 +4,10 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useInventoryPathNavigation } from '../inventory/useInventoryPathNavigation';
 import { invalidateInventoryQuery } from './helper/invalidateInventoryQuery';
 
-export const useGetInventoryItems = () => {
+export const useGetInventoryItems = (status?: string) => {
   return useQuery({
-    queryKey: ['Items'],
-    queryFn: getAllItems,
+    queryKey: ['Items', status],
+    queryFn: () => getAllItems(status),
     staleTime: 1000 * 30,
   });
 };

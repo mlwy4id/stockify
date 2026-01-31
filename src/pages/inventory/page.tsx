@@ -4,9 +4,11 @@ import { LuPlus } from 'react-icons/lu';
 import { useInventoryPathNavigation } from '@/hooks/inventory/useInventoryPathNavigation';
 import InventoryCardsContainer from '@/containers/card/inventory/InventoryCardsContainer';
 import { Card, CardContent } from '@/components/ui/card';
-import InventoryStatusFilters from '@/components/filters/inventory/InventoryStatusFilters';
+import InventoryFilters from '@/containers/filters/InventoryFilters';
+import { useState } from 'react';
 
 const InventoryPage = () => {
+  const [statusValue, setStatusValue] = useState<string>('All');
   const { toCreateItem } = useInventoryPathNavigation();
 
   return (
@@ -21,8 +23,8 @@ const InventoryPage = () => {
     >
       <Card className="h-screen bg-muted border-0 shadow-none">
         <CardContent className="h-full px-0 flex flex-col gap-2">
-          <InventoryStatusFilters />
-          <InventoryCardsContainer />
+          <InventoryFilters statusValue={statusValue} setStatusValue={setStatusValue} />
+          <InventoryCardsContainer statusValue={statusValue} />
         </CardContent>
       </Card>
     </PageLayout>

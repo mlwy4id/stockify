@@ -4,8 +4,12 @@ import { useInventoryPathNavigation } from '@/hooks/inventory/useInventoryPathNa
 import { useGetInventoryItems } from '@/hooks/queries/inventory.query';
 import EmptyInventoryCards from '@/containers/card/inventory/EmptyInventoryCards';
 
-const InventoryCardsContainer = () => {
-  const { isLoading, data: inventoryItems } = useGetInventoryItems();
+type Props = {
+  statusValue: string;
+};
+
+const InventoryCardsContainer = ({ statusValue }: Props) => {
+  const { isLoading, data: inventoryItems } = useGetInventoryItems(statusValue);
   const { toEditItem, toDeleteItem } = useInventoryPathNavigation();
 
   if (isLoading) return <TableSkeleton />;
