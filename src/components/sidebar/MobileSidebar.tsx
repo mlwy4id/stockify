@@ -20,21 +20,21 @@ const MobileSidebar = ({
             h-screen md:sticky w-[50%] sm:w-[30%] md:w-[20%] top-0
             shadow-md border border-gray-200   
         `}
-        initial= {{x: -300, opacity: 0}}
-        animate={{
+          initial={{ x: -300, opacity: 0 }}
+          animate={{
             x: 0,
             opacity: 100,
             transition: {
-                ease: "easeInOut"
-            }
-        }}
-        exit={{
+              ease: 'easeInOut',
+            },
+          }}
+          exit={{
             x: -300,
             opacity: 0,
             transition: {
-                ease: 'easeOut'
-            }
-        }}
+              ease: 'easeOut',
+            },
+          }}
         >
           <nav>
             <div className="w-full md:hidden flex justify-end px-4 pb-2">

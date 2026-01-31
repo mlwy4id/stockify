@@ -5,7 +5,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
-import { useReportsFilterQueryNavigation } from '@/hooks/reports/useReportsFilterQueryNavigation';
+import { useReportsFilterQuery } from '@/hooks/reports/useReportsFilterQuery';
 import { Months } from '@/constant/months';
 import { Years } from '@/constant/years';
 
@@ -17,7 +17,7 @@ type Props = {
 };
 
 const ReportsFilterDropdown = ({ yearValue, monthValue, setYearValue, setMonthValue }: Props) => {
-  const applyFilter = useReportsFilterQueryNavigation();
+  const applyFilter = useReportsFilterQuery();
 
   return (
     <div className="flex gap-3">

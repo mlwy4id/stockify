@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 
-export const useReportsFilterQueryNavigation = () => {
+export const useReportsFilterQuery = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
