@@ -16,7 +16,7 @@ const CreateItemForm = () => {
       errors={errors}
       cancelHandler={toInventory}
       submitBtn={
-        <Button className="bg-blue-600 hover:bg-blue-500" disabled={isPending}>
+        <Button className="bg-blue-600 hover:bg-blue-500 " disabled={isPending}>
           Add Item
         </Button>
       }

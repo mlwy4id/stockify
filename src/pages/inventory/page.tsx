@@ -4,6 +4,7 @@ import InventoryTableContainer from '@/containers/table/InventoryTableContainer'
 import { LuPlus } from 'react-icons/lu';
 import { useInventoryPathNavigation } from '@/hooks/inventory/useInventoryPathNavigation';
 import { Card, CardContent } from '@/components/ui/card';
+import InventoryCard from '@/components/card/inventory/ItemCard';
 
 const InventoryPage = () => {
   const { toCreateItem } = useInventoryPathNavigation();
@@ -20,6 +21,7 @@ const InventoryPage = () => {
     >
       <Card className="h-screen">
         <CardContent className="h-full overflow-x-scroll">
+          <InventoryCard />
           <InventoryTableContainer />
         </CardContent>
       </Card>

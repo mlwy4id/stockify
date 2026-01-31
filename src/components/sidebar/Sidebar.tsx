@@ -7,7 +7,7 @@ const Sidebar = () => {
     <aside
       className={`
         bg-blue-50 pt-5 hidden md:flex flex-col gap-2
-        h-screen sticky w-[30%] top-0
+        h-screen sticky w-[20%] top-0
         shadow-md border border-gray-200   
       `}
     >
