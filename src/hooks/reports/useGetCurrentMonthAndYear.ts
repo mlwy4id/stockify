@@ -6,7 +6,7 @@ export const useGetCurrentMonthAndYear = () => {
   });
 
   if (currentMonth === undefined) {
-    throw new Error;
+    throw new Error();
   }
 
   const currentMonthName = currentMonth.name;

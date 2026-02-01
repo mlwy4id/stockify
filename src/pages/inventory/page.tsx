@@ -9,6 +9,7 @@ import { useState } from 'react';
 
 const InventoryPage = () => {
   const [statusValue, setStatusValue] = useState<string>('All');
+  const [searchValue, setSearchValue] = useState<string>('');
   const { toCreateItem } = useInventoryPathNavigation();
 
   return (
@@ -23,8 +24,12 @@ const InventoryPage = () => {
     >
       <Card className="h-screen bg-muted border-0 shadow-none">
         <CardContent className="h-full px-0 flex flex-col gap-2">
-          <InventoryFilters statusValue={statusValue} setStatusValue={setStatusValue} />
-          <InventoryCardsContainer statusValue={statusValue} />
+          <InventoryFilters
+            statusValue={statusValue}
+            setStatusValue={setStatusValue}
+            setSearchValue={setSearchValue}
+          />
+          <InventoryCardsContainer statusValue={statusValue} searchValue={searchValue} />
         </CardContent>
       </Card>
     </PageLayout>

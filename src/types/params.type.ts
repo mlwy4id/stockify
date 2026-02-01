@@ -1,5 +1,5 @@
 export type FiltersParams = {
-  month?: string
-  year?: string
+  month?: string;
+  year?: string;
   status?: string;
 };

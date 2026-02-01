@@ -1,4 +1,4 @@
-import FiltersDropdown from '@/components/FiltersDropdown';
+import FiltersDropdown from '@/components/filters/FiltersDropdown';
 import { useReportsFilterQuery } from '@/hooks/reports/useReportsFilterQuery';
 import { Months } from '@/constant/months';
 import { Years } from '@/constant/years';
@@ -20,14 +20,14 @@ const ReportsFilters = ({ monthValue, yearValue, setMonthValue, setYearValue }: 
         states={Months}
         setState={setMonthValue}
         applyFilter={applyReportsFilter}
-        type='month'
+        type="month"
       />
       <FiltersDropdown
         state={yearValue}
         states={Years}
         setState={setYearValue}
         applyFilter={applyReportsFilter}
-        type='year'
+        type="year"
       />
     </div>
   );

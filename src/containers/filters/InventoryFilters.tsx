@@ -1,4 +1,5 @@
-import FiltersDropdown from '@/components/FiltersDropdown';
+import FiltersDropdown from '@/components/filters/FiltersDropdown';
+import SearchInput from '@/components/filters/SearchInput';
 import { useInventoryFilterQuery } from '@/hooks/inventory/useInventoryFilterQuery';
 
 const status = [
@@ -11,19 +12,21 @@ const status = [
 type Props = {
   statusValue: string;
   setStatusValue: React.Dispatch<React.SetStateAction<string>>;
+  setSearchValue: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const InventoryFilters = ({ statusValue, setStatusValue }: Props) => {
+const InventoryFilters = ({ statusValue, setStatusValue, setSearchValue }: Props) => {
   const applyStatusFilter = useInventoryFilterQuery();
 
   return (
-    <div>
+    <div className="flex justify-between">
+      <SearchInput setState={setSearchValue} />
       <FiltersDropdown
         state={statusValue}
         states={status}
         setState={setStatusValue}
         applyFilter={applyStatusFilter}
-        type='status'
+        type="status"
       />
     </div>
   );
