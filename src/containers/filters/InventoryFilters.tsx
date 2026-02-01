@@ -21,13 +21,16 @@ const InventoryFilters = ({ statusValue, setStatusValue, setSearchValue }: Props
   return (
     <div className="flex justify-between">
       <SearchInput setState={setSearchValue} />
-      <FiltersDropdown
-        state={statusValue}
-        states={status}
-        setState={setStatusValue}
-        applyFilter={applyStatusFilter}
-        type="status"
-      />
+      <div className='flex gap-3 items-center'>
+        <p className='font-medium'>Status</p>
+        <FiltersDropdown
+          state={statusValue}
+          states={status}
+          setState={setStatusValue}
+          applyFilter={applyStatusFilter}
+          type="status"
+        />
+      </div>
     </div>
   );
 };

@@ -5,6 +5,7 @@ import EmptyInventoryCards from '@/components/card/inventory/EmptyInventoryCards
 import type { Item } from '@/types/inventory.type';
 import SearchNotFound from '@/components/filters/SearchNotFound';
 import ItemCard from '@/components/card/inventory/ItemCard';
+import { useLocation } from 'react-router-dom';
 
 type Props = {
   statusValue: string;
@@ -14,9 +15,11 @@ type Props = {
 const InventoryCardsContainer = ({ statusValue, searchValue }: Props) => {
   const { isLoading, data: inventoryItems } = useGetInventoryItems(statusValue);
   const { toEditItem, toDeleteItem } = useInventoryPathNavigation();
+  const location = useLocation();
 
   if (isLoading) return <TableSkeleton />;
-  if (inventoryItems.length === 0) return <EmptyInventoryCards />;
+  if (inventoryItems.length === 0 && location.search === '') return <EmptyInventoryCards />;
+  if (inventoryItems.length === 0) return <SearchNotFound message="No items found" />;
 
   const filteredItems = inventoryItems.filter((i: Item) =>
     i.name.toLowerCase().includes(searchValue.toLowerCase())
