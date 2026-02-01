@@ -1,10 +1,10 @@
-import ItemCard from '@/components/card/inventory/InventoryItemsCard';
 import TableSkeleton from '@/components/table/TableSkeleton';
 import { useInventoryPathNavigation } from '@/hooks/inventory/useInventoryPathNavigation';
 import { useGetInventoryItems } from '@/hooks/queries/inventory.query';
 import EmptyInventoryCards from '@/containers/card/inventory/EmptyInventoryCards';
 import type { Item } from '@/types/inventory.type';
 import SearchNotFound from '@/components/filters/SearchNotFound';
+import ItemCard from '@/components/card/inventory/ItemCard';
 
 type Props = {
   statusValue: string;
@@ -25,7 +25,21 @@ const InventoryCardsContainer = ({ statusValue, searchValue }: Props) => {
 
   return (
     <section>
-      <ItemCard items={filteredItems} openEditModal={toEditItem} openDeleteModal={toDeleteItem} />
+      <div className="flex flex-col gap-2">
+        {filteredItems.map((item: Item) => {
+          return (
+            <ItemCard
+              key={item.id}
+              id={item.id}
+              name={item.name}
+              currentStock={item.currentStock}
+              status={item.status}
+              openEditModal={toEditItem}
+              openDeleteModal={toDeleteItem}
+            />
+          );
+        })}
+      </div>
     </section>
   );
 };
