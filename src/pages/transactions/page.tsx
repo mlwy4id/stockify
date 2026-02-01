@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { LuPlus } from 'react-icons/lu';
 import { Card, CardContent } from '@/components/ui/card';
 import { useTransactionPathNavigation } from '@/hooks/transactions/useTransactionPathNavigation';
-import TransactionsTableContainer from '@/containers/table/TransactionsTableContainer';
+import TransactionCardsContainers from '@/containers/card/transactions/TransactionsCardsContainer';
 
 const TransactionsPage = () => {
   const { toCreateTransaction } = useTransactionPathNavigation();
@@ -18,9 +18,9 @@ const TransactionsPage = () => {
         </Button>
       }
     >
-      <Card className="h-screen">
-        <CardContent className="h-full overflow-x-scroll">
-          <TransactionsTableContainer />
+      <Card className="h-screen bg-muted border-0 shadow-none">
+        <CardContent className="h-full px-0 flex flex-col gap-2">
+          <TransactionCardsContainers />
         </CardContent>
       </Card>
     </PageLayout>

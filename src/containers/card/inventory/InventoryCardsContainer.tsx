@@ -1,7 +1,7 @@
 import TableSkeleton from '@/components/table/TableSkeleton';
 import { useInventoryPathNavigation } from '@/hooks/inventory/useInventoryPathNavigation';
 import { useGetInventoryItems } from '@/hooks/queries/inventory.query';
-import EmptyInventoryCards from '@/containers/card/inventory/EmptyInventoryCards';
+import EmptyInventoryCards from '@/components/card/inventory/EmptyInventoryCards';
 import type { Item } from '@/types/inventory.type';
 import SearchNotFound from '@/components/filters/SearchNotFound';
 import ItemCard from '@/components/card/inventory/ItemCard';
