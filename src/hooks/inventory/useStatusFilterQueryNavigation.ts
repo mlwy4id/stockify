@@ -1,7 +1,7 @@
 import type { FiltersParams } from '@/types/params.type';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-export const useInventoryFilterQuery = () => {
+export const useStatusFilterQuery = () => {
   const navigate = useNavigate();
   const location = useLocation();
 

@@ -10,10 +10,10 @@ import { useTransactionPathNavigation } from '../transactions/useTransactionPath
 import type { UpdateTransactionRequest } from 'src/types/transaction.type';
 import { invalidateTransactionsQuery } from './helper/invalidateTransactionsQuery';
 
-export const useGetAllTransactions = () => {
+export const useGetAllTransactions = (action: string) => {
   return useQuery({
-    queryKey: ['Transactions'],
-    queryFn: getAllTransactions,
+    queryKey: ['Transactions', action],
+    queryFn: () => getAllTransactions(action),
     staleTime: 1000 * 30,
   });
 };

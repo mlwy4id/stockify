@@ -1,8 +1,9 @@
 import type { CreateTransaction, UpdateTransactionRequest } from 'src/types/transaction.type';
 import api from '../axios/axios';
 
-export const getAllTransactions = async () => {
-  const res = await api.get('/transactions');
+export const getAllTransactions = async (action: string) => {
+  const paramsValue = action === 'All' ? { undefined } : { action };
+  const res = await api.get('/transactions', { params: paramsValue });
   return res.data.data;
 };
 

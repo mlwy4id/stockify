@@ -4,8 +4,12 @@ import { LuPlus } from 'react-icons/lu';
 import { Card, CardContent } from '@/components/ui/card';
 import { useTransactionPathNavigation } from '@/hooks/transactions/useTransactionPathNavigation';
 import TransactionCardsContainers from '@/containers/card/transactions/TransactionsCardsContainer';
+import TransactionFilters from '@/containers/filters/TransactionsFilters';
+import { useState } from 'react';
 
 const TransactionsPage = () => {
+  const [actionValue, setactionValue] = useState<string>('All');
+  const [searchValue, setSearchValue] = useState<string>('');
   const { toCreateTransaction } = useTransactionPathNavigation();
 
   return (
@@ -20,7 +24,12 @@ const TransactionsPage = () => {
     >
       <Card className="h-screen bg-muted border-0 shadow-none">
         <CardContent className="h-full px-0 flex flex-col gap-2">
-          <TransactionCardsContainers />
+          <TransactionFilters
+            actionValue={actionValue}
+            setactionValue={setactionValue}
+            setSearchValue={setSearchValue}
+          />
+          <TransactionCardsContainers actionValue={actionValue} />
         </CardContent>
       </Card>
     </PageLayout>

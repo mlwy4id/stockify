@@ -1,6 +1,6 @@
 import FiltersDropdown from '@/components/filters/FiltersDropdown';
 import SearchInput from '@/components/filters/SearchInput';
-import { useInventoryFilterQuery } from '@/hooks/inventory/useInventoryFilterQuery';
+import { useStatusFilterQuery } from '@/hooks/inventory/useStatusFilterQueryNavigation';
 
 const status = [
   { id: 1, name: 'All' },
@@ -16,13 +16,13 @@ type Props = {
 };
 
 const InventoryFilters = ({ statusValue, setStatusValue, setSearchValue }: Props) => {
-  const applyStatusFilter = useInventoryFilterQuery();
+  const applyStatusFilter = useStatusFilterQuery();
 
   return (
     <div className="flex justify-between">
       <SearchInput setState={setSearchValue} />
-      <div className='flex gap-3 items-center'>
-        <p className='font-medium'>Status</p>
+      <div className="flex gap-3 items-center">
+        <p className="font-medium">Status</p>
         <FiltersDropdown
           state={statusValue}
           states={status}

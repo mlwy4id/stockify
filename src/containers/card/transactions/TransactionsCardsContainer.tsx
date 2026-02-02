@@ -5,8 +5,12 @@ import { useGetAllTransactions } from '@/hooks/queries/transactions.query';
 import { useTransactionPathNavigation } from '@/hooks/transactions/useTransactionPathNavigation';
 import type { Transaction } from '@/types/transaction.type';
 
-const TransactionCardsContainers = () => {
-  const { isLoading, data: transactionsData } = useGetAllTransactions();
+type Props = {
+  actionValue: string;
+};
+
+const TransactionCardsContainers = ({ actionValue }: Props) => {
+  const { isLoading, data: transactionsData } = useGetAllTransactions(actionValue);
   const { toEditTransaction, toDeleteTransaction } = useTransactionPathNavigation();
 
   if (isLoading) return <TableSkeleton />;
