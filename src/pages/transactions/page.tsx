@@ -29,7 +29,7 @@ const TransactionsPage = () => {
             setactionValue={setactionValue}
             setSearchValue={setSearchValue}
           />
-          <TransactionCardsContainers actionValue={actionValue} />
+          <TransactionCardsContainers actionValue={actionValue} searchValue={searchValue} />
         </CardContent>
       </Card>
     </PageLayout>

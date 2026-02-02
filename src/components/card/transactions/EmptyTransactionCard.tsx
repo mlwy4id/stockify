@@ -1,6 +1,6 @@
 import { LuReceiptText } from 'react-icons/lu';
 
-const EmptyTransactionTable = () => {
+const EmptyTransactionCard = () => {
   return (
     <div className="h-full flex flex-col items-center justify-center gap-4">
       <LuReceiptText size={56} />
@@ -12,4 +12,4 @@ const EmptyTransactionTable = () => {
   );
 };
 
-export default EmptyTransactionTable;
+export default EmptyTransactionCard;

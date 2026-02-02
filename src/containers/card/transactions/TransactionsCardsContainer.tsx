@@ -1,25 +1,35 @@
 import TransactionCard from '@/components/card/transactions/TransactionCard';
 import TableSkeleton from '@/components/table/TableSkeleton';
-import EmptyTransactionTable from '@/components/card/transactions/EmptyTransactionTable';
 import { useGetAllTransactions } from '@/hooks/queries/transactions.query';
 import { useTransactionPathNavigation } from '@/hooks/transactions/useTransactionPathNavigation';
 import type { Transaction } from '@/types/transaction.type';
+import SearchNotFound from '@/components/filters/SearchNotFound';
+import { useLocation } from 'react-router-dom';
+import EmptyTransactionCard from '@/components/card/transactions/EmptyTransactionCard';
 
 type Props = {
   actionValue: string;
+  searchValue: string;
 };
 
-const TransactionCardsContainers = ({ actionValue }: Props) => {
+const TransactionCardsContainers = ({ actionValue, searchValue }: Props) => {
+  const location = useLocation();
   const { isLoading, data: transactionsData } = useGetAllTransactions(actionValue);
   const { toEditTransaction, toDeleteTransaction } = useTransactionPathNavigation();
 
   if (isLoading) return <TableSkeleton />;
-  if (transactionsData.length === 0) return <EmptyTransactionTable />;
+  if (transactionsData.length === 0 && location.search === '') return <EmptyTransactionCard />;
+  if (transactionsData.length === 0) return <SearchNotFound message="No transactions found" />;
+
+  const filteredTransactions = transactionsData.filter((t: Transaction) =>
+    t.item.name.toLowerCase().includes(searchValue.toLowerCase())
+  );
+  if (filteredTransactions.length === 0) return <SearchNotFound message="No transactions found" />;
 
   return (
     <section>
       <div className="flex flex-col gap-2">
-        {transactionsData.map((t: Transaction) => {
+        {filteredTransactions.map((t: Transaction) => {
           return (
             <TransactionCard
               key={t.id}

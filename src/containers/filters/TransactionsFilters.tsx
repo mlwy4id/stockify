@@ -1,4 +1,5 @@
 import FiltersDropdown from '@/components/filters/FiltersDropdown';
+import SearchInput from '@/components/filters/SearchInput';
 import { useActionFilterQuery } from '@/hooks/transactions/useActionFilterQueryNavigation';
 
 const action = [
@@ -18,6 +19,7 @@ const TransactionFilters = ({ actionValue, setactionValue, setSearchValue }: Pro
 
   return (
     <div className="flex justify-between">
+      <SearchInput setState={setSearchValue} />
       <div className="flex gap-3 items-center">
         <p className="font-medium">Action</p>
         <FiltersDropdown
