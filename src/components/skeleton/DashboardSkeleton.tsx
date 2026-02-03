@@ -1,8 +1,8 @@
-import SummaryCardSkeleton from './summary/SummaryCardSkeleton';
+import SummaryCardSkeleton from './SummaryCardSkeleton';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
-import ActivityCardSkeleton from './activity/ActivityCardSkeleton';
-import LowStockItemCardSkeleton from './low stock/LowStockItemCardSkeleton';
+import ActivityCardSkeleton from './ActivityCardSkeleton';
+import LowStockItemCardSkeleton from './LowStockItemCardSkeleton';
 
 const DashboardSkeleton = () => {
   return (

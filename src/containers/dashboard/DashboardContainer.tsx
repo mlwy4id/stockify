@@ -6,7 +6,7 @@ import {
 import StocksSummaryCard from '../card/StocksSummaryCard';
 import LowStockItemCardContainer from '../card/LowStockItemCardContainer';
 import RecentActivityCard from '../card/RecentActivityCard';
-import DashboardSkeleton from '@/components/card/DashboardSkeleton';
+import DashboardSkeleton from '@/components/skeleton/DashboardSkeleton';
 
 const DashboardContainer = () => {
   const { isLoading: lowStockItemLoading, data: lowStockItem } = useGetLowStockItem();
