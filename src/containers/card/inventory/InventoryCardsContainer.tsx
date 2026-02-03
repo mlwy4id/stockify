@@ -1,4 +1,3 @@
-import TableSkeleton from '@/components/table/TableSkeleton';
 import { useInventoryPathNavigation } from '@/hooks/inventory/useInventoryPathNavigation';
 import { useGetInventoryItems } from '@/hooks/queries/inventory.query';
 import EmptyInventoryCards from '@/components/card/inventory/EmptyInventoryCards';
@@ -6,6 +5,7 @@ import type { Item } from '@/types/inventory.type';
 import SearchNotFound from '@/components/filters/SearchNotFound';
 import ItemCard from '@/components/card/inventory/ItemCard';
 import { useLocation } from 'react-router-dom';
+import InventoryCardsSkeleton from '@/components/skeleton/InventoryCardsSkeleton';
 
 type Props = {
   statusValue: string;
@@ -17,7 +17,8 @@ const InventoryCardsContainer = ({ statusValue, searchValue }: Props) => {
   const { toEditItem, toDeleteItem } = useInventoryPathNavigation();
   const location = useLocation();
 
-  if (isLoading) return <TableSkeleton />;
+  if (isLoading) return <InventoryCardsSkeleton />;
+
   if (inventoryItems.length === 0 && location.search === '') return <EmptyInventoryCards />;
   if (inventoryItems.length === 0) return <SearchNotFound message="No items found" />;
 
