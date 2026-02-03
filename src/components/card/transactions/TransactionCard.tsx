@@ -7,6 +7,7 @@ import {
   DropdownMenuTrigger,
 } from '../../ui/dropdown-menu';
 import { LuEllipsisVertical } from 'react-icons/lu';
+import ActionBadge from '@/components/ActionBadge';
 
 type Props = {
   id: string;
@@ -45,12 +46,7 @@ const TransactionCard = ({
       </div>
 
       <div className="flex items-center gap-3">
-        <div
-          className={`rounded-full px-3 py-1 text-xs font-medium text-white min-w-16 text-center
-              ${isSold ? 'bg-red-600' : 'bg-green-600'}`}
-        >
-          {action}
-        </div>
+        <ActionBadge action={action} />
 
         <DropdownMenu>
           <DropdownMenuTrigger className="cursor-pointer">

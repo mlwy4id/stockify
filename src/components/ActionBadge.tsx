@@ -10,7 +10,7 @@ const badgeVariants: Record<string, string> = {
 };
 
 const ActionBadge = ({ action }: Props) => {
-  return <Badge className={`${badgeVariants[action]}`}>{action}</Badge>;
+  return <Badge className={`${badgeVariants[action]} h-6 min-w-18`}>{action}</Badge>;
 };
 
 export default ActionBadge;

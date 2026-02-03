@@ -1,3 +1,4 @@
+import ItemBadge from '@/components/ItemBadge';
 import { nameFormatter } from '@/lib/formatters/nameFormatter';
 import {
   DropdownMenu,
@@ -6,12 +7,6 @@ import {
   DropdownMenuTrigger,
 } from '@radix-ui/react-dropdown-menu';
 import { LuEllipsisVertical } from 'react-icons/lu';
-
-const statusVariants: Record<string, string> = {
-  'In Stock': 'bg-green-500',
-  'Low Stock': 'bg-yellow-500',
-  'Out of Stock': 'bg-red-500',
-};
 
 type Props = {
   id: string;
@@ -34,14 +29,7 @@ const ItemCard = ({ id, name, currentStock, status, openEditModal, openDeleteMod
       </div>
 
       <div className="flex items-center gap-3">
-        <span
-          className={`rounded-full px-3 py-1 text-xs text-white font-medium cursor-pointer
-              ${statusVariants[status]}
-            `}
-        >
-          {status}
-        </span>
-
+        <ItemBadge status={status} />
         <DropdownMenu>
           <DropdownMenuTrigger className="cursor-pointer">
             <LuEllipsisVertical />
