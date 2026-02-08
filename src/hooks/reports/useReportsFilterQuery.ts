@@ -1,24 +1,33 @@
 import type { FiltersParams } from '@/types/params.type';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useGetCurrentMonthAndYear } from './useGetCurrentMonthAndYear';
 
 export const useReportsFilterQuery = () => {
+  const { currentMonthName, currentYear } = useGetCurrentMonthAndYear();
+
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchParams] = useSearchParams();
 
-  return (params: FiltersParams) => {
-    const searchParams = new URLSearchParams(location.search);
+  const month = searchParams.get('month') ?? currentMonthName;
+  const year = searchParams.get('year') ?? currentYear;
+
+  const setFilters = (params: FiltersParams) => {
+    const newParams = new URLSearchParams(location.search);
 
     if (params.month !== undefined) {
-      searchParams.set('month', params.month);
+      newParams.set('month', params.month);
     }
 
     if (params.year !== undefined) {
-      searchParams.set('year', params.year);
+      newParams.set('year', params.year);
     }
 
     navigate({
       pathname: '/reports',
-      search: `${searchParams.toString()}`,
+      search: `${newParams.toString()}`,
     });
   };
+
+  return { month, year, setFilters };
 };

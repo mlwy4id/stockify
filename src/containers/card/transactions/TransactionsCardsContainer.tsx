@@ -6,13 +6,15 @@ import SearchNotFound from '@/components/filters/SearchNotFound';
 import { useLocation } from 'react-router-dom';
 import EmptyTransactionCard from '@/components/card/transactions/EmptyTransactionCard';
 import TransactionsCardsSkeleton from '@/components/skeleton/TransactionsCardsSkeleton';
+import { useActionFilterQuery } from '@/hooks/transactions/useActionFilterQueryNavigation';
 
 type Props = {
-  actionValue: string;
   searchValue: string;
 };
 
-const TransactionCardsContainers = ({ actionValue, searchValue }: Props) => {
+const TransactionCardsContainers = ({ searchValue }: Props) => {
+  const { action: actionValue } = useActionFilterQuery();
+
   const location = useLocation();
   const { isLoading, data: transactionsData } = useGetAllTransactions(actionValue);
   const { toEditTransaction, toDeleteTransaction } = useTransactionPathNavigation();

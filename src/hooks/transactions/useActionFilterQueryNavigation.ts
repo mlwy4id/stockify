@@ -1,24 +1,29 @@
 import type { FiltersParams } from '@/types/params.type';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
 export const useActionFilterQuery = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchParams] = useSearchParams();
 
-  return (params: FiltersParams) => {
-    const searchParams = new URLSearchParams(location.search);
+  const action = searchParams.get('action') ?? '';
+
+  const setFilters = (params: FiltersParams) => {
+    const newParams = new URLSearchParams(location.search);
 
     if (params.action !== undefined) {
       if (params.action === 'All') {
-        searchParams.delete('action');
+        newParams.delete('action');
       } else {
-        searchParams.set('action', params.action);
+        newParams.set('action', params.action);
       }
     }
 
     navigate({
       pathname: '/transactions',
-      search: `${searchParams.toString()}`,
+      search: `${newParams.toString()}`,
     });
   };
+
+  return { action, setFilters };
 };

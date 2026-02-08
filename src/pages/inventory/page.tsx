@@ -23,9 +23,7 @@ const InventoryPage = () => {
     >
       <Card className="h-screen bg-muted border-0 shadow-none">
         <CardContent className="h-full px-0 flex flex-col gap-2">
-          <InventoryFilters
-            setSearchValue={setSearchValue}
-          />
+          <InventoryFilters setSearchValue={setSearchValue} />
           <InventoryCardsContainer searchValue={searchValue} />
         </CardContent>
       </Card>

@@ -8,7 +8,6 @@ import TransactionFilters from '@/containers/filters/TransactionsFilters';
 import { useState } from 'react';
 
 const TransactionsPage = () => {
-  const [actionValue, setactionValue] = useState<string>('All');
   const [searchValue, setSearchValue] = useState<string>('');
   const { toCreateTransaction } = useTransactionPathNavigation();
 
@@ -24,12 +23,8 @@ const TransactionsPage = () => {
     >
       <Card className="h-screen bg-muted border-0 shadow-none">
         <CardContent className="h-full px-0 flex flex-col gap-2">
-          <TransactionFilters
-            actionValue={actionValue}
-            setactionValue={setactionValue}
-            setSearchValue={setSearchValue}
-          />
-          <TransactionCardsContainers actionValue={actionValue} searchValue={searchValue} />
+          <TransactionFilters setSearchValue={setSearchValue} />
+          <TransactionCardsContainers searchValue={searchValue} />
         </CardContent>
       </Card>
     </PageLayout>

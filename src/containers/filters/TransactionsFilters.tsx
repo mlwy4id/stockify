@@ -9,13 +9,11 @@ const action = [
 ];
 
 type Props = {
-  actionValue: string;
-  setactionValue: React.Dispatch<React.SetStateAction<string>>;
   setSearchValue: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const TransactionFilters = ({ actionValue, setactionValue, setSearchValue }: Props) => {
-  const applyActionFilter = useActionFilterQuery();
+const TransactionFilters = ({ setSearchValue }: Props) => {
+  const { action: actionValue, setFilters } = useActionFilterQuery();
 
   return (
     <div className="flex justify-between">
@@ -25,9 +23,8 @@ const TransactionFilters = ({ actionValue, setactionValue, setSearchValue }: Pro
         <FiltersDropdown
           state={actionValue}
           states={action}
-          setState={setactionValue}
           type="action"
-          applyFilter={applyActionFilter}
+          applyFilter={setFilters}
         />
       </div>
     </div>

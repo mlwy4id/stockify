@@ -9,13 +9,13 @@ export const useStatusFilterQuery = () => {
   const status = searchParams.get('status') ?? 'All';
 
   const setFilters = (params: FiltersParams) => {
-    const searchParams = new URLSearchParams(location.search);
+    const newParams = new URLSearchParams(location.search);
 
     if (params.status !== undefined) {
       if (params.status === 'All') {
-        searchParams.delete('status');
+        newParams.delete('status');
       } else {
-        searchParams.set('status', params.status);
+        newParams.set('status', params.status);
       }
     }
 

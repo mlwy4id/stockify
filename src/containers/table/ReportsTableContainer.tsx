@@ -2,13 +2,11 @@ import EmptyReportsTable from '@/components/table/reports/EmptyReportsTable';
 import ReportsTable from '@/components/table/reports/ReportsTable';
 import TableSkeleton from '@/components/table/TableSkeleton';
 import { useGetReportsData } from '@/hooks/queries/reports.query';
+import { useReportsFilterQuery } from '@/hooks/reports/useReportsFilterQuery';
 
-type Props = {
-  yearValue: string | undefined;
-  monthValue: string | undefined;
-};
+const ReportsTableContainer = () => {
+  const { month: monthValue, year: yearValue } = useReportsFilterQuery();
 
-const ReportsTableContainer = ({ monthValue, yearValue }: Props) => {
   const { isLoading, data: reports } = useGetReportsData(monthValue, yearValue);
 
   if (isLoading) return <TableSkeleton />;

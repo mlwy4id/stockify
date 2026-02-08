@@ -34,7 +34,7 @@ const LowStockItemCardContainer = ({ lowStockItems }: Props) => {
             variant="outline"
             size="sm"
             className="cursor-pointer"
-            onClick={() => navigate({pathname: '/inventory', search: '?status=Low+Stock'})}
+            onClick={() => navigate({ pathname: '/inventory', search: '?status=Low+Stock' })}
           >
             View Inventory
           </Button>
