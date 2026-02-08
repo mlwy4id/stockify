@@ -1,11 +1,14 @@
 import type { FiltersParams } from '@/types/params.type';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
 export const useStatusFilterQuery = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchParams] = useSearchParams();
 
-  return (params: FiltersParams) => {
+  const status = searchParams.get('status') ?? 'All';
+
+  const setFilters = (params: FiltersParams) => {
     const searchParams = new URLSearchParams(location.search);
 
     if (params.status !== undefined) {
@@ -21,4 +24,6 @@ export const useStatusFilterQuery = () => {
       search: `${searchParams.toString()}`,
     });
   };
+
+  return { status, setFilters };
 };

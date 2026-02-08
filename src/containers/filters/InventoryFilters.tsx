@@ -10,13 +10,11 @@ const status = [
 ];
 
 type Props = {
-  statusValue: string;
-  setStatusValue: React.Dispatch<React.SetStateAction<string>>;
   setSearchValue: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const InventoryFilters = ({ statusValue, setStatusValue, setSearchValue }: Props) => {
-  const applyStatusFilter = useStatusFilterQuery();
+const InventoryFilters = ({ setSearchValue }: Props) => {
+  const { status: statusValue, setFilters } = useStatusFilterQuery();
 
   return (
     <div className="flex justify-between">
@@ -26,8 +24,7 @@ const InventoryFilters = ({ statusValue, setStatusValue, setSearchValue }: Props
         <FiltersDropdown
           state={statusValue}
           states={status}
-          setState={setStatusValue}
-          applyFilter={applyStatusFilter}
+          applyFilter={setFilters}
           type="status"
         />
       </div>

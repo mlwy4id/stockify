@@ -6,13 +6,15 @@ import SearchNotFound from '@/components/filters/SearchNotFound';
 import ItemCard from '@/components/card/inventory/ItemCard';
 import { useLocation } from 'react-router-dom';
 import InventoryCardsSkeleton from '@/components/skeleton/InventoryCardsSkeleton';
+import { useStatusFilterQuery } from '@/hooks/inventory/useStatusFilterQueryNavigation';
 
 type Props = {
-  statusValue: string;
   searchValue: string;
 };
 
-const InventoryCardsContainer = ({ statusValue, searchValue }: Props) => {
+const InventoryCardsContainer = ({ searchValue }: Props) => {
+  const { status: statusValue } = useStatusFilterQuery();
+
   const { isLoading, data: inventoryItems } = useGetInventoryItems(statusValue);
   const { toEditItem, toDeleteItem } = useInventoryPathNavigation();
   const location = useLocation();

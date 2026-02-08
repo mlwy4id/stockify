@@ -2,16 +2,16 @@ import EmptyLowStockItem from '@/components/card/low stock/EmptyLowStockItem';
 import LowStockItemCard from '@/components/card/low stock/LowStockItemCard';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
-import { useInventoryPathNavigation } from '@/hooks/inventory/useInventoryPathNavigation';
 import type { Item } from '@/types/inventory.type';
 import { LuTriangleAlert } from 'react-icons/lu';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {
   lowStockItems: Item[];
 };
 
 const LowStockItemCardContainer = ({ lowStockItems }: Props) => {
-  const { toInventory } = useInventoryPathNavigation();
+  const navigate = useNavigate();
 
   return (
     <Card className="h-full">
@@ -30,7 +30,12 @@ const LowStockItemCardContainer = ({ lowStockItems }: Props) => {
       </CardContent>
       <CardFooter>
         {lowStockItems.length > 0 && (
-          <Button variant="outline" size="sm" className="cursor-pointer" onClick={toInventory}>
+          <Button
+            variant="outline"
+            size="sm"
+            className="cursor-pointer"
+            onClick={() => navigate({pathname: '/inventory', search: '?status=Low+Stock'})}
+          >
             View Inventory
           </Button>
         )}
