@@ -15,7 +15,7 @@ export const useSignUpUser = () => {
   return useMutation({
     mutationFn: signUp,
     onSuccess: () => {
-      navigate('/');
+      navigate('/dashboard');
     },
   });
 };
@@ -26,7 +26,7 @@ export const useSignInUser = () => {
   return useMutation({
     mutationFn: signIn,
     onSuccess: () => {
-      navigate('/');
+      navigate('/dashboard');
     },
   });
 };
