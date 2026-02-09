@@ -6,7 +6,7 @@ export const useActionFilterQuery = () => {
   const location = useLocation();
   const [searchParams] = useSearchParams();
 
-  const action = searchParams.get('action') ?? '';
+  const action = searchParams.get('action') ?? 'All';
 
   const setFilters = (params: FiltersParams) => {
     const newParams = new URLSearchParams(location.search);
