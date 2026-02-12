@@ -13,10 +13,10 @@ type Props = {
 };
 
 const TransactionCardsContainers = ({ searchValue }: Props) => {
-  const { action: actionValue } = useActionFilterQuery();
+  const { action: actionValue, date } = useActionFilterQuery();
 
   const location = useLocation();
-  const { isLoading, data: transactionsData } = useGetAllTransactions(actionValue);
+  const { isLoading, data: transactionsData } = useGetAllTransactions(actionValue, date);
   const { toEditTransaction, toDeleteTransaction } = useTransactionPathNavigation();
 
   if (isLoading) return <TransactionsCardsSkeleton />;
