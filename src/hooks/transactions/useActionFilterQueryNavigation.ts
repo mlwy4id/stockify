@@ -8,9 +8,11 @@ export const useActionFilterQuery = () => {
   const [searchParams] = useSearchParams();
 
   const action = searchParams.get('action') ?? 'All';
-  
+
   const rawDate = searchParams.get('date') ?? new Date().toISOString().split('T')[0];
   const date = isoDateFormatter(rawDate);
+
+  const page = searchParams.get('page') ? Number(searchParams.get('page')) : 1;
 
   const setFilters = (params: FiltersParams) => {
     const newParams = new URLSearchParams(location.search);
@@ -27,11 +29,15 @@ export const useActionFilterQuery = () => {
       newParams.set('date', params.date);
     }
 
+    if (params.page !== undefined) {
+      newParams.set('page', String(params.page));
+    }
+
     navigate({
       pathname: '/transactions',
       search: `${newParams.toString()}`,
     });
   };
 
-  return { action, date, setFilters };
+  return { action, date, page, setFilters };
 };

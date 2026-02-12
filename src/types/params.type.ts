@@ -4,4 +4,5 @@ export type FiltersParams = {
   status?: string;
   action?: string;
   date?: string;
+  page?: number;
 };

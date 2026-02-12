@@ -1,25 +1,18 @@
 import TransactionCard from '@/components/card/transactions/TransactionCard';
-import { useGetAllTransactions } from '@/hooks/queries/transactions.query';
 import { useTransactionPathNavigation } from '@/hooks/transactions/useTransactionPathNavigation';
 import type { Transaction } from '@/types/transaction.type';
 import SearchNotFound from '@/components/filters/SearchNotFound';
 import { useLocation } from 'react-router-dom';
 import EmptyTransactionCard from '@/components/card/transactions/EmptyTransactionCard';
-import TransactionsCardsSkeleton from '@/components/skeleton/TransactionsCardsSkeleton';
-import { useActionFilterQuery } from '@/hooks/transactions/useActionFilterQueryNavigation';
 
 type Props = {
   searchValue: string;
+  transactionsData: Transaction[];
 };
 
-const TransactionCardsContainers = ({ searchValue }: Props) => {
-  const { action: actionValue, date } = useActionFilterQuery();
-
+const TransactionCardsContainers = ({ searchValue, transactionsData }: Props) => {
   const location = useLocation();
-  const { isLoading, data: transactionsData } = useGetAllTransactions(actionValue, date);
   const { toEditTransaction, toDeleteTransaction } = useTransactionPathNavigation();
-
-  if (isLoading) return <TransactionsCardsSkeleton />;
 
   if (transactionsData.length === 0 && location.search === '') return <EmptyTransactionCard />;
   if (transactionsData.length === 0) return <SearchNotFound message="No transactions found" />;
