@@ -1,4 +1,4 @@
-import {Modal} from '@/shared/components';
+import { Modal } from '@/shared/components';
 import ConfirmDeleteTransactionModal from '../containers/ConfirmDeleteTransactionModal';
 import { useTransactionPathNavigation } from '../hooks/useTransactionPathNavigation';
 

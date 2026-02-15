@@ -1,7 +1,7 @@
 import TransactionCard from '../components/TransactionCard';
 import { useTransactionPathNavigation } from '../hooks/useTransactionPathNavigation';
 import type { Transaction } from '@/shared/types';
-import {SearchNotFound} from '@/shared/components';
+import { SearchNotFound } from '@/shared/components';
 import { useLocation } from 'react-router-dom';
 import EmptyTransactionCard from '../components/EmptyTransactionCard';
 

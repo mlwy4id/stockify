@@ -1,10 +1,4 @@
-import {
-  createItem,
-  deleteItem,
-  getAllItems,
-  getItem,
-  updateItem,
-} from '@/shared/lib';
+import { createItem, deleteItem, getAllItems, getItem, updateItem } from '@/shared/lib';
 import type { UpdateItemRequest } from '@/shared/types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useInventoryPathNavigation } from '../useInventoryPathNavigation';

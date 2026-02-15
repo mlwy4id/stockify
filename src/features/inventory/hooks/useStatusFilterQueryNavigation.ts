@@ -21,7 +21,7 @@ export const useStatusFilterQuery = () => {
 
     navigate({
       pathname: '/inventory',
-      search: `${searchParams.toString()}`,
+      search: `${newParams.toString()}`,
     });
   };
 

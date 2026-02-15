@@ -1,4 +1,4 @@
-import {Modal} from '@/shared/components';
+import { Modal } from '@/shared/components';
 import EditItemForm from '../containers/EditItemForm';
 import { useInventoryPathNavigation } from '../hooks/useInventoryPathNavigation';
 

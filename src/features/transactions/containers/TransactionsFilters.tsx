@@ -1,5 +1,5 @@
-import {FiltersDropdown} from '@/shared/components';
-import {SearchInput} from '@/shared/components';
+import { FiltersDropdown } from '@/shared/components';
+import { SearchInput } from '@/shared/components';
 import { Input } from '@/shared/components';
 import { useActionFilterQuery } from '../hooks/useActionFilterQueryNavigation';
 

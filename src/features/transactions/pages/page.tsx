@@ -1,4 +1,4 @@
-import {PageLayout} from '@/shared/components';
+import { PageLayout } from '@/shared/components';
 import { Button } from '@/shared/components';
 import { LuPlus } from 'react-icons/lu';
 import { Card, CardContent, CardFooter } from '@/shared/components';
@@ -6,7 +6,7 @@ import { useTransactionPathNavigation } from '../hooks/useTransactionPathNavigat
 import TransactionCardsContainers from '../containers/TransactionsCardsContainer';
 import TransactionFilters from '../containers/TransactionsFilters';
 import { useState } from 'react';
-import {Pagination} from '@/shared/components';
+import { Pagination } from '@/shared/components';
 import { useActionFilterQuery } from '../hooks/useActionFilterQueryNavigation';
 import { useGetAllTransactions } from '../hooks/queries/transactions.query';
 import TransactionsCardsSkeleton from '../components/TransactionsCardsSkeleton';

@@ -1,4 +1,4 @@
-import {FiltersDropdown} from '@/shared/components';
+import { FiltersDropdown } from '@/shared/components';
 import { useReportsFilterQuery } from '../hooks/useReportsFilterQuery';
 import { Months } from '@/constant/months';
 import { Years } from '@/constant/years';

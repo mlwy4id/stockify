@@ -1,4 +1,4 @@
-import {Modal} from '@/shared/components';
+import { Modal } from '@/shared/components';
 import CreateTransactionForm from '../containers/CreateTransactionForm';
 import { useTransactionPathNavigation } from '../hooks/useTransactionPathNavigation';
 

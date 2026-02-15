@@ -1,7 +1,7 @@
 import type { FieldErrors, UseFormRegister } from 'react-hook-form';
 import { Button } from '@/shared/components';
 import { Input } from '@/shared/components';
-import {Select} from '@/shared/components';
+import { Select } from '@/shared/components';
 import type { Transaction } from '@/shared/types';
 import type { Item } from '@/shared/types';
 import ItemsOption from './ItemsOption';

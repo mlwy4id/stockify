@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader } from '@/shared/components';
-import {PageLayout} from '@/shared/components';
+import { PageLayout } from '@/shared/components';
 import ReportsTableContainer from '../containers/ReportsTableContainer';
 import ReportsFilters from '../containers/ReportsFilters';
 import { useReportsFilterQuery } from '../hooks/useReportsFilterQuery';

@@ -1,5 +1,5 @@
-import {FiltersDropdown} from '@/shared/components';
-import {SearchInput} from '@/shared/components';
+import { FiltersDropdown } from '@/shared/components';
+import { SearchInput } from '@/shared/components';
 import { useStatusFilterQuery } from '../hooks/useStatusFilterQueryNavigation';
 
 const status = [

@@ -1,6 +1,6 @@
 import EmptyReportsTable from '../components/EmptyReportsTable';
 import ReportsTable from '../components/ReportsTable';
-import {TableSkeleton} from '@/shared/components';
+import { TableSkeleton } from '@/shared/components';
 import { useGetReportsData } from '../hooks/queries/reports.query';
 import { useReportsFilterQuery } from '../hooks/useReportsFilterQuery';
 

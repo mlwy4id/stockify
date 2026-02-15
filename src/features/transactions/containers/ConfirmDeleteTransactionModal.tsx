@@ -1,4 +1,4 @@
-import {ConfirmationModal} from '@/shared/components';
+import { ConfirmationModal } from '@/shared/components';
 import { Button } from '@/shared/components';
 import { Spinner } from '@/shared/components';
 import { useConfirmDeleteTransaction } from '../hooks/useConfirmDeleteTransaction';
