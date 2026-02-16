@@ -1,5 +1,6 @@
 import z from 'zod';
 import { CreateItemSchema, UpdateItemSchema } from '@stockify/schema';
+import type { Unit } from '@/shared/types/unit.type';
 
 export type Item = {
   id: string;
@@ -7,6 +8,7 @@ export type Item = {
   initStock?: string;
   currentStock?: string;
   status: string;
+  unit: Unit;
 };
 
 export type CreateItem = z.infer<typeof CreateItemSchema>;

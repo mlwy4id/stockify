@@ -1,7 +1,7 @@
 export { Button } from './ui/button';
 export { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card';
 export { Input } from './ui/input';
-export { default as Select } from './ui/select';
+export { default as Select } from './select';
 export { Textarea } from './ui/textarea';
 export { InputGroup, InputGroupAddon, InputGroupInput } from './ui/input-group';
 export { Badge, badgeVariants } from './ui/badge';
