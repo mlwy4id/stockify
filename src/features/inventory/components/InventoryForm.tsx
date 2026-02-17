@@ -60,7 +60,7 @@ const InventoryForm = ({
             name="unitId"
             control={control}
             render={({ field }) => (
-              <Select value={field.value} onValueChange={field.onChange}>
+              <Select key={field.value} value={field.value} onValueChange={field.onChange}>
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select Unit" />
                 </SelectTrigger>

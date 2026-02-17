@@ -8,6 +8,7 @@ export type Item = {
   initStock?: string;
   currentStock?: string;
   status: string;
+  unitId: string;
   unit: Unit;
 };
 
