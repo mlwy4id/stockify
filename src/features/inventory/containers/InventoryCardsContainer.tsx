@@ -40,6 +40,7 @@ const InventoryCardsContainer = ({ searchValue }: Props) => {
               name={item.name}
               currentStock={item.currentStock}
               status={item.status}
+              unit={item?.unit.symbol ?? "unit"}
               openEditModal={toEditItem}
               openDeleteModal={toDeleteItem}
             />
