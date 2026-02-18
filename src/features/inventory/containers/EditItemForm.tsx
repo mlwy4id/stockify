@@ -7,11 +7,13 @@ import { useCurrentItem } from '../hooks/useCurrentItem';
 import { useInventoryPathNavigation } from '../hooks/useInventoryPathNavigation';
 import { useEffect } from 'react';
 import { useGetUnits } from '@/features/unit/hooks/queries/unit.query';
+import { useUnitPathNavigation } from '@/features/unit/hooks/useUnitPathNavigation';
 
 const EditItemForm = () => {
   const { isLoading: unitLoading, data: units } = useGetUnits();
   const { isLoading: itemLoading, item } = useCurrentItem();
   const { toInventory } = useInventoryPathNavigation();
+  const { toCreateUnit } = useUnitPathNavigation();
   const { confirmUpdate, isPending } = useConfirmUpdateItem(item);
   const { register, handleSubmit, errors, control, reset } = useEditItemForm();
 
@@ -34,6 +36,7 @@ const EditItemForm = () => {
       errors={errors}
       control={control}
       cancelHandler={toInventory}
+      addUnitHandler={toCreateUnit}
       unitList={units}
       submitBtn={
         <Button className="bg-blue-600 hover:bg-blue-500" disabled={isPending}>

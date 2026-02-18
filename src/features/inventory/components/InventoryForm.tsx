@@ -8,6 +8,7 @@ import {
   SelectGroup,
   SelectItem,
   SelectLabel,
+  SelectSeparator,
   SelectTrigger,
   SelectValue,
 } from '@/shared/components/ui/select';
@@ -19,6 +20,7 @@ type Props = {
   errors: FieldErrors<CreateItem>;
   onSubmitHandler: () => void;
   cancelHandler: () => void;
+  addUnitHandler: () => void;
   submitBtn: React.ReactNode;
   unitList: Unit[];
 };
@@ -29,6 +31,7 @@ const InventoryForm = ({
   errors,
   onSubmitHandler,
   cancelHandler,
+  addUnitHandler,
   submitBtn,
   unitList,
 }: Props) => {
@@ -75,6 +78,8 @@ const InventoryForm = ({
                       );
                     })}
                   </SelectGroup>
+                  <SelectSeparator />
+                  <Button variant="secondary" onClick={addUnitHandler}>+Add New Unit</Button>
                 </SelectContent>
               </Select>
             )}
