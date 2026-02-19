@@ -18,6 +18,8 @@ import { ReportsPage } from '@/features/reports';
 
 import { DashboardPage } from '@/features/dashboard';
 
+import { CreateUnitPage } from '@/features/unit';
+
 import { SignUpPage } from '@/features/users';
 import { SignInPage } from '@/features/users';
 
@@ -55,6 +57,7 @@ function App() {
                   <Route path="new" element={<CreateItemPage />} />
                   <Route path=":id/edit" element={<EditItemPage />} />
                   <Route path=":id/delete" element={<DeleteItemPage />} />
+                  <Route path="unit/add" element={<CreateUnitPage />} />
                 </Route>
 
                 <Route path="/reports" element={<ReportsPage />} />
