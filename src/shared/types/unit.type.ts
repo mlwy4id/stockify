@@ -3,3 +3,8 @@ export type Unit = {
   name: string;
   symbol: string;
 };
+
+export type CreateUnit = {
+  name: string;
+  symbol: string;
+};

@@ -79,7 +79,9 @@ const InventoryForm = ({
                     })}
                   </SelectGroup>
                   <SelectSeparator />
-                  <Button variant="secondary" onClick={addUnitHandler}>+Add New Unit</Button>
+                  <Button variant="secondary" onClick={addUnitHandler}>
+                    +Add New Unit
+                  </Button>
                 </SelectContent>
               </Select>
             )}
