@@ -46,7 +46,11 @@ const MobileSidebar = ({
             <ul className="mt-2 heading">
               <SidebarOptions icon={LuHouse} name="Dashboard" />
               <SidebarOptions icon={LuNotebookText} name="Transactions" />
-              <SidebarOptions icon={LuArchive} name="Inventory" />
+              <SidebarOptions
+                icon={LuArchive}
+                name="Inventory"
+                childrenOptions={[{ name: 'Category', to: '/inventory/category' }]}
+              />
               <SidebarOptions icon={LuChartColumn} name="Reports" />
             </ul>
           </nav>
