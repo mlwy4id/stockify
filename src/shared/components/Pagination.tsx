@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Button } from './ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import type { PaginationMeta } from '@/shared/types';
+import { cn } from '@/shared/lib';
 
 type Props = {
   meta: PaginationMeta;
@@ -48,13 +49,16 @@ const Pagination = ({ meta, setPageFilter }: Props) => {
       />
       {pages.map((p) => (
         <Button
+          variant="outline"
           key={p}
-          variant={p === currentPage ? 'default' : 'outline'}
           onClick={() => {
             setCurrentPage(p);
             setPageFilter(p);
           }}
-          className="cursor-pointer"
+          className={cn(
+            `cursor-pointer`,
+            `${currentPage === p ? `bg-blue-600 hover:bg-blue-700 text-white hover:text-white` : ``}`
+          )}
         >
           {p}
         </Button>
