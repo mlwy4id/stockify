@@ -3,27 +3,12 @@ import { Card, CardContent, CardFooter } from '@/shared/components';
 import TransactionCardsContainers from '../containers/TransactionsCardsContainer';
 import TransactionFilters from '../containers/TransactionsFilters';
 import { useState } from 'react';
-import { Pagination } from '@/shared/components';
-import { useActionFilterQuery } from '../hooks/useActionFilterQueryNavigation';
-import { useGetAllTransactions } from '../hooks/queries/transactions.query';
-import TransactionsCardsSkeleton from '../components/TransactionsCardsSkeleton';
 import { cn } from '@/shared/lib';
+import TransactionsPaginationContainer from '../containers/TransactionsPagination';
 
 const TransactionsPage = () => {
   const [searchValue, setSearchValue] = useState<string>('');
-
-  const { action: actionValue, date, page, setFilters } = useActionFilterQuery();
-  const { isLoading, data } = useGetAllTransactions(actionValue, date, page);
-
-  if (isLoading) return <TransactionsCardsSkeleton />;
-
-  const { data: transactionsData, meta } = data;
-
-  const setPageFilter = (num: number) => {
-    setFilters({ page: num });
-  };
-
-  const isTransactionDataAvailable = transactionsData.length > 0;
+  const [isTransactionDataAvailable, setTransactionDataAvailability] = useState<boolean>(true);
 
   return (
     <PageLayout title="Transactions" navLink="/transactions/new">
@@ -37,13 +22,13 @@ const TransactionsPage = () => {
           <TransactionFilters setSearchValue={setSearchValue} />
           <TransactionCardsContainers
             searchValue={searchValue}
-            transactionsData={transactionsData}
+            setTransactionsDataAvailability={setTransactionDataAvailability}
           />
         </CardContent>
         <CardFooter
           className={cn(`justify-center`, `${isTransactionDataAvailable ? `flex` : `hidden`}`)}
         >
-          <Pagination meta={meta} setPageFilter={setPageFilter} />
+          <TransactionsPaginationContainer />
         </CardFooter>
       </Card>
     </PageLayout>
