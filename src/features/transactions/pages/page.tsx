@@ -1,8 +1,5 @@
 import { PageLayout } from '@/shared/components';
-import { Button } from '@/shared/components';
-import { LuPlus } from 'react-icons/lu';
 import { Card, CardContent, CardFooter } from '@/shared/components';
-import { useTransactionPathNavigation } from '../hooks/useTransactionPathNavigation';
 import TransactionCardsContainers from '../containers/TransactionsCardsContainer';
 import TransactionFilters from '../containers/TransactionsFilters';
 import { useState } from 'react';
@@ -13,7 +10,6 @@ import TransactionsCardsSkeleton from '../components/TransactionsCardsSkeleton';
 
 const TransactionsPage = () => {
   const [searchValue, setSearchValue] = useState<string>('');
-  const { toCreateTransaction } = useTransactionPathNavigation();
 
   const { action: actionValue, date, page, setFilters } = useActionFilterQuery();
   const { isLoading, data } = useGetAllTransactions(actionValue, date, page);
@@ -27,15 +23,7 @@ const TransactionsPage = () => {
   };
 
   return (
-    <PageLayout
-      title="Transactions"
-      button={
-        <Button className="bg-blue-600 hover:bg-blue-500" onClick={toCreateTransaction}>
-          <LuPlus />
-          Add Transaction
-        </Button>
-      }
-    >
+    <PageLayout title="Transactions" navLink="/transactions/new">
       <Card className="h-full bg-muted border-0 shadow-none">
         <CardContent className="px-0 flex flex-col gap-2">
           <TransactionFilters setSearchValue={setSearchValue} />
