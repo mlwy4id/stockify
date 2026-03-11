@@ -31,7 +31,7 @@ const SidebarOptions = ({ icon: Icon, name, childrenOptions }: Props) => {
         <Icon className={`${isActive ? 'text-blue-500' : 'text-black'}`} size={20} />
         <p
           className={cn(
-            `heading lg:text-xl`,
+            `heading lg:text-lg`,
             `${isActive ? 'text-blue-700 font-semibold' : 'text-black'}`
           )}
         >
