@@ -7,6 +7,7 @@ import EmptyTransactionCard from '../components/EmptyTransactionCard';
 import { useActionFilterQuery } from '../hooks/useActionFilterQueryNavigation';
 import { useGetAllTransactions } from '../hooks/queries/transactions.query';
 import TransactionsCardsSkeleton from '../components/TransactionsCardsSkeleton';
+import { useEffect } from 'react';
 
 type Props = {
   searchValue: string;
@@ -16,25 +17,24 @@ type Props = {
 const TransactionCardsContainers = ({ searchValue, setTransactionsDataAvailability }: Props) => {
   const location = useLocation();
   const { toEditTransaction, toDeleteTransaction } = useTransactionPathNavigation();
-
+  
   const { action: actionValue, date, page } = useActionFilterQuery();
   const { isLoading, data } = useGetAllTransactions(actionValue, date, page);
+  
+  const transactionsData = data?.data ?? []
+
+  useEffect(() => {
+    setTransactionsDataAvailability(transactionsData.length > 0);
+  }, [transactionsData]);
+  
   if (isLoading) return <TransactionsCardsSkeleton />;
-
-  const { data: transactionsData } = data;
-
-  if (transactionsData.length > 0) {
-    setTransactionsDataAvailability(true);
-  } else {
-    setTransactionsDataAvailability(false);
-  }
-
   if (transactionsData.length === 0 && location.search === '') return <EmptyTransactionCard />;
   if (transactionsData.length === 0) return <SearchNotFound message="No transactions found" />;
 
   const filteredTransactions = transactionsData.filter((t: Transaction) =>
     t.item.name.toLowerCase().includes(searchValue.toLowerCase())
   );
+  
   if (filteredTransactions.length === 0) return <SearchNotFound message="No transactions found" />;
 
   return (
