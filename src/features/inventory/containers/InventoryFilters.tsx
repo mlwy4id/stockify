@@ -1,12 +1,12 @@
 import { FiltersDropdown } from '@/shared/components';
 import { SearchInput } from '@/shared/components';
-import { useStatusFilterQuery } from '../hooks/useStatusFilterQueryNavigation';
+import { useStatusFilterQuery } from '../hooks/useStatusFilterQuery';
 
 const status = [
   { id: 1, name: 'All' },
-  { id: 2, name: 'In Stock' },
-  { id: 3, name: 'Low Stock' },
-  { id: 4, name: 'Out of Stock' },
+  { id: 2, name: 'InStock' },
+  { id: 3, name: 'LowStock' },
+  { id: 4, name: 'OutOfStock' },
 ];
 
 type Props = {

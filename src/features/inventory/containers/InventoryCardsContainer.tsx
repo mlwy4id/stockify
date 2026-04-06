@@ -6,7 +6,7 @@ import { SearchNotFound } from '@/shared/components';
 import ItemCard from '../components/ItemCard';
 import { useLocation } from 'react-router-dom';
 import InventoryCardsSkeleton from '../components/InventoryCardsSkeleton';
-import { useStatusFilterQuery } from '../hooks/useStatusFilterQueryNavigation';
+import { useStatusFilterQuery } from '../hooks/useStatusFilterQuery';
 
 type Props = {
   searchValue: string;
