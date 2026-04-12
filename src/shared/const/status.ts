@@ -1,6 +1,6 @@
 export const STATUS_LABEL: Record<string, string> = {
   All: 'All',
-  InStock: 'In Stock',
-  LowStock: 'Low Stock',
-  OutOfStock: 'Out of Stock',
+  In_Stock: 'In Stock',
+  Low_Stock: 'Low Stock',
+  Out_Of_Stock: 'Out of Stock',
 };

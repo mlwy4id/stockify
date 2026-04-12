@@ -6,9 +6,9 @@ type Props = {
 };
 
 const badgeVariants: Record<string, string> = {
-  InStock: 'bg-green-500',
-  LowStock: 'bg-yellow-500',
-  OutOfStock: 'bg-red-500',
+  In_Stock: 'bg-green-500',
+  Low_Stock: 'bg-yellow-500',
+  Out_Of_Stock: 'bg-red-500',
 };
 
 const ItemBadge = ({ status }: Props) => {
