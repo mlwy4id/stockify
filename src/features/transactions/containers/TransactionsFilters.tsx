@@ -1,7 +1,10 @@
-import { FiltersDropdown } from '@/shared/components';
+import { Button, FiltersDropdown } from '@/shared/components';
 import { SearchInput } from '@/shared/components';
-import { Input } from '@/shared/components';
 import { useActionFilterQuery } from '../hooks/useActionFilterQueryNavigation';
+import { Popover, PopoverContent, PopoverTrigger, Calendar } from '@/shared/components';
+import { cn } from '@/shared/lib';
+import { CalendarIcon } from 'lucide-react';
+import { format } from 'date-fns';
 
 const action = [
   { id: 1, name: 'All' },
@@ -16,16 +19,39 @@ type Props = {
 const TransactionFilters = ({ setSearchValue }: Props) => {
   const { action: actionValue, date, setFilters } = useActionFilterQuery();
 
+  const selectedDate = date ? new Date(date) : new Date();
+
   return (
     <div className="flex justify-between">
       <SearchInput setState={setSearchValue} />
       <div className="flex gap-3 items-center">
-        <Input
-          type="date"
-          value={date}
-          onChange={(e) => setFilters({ date: e.target.value })}
-          className="bg-white"
-        />
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant={'outline'}
+              className={cn(
+                'w-40 justify-start text-left font-normal bg-white',
+                !date && 'text-muted-foreground'
+              )}
+            >
+              <CalendarIcon className="mr-2 h-4 w-4" />
+              {date ? format(selectedDate, 'PPP') : <span>Pick a date</span>}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0" align="end">
+            <Calendar
+              mode="single"
+              selected={selectedDate}
+              onSelect={(newDate) => {
+                if (newDate) {
+                  const isoDate = format(newDate, 'yyyy-MM-dd');
+                  setFilters({ date: isoDate });
+                }
+              }}
+              initialFocus
+            />
+          </PopoverContent>
+        </Popover>
 
         <FiltersDropdown
           state={actionValue}

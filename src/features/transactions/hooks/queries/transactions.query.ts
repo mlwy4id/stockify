@@ -11,10 +11,10 @@ import type { UpdateTransactionRequest } from '@/shared/types';
 import { invalidateTransactionsQuery } from './invalidateTransactionsQuery';
 import { useToastStore } from '@/store/toast';
 
-export const useGetAllTransactions = (action: string, date: string, page: number) => {
+export const useGetAllTransactions = (action: string, date: string, page: number, tz: string) => {
   return useQuery({
     queryKey: ['Transactions', { action, date, page }],
-    queryFn: () => getAllTransactions(action, date, page),
+    queryFn: () => getAllTransactions(action, date, page, tz),
     staleTime: 1000 * 30,
   });
 };

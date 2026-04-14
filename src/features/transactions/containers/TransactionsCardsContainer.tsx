@@ -17,16 +17,17 @@ type Props = {
 const TransactionCardsContainers = ({ searchValue, setTransactionsDataAvailability }: Props) => {
   const location = useLocation();
   const { toEditTransaction, toDeleteTransaction } = useTransactionPathNavigation();
-  
+
   const { action: actionValue, date, page } = useActionFilterQuery();
-  const { isLoading, data } = useGetAllTransactions(actionValue, date, page);
-  
-  const transactionsData = data?.data ?? []
+  const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const { isLoading, data } = useGetAllTransactions(actionValue, date, page, userTimezone);
+
+  const transactionsData = data?.data ?? [];
 
   useEffect(() => {
     setTransactionsDataAvailability(transactionsData.length > 0);
   }, [transactionsData]);
-  
+
   if (isLoading) return <TransactionsCardsSkeleton />;
   if (transactionsData.length === 0 && location.search === '') return <EmptyTransactionCard />;
   if (transactionsData.length === 0) return <SearchNotFound message="No transactions found" />;
@@ -34,7 +35,7 @@ const TransactionCardsContainers = ({ searchValue, setTransactionsDataAvailabili
   const filteredTransactions = transactionsData.filter((t: Transaction) =>
     t.item.name.toLowerCase().includes(searchValue.toLowerCase())
   );
-  
+
   if (filteredTransactions.length === 0) return <SearchNotFound message="No transactions found" />;
 
   return (

@@ -1,4 +1,4 @@
-import { isoDateFormatter } from '@/shared/lib';
+import { dateFormatter, isoDateFormatter } from '@/shared/lib';
 import type { FiltersParams } from '@/shared/types';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
@@ -11,6 +11,7 @@ export const useActionFilterQuery = () => {
 
   const rawDate = searchParams.get('date') ?? new Date().toISOString().split('T')[0];
   const date = isoDateFormatter(rawDate);
+  const displayedDate = dateFormatter(new Date(date));
 
   const page = searchParams.get('page') ? Number(searchParams.get('page')) : 1;
 
@@ -39,5 +40,5 @@ export const useActionFilterQuery = () => {
     });
   };
 
-  return { action, date, page, setFilters };
+  return { action, displayedDate, date, page, setFilters };
 };
