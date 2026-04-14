@@ -1,5 +1,4 @@
 import { Badge } from '@/shared/components';
-import { STATUS_LABEL } from '@/shared/const/status';
 
 type Props = {
   status: string;
@@ -12,7 +11,7 @@ const badgeVariants: Record<string, string> = {
 };
 
 const ItemBadge = ({ status }: Props) => {
-  return <Badge className={`${badgeVariants[status]} h-6 min-w-24`}>{STATUS_LABEL[status]}</Badge>;
+  return <Badge className={`${badgeVariants[status]} h-6 min-w-24`}>{status.split("_").join(" ")}</Badge>;
 };
 
 export default ItemBadge;
