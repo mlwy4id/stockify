@@ -6,7 +6,6 @@ import {
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 import type { FiltersParams } from '@/shared/types';
-import { STATUS_LABEL } from '@/shared/const/status';
 
 interface filtersState {
   id: number;
@@ -25,13 +24,13 @@ const FiltersDropdown = ({ state, states, applyFilter, type }: Props) => {
     <div className="flex flex-wrap gap-2 justify-end">
       <DropdownMenu>
         <DropdownMenuTrigger className="bg-white px-3 py-1 shadow-sm rounded-md flex justify-between gap-1 items-center font-medium min-w-36">
-          {STATUS_LABEL[state]} <ChevronDown />
+          {state} <ChevronDown />
         </DropdownMenuTrigger>
 
         <DropdownMenuContent align="start">
           {states.map((s) => (
             <DropdownMenuItem onClick={() => applyFilter({ [type]: s.name })} key={s.id}>
-              {STATUS_LABEL[s.name]}
+              {s.name.split("_").join(" ")}
             </DropdownMenuItem>
           ))}
         </DropdownMenuContent>
