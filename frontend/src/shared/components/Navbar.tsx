@@ -1,0 +1,22 @@
+'use client';
+import { CircleUser, Menu } from 'lucide-react';
+
+const Navbar = ({ setIsOpen }: { setIsOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
+  return (
+    <header className="p-4 md:hidden sticky top-0 bg-white/50 backdrop-blur-md">
+      <nav>
+        <ul className="flex justify-between items-center">
+          <div className="flex gap-4 items-center">
+            <Menu size={24} className="md:hidden" onClick={() => setIsOpen(true)} />
+            <h1 className="font-bold text-xl md:hidden">Stockify</h1>
+          </div>
+          <div className="flex items-center">
+            <CircleUser size={24} />
+          </div>
+        </ul>
+      </nav>
+    </header>
+  );
+};
+
+export default Navbar;
