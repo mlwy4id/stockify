@@ -18,10 +18,6 @@ func (q Quantity) Value() int {
 	return q.value
 }
 
-func (q Quantity) Equals(other Quantity) bool {
-	return q.value == other.value
-}
-
 func (q Quantity) Add(other Quantity) Quantity {
 	return Quantity{value: q.value + other.value}
 }
