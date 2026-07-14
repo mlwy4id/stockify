@@ -30,12 +30,15 @@ func NewStockMovement(action enum.Action, quantity valueobject.Quantity, source 
 		date:     date,
 	}
 
-	if strings.TrimSpace(source) != "" {
-		sm.source = &source
+	trimmedSource := strings.TrimSpace(source)
+	trimmedReason := strings.TrimSpace(reason)
+
+	if trimmedSource != "" {
+		sm.source = &trimmedSource
 	}
 
-	if strings.TrimSpace(reason) != "" {
-		sm.reason = &reason
+	if trimmedReason != "" {
+		sm.reason = &trimmedReason
 	}
 
 	return sm, nil
