@@ -2,6 +2,7 @@ package entity
 
 import (
 	"errors"
+	"strings"
 	"time"
 
 	"github.com/mlwy4id/stockify/internal/domain/enum"
@@ -29,11 +30,11 @@ func NewStockMovement(action enum.Action, quantity valueobject.Quantity, source 
 		date:     date,
 	}
 
-	if source != "" {
+	if strings.TrimSpace(source) != "" {
 		sm.source = &source
 	}
 
-	if reason != "" {
+	if strings.TrimSpace(reason) != "" {
 		sm.reason = &reason
 	}
 
