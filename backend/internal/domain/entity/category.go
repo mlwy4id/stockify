@@ -5,11 +5,11 @@ import (
 	"strings"
 	"time"
 
-	valueobject "github.com/mlwy4id/stockify/internal/domain/values_object"
+	vo "github.com/mlwy4id/stockify/internal/domain/values_object"
 )
 
 type Category struct {
-	id        valueobject.CategoryId
+	id        vo.CategoryId
 	name      string
 	isDeleted bool
 	deletedAt *time.Time
@@ -23,7 +23,7 @@ func NewCategory(name string) (Category, error) {
 	}
 
 	return Category{
-		id:        valueobject.NewCategoryId(),
+		id:        vo.NewCategoryId(),
 		name:      trimmedName,
 		isDeleted: false,
 	}, nil

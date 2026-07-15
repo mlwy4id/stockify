@@ -6,25 +6,25 @@ import (
 	"time"
 
 	"github.com/mlwy4id/stockify/internal/domain/enum"
-	valueobject "github.com/mlwy4id/stockify/internal/domain/values_object"
+	vo "github.com/mlwy4id/stockify/internal/domain/values_object"
 )
 
 type StockMovement struct {
-	id       valueobject.StockMovementId
+	id       vo.StockMovementId
 	action   enum.Action
-	quantity valueobject.Quantity
+	quantity vo.Quantity
 	source   *string
 	reason   *string
 	date     time.Time
 }
 
-func NewStockMovement(action enum.Action, quantity valueobject.Quantity, source string, reason string, date time.Time) (StockMovement, error) {
+func NewStockMovement(action enum.Action, quantity vo.Quantity, source string, reason string, date time.Time) (StockMovement, error) {
 	if !action.IsValid() {
 		return StockMovement{}, errors.New("action is not valid")
 	}
 
 	sm := StockMovement{
-		id:       valueobject.NewStockMovementId(),
+		id:       vo.NewStockMovementId(),
 		action:   action,
 		quantity: quantity,
 		date:     date,
