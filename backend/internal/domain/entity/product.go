@@ -16,6 +16,7 @@ type Product struct {
 	stockThreshold vo.StockThreshold
 	categoryId     vo.CategoryId
 	stockMovements []StockMovement
+	archivedAt     *time.Time
 }
 
 func NewProduct(name string, quantity vo.Quantity, stockThreshold vo.StockThreshold, categoryId vo.CategoryId) (Product, error) {
@@ -59,6 +60,57 @@ func (p Product) AddStockMovement(action enum.Action, quantity vo.Quantity, sour
 		p.quantity = p.quantity.Add(quantity)
 	case "SOLD", "BROKEN":
 		p.quantity, _ = p.quantity.Subtract(quantity)
+	}
+
+	return nil
+}
+
+func (p *Product) ArchiveProduct() error {
+	if p.archivedAt != nil {
+		return errors.New("product already archived")
+	}
+
+	now := time.Now()
+	p.archivedAt = &now
+
+	return nil
+}
+
+func (p *Product) ReactivateProduct() error {
+	if p.archivedAt == nil {
+		return errors.New("product already active")
+	}
+
+	p.archivedAt = nil
+
+	return nil
+}
+
+func (p *Product) UpdateProduct(name *string, stockThreshold *vo.StockThreshold, categoryId *vo.CategoryId) error {
+	if p.archivedAt != nil {
+		return errors.New("cannot update archived product")
+	}
+
+	if name == nil && stockThreshold == nil && categoryId == nil {
+		return errors.New("must update at least one field at the time")
+	}
+
+	if name != nil {
+		trimmedName := strings.TrimSpace(*name)
+
+		if trimmedName == "" {
+			return errors.New("new name cannot be empty")
+		}
+		
+		p.name = trimmedName
+	}
+
+	if stockThreshold != nil {
+		p.stockThreshold = *stockThreshold
+	}
+
+	if categoryId != nil {
+		p.categoryId = *categoryId
 	}
 
 	return nil
