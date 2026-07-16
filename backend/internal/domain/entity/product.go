@@ -115,3 +115,31 @@ func (p *Product) UpdateProduct(name *string, stockThreshold *vo.StockThreshold,
 
 	return nil
 }
+
+func (p Product) Id() vo.ProductId {
+	return p.id
+}
+
+func (p Product) Name() string {
+	return p.name
+}
+
+func (p Product) Quantity() vo.Quantity {
+	return p.quantity
+}
+
+func (p Product) StockThreshold() vo.StockThreshold {
+	return p.stockThreshold
+}
+
+func (p Product) CategoryId() vo.CategoryId {
+	return p.categoryId
+}
+
+func (p Product) StockMovements() []StockMovement {
+	return p.stockMovements
+}
+
+func (p Product) ArchivedAt() *time.Time {
+	return p.archivedAt
+}
