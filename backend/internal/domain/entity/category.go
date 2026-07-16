@@ -51,3 +51,19 @@ func (c *Category) DeleteCategory() error {
 
 	return nil
 }
+
+func (c Category) Id() vo.CategoryId {
+	return c.id
+}
+
+func (c Category) Name() string {
+	return c.name
+}
+
+func (c Category) IsDeleted() bool {
+	return c.isDeleted
+}
+
+func (c Category) DeletedAt() *time.Time {
+	return c.deletedAt
+}
