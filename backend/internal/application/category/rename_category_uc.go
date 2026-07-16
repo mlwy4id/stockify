@@ -2,7 +2,6 @@ package application
 
 import (
 	"context"
-	"strings"
 
 	repo "github.com/mlwy4id/stockify/internal/domain/repository"
 	vo "github.com/mlwy4id/stockify/internal/domain/values_object"
@@ -28,8 +27,7 @@ func (uc *RenameCategoryUC) Execute(ctx context.Context, command RenameCategoryC
 		return "", err
 	}
 
-	trimmedName := strings.TrimSpace(command.name)
-	category.RenameCategory(trimmedName)
+	category.RenameCategory(command.name)
 
 	if err := uc.categoryRepo.Save(ctx, category); err != nil {
 		return "", err
