@@ -11,5 +11,4 @@ type CategoryRepository interface {
 	Save(ctx context.Context, category *entity.Category) error
 	FindByID(ctx context.Context, id vo.CategoryId) (*entity.Category, error)
 	FindAll(ctx context.Context) ([]*entity.Category, error)
-	Delete(ctx context.Context, id vo.CategoryId) error
 }
