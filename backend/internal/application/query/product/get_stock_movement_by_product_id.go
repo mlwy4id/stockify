@@ -2,14 +2,18 @@ package product
 
 import (
 	"context"
+	"time"
 
 	"github.com/mlwy4id/stockify/internal/application/dto"
+	"github.com/mlwy4id/stockify/internal/domain/entity"
 	repo "github.com/mlwy4id/stockify/internal/domain/repository"
 	vo "github.com/mlwy4id/stockify/internal/domain/values_object"
 )
 
 type GetStockMovementByProductIDQuery struct {
 	ProductId vo.ProductId
+	Start     *time.Time
+	End       *time.Time
 }
 
 type GetStockMovementByProductIDHandler struct {
@@ -21,27 +25,34 @@ func NewGetStockMovementByProductIDHandler(productRepo repo.ProductRepository) *
 }
 
 func (h *GetStockMovementByProductIDHandler) Handle(ctx context.Context, query GetStockMovementByProductIDQuery) ([]dto.StockMovementDTO, error) {
- stockMovements, err := h.productRepo.GetStockMovementsByProductID(ctx, query.ProductId)
+	var movements []*entity.StockMovement
+	var err error
+
+	if query.Start != nil && query.End != nil {
+		movements, err = h.productRepo.GetStockMovementsByProductIDAndDateRange(ctx, query.ProductId, *query.Start, *query.End)
+	} else {
+		movements, err = h.productRepo.GetStockMovementsByProductID(ctx, query.ProductId)
+	}
 
 	if err != nil {
 		return []dto.StockMovementDTO{}, err
 	}
 
 	var dtos []dto.StockMovementDTO
-	for _, sm := range stockMovements {
+	for _, m := range movements {
 		d := dto.StockMovementDTO{
-			ID:       sm.Id().Value(),
-			Action:   sm.Action().String(),
-			Quantity: sm.Quantity().Value(),
-			Date:     sm.Date(),
+			ID:       m.Id().Value(),
+			Action:   m.Action().String(),
+			Quantity: m.Quantity().Value(),
+			Date:     m.Date(),
 		}
 
-		if sm.Source() != nil {
-			d.Source = *sm.Source()
+		if m.Source() != nil {
+			d.Source = *m.Source()
 		}
 
-		if sm.Reason() != nil {
-			d.Reason = *sm.Reason()
+		if m.Reason() != nil {
+			d.Reason = *m.Reason()
 		}
 
 		dtos = append(dtos, d)
