@@ -48,7 +48,7 @@ func (p Product) AddStockMovement(action enum.Action, quantity vo.Quantity, sour
 		}
 	}
 
-	sm, err := NewStockMovement(action, quantity, source, reason, date)
+	sm, err := NewStockMovement(p.id, action, quantity, source, reason, date)
 	if err != nil {
 		return err
 	}
@@ -101,7 +101,7 @@ func (p *Product) UpdateProduct(name *string, stockThreshold *vo.StockThreshold,
 		if trimmedName == "" {
 			return errors.New("new name cannot be empty")
 		}
-		
+
 		p.name = trimmedName
 	}
 

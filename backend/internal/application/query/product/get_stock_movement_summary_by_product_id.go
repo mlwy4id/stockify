@@ -12,8 +12,8 @@ import (
 )
 
 type GetStockMovementSummaryByProductIDQuery struct {
-	ProductId    vo.ProductId
-	DateFilter   *enum.DateFilter
+	ProductId  vo.ProductId
+	DateFilter *enum.DateFilter
 }
 
 type GetStockMovementSummaryByProductIDHandler struct {

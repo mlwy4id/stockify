@@ -10,24 +10,26 @@ import (
 )
 
 type StockMovement struct {
-	id       vo.StockMovementId
-	action   enum.Action
-	quantity vo.Quantity
-	source   *string
-	reason   *string
-	date     time.Time
+	id        vo.StockMovementId
+	productId vo.ProductId
+	action    enum.Action
+	quantity  vo.Quantity
+	source    *string
+	reason    *string
+	date      time.Time
 }
 
-func NewStockMovement(action enum.Action, quantity vo.Quantity, source string, reason string, date time.Time) (StockMovement, error) {
+func NewStockMovement(productId vo.ProductId, action enum.Action, quantity vo.Quantity, source string, reason string, date time.Time) (StockMovement, error) {
 	if !action.IsValid() {
 		return StockMovement{}, errors.New("action is not valid")
 	}
 
 	sm := StockMovement{
-		id:       vo.NewStockMovementId(),
-		action:   action,
-		quantity: quantity,
-		date:     date,
+		id:        vo.NewStockMovementId(),
+		productId: productId,
+		action:    action,
+		quantity:  quantity,
+		date:      date,
 	}
 
 	trimmedSource := strings.TrimSpace(source)
@@ -46,6 +48,10 @@ func NewStockMovement(action enum.Action, quantity vo.Quantity, source string, r
 
 func (s StockMovement) Id() vo.StockMovementId {
 	return s.id
+}
+
+func (s StockMovement) ProductId() vo.ProductId {
+	return s.productId
 }
 
 func (s StockMovement) Action() enum.Action {
