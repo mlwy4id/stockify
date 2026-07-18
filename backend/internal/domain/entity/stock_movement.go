@@ -43,3 +43,27 @@ func NewStockMovement(action enum.Action, quantity vo.Quantity, source string, r
 
 	return sm, nil
 }
+
+func (s StockMovement) Id() vo.StockMovementId {
+	return s.id
+}
+
+func (s StockMovement) Action() enum.Action {
+	return s.action
+}
+
+func (s StockMovement) Quantity() vo.Quantity {
+	return s.quantity
+}
+
+func (s StockMovement) Source() *string {
+	return s.source
+}
+
+func (s StockMovement) Reason() *string {
+	return s.reason
+}
+
+func (s StockMovement) Date() time.Time {
+	return s.date
+}
