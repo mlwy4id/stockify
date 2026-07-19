@@ -17,8 +17,14 @@ func main() {
 		log.Fatalf("failed to connect to database: %v", err)
 	}
 
-	sqlDB, _ := db.DB()
-	defer sqlDB.Close()
+	sqlDB, err := db.DB()
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	// lanjut init repository, router, dsb
+	if database.RunMigrations(sqlDB); err != nil {
+		log.Fatalf("migration failed: %w", err)
+	}
+
+	log.Println("migrations applied ✅")
 }
