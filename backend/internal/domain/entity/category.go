@@ -52,6 +52,15 @@ func (c *Category) DeleteCategory() error {
 	return nil
 }
 
+func ReconstructCategory(id vo.CategoryId, name string, isDeleted bool, deletedAt *time.Time) Category {
+	return Category{
+		id:        id,
+		name:      name,
+		isDeleted: isDeleted,
+		deletedAt: deletedAt,
+	}
+}
+
 func (c Category) Id() vo.CategoryId {
 	return c.id
 }
