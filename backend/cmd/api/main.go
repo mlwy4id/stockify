@@ -4,7 +4,10 @@ import (
 	"log"
 
 	"github.com/joho/godotenv"
+	"github.com/mlwy4id/stockify/internal/http"
 	"github.com/mlwy4id/stockify/internal/infrastructure/database"
+	"github.com/mlwy4id/stockify/internal/infrastructure/repository"
+	// TODO: import handlers after router is set up
 )
 
 func main() {
@@ -22,9 +25,22 @@ func main() {
 		log.Fatal(err)
 	}
 
-	if database.RunMigrations(sqlDB); err != nil {
-		log.Fatalf("migration failed: %w", err)
+	if err := database.RunMigrations(sqlDB); err != nil {
+		log.Fatalf("migration failed: %v", err)
 	}
 
 	log.Println("migrations applied ✅")
+
+	categoryRepo := repository.NewCategoryRepository(db)
+	productRepo := repository.NewProductRepository(db)
+
+	// TODO: init handlers with repos
+	// TODO: set up router
+	router := http.NewRouter()
+
+	_ = categoryRepo
+	_ = productRepo
+
+	router.Run(":8080")
+	log.Println("server started ✅")
 }
