@@ -1,0 +1,16 @@
+package model
+
+import "time"
+
+type ProductModel struct {
+	ID             string     `gorm:"column:id;primaryKey"`
+	Name           string     `gorm:"column:name"`
+	Quantity       int        `gorm:"column:quantity"`
+	StockThreshold int        `gorm:"column:stock_threshold"`
+	CategoryID     string     `gorm:"column:category_id"`
+	ArchivedAt     *time.Time `gorm:"column:archived_at"`
+}
+
+func (ProductModel) TableName() string {
+	return "products"
+}
