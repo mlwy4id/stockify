@@ -29,3 +29,7 @@ func (q Quantity) Subtract(other Quantity) (Quantity, error) {
 
 	return Quantity{value: q.value - other.value}, nil
 }
+
+func ReconstructQuantity(value int) Quantity {
+	return Quantity{value: value}
+}

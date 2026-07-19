@@ -73,3 +73,15 @@ func (s StockMovement) Reason() *string {
 func (s StockMovement) Date() time.Time {
 	return s.date
 }
+
+func ReconstructStockMovement(id vo.StockMovementId, productId vo.ProductId, action string, quantity int, source *string, reason *string, date time.Time) StockMovement {
+	return StockMovement{
+		id:        id,
+		productId: productId,
+		action:    enum.Action(action),
+		quantity:  vo.ReconstructQuantity(quantity),
+		source:    source,
+		reason:    reason,
+		date:      date,
+	}
+}

@@ -143,3 +143,15 @@ func (p Product) StockMovements() []StockMovement {
 func (p Product) ArchivedAt() *time.Time {
 	return p.archivedAt
 }
+
+func ReconstructProduct(id vo.ProductId, name string, quantity vo.Quantity, stockThreshold vo.StockThreshold, categoryId vo.CategoryId, stockMovements []StockMovement, archivedAt *time.Time) Product {
+	return Product{
+		id:             id,
+		name:           name,
+		quantity:       quantity,
+		stockThreshold: stockThreshold,
+		categoryId:     categoryId,
+		stockMovements: stockMovements,
+		archivedAt:     archivedAt,
+	}
+}

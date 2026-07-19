@@ -17,3 +17,7 @@ func NewStockThreshold(value int) (StockThreshold, error) {
 func (s StockThreshold) Value() int {
 	return s.value
 }
+
+func ReconstructStockThreshold(value int) StockThreshold {
+	return StockThreshold{value: value}
+}
