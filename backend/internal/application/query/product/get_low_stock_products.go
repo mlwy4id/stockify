@@ -17,21 +17,20 @@ func NewGetLowStockProductsHandler(productRepo repo.ProductRepository) *GetLowSt
 	return &GetLowStockProductsHandler{productRepo: productRepo}
 }
 
-func (h *GetLowStockProductsHandler) Handle(ctx context.Context, query GetLowStockProductsQuery) ([]dto.LowStockProductDTO, error) {
+func (h *GetLowStockProductsHandler) Handle(ctx context.Context, query GetLowStockProductsQuery) ([]dto.ProductSummaryDTO, error) {
 	products, err := h.productRepo.FindAllActive(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	var results []dto.LowStockProductDTO
+	var results []dto.ProductSummaryDTO
 	for _, p := range products {
 		if p.Quantity().Value() < p.StockThreshold().Value() {
-			results = append(results, dto.LowStockProductDTO{
-				ID:             p.Id().Value(),
-				Name:           p.Name(),
-				Quantity:       p.Quantity().Value(),
-				StockThreshold: p.StockThreshold().Value(),
-				CategoryId:     p.CategoryId().Value(),
+			results = append(results, dto.ProductSummaryDTO{
+				ID:         p.Id().Value(),
+				Name:       p.Name(),
+				Quantity:   p.Quantity().Value(),
+				CategoryId: p.CategoryId().Value(),
 			})
 		}
 	}
