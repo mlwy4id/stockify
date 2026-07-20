@@ -69,3 +69,35 @@ func (ch *CategoryHandler) Delete(ctx *gin.Context) {
 		"category_id": id.Value(),
 	})
 }
+
+func (ch *CategoryHandler) Rename(ctx *gin.Context) {
+	id, err := vo.ParseCategoryId(ctx.Param("id"))
+
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	var req RenameCategoryRequest
+
+	if err := ctx.BindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	cmd := app.RenameCategoryCommand{
+		Id:   id,
+		Name: req.Name,
+	}
+	categoryId, err := ch.renameCategoryCommand.Handle(ctx, cmd)
+
+	if err != nil {
+		ctx.JSON(http.StatusUnprocessableEntity, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"message":     "category renamed successfully",
+		"category_id": categoryId,
+	})
+}
