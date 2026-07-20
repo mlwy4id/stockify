@@ -1,4 +1,4 @@
-package category
+package application
 
 import (
 	"context"
@@ -11,15 +11,15 @@ type CreateCategoryCommand struct {
 	Name string
 }
 
-type CreateCategoryHandler struct {
+type CreateCategoryCommandHandler struct {
 	categoryRepo repo.CategoryRepository
 }
 
-func NewCreateCategoryHandler(categoryRepo repo.CategoryRepository) *CreateCategoryHandler {
-	return &CreateCategoryHandler{categoryRepo: categoryRepo}
+func NewCreateCategoryCommandHandler(categoryRepo repo.CategoryRepository) *CreateCategoryCommandHandler {
+	return &CreateCategoryCommandHandler{categoryRepo: categoryRepo}
 }
 
-func (h *CreateCategoryHandler) Handle(ctx context.Context, command CreateCategoryCommand) (string, error) {
+func (h *CreateCategoryCommandHandler) Handle(ctx context.Context, command CreateCategoryCommand) (string, error) {
 	category, err := entity.NewCategory(command.Name)
 
 	if err != nil {

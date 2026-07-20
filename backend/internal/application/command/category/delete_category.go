@@ -1,4 +1,4 @@
-package category
+package application
 
 import (
 	"context"
@@ -11,15 +11,15 @@ type DeleteCategoryCommand struct {
 	Id vo.CategoryId
 }
 
-type DeleteCategoryHandler struct {
+type DeleteCategoryCommandHandler struct {
 	categoryRepo repo.CategoryRepository
 }
 
-func NewDeleteCategoryHandler(categoryRepo repo.CategoryRepository) *DeleteCategoryHandler {
-	return &DeleteCategoryHandler{categoryRepo: categoryRepo}
+func NewDeleteCategoryCommandHandler(categoryRepo repo.CategoryRepository) *DeleteCategoryCommandHandler {
+	return &DeleteCategoryCommandHandler{categoryRepo: categoryRepo}
 }
 
-func (h *DeleteCategoryHandler) Handle(ctx context.Context, command DeleteCategoryCommand) error {
+func (h *DeleteCategoryCommandHandler) Handle(ctx context.Context, command DeleteCategoryCommand) error {
 	category, err := h.categoryRepo.FindByID(ctx, command.Id)
 
 	if err != nil {

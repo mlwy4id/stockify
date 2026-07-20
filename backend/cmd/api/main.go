@@ -4,7 +4,9 @@ import (
 	"log"
 
 	"github.com/joho/godotenv"
+	app "github.com/mlwy4id/stockify/internal/application/command/category"
 	"github.com/mlwy4id/stockify/internal/http"
+	ch "github.com/mlwy4id/stockify/internal/http/category"
 	"github.com/mlwy4id/stockify/internal/infrastructure/database"
 	"github.com/mlwy4id/stockify/internal/infrastructure/repository"
 	// TODO: import handlers after router is set up
@@ -32,14 +34,18 @@ func main() {
 	log.Println("migrations applied ✅")
 
 	categoryRepo := repository.NewCategoryRepository(db)
-	productRepo := repository.NewProductRepository(db)
 
 	// TODO: init handlers with repos
-	// TODO: set up router
-	router := http.NewRouter()
+	categoryHandler := ch.NewCategoryHandler(
+		app.NewCreateCategoryCommandHandler(categoryRepo),
+		app.NewDeleteCategoryCommandHandler(categoryRepo),
+		app.NewRenameCategoryCommandHandler(categoryRepo),
+	)
 
-	_ = categoryRepo
-	_ = productRepo
+	// TODO: set up router
+	router := http.NewRouter(http.Handlers{
+		Category: categoryHandler,
+	})
 
 	router.Run(":8080")
 	log.Println("server started ✅")

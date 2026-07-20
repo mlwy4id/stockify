@@ -1,4 +1,4 @@
-package category
+package application
 
 import (
 	"context"
@@ -12,15 +12,15 @@ type RenameCategoryCommand struct {
 	Name string
 }
 
-type RenameCategoryHandler struct {
+type RenameCategoryCommandHandler struct {
 	categoryRepo repo.CategoryRepository
 }
 
-func NewRenameCategoryHandler(categoryRepo repo.CategoryRepository) *RenameCategoryHandler {
-	return &RenameCategoryHandler{categoryRepo: categoryRepo}
+func NewRenameCategoryCommandHandler(categoryRepo repo.CategoryRepository) *RenameCategoryCommandHandler {
+	return &RenameCategoryCommandHandler{categoryRepo: categoryRepo}
 }
 
-func (h *RenameCategoryHandler) Handle(ctx context.Context, command RenameCategoryCommand) (string, error) {
+func (h *RenameCategoryCommandHandler) Handle(ctx context.Context, command RenameCategoryCommand) (string, error) {
 	category, err := h.categoryRepo.FindByID(ctx, command.Id)
 
 	if err != nil {
