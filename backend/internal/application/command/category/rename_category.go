@@ -1,4 +1,4 @@
-package application
+package category
 
 import (
 	"context"

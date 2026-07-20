@@ -1,4 +1,4 @@
-package http
+package category
 
 type CreateCategoryRequest struct {
 	Name string `json:"name" binding:"required"`

@@ -1,28 +1,32 @@
-package http
+package category
 
 import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	app "github.com/mlwy4id/stockify/internal/application/command/category"
+	command "github.com/mlwy4id/stockify/internal/application/command/category"
+	query "github.com/mlwy4id/stockify/internal/application/query/category"
 	vo "github.com/mlwy4id/stockify/internal/domain/values_object"
 )
 
 type CategoryHandler struct {
-	createCategoryHandler *app.CreateCategoryCommandHandler
-	deleteCategoryHandler *app.DeleteCategoryCommandHandler
-	renameCategoryCommand *app.RenameCategoryCommandHandler
+	createCategoryHandler *command.CreateCategoryCommandHandler
+	deleteCategoryHandler *command.DeleteCategoryCommandHandler
+	renameCategoryHandler *command.RenameCategoryCommandHandler
+	getAllCategoryHandler *query.GetAllCategoryQueryHandler
 }
 
 func NewCategoryHandler(
-	createHandler *app.CreateCategoryCommandHandler,
-	deleteHandler *app.DeleteCategoryCommandHandler,
-	renameHandler *app.RenameCategoryCommandHandler,
+	createHandler *command.CreateCategoryCommandHandler,
+	deleteHandler *command.DeleteCategoryCommandHandler,
+	renameHandler *command.RenameCategoryCommandHandler,
+	getAllCategoryHandler *query.GetAllCategoryQueryHandler,
 ) *CategoryHandler {
 	return &CategoryHandler{
 		createCategoryHandler: createHandler,
 		deleteCategoryHandler: deleteHandler,
-		renameCategoryCommand: renameHandler,
+		renameCategoryHandler: renameHandler,
+		getAllCategoryHandler: getAllCategoryHandler,
 	}
 }
 
@@ -34,7 +38,7 @@ func (ch *CategoryHandler) Create(ctx *gin.Context) {
 		return
 	}
 
-	cmd := app.CreateCategoryCommand{Name: req.Name}
+	cmd := command.CreateCategoryCommand{Name: req.Name}
 	id, err := ch.createCategoryHandler.Handle(ctx.Request.Context(), cmd)
 
 	if err != nil {
@@ -56,7 +60,7 @@ func (ch *CategoryHandler) Delete(ctx *gin.Context) {
 		return
 	}
 
-	cmd := app.DeleteCategoryCommand{Id: id}
+	cmd := command.DeleteCategoryCommand{Id: id}
 	err = ch.deleteCategoryHandler.Handle(ctx.Request.Context(), cmd)
 
 	if err != nil {
@@ -85,11 +89,11 @@ func (ch *CategoryHandler) Rename(ctx *gin.Context) {
 		return
 	}
 
-	cmd := app.RenameCategoryCommand{
+	cmd := command.RenameCategoryCommand{
 		Id:   id,
 		Name: req.Name,
 	}
-	categoryId, err := ch.renameCategoryCommand.Handle(ctx, cmd)
+	categoryId, err := ch.renameCategoryHandler.Handle(ctx.Request.Context(), cmd)
 
 	if err != nil {
 		ctx.JSON(http.StatusUnprocessableEntity, gin.H{"error": err.Error()})
@@ -99,5 +103,18 @@ func (ch *CategoryHandler) Rename(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{
 		"message":     "category renamed successfully",
 		"category_id": categoryId,
+	})
+}
+
+func (ch *CategoryHandler) GetAll(ctx *gin.Context) {
+	categories, err := ch.getAllCategoryHandler.Handle(ctx.Request.Context())
+
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"data": categories,
 	})
 }
