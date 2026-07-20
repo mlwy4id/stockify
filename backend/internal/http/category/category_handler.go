@@ -14,6 +14,7 @@ type CategoryHandler struct {
 	deleteCategoryHandler *command.DeleteCategoryCommandHandler
 	renameCategoryHandler *command.RenameCategoryCommandHandler
 	getAllCategoryHandler *query.GetAllCategoryQueryHandler
+	getCategoryById       *query.GetCategoryByIDQueryHandler
 }
 
 func NewCategoryHandler(
@@ -21,12 +22,14 @@ func NewCategoryHandler(
 	deleteHandler *command.DeleteCategoryCommandHandler,
 	renameHandler *command.RenameCategoryCommandHandler,
 	getAllCategoryHandler *query.GetAllCategoryQueryHandler,
+	getCategoryById *query.GetCategoryByIDQueryHandler,
 ) *CategoryHandler {
 	return &CategoryHandler{
 		createCategoryHandler: createHandler,
 		deleteCategoryHandler: deleteHandler,
 		renameCategoryHandler: renameHandler,
 		getAllCategoryHandler: getAllCategoryHandler,
+		getCategoryById:       getCategoryById,
 	}
 }
 
@@ -116,5 +119,26 @@ func (ch *CategoryHandler) GetAll(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, gin.H{
 		"data": categories,
+	})
+}
+
+func (ch *CategoryHandler) GetById(ctx *gin.Context) {
+	id, err := vo.ParseCategoryId(ctx.Param("id"))
+
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	query := query.GetCategoryByIDQuery{CategoryID: id}
+	category, err := ch.getCategoryById.Handle(ctx.Request.Context(), query)
+
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"data": category,
 	})
 }
