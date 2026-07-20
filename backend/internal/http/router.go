@@ -16,7 +16,11 @@ func NewRouter(h Handlers) *gin.Engine {
 	{
 		category := api.Group("/category")
 		{
-			category.POST("/new", h.Category.Create)
+			category.GET("/", h.Category.GetAll)
+			category.POST("/", h.Category.Create)
+			category.GET("/:id", h.Category.GetById)
+			category.PATCH("/:id", h.Category.Rename)
+			category.DELETE("/:id", h.Category.Delete)
 		}
 	}
 

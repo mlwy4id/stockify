@@ -4,12 +4,12 @@ import (
 	"log"
 
 	"github.com/joho/godotenv"
-	app "github.com/mlwy4id/stockify/internal/application/command/category"
+	categoryCommand "github.com/mlwy4id/stockify/internal/application/command/category"
+	categoryQuery "github.com/mlwy4id/stockify/internal/application/query/category"
 	"github.com/mlwy4id/stockify/internal/http"
-	ch "github.com/mlwy4id/stockify/internal/http/category"
+	categoryHandler "github.com/mlwy4id/stockify/internal/http/category"
 	"github.com/mlwy4id/stockify/internal/infrastructure/database"
 	"github.com/mlwy4id/stockify/internal/infrastructure/repository"
-	// TODO: import handlers after router is set up
 )
 
 func main() {
@@ -33,16 +33,17 @@ func main() {
 
 	log.Println("migrations applied ✅")
 
+	// Wiring Handler With Repository Implementation
 	categoryRepo := repository.NewCategoryRepository(db)
 
-	// TODO: init handlers with repos
-	categoryHandler := ch.NewCategoryHandler(
-		app.NewCreateCategoryCommandHandler(categoryRepo),
-		app.NewDeleteCategoryCommandHandler(categoryRepo),
-		app.NewRenameCategoryCommandHandler(categoryRepo),
+	categoryHandler := categoryHandler.NewCategoryHandler(
+		categoryCommand.NewCreateCategoryCommandHandler(categoryRepo),
+		categoryCommand.NewDeleteCategoryCommandHandler(categoryRepo),
+		categoryCommand.NewRenameCategoryCommandHandler(categoryRepo),
+		categoryQuery.NewGetAllCategoryQueryHandler(categoryRepo),
+		categoryQuery.NewGetCategoryByIDQueryHandler(categoryRepo),
 	)
 
-	// TODO: set up router
 	router := http.NewRouter(http.Handlers{
 		Category: categoryHandler,
 	})
