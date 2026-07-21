@@ -5,9 +5,13 @@ import (
 
 	"github.com/joho/godotenv"
 	categoryCommand "github.com/mlwy4id/stockify/internal/application/command/category"
+	productCommand "github.com/mlwy4id/stockify/internal/application/command/product"
 	categoryQuery "github.com/mlwy4id/stockify/internal/application/query/category"
+	productQuery "github.com/mlwy4id/stockify/internal/application/query/product"
 	"github.com/mlwy4id/stockify/internal/http"
 	categoryHandler "github.com/mlwy4id/stockify/internal/http/category"
+	productHandler "github.com/mlwy4id/stockify/internal/http/product"
+	stockMovementHandler "github.com/mlwy4id/stockify/internal/http/stock_movement"
 	"github.com/mlwy4id/stockify/internal/infrastructure/database"
 	"github.com/mlwy4id/stockify/internal/infrastructure/repository"
 )
@@ -33,10 +37,12 @@ func main() {
 
 	log.Println("migrations applied ✅")
 
-	// Wiring Handler With Repository Implementation
+	// Repositories
 	categoryRepo := repository.NewCategoryRepository(db)
+	productRepo := repository.NewProductRepository(db)
 
-	categoryHandler := categoryHandler.NewCategoryHandler(
+	// Category Handler
+	categoryH := categoryHandler.NewCategoryHandler(
 		categoryCommand.NewCreateCategoryCommandHandler(categoryRepo),
 		categoryCommand.NewDeleteCategoryCommandHandler(categoryRepo),
 		categoryCommand.NewRenameCategoryCommandHandler(categoryRepo),
@@ -44,8 +50,29 @@ func main() {
 		categoryQuery.NewGetCategoryByIDQueryHandler(categoryRepo),
 	)
 
+	// Product Handler
+	productH := productHandler.NewProductHandler(
+		productCommand.NewCreateProductCommandHandler(productRepo),
+		productCommand.NewUpdateProductCommandHandler(productRepo),
+		productCommand.NewArchiveProductCommandHandler(productRepo),
+		productCommand.NewReactivateProductCommandHandler(productRepo),
+		productQuery.NewGetProductByCategoryHandler(productRepo),
+		productQuery.NewGetLowStockProductsHandler(productRepo),
+	)
+
+	// Stock Movement Handler
+	stockMovementH := stockMovementHandler.NewStockMovementHandler(
+		productCommand.NewCreateStockMovementCommandHandler(productRepo),
+		productQuery.NewGetStockMovementByProductIDHandler(productRepo),
+		productQuery.NewGetStockMovementSummaryByProductIDHandler(productRepo),
+		productQuery.NewGetGlobalStockMovementSummaryHandler(productRepo),
+		productQuery.NewGetTopMoversHandler(productRepo),
+	)
+
 	router := http.NewRouter(http.Handlers{
-		Category: categoryHandler,
+		Category:      categoryH,
+		Product:       productH,
+		StockMovement: stockMovementH,
 	})
 
 	router.Run(":8080")

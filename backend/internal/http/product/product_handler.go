@@ -71,6 +71,7 @@ func (ph *ProductHandler) Create(ctx *gin.Context) {
 		StockThreshold: stockThreshold,
 		CategoryId:     categoryId,
 	}
+	
 	productId, err := ph.createProductHandler.Handle(ctx.Request.Context(), cmd)
 
 	if err != nil {

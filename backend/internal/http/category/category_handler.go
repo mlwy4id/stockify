@@ -96,6 +96,7 @@ func (ch *CategoryHandler) Rename(ctx *gin.Context) {
 		Id:   id,
 		Name: req.Name,
 	}
+	
 	categoryId, err := ch.renameCategoryHandler.Handle(ctx.Request.Context(), cmd)
 
 	if err != nil {
