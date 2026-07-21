@@ -15,15 +15,15 @@ type CreateProductCommand struct {
 	CategoryId     vo.CategoryId
 }
 
-type CreateProductHandler struct {
+type CreateProductCommandHandler struct {
 	productRepo repo.ProductRepository
 }
 
-func NewCreateProductHandler(productRepo repo.ProductRepository) *CreateProductHandler {
-	return &CreateProductHandler{productRepo: productRepo}
+func NewCreateProductCommandHandler(productRepo repo.ProductRepository) *CreateProductCommandHandler {
+	return &CreateProductCommandHandler{productRepo: productRepo}
 }
 
-func (h *CreateProductHandler) Handle(ctx context.Context, command CreateProductCommand) (string, error) {
+func (h *CreateProductCommandHandler) Handle(ctx context.Context, command CreateProductCommand) (string, error) {
 	product, err := entity.NewProduct(command.Name, command.Quantity, command.StockThreshold, command.CategoryId)
 
 	if err != nil {

@@ -14,15 +14,15 @@ type UpdateProductCommand struct {
 	CategoryId     *vo.CategoryId
 }
 
-type UpdateProductHandler struct {
+type UpdateProductCommandHandler struct {
 	productRepo repo.ProductRepository
 }
 
-func NewUpdateProductHandler(productRepo repo.ProductRepository) *UpdateProductHandler {
-	return &UpdateProductHandler{productRepo: productRepo}
+func NewUpdateProductCommandHandler(productRepo repo.ProductRepository) *UpdateProductCommandHandler {
+	return &UpdateProductCommandHandler{productRepo: productRepo}
 }
 
-func (h *UpdateProductHandler) Handle(ctx context.Context, command UpdateProductCommand) (string, error) {
+func (h *UpdateProductCommandHandler) Handle(ctx context.Context, command UpdateProductCommand) (string, error) {
 	product, err := h.productRepo.FindByID(ctx, command.Id)
 
 	if err != nil {

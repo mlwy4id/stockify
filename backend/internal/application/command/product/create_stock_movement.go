@@ -18,15 +18,15 @@ type CreateStockMovementCommand struct {
 	Date      time.Time
 }
 
-type CreateStockMovementHandler struct {
+type CreateStockMovementCommandHandler struct {
 	productRepo repo.ProductRepository
 }
 
-func NewCreateStockMovementHandler(productRepo repo.ProductRepository) *CreateStockMovementHandler {
-	return &CreateStockMovementHandler{productRepo: productRepo}
+func NewCreateStockMovementCommandHandler(productRepo repo.ProductRepository) *CreateStockMovementCommandHandler {
+	return &CreateStockMovementCommandHandler{productRepo: productRepo}
 }
 
-func (h *CreateStockMovementHandler) Handle(ctx context.Context, command CreateStockMovementCommand) error {
+func (h *CreateStockMovementCommandHandler) Handle(ctx context.Context, command CreateStockMovementCommand) error {
 	product, err := h.productRepo.FindByID(ctx, command.ProductId)
 
 	if err != nil {

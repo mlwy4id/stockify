@@ -11,15 +11,15 @@ type ReactivateProductCommand struct {
 	Id vo.ProductId
 }
 
-type ReactivateProductHandler struct {
+type ReactivateProductCommandHandler struct {
 	productRepo repo.ProductRepository
 }
 
-func NewReactivateProductHandler(productRepo repo.ProductRepository) *ReactivateProductHandler {
-	return &ReactivateProductHandler{productRepo: productRepo}
+func NewReactivateProductCommandHandler(productRepo repo.ProductRepository) *ReactivateProductCommandHandler {
+	return &ReactivateProductCommandHandler{productRepo: productRepo}
 }
 
-func (h *ReactivateProductHandler) Handle(ctx context.Context, command ReactivateProductCommand) error {
+func (h *ReactivateProductCommandHandler) Handle(ctx context.Context, command ReactivateProductCommand) error {
 	product, err := h.productRepo.FindByID(ctx, command.Id)
 
 	if err != nil {

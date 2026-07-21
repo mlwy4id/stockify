@@ -11,15 +11,15 @@ type ArchiveProductCommand struct {
 	Id vo.ProductId
 }
 
-type ArchiveProductHandler struct {
+type ArchiveProductCommandHandler struct {
 	productRepo repo.ProductRepository
 }
 
-func NewArchiveProductHandler(productRepo repo.ProductRepository) *ArchiveProductHandler {
-	return &ArchiveProductHandler{productRepo: productRepo}
+func NewArchiveProductCommandHandler(productRepo repo.ProductRepository) *ArchiveProductCommandHandler {
+	return &ArchiveProductCommandHandler{productRepo: productRepo}
 }
 
-func (h *ArchiveProductHandler) Handle(ctx context.Context, command ArchiveProductCommand) error {
+func (h *ArchiveProductCommandHandler) Handle(ctx context.Context, command ArchiveProductCommand) error {
 	product, err := h.productRepo.FindByID(ctx, command.Id)
 
 	if err != nil {
