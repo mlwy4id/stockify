@@ -79,3 +79,70 @@ func (ph *ProductHandler) Create(ctx *gin.Context) {
 		"product_id": productId,
 	})
 }
+
+func (ph *ProductHandler) Update(ctx *gin.Context) {
+	id, err := vo.ParseProductId(ctx.Param("id"))
+	
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "invalid product id"})
+		return
+	}
+
+	var req UpdateProductRequest
+	
+	if err := ctx.BindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	var cmdName *string
+	
+	if req.Name != nil {
+		cmdName = req.Name
+	}
+
+	var cmdThreshold *vo.StockThreshold
+	
+	if req.StockThreshold != nil {
+		threshold, err := vo.NewStockThreshold(*req.StockThreshold)
+		
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		
+		cmdThreshold = &threshold
+	}
+
+	var cmdCategoryId *vo.CategoryId
+	
+	if req.CategoryID != nil {
+		categoryId, err := vo.ParseCategoryId(*req.CategoryID)
+		
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		
+		cmdCategoryId = &categoryId
+	}
+
+	cmd := command.UpdateProductCommand{
+		Id:             id,
+		Name:           cmdName,
+		StockThreshold: cmdThreshold,
+		CategoryId:     cmdCategoryId,
+	}
+
+	productId, err := ph.updateProductHandler.Handle(ctx.Request.Context(), cmd)
+	
+	if err != nil {
+		ctx.JSON(http.StatusUnprocessableEntity, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"message":    "product updated successfully",
+		"product_id": productId,
+	})
+}

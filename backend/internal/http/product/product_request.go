@@ -6,3 +6,9 @@ type CreateProductRequest struct {
 	StockThreshold int    `json:"stockThreshold" binding:"required"`
 	CategoryID     string `json:"categoryId" binding:"required"`
 }
+
+type UpdateProductRequest struct {
+	Name           *string `json:"name,omitempty"`
+	StockThreshold *int    `json:"stockThreshold,omitempty"`
+	CategoryID     *string `json:"categoryId,omitempty"`
+}
