@@ -36,7 +36,7 @@ func NewProduct(name string, quantity vo.Quantity, stockThreshold vo.StockThresh
 	}, nil
 }
 
-func (p Product) AddStockMovement(action enum.Action, quantity vo.Quantity, source string, reason string, date time.Time) error {
+func (p *Product) AddStockMovement(action enum.Action, quantity vo.Quantity, source string, reason string, date time.Time) error {
 	if !action.IsValid() {
 		return errors.New("invalid action")
 	}
