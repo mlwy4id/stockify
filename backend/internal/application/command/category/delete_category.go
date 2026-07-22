@@ -20,10 +20,5 @@ func NewDeleteCategoryCommandHandler(categoryDeletionService service.CategoryDel
 }
 
 func (h *DeleteCategoryCommandHandler) Handle(ctx context.Context, command DeleteCategoryCommand) error {
-	categoryId, err := vo.ParseCategoryId(command.Id.Value())
-	if err != nil {
-		return err
-	}
-
-	return h.categoryDeletionService.DeleteCategoryWithCascade(ctx, categoryId)
+	return h.categoryDeletionService.DeleteCategoryWithCascade(ctx, command.Id)
 }

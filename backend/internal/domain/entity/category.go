@@ -5,7 +5,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mlwy4id/stockify/internal/domain/event"
 	vo "github.com/mlwy4id/stockify/internal/domain/values_object"
 )
 
@@ -14,7 +13,6 @@ type Category struct {
 	name      string
 	isDeleted bool
 	deletedAt *time.Time
-	events    []event.Event
 }
 
 func NewCategory(name string) (Category, error) {
@@ -51,7 +49,6 @@ func (c *Category) DeleteCategory() error {
 	c.isDeleted = true
 	c.deletedAt = &now
 
-	c.events = append(c.events, event.CategoryDeleted{CategoryID: c.id.Value()})
 	return nil
 }
 
@@ -78,12 +75,4 @@ func (c Category) IsDeleted() bool {
 
 func (c Category) DeletedAt() *time.Time {
 	return c.deletedAt
-}
-
-func (c Category) Events() []event.Event {
-	return c.events
-}
-
-func (c *Category) ClearEvents() {
-	c.events = nil
 }
