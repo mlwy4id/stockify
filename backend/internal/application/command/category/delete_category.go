@@ -3,8 +3,7 @@ package category
 import (
 	"context"
 
-	"github.com/mlwy4id/stockify/internal/domain/event"
-	repo "github.com/mlwy4id/stockify/internal/domain/repository"
+	"github.com/mlwy4id/stockify/internal/domain/service"
 	vo "github.com/mlwy4id/stockify/internal/domain/values_object"
 )
 
@@ -13,42 +12,18 @@ type DeleteCategoryCommand struct {
 }
 
 type DeleteCategoryCommandHandler struct {
-	categoryRepo repo.CategoryRepository
-	productRepo  repo.ProductRepository
+	categoryDeletionService service.CategoryDeletionService
 }
 
-func NewDeleteCategoryCommandHandler(categoryRepo repo.CategoryRepository, productRepo repo.ProductRepository) *DeleteCategoryCommandHandler {
-	return &DeleteCategoryCommandHandler{
-		categoryRepo: categoryRepo,
-		productRepo:  productRepo,
-	}
+func NewDeleteCategoryCommandHandler(categoryDeletionService service.CategoryDeletionService) *DeleteCategoryCommandHandler {
+	return &DeleteCategoryCommandHandler{categoryDeletionService: categoryDeletionService}
 }
 
 func (h *DeleteCategoryCommandHandler) Handle(ctx context.Context, command DeleteCategoryCommand) error {
-	category, err := h.categoryRepo.FindByID(ctx, command.Id)
-
+	categoryId, err := vo.ParseCategoryId(command.Id.Value())
 	if err != nil {
 		return err
 	}
 
-	if err := category.DeleteCategory(); err != nil {
-		return err
-	}
-
-	if err := h.categoryRepo.Save(ctx, category); err != nil {
-		return err
-	}
-
-	for _, e := range category.Events() {
-		switch evnt := e.(type) {
-		case event.CategoryDeleted:
-			categoryId, _ := vo.ParseCategoryId(evnt.CategoryID)
-			if err := h.productRepo.RemoveCategoryByCategoryId(ctx, categoryId); err != nil {
-				return err
-			}
-		}
-	}
-
-	category.ClearEvents()
-	return nil
+	return h.categoryDeletionService.DeleteCategoryWithCascade(ctx, categoryId)
 }

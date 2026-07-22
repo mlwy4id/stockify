@@ -14,6 +14,7 @@ import (
 	stockMovementHandler "github.com/mlwy4id/stockify/internal/http/stock_movement"
 	"github.com/mlwy4id/stockify/internal/infrastructure/database"
 	"github.com/mlwy4id/stockify/internal/infrastructure/repository"
+	"github.com/mlwy4id/stockify/internal/infrastructure/service"
 )
 
 func main() {
@@ -41,10 +42,13 @@ func main() {
 	categoryRepo := repository.NewCategoryRepository(db)
 	productRepo := repository.NewProductRepository(db)
 
+	// Services
+	categoryDeletionService := service.NewCategoryDeletionService(db)
+
 	// Category Handler
 	categoryH := categoryHandler.NewCategoryHandler(
 		categoryCommand.NewCreateCategoryCommandHandler(categoryRepo),
-		categoryCommand.NewDeleteCategoryCommandHandler(categoryRepo, productRepo),
+		categoryCommand.NewDeleteCategoryCommandHandler(categoryDeletionService),
 		categoryCommand.NewRenameCategoryCommandHandler(categoryRepo),
 		categoryQuery.NewGetAllCategoryQueryHandler(categoryRepo),
 		categoryQuery.NewGetCategoryByIDQueryHandler(categoryRepo),
