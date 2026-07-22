@@ -26,7 +26,11 @@ func (r *ProductRepository) Save(ctx context.Context, product *entity.Product) e
 			Name:           product.Name(),
 			Quantity:       product.Quantity().Value(),
 			StockThreshold: product.StockThreshold().Value(),
-			CategoryID:     product.CategoryId().Value(),
+		}
+
+		if product.CategoryId() != nil {
+			categoryId := product.CategoryId().Value()
+			m.CategoryID = &categoryId
 		}
 
 		if product.ArchivedAt() != nil {
@@ -102,6 +106,10 @@ func (r *ProductRepository) FindByCategoryID(ctx context.Context, categoryId vo.
 	return r.toEntities(models)
 }
 
+func (r *ProductRepository) RemoveCategoryByCategoryId(ctx context.Context, categoryId vo.CategoryId) error {
+	return r.db.WithContext(ctx).Model(&model.ProductModel{}).Where("category_id = ?", categoryId.Value()).Update("category_id", nil).Error
+}
+
 func (r *ProductRepository) GetStockMovementsByProductID(ctx context.Context, productId vo.ProductId) ([]*entity.StockMovement, error) {
 	var models []model.StockMovementModel
 	err := r.db.WithContext(ctx).Where("product_id = ?", productId.Value()).Order("date DESC").Find(&models).Error
@@ -154,9 +162,13 @@ func (r *ProductRepository) toEntityFromModel(m *model.ProductModel) (*entity.Pr
 		return nil, err
 	}
 
-	categoryId, err := vo.ParseCategoryId(m.CategoryID)
-	if err != nil {
-		return nil, err
+	var categoryId *vo.CategoryId
+	if m.CategoryID != nil {
+		catId, err := vo.ParseCategoryId(*m.CategoryID)
+		if err != nil {
+			return nil, err
+		}
+		categoryId = &catId
 	}
 
 	quantity := vo.ReconstructQuantity(m.Quantity)

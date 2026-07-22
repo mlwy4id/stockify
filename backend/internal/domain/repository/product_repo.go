@@ -17,4 +17,5 @@ type ProductRepository interface {
 	GetStockMovementsByProductIDAndDateRange(ctx context.Context, productId vo.ProductId, start time.Time, end time.Time) ([]*entity.StockMovement, error)
 	GetAllStockMovements(ctx context.Context) ([]*entity.StockMovement, error)
 	GetAllStockMovementsAndDateRange(ctx context.Context, start time.Time, end time.Time) ([]*entity.StockMovement, error)
+	RemoveCategoryByCategoryId(ctx context.Context, categoryId vo.CategoryId) error
 }

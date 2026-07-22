@@ -29,11 +29,16 @@ func (h *GetProductByCategoryHandler) Handle(ctx context.Context, query GetProdu
 
 	var dtos []dto.ProductSummaryDTO
 	for _, p := range products {
+		var catId *string
+		if c := p.CategoryId(); c != nil {
+			v := c.Value()
+			catId = &v
+		}
 		dtos = append(dtos, dto.ProductSummaryDTO{
 			ID:         p.Id().Value(),
 			Name:       p.Name(),
 			Quantity:   p.Quantity().Value(),
-			CategoryId: p.CategoryId().Value(),
+			CategoryId: catId,
 		})
 	}
 

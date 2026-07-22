@@ -44,7 +44,7 @@ func main() {
 	// Category Handler
 	categoryH := categoryHandler.NewCategoryHandler(
 		categoryCommand.NewCreateCategoryCommandHandler(categoryRepo),
-		categoryCommand.NewDeleteCategoryCommandHandler(categoryRepo),
+		categoryCommand.NewDeleteCategoryCommandHandler(categoryRepo, productRepo),
 		categoryCommand.NewRenameCategoryCommandHandler(categoryRepo),
 		categoryQuery.NewGetAllCategoryQueryHandler(categoryRepo),
 		categoryQuery.NewGetCategoryByIDQueryHandler(categoryRepo),

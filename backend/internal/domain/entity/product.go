@@ -14,13 +14,13 @@ type Product struct {
 	name                  string
 	quantity              vo.Quantity
 	stockThreshold        vo.StockThreshold
-	categoryId            vo.CategoryId
+	categoryId            *vo.CategoryId
 	stockMovements        []StockMovement
 	pendingStockMovements []StockMovement
 	archivedAt            *time.Time
 }
 
-func NewProduct(name string, quantity vo.Quantity, stockThreshold vo.StockThreshold, categoryId vo.CategoryId) (Product, error) {
+func NewProduct(name string, quantity vo.Quantity, stockThreshold vo.StockThreshold, categoryId *vo.CategoryId) (Product, error) {
 	trimmedName := strings.TrimSpace(name)
 
 	if trimmedName == "" {
@@ -113,7 +113,7 @@ func (p *Product) UpdateProduct(name *string, stockThreshold *vo.StockThreshold,
 	}
 
 	if categoryId != nil {
-		p.categoryId = *categoryId
+		p.categoryId = categoryId
 	}
 
 	return nil
@@ -135,7 +135,7 @@ func (p Product) StockThreshold() vo.StockThreshold {
 	return p.stockThreshold
 }
 
-func (p Product) CategoryId() vo.CategoryId {
+func (p Product) CategoryId() *vo.CategoryId {
 	return p.categoryId
 }
 
@@ -158,7 +158,7 @@ func (p Product) ArchivedAt() *time.Time {
 	return p.archivedAt
 }
 
-func ReconstructProduct(id vo.ProductId, name string, quantity vo.Quantity, stockThreshold vo.StockThreshold, categoryId vo.CategoryId, stockMovements []StockMovement, archivedAt *time.Time) Product {
+func ReconstructProduct(id vo.ProductId, name string, quantity vo.Quantity, stockThreshold vo.StockThreshold, categoryId *vo.CategoryId, stockMovements []StockMovement, archivedAt *time.Time) Product {
 	return Product{
 		id:                    id,
 		name:                  name,

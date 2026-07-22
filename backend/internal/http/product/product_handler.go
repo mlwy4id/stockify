@@ -58,11 +58,17 @@ func (ph *ProductHandler) Create(ctx *gin.Context) {
 		return
 	}
 
-	categoryId, err := vo.ParseCategoryId(req.CategoryID)
+	var categoryId *vo.CategoryId
 
-	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
+	if req.CategoryID != nil {
+		cid, err := vo.ParseCategoryId(*req.CategoryID)
+
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		categoryId = &cid
 	}
 
 	cmd := command.CreateProductCommand{

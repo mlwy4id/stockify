@@ -12,7 +12,7 @@ type CreateProductCommand struct {
 	Name           string
 	Quantity       vo.Quantity
 	StockThreshold vo.StockThreshold
-	CategoryId     vo.CategoryId
+	CategoryId     *vo.CategoryId
 }
 
 type CreateProductCommandHandler struct {
