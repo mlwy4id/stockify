@@ -26,7 +26,9 @@ func (h *ArchiveProductCommandHandler) Handle(ctx context.Context, command Archi
 		return err
 	}
 
-	product.ArchiveProduct()
+	if err := product.ArchiveProduct(); err != nil {
+		return err
+	}
 
 	if err := h.productRepo.Save(ctx, product); err != nil {
 		return err
