@@ -20,19 +20,46 @@ func NewProductRepository(db *gorm.DB) domRepo.ProductRepository {
 }
 
 func (r *ProductRepository) Save(ctx context.Context, product *entity.Product) error {
-	m := &model.ProductModel{
-		ID:             product.Id().Value(),
-		Name:           product.Name(),
-		Quantity:       product.Quantity().Value(),
-		StockThreshold: product.StockThreshold().Value(),
-		CategoryID:     product.CategoryId().Value(),
-	}
+	return r.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
+		m := &model.ProductModel{
+			ID:             product.Id().Value(),
+			Name:           product.Name(),
+			Quantity:       product.Quantity().Value(),
+			StockThreshold: product.StockThreshold().Value(),
+			CategoryID:     product.CategoryId().Value(),
+		}
 
-	if product.ArchivedAt() != nil {
-		m.ArchivedAt = product.ArchivedAt()
-	}
+		if product.ArchivedAt() != nil {
+			m.ArchivedAt = product.ArchivedAt()
+		}
 
-	return r.db.WithContext(ctx).Save(m).Error
+		if err := tx.Save(m).Error; err != nil {
+			return err
+		}
+
+		pending := product.PendingStockMovements()
+		if len(pending) > 0 {
+			movements := make([]model.StockMovementModel, len(pending))
+			for i, sm := range pending {
+				movements[i] = model.StockMovementModel{
+					ID:        sm.Id().Value(),
+					ProductID: sm.ProductId().Value(),
+					Action:    sm.Action().String(),
+					Quantity:  sm.Quantity().Value(),
+					Source:    sm.Source(),
+					Reason:    sm.Reason(),
+					Date:      sm.Date(),
+				}
+			}
+
+			if err := tx.Create(&movements).Error; err != nil {
+				return err
+			}
+		}
+
+		product.ClearPendingStockMovements()
+		return nil
+	})
 }
 
 func (r *ProductRepository) FindByID(ctx context.Context, id vo.ProductId) (*entity.Product, error) {

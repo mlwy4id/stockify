@@ -10,13 +10,14 @@ import (
 )
 
 type Product struct {
-	id             vo.ProductId
-	name           string
-	quantity       vo.Quantity
-	stockThreshold vo.StockThreshold
-	categoryId     vo.CategoryId
-	stockMovements []StockMovement
-	archivedAt     *time.Time
+	id                    vo.ProductId
+	name                  string
+	quantity              vo.Quantity
+	stockThreshold        vo.StockThreshold
+	categoryId            vo.CategoryId
+	stockMovements        []StockMovement
+	pendingStockMovements []StockMovement
+	archivedAt            *time.Time
 }
 
 func NewProduct(name string, quantity vo.Quantity, stockThreshold vo.StockThreshold, categoryId vo.CategoryId) (Product, error) {
@@ -42,10 +43,10 @@ func (p *Product) AddStockMovement(action enum.Action, quantity vo.Quantity, sou
 	}
 
 	if action.String() == "SOLD" || action.String() == "BROKEN" {
-		dif, _ := p.quantity.Subtract(quantity)
-		if dif.Value() < 0 {
-			return errors.New("insufficient stock")
+		if _, err := p.quantity.Subtract(quantity); err != nil {
+			return err
 		}
+
 	}
 
 	sm, err := NewStockMovement(p.id, action, quantity, source, reason, date)
@@ -53,13 +54,15 @@ func (p *Product) AddStockMovement(action enum.Action, quantity vo.Quantity, sou
 		return err
 	}
 
-	p.stockMovements = append(p.stockMovements, sm)
+	p.pendingStockMovements = append(p.pendingStockMovements, sm)
 
 	switch action.String() {
 	case "RESTOCK", "REFUND":
 		p.quantity = p.quantity.Add(quantity)
 	case "SOLD", "BROKEN":
-		p.quantity, _ = p.quantity.Subtract(quantity)
+		if p.quantity, err = p.quantity.Subtract(quantity); err != nil {
+			return err
+		}
 	}
 
 	return nil
@@ -137,7 +140,18 @@ func (p Product) CategoryId() vo.CategoryId {
 }
 
 func (p Product) StockMovements() []StockMovement {
-	return p.stockMovements
+	allStockMovements := make([]StockMovement, 0, len(p.stockMovements)+len(p.pendingStockMovements))
+	allStockMovements = append(allStockMovements, p.stockMovements...)
+	allStockMovements = append(allStockMovements, p.pendingStockMovements...)
+	return allStockMovements
+}
+
+func (p Product) PendingStockMovements() []StockMovement {
+	return p.pendingStockMovements
+}
+
+func (p *Product) ClearPendingStockMovements() {
+	p.pendingStockMovements = nil
 }
 
 func (p Product) ArchivedAt() *time.Time {
@@ -146,12 +160,13 @@ func (p Product) ArchivedAt() *time.Time {
 
 func ReconstructProduct(id vo.ProductId, name string, quantity vo.Quantity, stockThreshold vo.StockThreshold, categoryId vo.CategoryId, stockMovements []StockMovement, archivedAt *time.Time) Product {
 	return Product{
-		id:             id,
-		name:           name,
-		quantity:       quantity,
-		stockThreshold: stockThreshold,
-		categoryId:     categoryId,
-		stockMovements: stockMovements,
-		archivedAt:     archivedAt,
+		id:                    id,
+		name:                  name,
+		quantity:              quantity,
+		stockThreshold:        stockThreshold,
+		categoryId:            categoryId,
+		stockMovements:        stockMovements,
+		pendingStockMovements: []StockMovement{},
+		archivedAt:            archivedAt,
 	}
 }
