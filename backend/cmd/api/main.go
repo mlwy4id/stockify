@@ -4,11 +4,14 @@ import (
 	"log"
 
 	"github.com/joho/godotenv"
+	authCommand "github.com/mlwy4id/stockify/internal/application/command/auth"
 	categoryCommand "github.com/mlwy4id/stockify/internal/application/command/category"
 	productCommand "github.com/mlwy4id/stockify/internal/application/command/product"
+	authQuery "github.com/mlwy4id/stockify/internal/application/query/auth"
 	categoryQuery "github.com/mlwy4id/stockify/internal/application/query/category"
 	productQuery "github.com/mlwy4id/stockify/internal/application/query/product"
 	"github.com/mlwy4id/stockify/internal/http"
+	authHandler "github.com/mlwy4id/stockify/internal/http/auth"
 	categoryHandler "github.com/mlwy4id/stockify/internal/http/category"
 	productHandler "github.com/mlwy4id/stockify/internal/http/product"
 	stockMovementHandler "github.com/mlwy4id/stockify/internal/http/stock_movement"
@@ -41,9 +44,17 @@ func main() {
 	// Repositories
 	categoryRepo := repository.NewCategoryRepository(db)
 	productRepo := repository.NewProductRepository(db)
+	userRepo := repository.NewUserRepository(db)
 
 	// Services
 	categoryDeletionService := service.NewCategoryDeletionService(db)
+
+	// Auth Handler
+	authH := authHandler.NewAuthHandler(
+		authCommand.NewSignUpCommandHandler(userRepo),
+		authCommand.NewSignInCommandHandler(userRepo),
+		authQuery.NewGetMeQueryHandler(userRepo),
+	)
 
 	// Category Handler
 	categoryH := categoryHandler.NewCategoryHandler(
@@ -74,6 +85,7 @@ func main() {
 	)
 
 	router := http.NewRouter(http.Handlers{
+		Auth:          authH,
 		Category:      categoryH,
 		Product:       productH,
 		StockMovement: stockMovementH,
