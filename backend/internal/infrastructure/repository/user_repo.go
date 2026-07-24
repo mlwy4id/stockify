@@ -41,6 +41,16 @@ func (r *UserRepository) FindByID(ctx context.Context, id vo.UserId) (*entity.Us
 	return r.toEntityFromModel(&m)
 }
 
+func (r *UserRepository) FindByEmail(ctx context.Context, email string) (*entity.User, error) {
+	var m model.UserModel
+	err := r.db.WithContext(ctx).Where("email = ?", email).First(&m).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return r.toEntityFromModel(&m)
+}
+
 func (r *UserRepository) toEntityFromModel(m *model.UserModel) (*entity.User, error) {
 	userId, err := vo.ParseUserId(m.ID)
 	if err != nil {
