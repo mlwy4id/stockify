@@ -9,6 +9,7 @@ import (
 )
 
 type GetProductByCategoryQuery struct {
+	UserId     vo.UserId
 	CategoryId vo.CategoryId
 }
 
@@ -21,7 +22,7 @@ func NewGetProductByCategoryHandler(productRepo repo.ProductRepository) *GetProd
 }
 
 func (h *GetProductByCategoryHandler) Handle(ctx context.Context, query GetProductByCategoryQuery) ([]dto.ProductSummaryDTO, error) {
-	products, err := h.productRepo.FindByCategoryID(ctx, query.CategoryId)
+	products, err := h.productRepo.FindByCategoryID(ctx, query.UserId, query.CategoryId)
 
 	if err != nil {
 		return []dto.ProductSummaryDTO{}, err

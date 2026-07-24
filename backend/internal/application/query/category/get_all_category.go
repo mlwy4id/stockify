@@ -5,6 +5,7 @@ import (
 
 	"github.com/mlwy4id/stockify/internal/application/dto"
 	repo "github.com/mlwy4id/stockify/internal/domain/repository"
+	vo "github.com/mlwy4id/stockify/internal/domain/values_object"
 )
 
 type GetAllCategoryQueryHandler struct {
@@ -15,8 +16,8 @@ func NewGetAllCategoryQueryHandler(categoryRepo repo.CategoryRepository) *GetAll
 	return &GetAllCategoryQueryHandler{categoryRepo: categoryRepo}
 }
 
-func (h *GetAllCategoryQueryHandler) Handle(ctx context.Context) ([]dto.CategoryDTO, error) {
-	categories, err := h.categoryRepo.FindAll(ctx)
+func (h *GetAllCategoryQueryHandler) Handle(ctx context.Context, userId vo.UserId) ([]dto.CategoryDTO, error) {
+	categories, err := h.categoryRepo.FindAll(ctx, userId)
 	if err != nil {
 		return nil, err
 	}

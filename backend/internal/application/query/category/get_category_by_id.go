@@ -9,6 +9,7 @@ import (
 )
 
 type GetCategoryByIDQuery struct {
+	UserId     vo.UserId
 	CategoryID vo.CategoryId
 }
 
@@ -21,7 +22,7 @@ func NewGetCategoryByIDQueryHandler(categoryRepo repo.CategoryRepository) *GetCa
 }
 
 func (h *GetCategoryByIDQueryHandler) Handle(ctx context.Context, query GetCategoryByIDQuery) (*dto.CategoryDTO, error) {
-	category, err := h.categoryRepo.FindByID(ctx, query.CategoryID)
+	category, err := h.categoryRepo.FindByID(ctx, query.UserId, query.CategoryID)
 	if err != nil {
 		return nil, err
 	}

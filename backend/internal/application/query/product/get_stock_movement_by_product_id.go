@@ -11,6 +11,7 @@ import (
 )
 
 type GetStockMovementByProductIDQuery struct {
+	UserId    vo.UserId
 	ProductId vo.ProductId
 	Start     *time.Time
 	End       *time.Time
@@ -29,9 +30,9 @@ func (h *GetStockMovementByProductIDHandler) Handle(ctx context.Context, query G
 	var err error
 
 	if query.Start != nil && query.End != nil {
-		movements, err = h.productRepo.GetStockMovementsByProductIDAndDateRange(ctx, query.ProductId, *query.Start, *query.End)
+		movements, err = h.productRepo.GetStockMovementsByProductIDAndDateRange(ctx, query.UserId, query.ProductId, *query.Start, *query.End)
 	} else {
-		movements, err = h.productRepo.GetStockMovementsByProductID(ctx, query.ProductId)
+		movements, err = h.productRepo.GetStockMovementsByProductID(ctx, query.UserId, query.ProductId)
 	}
 
 	if err != nil {

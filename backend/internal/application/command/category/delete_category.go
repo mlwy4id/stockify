@@ -8,7 +8,8 @@ import (
 )
 
 type DeleteCategoryCommand struct {
-	Id vo.CategoryId
+	UserId vo.UserId
+	Id     vo.CategoryId
 }
 
 type DeleteCategoryCommandHandler struct {
@@ -20,5 +21,5 @@ func NewDeleteCategoryCommandHandler(categoryDeletionService service.CategoryDel
 }
 
 func (h *DeleteCategoryCommandHandler) Handle(ctx context.Context, command DeleteCategoryCommand) error {
-	return h.categoryDeletionService.DeleteCategoryWithCascade(ctx, command.Id)
+	return h.categoryDeletionService.DeleteCategoryWithCascade(ctx, command.UserId, command.Id)
 }

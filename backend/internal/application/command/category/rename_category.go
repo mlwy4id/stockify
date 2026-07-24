@@ -8,8 +8,9 @@ import (
 )
 
 type RenameCategoryCommand struct {
-	Id   vo.CategoryId
-	Name string
+	UserId vo.UserId
+	Id     vo.CategoryId
+	Name   string
 }
 
 type RenameCategoryCommandHandler struct {
@@ -21,7 +22,7 @@ func NewRenameCategoryCommandHandler(categoryRepo repo.CategoryRepository) *Rena
 }
 
 func (h *RenameCategoryCommandHandler) Handle(ctx context.Context, command RenameCategoryCommand) (string, error) {
-	category, err := h.categoryRepo.FindByID(ctx, command.Id)
+	category, err := h.categoryRepo.FindByID(ctx, command.UserId, command.Id)
 
 	if err != nil {
 		return "", err

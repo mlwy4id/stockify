@@ -12,6 +12,7 @@ import (
 )
 
 type GetGlobalStockMovementSummaryQuery struct {
+	UserId     vo.UserId
 	DateFilter *enum.DateFilter
 }
 
@@ -24,7 +25,7 @@ func NewGetGlobalStockMovementSummaryHandler(productRepo repo.ProductRepository)
 }
 
 func (h *GetGlobalStockMovementSummaryHandler) Handle(ctx context.Context, query GetGlobalStockMovementSummaryQuery) (dto.GlobalStockMovementSummaryDTO, error) {
-	products, err := h.productRepo.FindAllActive(ctx)
+	products, err := h.productRepo.FindAllActive(ctx, query.UserId)
 	if err != nil {
 		return dto.GlobalStockMovementSummaryDTO{}, err
 	}
@@ -44,9 +45,9 @@ func (h *GetGlobalStockMovementSummaryHandler) Handle(ctx context.Context, query
 
 	if query.DateFilter != nil && query.DateFilter.IsValid() {
 		start := now.Add(-query.DateFilter.Duration())
-		movements, err = h.productRepo.GetAllStockMovementsAndDateRange(ctx, start, now)
+		movements, err = h.productRepo.GetAllStockMovementsAndDateRange(ctx, query.UserId, start, now)
 	} else {
-		movements, err = h.productRepo.GetAllStockMovements(ctx)
+		movements, err = h.productRepo.GetAllStockMovements(ctx, query.UserId)
 	}
 
 	if err != nil {

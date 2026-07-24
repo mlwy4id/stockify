@@ -5,9 +5,8 @@ import (
 
 	"github.com/mlwy4id/stockify/internal/application/dto"
 	repo "github.com/mlwy4id/stockify/internal/domain/repository"
+	vo "github.com/mlwy4id/stockify/internal/domain/values_object"
 )
-
-type GetLowStockProductsQuery struct{}
 
 type GetLowStockProductsHandler struct {
 	productRepo repo.ProductRepository
@@ -17,8 +16,8 @@ func NewGetLowStockProductsHandler(productRepo repo.ProductRepository) *GetLowSt
 	return &GetLowStockProductsHandler{productRepo: productRepo}
 }
 
-func (h *GetLowStockProductsHandler) Handle(ctx context.Context, query GetLowStockProductsQuery) ([]dto.ProductSummaryDTO, error) {
-	products, err := h.productRepo.FindAllActive(ctx)
+func (h *GetLowStockProductsHandler) Handle(ctx context.Context, userId vo.UserId) ([]dto.ProductSummaryDTO, error) {
+	products, err := h.productRepo.FindAllActive(ctx, userId)
 	if err != nil {
 		return nil, err
 	}

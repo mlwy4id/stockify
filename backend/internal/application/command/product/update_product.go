@@ -8,6 +8,7 @@ import (
 )
 
 type UpdateProductCommand struct {
+	UserId         vo.UserId
 	Id             vo.ProductId
 	Name           *string
 	StockThreshold *vo.StockThreshold
@@ -23,7 +24,7 @@ func NewUpdateProductCommandHandler(productRepo repo.ProductRepository) *UpdateP
 }
 
 func (h *UpdateProductCommandHandler) Handle(ctx context.Context, command UpdateProductCommand) (string, error) {
-	product, err := h.productRepo.FindByID(ctx, command.Id)
+	product, err := h.productRepo.FindByID(ctx, command.UserId, command.Id)
 
 	if err != nil {
 		return "", err

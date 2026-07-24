@@ -8,7 +8,8 @@ import (
 )
 
 type ReactivateProductCommand struct {
-	Id vo.ProductId
+	UserId vo.UserId
+	Id     vo.ProductId
 }
 
 type ReactivateProductCommandHandler struct {
@@ -20,7 +21,7 @@ func NewReactivateProductCommandHandler(productRepo repo.ProductRepository) *Rea
 }
 
 func (h *ReactivateProductCommandHandler) Handle(ctx context.Context, command ReactivateProductCommand) error {
-	product, err := h.productRepo.FindByID(ctx, command.Id)
+	product, err := h.productRepo.FindByID(ctx, command.UserId, command.Id)
 
 	if err != nil {
 		return err

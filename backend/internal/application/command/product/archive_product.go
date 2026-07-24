@@ -8,7 +8,8 @@ import (
 )
 
 type ArchiveProductCommand struct {
-	Id vo.ProductId
+	UserId vo.UserId
+	Id     vo.ProductId
 }
 
 type ArchiveProductCommandHandler struct {
@@ -20,7 +21,7 @@ func NewArchiveProductCommandHandler(productRepo repo.ProductRepository) *Archiv
 }
 
 func (h *ArchiveProductCommandHandler) Handle(ctx context.Context, command ArchiveProductCommand) error {
-	product, err := h.productRepo.FindByID(ctx, command.Id)
+	product, err := h.productRepo.FindByID(ctx, command.UserId, command.Id)
 
 	if err != nil {
 		return err

@@ -5,10 +5,12 @@ import (
 
 	"github.com/mlwy4id/stockify/internal/domain/entity"
 	repo "github.com/mlwy4id/stockify/internal/domain/repository"
+	vo "github.com/mlwy4id/stockify/internal/domain/values_object"
 )
 
 type CreateCategoryCommand struct {
-	Name string
+	UserId vo.UserId
+	Name   string
 }
 
 type CreateCategoryCommandHandler struct {
@@ -20,7 +22,7 @@ func NewCreateCategoryCommandHandler(categoryRepo repo.CategoryRepository) *Crea
 }
 
 func (h *CreateCategoryCommandHandler) Handle(ctx context.Context, command CreateCategoryCommand) (string, error) {
-	category, err := entity.NewCategory(command.Name)
+	category, err := entity.NewCategory(command.UserId, command.Name)
 
 	if err != nil {
 		return "", err

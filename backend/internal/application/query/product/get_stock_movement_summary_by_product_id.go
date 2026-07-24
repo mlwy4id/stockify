@@ -12,6 +12,7 @@ import (
 )
 
 type GetStockMovementSummaryByProductIDQuery struct {
+	UserId     vo.UserId
 	ProductId  vo.ProductId
 	DateFilter *enum.DateFilter
 }
@@ -25,7 +26,7 @@ func NewGetStockMovementSummaryByProductIDHandler(productRepo repo.ProductReposi
 }
 
 func (h *GetStockMovementSummaryByProductIDHandler) Handle(ctx context.Context, query GetStockMovementSummaryByProductIDQuery) (dto.StockMovementSummaryDTO, error) {
-	product, err := h.productRepo.FindByID(ctx, query.ProductId)
+	product, err := h.productRepo.FindByID(ctx, query.UserId, query.ProductId)
 	if err != nil {
 		return dto.StockMovementSummaryDTO{}, err
 	}
@@ -35,9 +36,9 @@ func (h *GetStockMovementSummaryByProductIDHandler) Handle(ctx context.Context, 
 
 	if query.DateFilter != nil && query.DateFilter.IsValid() {
 		start := now.Add(-query.DateFilter.Duration())
-		movements, err = h.productRepo.GetStockMovementsByProductIDAndDateRange(ctx, query.ProductId, start, now)
+		movements, err = h.productRepo.GetStockMovementsByProductIDAndDateRange(ctx, query.UserId, query.ProductId, start, now)
 	} else {
-		movements, err = h.productRepo.GetStockMovementsByProductID(ctx, query.ProductId)
+		movements, err = h.productRepo.GetStockMovementsByProductID(ctx, query.UserId, query.ProductId)
 	}
 
 	if err != nil {

@@ -10,6 +10,7 @@ import (
 )
 
 type CreateStockMovementCommand struct {
+	UserId    vo.UserId
 	ProductId vo.ProductId
 	Action    enum.Action
 	Quantity  vo.Quantity
@@ -27,7 +28,7 @@ func NewCreateStockMovementCommandHandler(productRepo repo.ProductRepository) *C
 }
 
 func (h *CreateStockMovementCommandHandler) Handle(ctx context.Context, command CreateStockMovementCommand) error {
-	product, err := h.productRepo.FindByID(ctx, command.ProductId)
+	product, err := h.productRepo.FindByID(ctx, command.UserId, command.ProductId)
 
 	if err != nil {
 		return err

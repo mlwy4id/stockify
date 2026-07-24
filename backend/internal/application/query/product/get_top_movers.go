@@ -13,6 +13,7 @@ import (
 )
 
 type GetTopMoversQuery struct {
+	UserId     vo.UserId
 	Limit      int
 	DateFilter *enum.DateFilter
 }
@@ -26,7 +27,7 @@ func NewGetTopMoversHandler(productRepo repo.ProductRepository) *GetTopMoversHan
 }
 
 func (h *GetTopMoversHandler) Handle(ctx context.Context, query GetTopMoversQuery) ([]dto.StockMovementSummaryDTO, error) {
-	products, err := h.productRepo.FindAllActive(ctx)
+	products, err := h.productRepo.FindAllActive(ctx, query.UserId)
 	if err != nil {
 		return nil, err
 	}
@@ -36,9 +37,9 @@ func (h *GetTopMoversHandler) Handle(ctx context.Context, query GetTopMoversQuer
 
 	if query.DateFilter != nil && query.DateFilter.IsValid() {
 		start := now.Add(-query.DateFilter.Duration())
-		movements, err = h.productRepo.GetAllStockMovementsAndDateRange(ctx, start, now)
+		movements, err = h.productRepo.GetAllStockMovementsAndDateRange(ctx, query.UserId, start, now)
 	} else {
-		movements, err = h.productRepo.GetAllStockMovements(ctx)
+		movements, err = h.productRepo.GetAllStockMovements(ctx, query.UserId)
 	}
 
 	if err != nil {
