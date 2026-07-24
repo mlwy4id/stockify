@@ -18,14 +18,14 @@ func NewCategoryDeletionService(db *gorm.DB) *CategoryDeletionService {
 	return &CategoryDeletionService{db: db}
 }
 
-func (cds *CategoryDeletionService) DeleteCategoryWithCascade(ctx context.Context, categoryID vo.CategoryId) error {
+func (cds *CategoryDeletionService) DeleteCategoryWithCascade(ctx context.Context, userId vo.UserId, categoryID vo.CategoryId) error {
 	return cds.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
 		var categoryModel model.CategoryModel
-		if err := tx.Where("id = ?", categoryID.Value()).First(&categoryModel).Error; err != nil {
+		if err := tx.Where("user_id = ? AND id = ?", userId.Value(), categoryID.Value()).First(&categoryModel).Error; err != nil {
 			return err
 		}
 
-		categoryEntity := entity.ReconstructCategory(categoryID, categoryModel.Name, categoryModel.IsDeleted, categoryModel.DeletedAt)
+		categoryEntity := entity.ReconstructCategory(categoryID, userId, categoryModel.Name, categoryModel.IsDeleted, categoryModel.DeletedAt)
 		if err := categoryEntity.DeleteCategory(); err != nil {
 			return err
 		}
@@ -39,7 +39,7 @@ func (cds *CategoryDeletionService) DeleteCategoryWithCascade(ctx context.Contex
 		}
 
 		return tx.Model(&model.ProductModel{}).
-			Where("category_id = ?", categoryID.Value()).
+			Where("user_id = ? AND category_id = ?", userId.Value(), categoryID.Value()).
 			Update("category_id", nil).Error
 	})
 }

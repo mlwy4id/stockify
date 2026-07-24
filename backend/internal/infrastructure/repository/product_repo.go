@@ -23,6 +23,7 @@ func (r *ProductRepository) Save(ctx context.Context, product *entity.Product) e
 	return r.db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
 		m := &model.ProductModel{
 			ID:             product.Id().Value(),
+			UserID:         product.UserId().Value(),
 			Name:           product.Name(),
 			Quantity:       product.Quantity().Value(),
 			StockThreshold: product.StockThreshold().Value(),
@@ -47,6 +48,7 @@ func (r *ProductRepository) Save(ctx context.Context, product *entity.Product) e
 			for i, sm := range pending {
 				movements[i] = model.StockMovementModel{
 					ID:        sm.Id().Value(),
+					UserID:    sm.UserId().Value(),
 					ProductID: sm.ProductId().Value(),
 					Action:    sm.Action().String(),
 					Quantity:  sm.Quantity().Value(),
@@ -66,9 +68,9 @@ func (r *ProductRepository) Save(ctx context.Context, product *entity.Product) e
 	})
 }
 
-func (r *ProductRepository) FindByID(ctx context.Context, id vo.ProductId) (*entity.Product, error) {
+func (r *ProductRepository) FindByID(ctx context.Context, userId vo.UserId, id vo.ProductId) (*entity.Product, error) {
 	var m model.ProductModel
-	err := r.db.WithContext(ctx).Preload("StockMovements").Where("id = ?", id.Value()).First(&m).Error
+	err := r.db.WithContext(ctx).Preload("StockMovements").Where("user_id = ? AND id = ?", userId.Value(), id.Value()).First(&m).Error
 	if err != nil {
 		return nil, err
 	}
@@ -76,9 +78,9 @@ func (r *ProductRepository) FindByID(ctx context.Context, id vo.ProductId) (*ent
 	return r.toEntityFromModel(&m)
 }
 
-func (r *ProductRepository) FindAllActive(ctx context.Context) ([]*entity.Product, error) {
+func (r *ProductRepository) FindAllActive(ctx context.Context, userId vo.UserId) ([]*entity.Product, error) {
 	var models []model.ProductModel
-	err := r.db.WithContext(ctx).Preload("StockMovements").Where("archived_at IS NULL").Find(&models).Error
+	err := r.db.WithContext(ctx).Preload("StockMovements").Where("user_id = ? AND archived_at IS NULL", userId.Value()).Find(&models).Error
 	if err != nil {
 		return nil, err
 	}
@@ -86,9 +88,9 @@ func (r *ProductRepository) FindAllActive(ctx context.Context) ([]*entity.Produc
 	return r.toEntities(models)
 }
 
-func (r *ProductRepository) FindAllArchived(ctx context.Context) ([]*entity.Product, error) {
+func (r *ProductRepository) FindAllArchived(ctx context.Context, userId vo.UserId) ([]*entity.Product, error) {
 	var models []model.ProductModel
-	err := r.db.WithContext(ctx).Preload("StockMovements").Where("archived_at IS NOT NULL").Find(&models).Error
+	err := r.db.WithContext(ctx).Preload("StockMovements").Where("user_id = ? AND archived_at IS NOT NULL", userId.Value()).Find(&models).Error
 	if err != nil {
 		return nil, err
 	}
@@ -96,9 +98,9 @@ func (r *ProductRepository) FindAllArchived(ctx context.Context) ([]*entity.Prod
 	return r.toEntities(models)
 }
 
-func (r *ProductRepository) FindByCategoryID(ctx context.Context, categoryId vo.CategoryId) ([]*entity.Product, error) {
+func (r *ProductRepository) FindByCategoryID(ctx context.Context, userId vo.UserId, categoryId vo.CategoryId) ([]*entity.Product, error) {
 	var models []model.ProductModel
-	err := r.db.WithContext(ctx).Preload("StockMovements").Where("category_id = ?", categoryId.Value()).Find(&models).Error
+	err := r.db.WithContext(ctx).Preload("StockMovements").Where("user_id = ? AND category_id = ?", userId.Value(), categoryId.Value()).Find(&models).Error
 	if err != nil {
 		return nil, err
 	}
@@ -106,13 +108,13 @@ func (r *ProductRepository) FindByCategoryID(ctx context.Context, categoryId vo.
 	return r.toEntities(models)
 }
 
-func (r *ProductRepository) RemoveCategoryByCategoryId(ctx context.Context, categoryId vo.CategoryId) error {
-	return r.db.WithContext(ctx).Model(&model.ProductModel{}).Where("category_id = ?", categoryId.Value()).Update("category_id", nil).Error
+func (r *ProductRepository) RemoveCategoryByCategoryId(ctx context.Context, userId vo.UserId, categoryId vo.CategoryId) error {
+	return r.db.WithContext(ctx).Model(&model.ProductModel{}).Where("user_id = ? AND category_id = ?", userId.Value(), categoryId.Value()).Update("category_id", nil).Error
 }
 
-func (r *ProductRepository) GetStockMovementsByProductID(ctx context.Context, productId vo.ProductId) ([]*entity.StockMovement, error) {
+func (r *ProductRepository) GetStockMovementsByProductID(ctx context.Context, userId vo.UserId, productId vo.ProductId) ([]*entity.StockMovement, error) {
 	var models []model.StockMovementModel
-	err := r.db.WithContext(ctx).Where("product_id = ?", productId.Value()).Order("date DESC").Find(&models).Error
+	err := r.db.WithContext(ctx).Where("user_id = ? AND product_id = ?", userId.Value(), productId.Value()).Order("date DESC").Find(&models).Error
 	if err != nil {
 		return nil, err
 	}
@@ -120,10 +122,10 @@ func (r *ProductRepository) GetStockMovementsByProductID(ctx context.Context, pr
 	return r.toStockMovementEntities(models)
 }
 
-func (r *ProductRepository) GetStockMovementsByProductIDAndDateRange(ctx context.Context, productId vo.ProductId, start time.Time, end time.Time) ([]*entity.StockMovement, error) {
+func (r *ProductRepository) GetStockMovementsByProductIDAndDateRange(ctx context.Context, userId vo.UserId, productId vo.ProductId, start time.Time, end time.Time) ([]*entity.StockMovement, error) {
 	var models []model.StockMovementModel
 	err := r.db.WithContext(ctx).
-		Where("product_id = ? AND date BETWEEN ? AND ?", productId.Value(), start, end).
+		Where("user_id = ? AND product_id = ? AND date BETWEEN ? AND ?", userId.Value(), productId.Value(), start, end).
 		Order("date DESC").
 		Find(&models).Error
 	if err != nil {
@@ -133,9 +135,9 @@ func (r *ProductRepository) GetStockMovementsByProductIDAndDateRange(ctx context
 	return r.toStockMovementEntities(models)
 }
 
-func (r *ProductRepository) GetAllStockMovements(ctx context.Context) ([]*entity.StockMovement, error) {
+func (r *ProductRepository) GetAllStockMovements(ctx context.Context, userId vo.UserId) ([]*entity.StockMovement, error) {
 	var models []model.StockMovementModel
-	err := r.db.WithContext(ctx).Order("date DESC").Find(&models).Error
+	err := r.db.WithContext(ctx).Where("user_id = ?", userId.Value()).Order("date DESC").Find(&models).Error
 	if err != nil {
 		return nil, err
 	}
@@ -143,10 +145,10 @@ func (r *ProductRepository) GetAllStockMovements(ctx context.Context) ([]*entity
 	return r.toStockMovementEntities(models)
 }
 
-func (r *ProductRepository) GetAllStockMovementsAndDateRange(ctx context.Context, start time.Time, end time.Time) ([]*entity.StockMovement, error) {
+func (r *ProductRepository) GetAllStockMovementsAndDateRange(ctx context.Context, userId vo.UserId, start time.Time, end time.Time) ([]*entity.StockMovement, error) {
 	var models []model.StockMovementModel
 	err := r.db.WithContext(ctx).
-		Where("date BETWEEN ? AND ?", start, end).
+		Where("user_id = ? AND date BETWEEN ? AND ?", userId.Value(), start, end).
 		Order("date DESC").
 		Find(&models).Error
 	if err != nil {
@@ -158,6 +160,11 @@ func (r *ProductRepository) GetAllStockMovementsAndDateRange(ctx context.Context
 
 func (r *ProductRepository) toEntityFromModel(m *model.ProductModel) (*entity.Product, error) {
 	productId, err := vo.ParseProductId(m.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	userId, err := vo.ParseUserId(m.UserID)
 	if err != nil {
 		return nil, err
 	}
@@ -183,7 +190,7 @@ func (r *ProductRepository) toEntityFromModel(m *model.ProductModel) (*entity.Pr
 		stockMovements[i] = *esm
 	}
 
-	p := entity.ReconstructProduct(productId, m.Name, quantity, threshold, categoryId, stockMovements, m.ArchivedAt)
+	p := entity.ReconstructProduct(productId, userId, m.Name, quantity, threshold, categoryId, stockMovements, m.ArchivedAt)
 	return &p, nil
 }
 
@@ -205,12 +212,17 @@ func (r *ProductRepository) toStockMovementEntity(m *model.StockMovementModel) (
 		return nil, err
 	}
 
+	userId, err := vo.ParseUserId(m.UserID)
+	if err != nil {
+		return nil, err
+	}
+
 	productId, err := vo.ParseProductId(m.ProductID)
 	if err != nil {
 		return nil, err
 	}
 
-	movement := entity.ReconstructStockMovement(smId, productId, m.Action, m.Quantity, m.Source, m.Reason, m.Date)
+	movement := entity.ReconstructStockMovement(smId, userId, productId, m.Action, m.Quantity, m.Source, m.Reason, m.Date)
 	return &movement, nil
 }
 
