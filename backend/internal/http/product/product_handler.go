@@ -7,6 +7,7 @@ import (
 	command "github.com/mlwy4id/stockify/internal/application/command/product"
 	query "github.com/mlwy4id/stockify/internal/application/query/product"
 	vo "github.com/mlwy4id/stockify/internal/domain/values_object"
+	"github.com/mlwy4id/stockify/internal/http/middleware"
 )
 
 type ProductHandler struct {
@@ -37,6 +38,12 @@ func NewProductHandler(
 }
 
 func (ph *ProductHandler) Create(ctx *gin.Context) {
+	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+		return
+	}
+
 	var req CreateProductRequest
 
 	if err := ctx.BindJSON(&req); err != nil {
@@ -72,6 +79,7 @@ func (ph *ProductHandler) Create(ctx *gin.Context) {
 	}
 
 	cmd := command.CreateProductCommand{
+		UserId:         userId,
 		Name:           req.Name,
 		Quantity:       quantity,
 		StockThreshold: stockThreshold,
@@ -92,6 +100,12 @@ func (ph *ProductHandler) Create(ctx *gin.Context) {
 }
 
 func (ph *ProductHandler) Update(ctx *gin.Context) {
+	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+		return
+	}
+
 	id, err := vo.ParseProductId(ctx.Param("id"))
 
 	if err != nil {
@@ -139,6 +153,7 @@ func (ph *ProductHandler) Update(ctx *gin.Context) {
 	}
 
 	cmd := command.UpdateProductCommand{
+		UserId:         userId,
 		Id:             id,
 		Name:           cmdName,
 		StockThreshold: cmdThreshold,
@@ -159,14 +174,20 @@ func (ph *ProductHandler) Update(ctx *gin.Context) {
 }
 
 func (ph *ProductHandler) Archive(ctx *gin.Context) {
-	id, err := vo.ParseProductId(ctx.Param("id"))
-
+	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return
 	}
 
-	cmd := command.ArchiveProductCommand{Id: id}
+	id, err := vo.ParseProductId(ctx.Param("id"))
+
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "invalid product id"})
+		return
+	}
+
+	cmd := command.ArchiveProductCommand{UserId: userId, Id: id}
 	err = ph.archiveProductHandler.Handle(ctx.Request.Context(), cmd)
 
 	if err != nil {
@@ -181,14 +202,20 @@ func (ph *ProductHandler) Archive(ctx *gin.Context) {
 }
 
 func (ph *ProductHandler) Reactivate(ctx *gin.Context) {
-	id, err := vo.ParseProductId(ctx.Param("id"))
-
+	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return
 	}
 
-	cmd := command.ReactivateProductCommand{Id: id}
+	id, err := vo.ParseProductId(ctx.Param("id"))
+
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "invalid product id"})
+		return
+	}
+
+	cmd := command.ReactivateProductCommand{UserId: userId, Id: id}
 	err = ph.reactivateProductHandler.Handle(ctx.Request.Context(), cmd)
 
 	if err != nil {
@@ -203,6 +230,12 @@ func (ph *ProductHandler) Reactivate(ctx *gin.Context) {
 }
 
 func (ph *ProductHandler) GetByCategory(ctx *gin.Context) {
+	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+		return
+	}
+
 	categoryId, err := vo.ParseCategoryId(ctx.Param("id"))
 
 	if err != nil {
@@ -210,7 +243,7 @@ func (ph *ProductHandler) GetByCategory(ctx *gin.Context) {
 		return
 	}
 
-	q := query.GetProductByCategoryQuery{CategoryId: categoryId}
+	q := query.GetProductByCategoryQuery{UserId: userId, CategoryId: categoryId}
 	products, err := ph.getByCategoryHandler.Handle(ctx.Request.Context(), q)
 
 	if err != nil {
@@ -225,7 +258,13 @@ func (ph *ProductHandler) GetByCategory(ctx *gin.Context) {
 }
 
 func (ph *ProductHandler) GetLowStock(ctx *gin.Context) {
-	products, err := ph.getLowStockHandler.Handle(ctx.Request.Context(), query.GetLowStockProductsQuery{})
+	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+		return
+	}
+
+	products, err := ph.getLowStockHandler.Handle(ctx.Request.Context(), userId)
 
 	if err != nil {
 		ctx.JSON(http.StatusUnprocessableEntity, gin.H{"error": err.Error()})

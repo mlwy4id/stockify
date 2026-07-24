@@ -10,6 +10,7 @@ import (
 	query "github.com/mlwy4id/stockify/internal/application/query/product"
 	"github.com/mlwy4id/stockify/internal/domain/enum"
 	vo "github.com/mlwy4id/stockify/internal/domain/values_object"
+	"github.com/mlwy4id/stockify/internal/http/middleware"
 )
 
 type StockMovementHandler struct {
@@ -37,6 +38,12 @@ func NewStockMovementHandler(
 }
 
 func (smh *StockMovementHandler) Create(ctx *gin.Context) {
+	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+		return
+	}
+
 	productId, err := vo.ParseProductId(ctx.Param("id"))
 
 	if err != nil {
@@ -73,6 +80,7 @@ func (smh *StockMovementHandler) Create(ctx *gin.Context) {
 	}
 
 	cmd := command.CreateStockMovementCommand{
+		UserId:    userId,
 		ProductId: productId,
 		Action:    action,
 		Quantity:  quantity,
@@ -92,6 +100,12 @@ func (smh *StockMovementHandler) Create(ctx *gin.Context) {
 }
 
 func (smh *StockMovementHandler) GetByProductID(ctx *gin.Context) {
+	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+		return
+	}
+
 	productId, err := vo.ParseProductId(ctx.Param("id"))
 
 	if err != nil {
@@ -99,11 +113,12 @@ func (smh *StockMovementHandler) GetByProductID(ctx *gin.Context) {
 		return
 	}
 
-	query := query.GetStockMovementByProductIDQuery{
+	q := query.GetStockMovementByProductIDQuery{
+		UserId:    userId,
 		ProductId: productId,
 	}
 
-	movements, err := smh.getStockMovementByProductIDHandler.Handle(ctx.Request.Context(), query)
+	movements, err := smh.getStockMovementByProductIDHandler.Handle(ctx.Request.Context(), q)
 
 	if err != nil {
 		ctx.JSON(http.StatusUnprocessableEntity, gin.H{"error": err.Error()})
@@ -117,6 +132,12 @@ func (smh *StockMovementHandler) GetByProductID(ctx *gin.Context) {
 }
 
 func (smh *StockMovementHandler) GetSummaryByProductID(ctx *gin.Context) {
+	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+		return
+	}
+
 	productId, err := vo.ParseProductId(ctx.Param("id"))
 
 	if err != nil {
@@ -138,6 +159,7 @@ func (smh *StockMovementHandler) GetSummaryByProductID(ctx *gin.Context) {
 	}
 
 	q := query.GetStockMovementSummaryByProductIDQuery{
+		UserId:     userId,
 		ProductId:  productId,
 		DateFilter: dateFilter,
 	}
@@ -156,6 +178,12 @@ func (smh *StockMovementHandler) GetSummaryByProductID(ctx *gin.Context) {
 }
 
 func (smh *StockMovementHandler) GetGlobalSummary(ctx *gin.Context) {
+	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+		return
+	}
+
 	var dateFilter *enum.DateFilter
 
 	if df := ctx.Query("dateFilter"); df != "" {
@@ -170,6 +198,7 @@ func (smh *StockMovementHandler) GetGlobalSummary(ctx *gin.Context) {
 	}
 
 	q := query.GetGlobalStockMovementSummaryQuery{
+		UserId:     userId,
 		DateFilter: dateFilter,
 	}
 
@@ -187,6 +216,12 @@ func (smh *StockMovementHandler) GetGlobalSummary(ctx *gin.Context) {
 }
 
 func (smh *StockMovementHandler) GetTopMovers(ctx *gin.Context) {
+	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+		return
+	}
+
 	limit := 10
 
 	if lmt := ctx.Query("limit"); lmt != "" {
@@ -209,6 +244,7 @@ func (smh *StockMovementHandler) GetTopMovers(ctx *gin.Context) {
 	}
 
 	q := query.GetTopMoversQuery{
+		UserId:     userId,
 		Limit:      limit,
 		DateFilter: dateFilter,
 	}

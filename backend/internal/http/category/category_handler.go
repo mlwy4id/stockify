@@ -7,6 +7,7 @@ import (
 	command "github.com/mlwy4id/stockify/internal/application/command/category"
 	query "github.com/mlwy4id/stockify/internal/application/query/category"
 	vo "github.com/mlwy4id/stockify/internal/domain/values_object"
+	"github.com/mlwy4id/stockify/internal/http/middleware"
 )
 
 type CategoryHandler struct {
@@ -34,6 +35,12 @@ func NewCategoryHandler(
 }
 
 func (ch *CategoryHandler) Create(ctx *gin.Context) {
+	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+		return
+	}
+
 	var req CreateCategoryRequest
 
 	if err := ctx.BindJSON(&req); err != nil {
@@ -41,7 +48,7 @@ func (ch *CategoryHandler) Create(ctx *gin.Context) {
 		return
 	}
 
-	cmd := command.CreateCategoryCommand{Name: req.Name}
+	cmd := command.CreateCategoryCommand{UserId: userId, Name: req.Name}
 	id, err := ch.createCategoryHandler.Handle(ctx.Request.Context(), cmd)
 
 	if err != nil {
@@ -56,6 +63,12 @@ func (ch *CategoryHandler) Create(ctx *gin.Context) {
 }
 
 func (ch *CategoryHandler) Delete(ctx *gin.Context) {
+	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+		return
+	}
+
 	id, err := vo.ParseCategoryId(ctx.Param("id"))
 
 	if err != nil {
@@ -63,7 +76,7 @@ func (ch *CategoryHandler) Delete(ctx *gin.Context) {
 		return
 	}
 
-	cmd := command.DeleteCategoryCommand{Id: id}
+	cmd := command.DeleteCategoryCommand{UserId: userId, Id: id}
 	err = ch.deleteCategoryHandler.Handle(ctx.Request.Context(), cmd)
 
 	if err != nil {
@@ -78,6 +91,12 @@ func (ch *CategoryHandler) Delete(ctx *gin.Context) {
 }
 
 func (ch *CategoryHandler) Rename(ctx *gin.Context) {
+	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+		return
+	}
+
 	id, err := vo.ParseCategoryId(ctx.Param("id"))
 
 	if err != nil {
@@ -93,8 +112,9 @@ func (ch *CategoryHandler) Rename(ctx *gin.Context) {
 	}
 
 	cmd := command.RenameCategoryCommand{
-		Id:   id,
-		Name: req.Name,
+		UserId: userId,
+		Id:     id,
+		Name:   req.Name,
 	}
 	
 	categoryId, err := ch.renameCategoryHandler.Handle(ctx.Request.Context(), cmd)
@@ -111,7 +131,13 @@ func (ch *CategoryHandler) Rename(ctx *gin.Context) {
 }
 
 func (ch *CategoryHandler) GetAll(ctx *gin.Context) {
-	categories, err := ch.getAllCategoryHandler.Handle(ctx.Request.Context())
+	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+		return
+	}
+
+	categories, err := ch.getAllCategoryHandler.Handle(ctx.Request.Context(), userId)
 
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -124,6 +150,12 @@ func (ch *CategoryHandler) GetAll(ctx *gin.Context) {
 }
 
 func (ch *CategoryHandler) GetById(ctx *gin.Context) {
+	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+		return
+	}
+
 	id, err := vo.ParseCategoryId(ctx.Param("id"))
 
 	if err != nil {
@@ -131,8 +163,8 @@ func (ch *CategoryHandler) GetById(ctx *gin.Context) {
 		return
 	}
 
-	query := query.GetCategoryByIDQuery{CategoryID: id}
-	category, err := ch.getCategoryById.Handle(ctx.Request.Context(), query)
+	q := query.GetCategoryByIDQuery{UserId: userId, CategoryID: id}
+	category, err := ch.getCategoryById.Handle(ctx.Request.Context(), q)
 
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
