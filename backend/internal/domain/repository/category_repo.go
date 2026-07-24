@@ -9,6 +9,6 @@ import (
 
 type CategoryRepository interface {
 	Save(ctx context.Context, category *entity.Category) error
-	FindByID(ctx context.Context, id vo.CategoryId) (*entity.Category, error)
-	FindAll(ctx context.Context) ([]*entity.Category, error)
+	FindByID(ctx context.Context, userId vo.UserId, id vo.CategoryId) (*entity.Category, error)
+	FindAll(ctx context.Context, userId vo.UserId) ([]*entity.Category, error)
 }

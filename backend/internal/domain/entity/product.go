@@ -11,6 +11,7 @@ import (
 
 type Product struct {
 	id                    vo.ProductId
+	userId                vo.UserId
 	name                  string
 	quantity              vo.Quantity
 	stockThreshold        vo.StockThreshold
@@ -20,7 +21,7 @@ type Product struct {
 	archivedAt            *time.Time
 }
 
-func NewProduct(name string, quantity vo.Quantity, stockThreshold vo.StockThreshold, categoryId *vo.CategoryId) (Product, error) {
+func NewProduct(userId vo.UserId, name string, quantity vo.Quantity, stockThreshold vo.StockThreshold, categoryId *vo.CategoryId) (Product, error) {
 	trimmedName := strings.TrimSpace(name)
 
 	if trimmedName == "" {
@@ -29,6 +30,7 @@ func NewProduct(name string, quantity vo.Quantity, stockThreshold vo.StockThresh
 
 	return Product{
 		id:             vo.NewProductId(),
+		userId:         userId,
 		name:           trimmedName,
 		quantity:       quantity,
 		stockThreshold: stockThreshold,
@@ -49,7 +51,7 @@ func (p *Product) AddStockMovement(action enum.Action, quantity vo.Quantity, sou
 
 	}
 
-	sm, err := NewStockMovement(p.id, action, quantity, source, reason, date)
+	sm, err := NewStockMovement(p.userId, p.id, action, quantity, source, reason, date)
 	if err != nil {
 		return err
 	}
@@ -123,6 +125,10 @@ func (p Product) Id() vo.ProductId {
 	return p.id
 }
 
+func (p Product) UserId() vo.UserId {
+	return p.userId
+}
+
 func (p Product) Name() string {
 	return p.name
 }
@@ -158,9 +164,10 @@ func (p Product) ArchivedAt() *time.Time {
 	return p.archivedAt
 }
 
-func ReconstructProduct(id vo.ProductId, name string, quantity vo.Quantity, stockThreshold vo.StockThreshold, categoryId *vo.CategoryId, stockMovements []StockMovement, archivedAt *time.Time) Product {
+func ReconstructProduct(id vo.ProductId, userId vo.UserId, name string, quantity vo.Quantity, stockThreshold vo.StockThreshold, categoryId *vo.CategoryId, stockMovements []StockMovement, archivedAt *time.Time) Product {
 	return Product{
 		id:                    id,
+		userId:                userId,
 		name:                  name,
 		quantity:              quantity,
 		stockThreshold:        stockThreshold,

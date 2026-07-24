@@ -10,12 +10,13 @@ import (
 
 type Category struct {
 	id        vo.CategoryId
+	userId    vo.UserId
 	name      string
 	isDeleted bool
 	deletedAt *time.Time
 }
 
-func NewCategory(name string) (Category, error) {
+func NewCategory(userId vo.UserId, name string) (Category, error) {
 	trimmedName := strings.TrimSpace(name)
 
 	if trimmedName == "" {
@@ -24,6 +25,7 @@ func NewCategory(name string) (Category, error) {
 
 	return Category{
 		id:        vo.NewCategoryId(),
+		userId:    userId,
 		name:      trimmedName,
 		isDeleted: false,
 	}, nil
@@ -52,9 +54,10 @@ func (c *Category) DeleteCategory() error {
 	return nil
 }
 
-func ReconstructCategory(id vo.CategoryId, name string, isDeleted bool, deletedAt *time.Time) Category {
+func ReconstructCategory(id vo.CategoryId, userId vo.UserId, name string, isDeleted bool, deletedAt *time.Time) Category {
 	return Category{
 		id:        id,
+		userId:    userId,
 		name:      name,
 		isDeleted: isDeleted,
 		deletedAt: deletedAt,
@@ -63,6 +66,10 @@ func ReconstructCategory(id vo.CategoryId, name string, isDeleted bool, deletedA
 
 func (c Category) Id() vo.CategoryId {
 	return c.id
+}
+
+func (c Category) UserId() vo.UserId {
+	return c.userId
 }
 
 func (c Category) Name() string {

@@ -7,5 +7,5 @@ import (
 )
 
 type CategoryDeletionService interface {
-	DeleteCategoryWithCascade(ctx context.Context, categoryID vo.CategoryId) error
+	DeleteCategoryWithCascade(ctx context.Context, userId vo.UserId, categoryID vo.CategoryId) error
 }

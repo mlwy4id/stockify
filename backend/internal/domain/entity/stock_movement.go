@@ -11,6 +11,7 @@ import (
 
 type StockMovement struct {
 	id        vo.StockMovementId
+	userId    vo.UserId
 	productId vo.ProductId
 	action    enum.Action
 	quantity  vo.Quantity
@@ -19,13 +20,14 @@ type StockMovement struct {
 	date      time.Time
 }
 
-func NewStockMovement(productId vo.ProductId, action enum.Action, quantity vo.Quantity, source string, reason string, date time.Time) (StockMovement, error) {
+func NewStockMovement(userId vo.UserId, productId vo.ProductId, action enum.Action, quantity vo.Quantity, source string, reason string, date time.Time) (StockMovement, error) {
 	if !action.IsValid() {
 		return StockMovement{}, errors.New("action is not valid")
 	}
 
 	sm := StockMovement{
 		id:        vo.NewStockMovementId(),
+		userId:    userId,
 		productId: productId,
 		action:    action,
 		quantity:  quantity,
@@ -48,6 +50,10 @@ func NewStockMovement(productId vo.ProductId, action enum.Action, quantity vo.Qu
 
 func (s StockMovement) Id() vo.StockMovementId {
 	return s.id
+}
+
+func (s StockMovement) UserId() vo.UserId {
+	return s.userId
 }
 
 func (s StockMovement) ProductId() vo.ProductId {
@@ -74,9 +80,10 @@ func (s StockMovement) Date() time.Time {
 	return s.date
 }
 
-func ReconstructStockMovement(id vo.StockMovementId, productId vo.ProductId, action string, quantity int, source *string, reason *string, date time.Time) StockMovement {
+func ReconstructStockMovement(id vo.StockMovementId, userId vo.UserId, productId vo.ProductId, action string, quantity int, source *string, reason *string, date time.Time) StockMovement {
 	return StockMovement{
 		id:        id,
+		userId:    userId,
 		productId: productId,
 		action:    enum.Action(action),
 		quantity:  vo.ReconstructQuantity(quantity),
