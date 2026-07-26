@@ -15,3 +15,8 @@ export const signIn = async (user: UserSignIn) => {
   const res = await api.post('auth/sign-in/email', user);
   return res.data;
 };
+
+export const signOut = async () => {
+  const res = await api.post('auth/sign-out');
+  return res.data;
+};

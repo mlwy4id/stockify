@@ -1,4 +1,4 @@
-import { getUser, signIn, signUp } from '@/shared/lib/api/auth.api';
+import { getUser, signIn, signUp, signOut } from '@/shared/lib/api/auth.api';
 import { useToastStore } from '@/shared/store/toast';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
@@ -31,10 +31,27 @@ export const useSignInUser = () => {
 
   return useMutation({
     mutationFn: signIn,
-    onSuccess: () => {
+    onSuccess: (data) => {
+      localStorage.setItem('token', data.token);
       queryClient.invalidateQueries({ queryKey: ['User'] });
       addToast('Sign in success!', 'success');
       router.push('/dashboard');
+    },
+  });
+};
+
+export const useSignOutUser = () => {
+  const { addToast } = useToastStore();
+  const router = useRouter();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: signOut,
+    onSuccess: () => {
+      localStorage.removeItem('token');
+      queryClient.clear();
+      addToast('Signed out!', 'success');
+      router.push('/sign-in');
     },
   });
 };
