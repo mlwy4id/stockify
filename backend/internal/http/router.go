@@ -2,6 +2,8 @@ package http
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/swaggo/gin-swagger"
+	"github.com/swaggo/files"
 	authHandler "github.com/mlwy4id/stockify/internal/http/auth"
 	"github.com/mlwy4id/stockify/internal/http/middleware"
 	categoryHandler "github.com/mlwy4id/stockify/internal/http/category"
@@ -18,6 +20,8 @@ type Handlers struct {
 
 func NewRouter(h Handlers) *gin.Engine {
 	router := gin.Default()
+
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	api := router.Group("/api")
 	{

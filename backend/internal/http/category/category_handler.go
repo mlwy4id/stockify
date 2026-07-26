@@ -34,6 +34,18 @@ func NewCategoryHandler(
 	}
 }
 
+// Create godoc
+// @Summary      Create a new category
+// @Description  Create a new inventory category for the authenticated user
+// @Tags         Category
+// @Accept       json
+// @Produce      json
+// @Param        body body     CreateCategoryRequest true "Category name"
+// @Success      201  {object} map[string]interface{} "category_id"
+// @Failure      400  {object} map[string]interface{} "validation error"
+// @Failure      401  {object} map[string]interface{} "unauthorized"
+// @Router       /category/ [post]
+// @Security     CookieAuth
 func (ch *CategoryHandler) Create(ctx *gin.Context) {
 	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
 	if err != nil {
@@ -62,6 +74,17 @@ func (ch *CategoryHandler) Create(ctx *gin.Context) {
 	})
 }
 
+// Delete godoc
+// @Summary      Delete a category
+// @Description  Soft-delete a category and unassign its products
+// @Tags         Category
+// @Produce      json
+// @Param        id   path     string true "Category ID"
+// @Success      200  {object} map[string]interface{} "category_id"
+// @Failure      400  {object} map[string]interface{} "invalid id"
+// @Failure      401  {object} map[string]interface{} "unauthorized"
+// @Router       /category/{id} [delete]
+// @Security     CookieAuth
 func (ch *CategoryHandler) Delete(ctx *gin.Context) {
 	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
 	if err != nil {
@@ -90,6 +113,19 @@ func (ch *CategoryHandler) Delete(ctx *gin.Context) {
 	})
 }
 
+// Rename godoc
+// @Summary      Rename a category
+// @Description  Update the name of an existing category
+// @Tags         Category
+// @Accept       json
+// @Produce      json
+// @Param        id   path     string                true "Category ID"
+// @Param        body body     RenameCategoryRequest true "New name"
+// @Success      200  {object} map[string]interface{} "category_id"
+// @Failure      400  {object} map[string]interface{} "validation error"
+// @Failure      401  {object} map[string]interface{} "unauthorized"
+// @Router       /category/{id} [patch]
+// @Security     CookieAuth
 func (ch *CategoryHandler) Rename(ctx *gin.Context) {
 	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
 	if err != nil {
@@ -130,6 +166,15 @@ func (ch *CategoryHandler) Rename(ctx *gin.Context) {
 	})
 }
 
+// GetAll godoc
+// @Summary      Get all categories
+// @Description  Retrieve all categories for the authenticated user
+// @Tags         Category
+// @Produce      json
+// @Success      200 {object} map[string]interface{} "list of categories"
+// @Failure      401 {object} map[string]interface{} "unauthorized"
+// @Router       /category/ [get]
+// @Security     CookieAuth
 func (ch *CategoryHandler) GetAll(ctx *gin.Context) {
 	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
 	if err != nil {
@@ -149,6 +194,17 @@ func (ch *CategoryHandler) GetAll(ctx *gin.Context) {
 	})
 }
 
+// GetById godoc
+// @Summary      Get a category by ID
+// @Description  Retrieve a single category by its ID
+// @Tags         Category
+// @Produce      json
+// @Param        id   path     string true "Category ID"
+// @Success      200  {object} map[string]interface{} "category data"
+// @Failure      400  {object} map[string]interface{} "invalid id"
+// @Failure      401  {object} map[string]interface{} "unauthorized"
+// @Router       /category/{id} [get]
+// @Security     CookieAuth
 func (ch *CategoryHandler) GetById(ctx *gin.Context) {
 	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
 	if err != nil {

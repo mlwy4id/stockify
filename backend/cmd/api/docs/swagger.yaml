@@ -1,0 +1,725 @@
+basePath: /api
+definitions:
+  internal_http_auth.SignInRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  internal_http_auth.SignUpRequest:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        minLength: 8
+        type: string
+    required:
+    - email
+    - name
+    - password
+    type: object
+  internal_http_category.CreateCategoryRequest:
+    properties:
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  internal_http_category.RenameCategoryRequest:
+    properties:
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  internal_http_product.CreateProductRequest:
+    properties:
+      categoryId:
+        type: string
+      name:
+        type: string
+      quantity:
+        type: integer
+      stockThreshold:
+        type: integer
+    required:
+    - name
+    - quantity
+    - stockThreshold
+    type: object
+  internal_http_product.UpdateProductRequest:
+    properties:
+      categoryId:
+        type: string
+      name:
+        type: string
+      stockThreshold:
+        type: integer
+    type: object
+  internal_http_stock_movement.CreateStockMovementRequest:
+    properties:
+      action:
+        type: string
+      date:
+        type: string
+      quantity:
+        type: integer
+      reason:
+        type: string
+      source:
+        type: string
+    required:
+    - action
+    - date
+    - quantity
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Stock management application API.
+  title: Stockify API
+  version: "1.0"
+paths:
+  /auth/me:
+    get:
+      description: Get authenticated user profile from JWT token
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: user data
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - CookieAuth: []
+      summary: Get current user
+      tags:
+      - Auth
+  /auth/sign-in/email:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate with email and password, returns JWT token via cookie
+      parameters:
+      - description: User credentials
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/internal_http_auth.SignInRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: user data
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: validation error
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: invalid credentials
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Sign in a user
+      tags:
+      - Auth
+  /auth/sign-out:
+    post:
+      description: Clear JWT cookie to sign out
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: message
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - CookieAuth: []
+      summary: Sign out
+      tags:
+      - Auth
+  /auth/sign-up/email:
+    post:
+      consumes:
+      - application/json
+      description: Create a new user account with email, name, and password
+      parameters:
+      - description: User registration payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/internal_http_auth.SignUpRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: user_id
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: validation error
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: email already exists
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Register a new user
+      tags:
+      - Auth
+  /category/:
+    get:
+      description: Retrieve all categories for the authenticated user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: list of categories
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - CookieAuth: []
+      summary: Get all categories
+      tags:
+      - Category
+    post:
+      consumes:
+      - application/json
+      description: Create a new inventory category for the authenticated user
+      parameters:
+      - description: Category name
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/internal_http_category.CreateCategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: category_id
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: validation error
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - CookieAuth: []
+      summary: Create a new category
+      tags:
+      - Category
+  /category/{id}:
+    delete:
+      description: Soft-delete a category and unassign its products
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: category_id
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: invalid id
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - CookieAuth: []
+      summary: Delete a category
+      tags:
+      - Category
+    get:
+      description: Retrieve a single category by its ID
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: category data
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: invalid id
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - CookieAuth: []
+      summary: Get a category by ID
+      tags:
+      - Category
+    patch:
+      consumes:
+      - application/json
+      description: Update the name of an existing category
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: New name
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/internal_http_category.RenameCategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: category_id
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: validation error
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - CookieAuth: []
+      summary: Rename a category
+      tags:
+      - Category
+  /product/:
+    post:
+      consumes:
+      - application/json
+      description: Create a new inventory product with name, quantity, and threshold
+      parameters:
+      - description: Product data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/internal_http_product.CreateProductRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: product_id
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: validation error
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - CookieAuth: []
+      summary: Create a new product
+      tags:
+      - Product
+  /product/{id}:
+    patch:
+      consumes:
+      - application/json
+      description: Update product name, stock threshold, or category
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Product fields to update
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/internal_http_product.UpdateProductRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: product_id
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: validation error
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - CookieAuth: []
+      summary: Update a product
+      tags:
+      - Product
+  /product/{id}/archive:
+    patch:
+      description: Soft-archive a product to hide it from active listings
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: product_id
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: invalid id
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - CookieAuth: []
+      summary: Archive a product
+      tags:
+      - Product
+  /product/{id}/reactivate:
+    patch:
+      description: Restore an archived product back to active status
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: product_id
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: invalid id
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - CookieAuth: []
+      summary: Reactivate a product
+      tags:
+      - Product
+  /product/{id}/stock-movements/:
+    get:
+      description: Retrieve all stock movements for a specific product
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: list of movements
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: invalid id
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - CookieAuth: []
+      summary: Get stock movements by product
+      tags:
+      - Stock Movement
+    post:
+      consumes:
+      - application/json
+      description: Record a stock movement (RESTOCK, REFUND, SOLD, BROKEN) for a product
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Stock movement data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/internal_http_stock_movement.CreateStockMovementRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: message
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: validation error
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - CookieAuth: []
+      summary: Create a stock movement
+      tags:
+      - Stock Movement
+  /product/{id}/stock-movements/summary:
+    get:
+      description: Get in/out summary for a product, optionally filtered by date
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: 'Date filter: 1d, 1w, 1m, 3m, 6m, 1y'
+        in: query
+        name: dateFilter
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: summary data
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: invalid id or filter
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - CookieAuth: []
+      summary: Get stock movement summary by product
+      tags:
+      - Stock Movement
+  /product/category/{id}:
+    get:
+      description: Retrieve all products in a specific category
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: list of products
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: invalid id
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - CookieAuth: []
+      summary: Get products by category
+      tags:
+      - Product
+  /product/low-stock:
+    get:
+      description: Retrieve products where quantity is below stock threshold
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: list of low stock products
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - CookieAuth: []
+      summary: Get low stock products
+      tags:
+      - Product
+  /stock-movements/:
+    get:
+      description: Get overall in/out summary across all products, optionally filtered
+        by date
+      parameters:
+      - description: 'Date filter: 1d, 1w, 1m, 3m, 6m, 1y'
+        in: query
+        name: dateFilter
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: global summary
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: invalid filter
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - CookieAuth: []
+      summary: Get global stock movement summary
+      tags:
+      - Stock Movement
+  /stock-movements/top-movers:
+    get:
+      description: Get products with highest stock out activity, optionally filtered
+        by date
+      parameters:
+      - description: Max results (default 10)
+        in: query
+        name: limit
+        type: integer
+      - description: 'Date filter: 1d, 1w, 1m, 3m, 6m, 1y'
+        in: query
+        name: dateFilter
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: list of top movers
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: invalid filter
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - CookieAuth: []
+      summary: Get top movers
+      tags:
+      - Stock Movement
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+  CookieAuth:
+    in: cookie
+    name: token
+    type: apiKey
+swagger: "2.0"

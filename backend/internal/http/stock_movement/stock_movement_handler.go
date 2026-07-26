@@ -37,6 +37,19 @@ func NewStockMovementHandler(
 	}
 }
 
+// Create godoc
+// @Summary      Create a stock movement
+// @Description  Record a stock movement (RESTOCK, REFUND, SOLD, BROKEN) for a product
+// @Tags         Stock Movement
+// @Accept       json
+// @Produce      json
+// @Param        id   path     string                      true "Product ID"
+// @Param        body body     CreateStockMovementRequest   true "Stock movement data"
+// @Success      201  {object} map[string]interface{} "message"
+// @Failure      400  {object} map[string]interface{} "validation error"
+// @Failure      401  {object} map[string]interface{} "unauthorized"
+// @Router       /product/{id}/stock-movements/ [post]
+// @Security     CookieAuth
 func (smh *StockMovementHandler) Create(ctx *gin.Context) {
 	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
 	if err != nil {
@@ -99,6 +112,17 @@ func (smh *StockMovementHandler) Create(ctx *gin.Context) {
 	})
 }
 
+// GetByProductID godoc
+// @Summary      Get stock movements by product
+// @Description  Retrieve all stock movements for a specific product
+// @Tags         Stock Movement
+// @Produce      json
+// @Param        id   path     string true "Product ID"
+// @Success      200  {object} map[string]interface{} "list of movements"
+// @Failure      400  {object} map[string]interface{} "invalid id"
+// @Failure      401  {object} map[string]interface{} "unauthorized"
+// @Router       /product/{id}/stock-movements/ [get]
+// @Security     CookieAuth
 func (smh *StockMovementHandler) GetByProductID(ctx *gin.Context) {
 	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
 	if err != nil {
@@ -131,6 +155,18 @@ func (smh *StockMovementHandler) GetByProductID(ctx *gin.Context) {
 	})
 }
 
+// GetSummaryByProductID godoc
+// @Summary      Get stock movement summary by product
+// @Description  Get in/out summary for a product, optionally filtered by date
+// @Tags         Stock Movement
+// @Produce      json
+// @Param        id          path     string true  "Product ID"
+// @Param        dateFilter  query    string false "Date filter: 1d, 1w, 1m, 3m, 6m, 1y"
+// @Success      200  {object} map[string]interface{} "summary data"
+// @Failure      400  {object} map[string]interface{} "invalid id or filter"
+// @Failure      401  {object} map[string]interface{} "unauthorized"
+// @Router       /product/{id}/stock-movements/summary [get]
+// @Security     CookieAuth
 func (smh *StockMovementHandler) GetSummaryByProductID(ctx *gin.Context) {
 	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
 	if err != nil {
@@ -177,6 +213,17 @@ func (smh *StockMovementHandler) GetSummaryByProductID(ctx *gin.Context) {
 	})
 }
 
+// GetGlobalSummary godoc
+// @Summary      Get global stock movement summary
+// @Description  Get overall in/out summary across all products, optionally filtered by date
+// @Tags         Stock Movement
+// @Produce      json
+// @Param        dateFilter  query    string false "Date filter: 1d, 1w, 1m, 3m, 6m, 1y"
+// @Success      200  {object} map[string]interface{} "global summary"
+// @Failure      400  {object} map[string]interface{} "invalid filter"
+// @Failure      401  {object} map[string]interface{} "unauthorized"
+// @Router       /stock-movements/ [get]
+// @Security     CookieAuth
 func (smh *StockMovementHandler) GetGlobalSummary(ctx *gin.Context) {
 	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
 	if err != nil {
@@ -215,6 +262,18 @@ func (smh *StockMovementHandler) GetGlobalSummary(ctx *gin.Context) {
 	})
 }
 
+// GetTopMovers godoc
+// @Summary      Get top movers
+// @Description  Get products with highest stock out activity, optionally filtered by date
+// @Tags         Stock Movement
+// @Produce      json
+// @Param        limit       query    int    false "Max results (default 10)"
+// @Param        dateFilter  query    string false "Date filter: 1d, 1w, 1m, 3m, 6m, 1y"
+// @Success      200  {object} map[string]interface{} "list of top movers"
+// @Failure      400  {object} map[string]interface{} "invalid filter"
+// @Failure      401  {object} map[string]interface{} "unauthorized"
+// @Router       /stock-movements/top-movers [get]
+// @Security     CookieAuth
 func (smh *StockMovementHandler) GetTopMovers(ctx *gin.Context) {
 	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
 	if err != nil {

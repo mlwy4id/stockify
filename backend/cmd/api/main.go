@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/joho/godotenv"
+	_ "github.com/mlwy4id/stockify/cmd/api/docs"
 	authCommand "github.com/mlwy4id/stockify/internal/application/command/auth"
 	categoryCommand "github.com/mlwy4id/stockify/internal/application/command/category"
 	productCommand "github.com/mlwy4id/stockify/internal/application/command/product"
@@ -20,6 +21,17 @@ import (
 	"github.com/mlwy4id/stockify/internal/infrastructure/service"
 )
 
+// @title           Stockify API
+// @version         1.0
+// @description     Stock management application API.
+// @host            localhost:8080
+// @BasePath        /api
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
+// @securityDefinitions.apikey CookieAuth
+// @in cookie
+// @name token
 func main() {
 	if err := godotenv.Load(); err != nil {
 		log.Println("no .env file found, using system env")

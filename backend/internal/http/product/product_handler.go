@@ -37,6 +37,18 @@ func NewProductHandler(
 	}
 }
 
+// Create godoc
+// @Summary      Create a new product
+// @Description  Create a new inventory product with name, quantity, and threshold
+// @Tags         Product
+// @Accept       json
+// @Produce      json
+// @Param        body body     CreateProductRequest true "Product data"
+// @Success      201  {object} map[string]interface{} "product_id"
+// @Failure      400  {object} map[string]interface{} "validation error"
+// @Failure      401  {object} map[string]interface{} "unauthorized"
+// @Router       /product/ [post]
+// @Security     CookieAuth
 func (ph *ProductHandler) Create(ctx *gin.Context) {
 	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
 	if err != nil {
@@ -99,6 +111,19 @@ func (ph *ProductHandler) Create(ctx *gin.Context) {
 	})
 }
 
+// Update godoc
+// @Summary      Update a product
+// @Description  Update product name, stock threshold, or category
+// @Tags         Product
+// @Accept       json
+// @Produce      json
+// @Param        id   path     string                true "Product ID"
+// @Param        body body     UpdateProductRequest   true "Product fields to update"
+// @Success      200  {object} map[string]interface{} "product_id"
+// @Failure      400  {object} map[string]interface{} "validation error"
+// @Failure      401  {object} map[string]interface{} "unauthorized"
+// @Router       /product/{id} [patch]
+// @Security     CookieAuth
 func (ph *ProductHandler) Update(ctx *gin.Context) {
 	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
 	if err != nil {
@@ -173,6 +198,17 @@ func (ph *ProductHandler) Update(ctx *gin.Context) {
 	})
 }
 
+// Archive godoc
+// @Summary      Archive a product
+// @Description  Soft-archive a product to hide it from active listings
+// @Tags         Product
+// @Produce      json
+// @Param        id   path     string true "Product ID"
+// @Success      200  {object} map[string]interface{} "product_id"
+// @Failure      400  {object} map[string]interface{} "invalid id"
+// @Failure      401  {object} map[string]interface{} "unauthorized"
+// @Router       /product/{id}/archive [patch]
+// @Security     CookieAuth
 func (ph *ProductHandler) Archive(ctx *gin.Context) {
 	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
 	if err != nil {
@@ -201,6 +237,17 @@ func (ph *ProductHandler) Archive(ctx *gin.Context) {
 	})
 }
 
+// Reactivate godoc
+// @Summary      Reactivate a product
+// @Description  Restore an archived product back to active status
+// @Tags         Product
+// @Produce      json
+// @Param        id   path     string true "Product ID"
+// @Success      200  {object} map[string]interface{} "product_id"
+// @Failure      400  {object} map[string]interface{} "invalid id"
+// @Failure      401  {object} map[string]interface{} "unauthorized"
+// @Router       /product/{id}/reactivate [patch]
+// @Security     CookieAuth
 func (ph *ProductHandler) Reactivate(ctx *gin.Context) {
 	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
 	if err != nil {
@@ -229,6 +276,17 @@ func (ph *ProductHandler) Reactivate(ctx *gin.Context) {
 	})
 }
 
+// GetByCategory godoc
+// @Summary      Get products by category
+// @Description  Retrieve all products in a specific category
+// @Tags         Product
+// @Produce      json
+// @Param        id   path     string true "Category ID"
+// @Success      200  {object} map[string]interface{} "list of products"
+// @Failure      400  {object} map[string]interface{} "invalid id"
+// @Failure      401  {object} map[string]interface{} "unauthorized"
+// @Router       /product/category/{id} [get]
+// @Security     CookieAuth
 func (ph *ProductHandler) GetByCategory(ctx *gin.Context) {
 	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
 	if err != nil {
@@ -257,6 +315,15 @@ func (ph *ProductHandler) GetByCategory(ctx *gin.Context) {
 	})
 }
 
+// GetLowStock godoc
+// @Summary      Get low stock products
+// @Description  Retrieve products where quantity is below stock threshold
+// @Tags         Product
+// @Produce      json
+// @Success      200  {object} map[string]interface{} "list of low stock products"
+// @Failure      401  {object} map[string]interface{} "unauthorized"
+// @Router       /product/low-stock [get]
+// @Security     CookieAuth
 func (ph *ProductHandler) GetLowStock(ctx *gin.Context) {
 	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
 	if err != nil {

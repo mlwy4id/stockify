@@ -28,6 +28,17 @@ func NewAuthHandler(
 	}
 }
 
+// SignUp godoc
+// @Summary      Register a new user
+// @Description  Create a new user account with email, name, and password
+// @Tags         Auth
+// @Accept       json
+// @Produce      json
+// @Param        body body     SignUpRequest true "User registration payload"
+// @Success      201  {object} map[string]interface{} "user_id"
+// @Failure      400  {object} map[string]interface{} "validation error"
+// @Failure      422  {object} map[string]interface{} "email already exists"
+// @Router       /auth/sign-up/email [post]
 func (h *AuthHandler) SignUp(ctx *gin.Context) {
 	var req SignUpRequest
 
@@ -55,6 +66,17 @@ func (h *AuthHandler) SignUp(ctx *gin.Context) {
 	})
 }
 
+// SignIn godoc
+// @Summary      Sign in a user
+// @Description  Authenticate with email and password, returns JWT token via cookie
+// @Tags         Auth
+// @Accept       json
+// @Produce      json
+// @Param        body body     SignInRequest true "User credentials"
+// @Success      200  {object} map[string]interface{} "user data"
+// @Failure      400  {object} map[string]interface{} "validation error"
+// @Failure      401  {object} map[string]interface{} "invalid credentials"
+// @Router       /auth/sign-in/email [post]
 func (h *AuthHandler) SignIn(ctx *gin.Context) {
 	var req SignInRequest
 
@@ -90,6 +112,15 @@ func (h *AuthHandler) SignIn(ctx *gin.Context) {
 	})
 }
 
+// GetMe godoc
+// @Summary      Get current user
+// @Description  Get authenticated user profile from JWT token
+// @Tags         Auth
+// @Produce      json
+// @Success      200 {object} map[string]interface{} "user data"
+// @Failure      401 {object} map[string]interface{} "unauthorized"
+// @Router       /auth/me [get]
+// @Security     CookieAuth
 func (h *AuthHandler) GetMe(ctx *gin.Context) {
 	userId := middleware.GetUserIdFromContext(ctx)
 
@@ -112,6 +143,14 @@ func (h *AuthHandler) GetMe(ctx *gin.Context) {
 	})
 }
 
+// SignOut godoc
+// @Summary      Sign out
+// @Description  Clear JWT cookie to sign out
+// @Tags         Auth
+// @Produce      json
+// @Success      200 {object} map[string]interface{} "message"
+// @Router       /auth/sign-out [post]
+// @Security     CookieAuth
 func (h *AuthHandler) SignOut(ctx *gin.Context) {
 	ctx.SetCookie("token", "", -1, "/", "", false, true)
 
