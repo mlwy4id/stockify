@@ -1,6 +1,10 @@
 package http
 
 import (
+	"os"
+	"time"
+
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/swaggo/gin-swagger"
 	"github.com/swaggo/files"
@@ -20,6 +24,20 @@ type Handlers struct {
 
 func NewRouter(h Handlers) *gin.Engine {
 	router := gin.Default()
+
+	allowedOrigins := []string{"http://localhost:3000"}
+	if origin := os.Getenv("FRONTEND_URL"); origin != "" {
+		allowedOrigins = append(allowedOrigins, origin)
+	}
+
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:     allowedOrigins,
+		AllowMethods:     []string{"GET", "POST", "PATCH", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
