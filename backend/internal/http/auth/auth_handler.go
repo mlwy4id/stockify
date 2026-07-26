@@ -109,6 +109,7 @@ func (h *AuthHandler) SignIn(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{
 		"message": "signed in successfully",
 		"user":    user,
+		"token":   token,
 	})
 }
 
