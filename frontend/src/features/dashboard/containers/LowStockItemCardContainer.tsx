@@ -3,12 +3,12 @@ import EmptyLowStockItem from '../components/EmptyLowStockItem';
 import LowStockItemCard from '../components/LowStockItemCard';
 import { Button } from '@/shared/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/shared/components/ui/card';
-import type { Item } from '@/shared/types/inventory.type';
+import type { Product } from '@/shared/types/product.type';
 import { TriangleAlert } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 type Props = {
-  lowStockItems: Item[];
+  lowStockItems: Product[];
 };
 
 const LowStockItemCardContainer = ({ lowStockItems }: Props) => {
@@ -25,7 +25,7 @@ const LowStockItemCardContainer = ({ lowStockItems }: Props) => {
           <EmptyLowStockItem />
         ) : (
           lowStockItems.map((item) => (
-            <LowStockItemCard key={item.id} itemName={item.name} quantity={item.currentStock} />
+            <LowStockItemCard key={item.id} itemName={item.name} quantity={String(item.quantity)} />
           ))
         )}
       </CardContent>

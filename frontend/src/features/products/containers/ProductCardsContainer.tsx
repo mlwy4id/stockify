@@ -1,0 +1,47 @@
+'use client';
+import { useProductPathNavigation } from '../hooks/useProductPathNavigation';
+import { useGetProducts } from '../hooks/queries/product.query';
+import EmptyProductCards from '../components/EmptyProductCards';
+import type { Product } from '@/shared/types/product.type';
+import SearchNotFound from '@/shared/components/filters/SearchNotFound';
+import ProductCard from '../components/ProductCard';
+import ProductCardsSkeleton from '../components/ProductCardsSkeleton';
+
+type Props = {
+  searchValue: string;
+};
+
+const ProductCardsContainer = ({ searchValue }: Props) => {
+  const { isLoading, data } = useGetProducts();
+  const { toEditProduct, toArchiveProduct } = useProductPathNavigation();
+
+  const products = data ?? [];
+
+  if (isLoading) return <ProductCardsSkeleton />;
+
+  if (products.length === 0) return <EmptyProductCards />;
+
+  const filteredProducts = products.filter((p: Product) =>
+    p.name.toLowerCase().includes(searchValue.toLowerCase())
+  );
+  if (filteredProducts.length === 0) return <SearchNotFound message="No products found" />;
+
+  return (
+    <section>
+      <div className="flex flex-col gap-2">
+        {filteredProducts.map((product: Product) => (
+          <ProductCard
+            key={product.id}
+            id={product.id}
+            name={product.name}
+            quantity={product.quantity}
+            openEditModal={toEditProduct}
+            openArchiveModal={toArchiveProduct}
+          />
+        ))}
+      </div>
+    </section>
+  );
+};
+
+export default ProductCardsContainer;

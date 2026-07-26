@@ -14,8 +14,8 @@ const Sidebar = () => {
           <SidebarOptions icon={NotebookText} name="Transactions" />
           <SidebarOptions
             icon={Archive}
-            name="Inventory"
-            childrenOptions={[{ name: 'Add Unit', to: '/inventory/unit/add' }]}
+            name="Products"
+            childrenOptions={[{ name: 'Add category', to: '/inventory/unit/add' }]}
           />
           <SidebarOptions icon={ChartColumn} name="Reports" />
         </ul>
