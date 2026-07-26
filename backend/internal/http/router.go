@@ -67,11 +67,13 @@ func NewRouter(h Handlers) *gin.Engine {
 			product := protected.Group("/product")
 			{
 				product.POST("/", h.Product.Create)
+				product.GET("/", h.Product.GetAll)
+				product.GET("/category/:id", h.Product.GetByCategory)
+				product.GET("/low-stock", h.Product.GetLowStock)
+				product.GET("/:id", h.Product.GetById)
 				product.PATCH("/:id", h.Product.Update)
 				product.PATCH("/:id/archive", h.Product.Archive)
 				product.PATCH("/:id/reactivate", h.Product.Reactivate)
-				product.GET("/category/:id", h.Product.GetByCategory)
-				product.GET("/low-stock", h.Product.GetLowStock)
 			}
 
 			stockMovement := protected.Group("/stock-movements")

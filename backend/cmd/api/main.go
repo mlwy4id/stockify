@@ -83,6 +83,8 @@ func main() {
 		productCommand.NewUpdateProductCommandHandler(productRepo),
 		productCommand.NewArchiveProductCommandHandler(productRepo),
 		productCommand.NewReactivateProductCommandHandler(productRepo),
+		productQuery.NewGetAllProductsHandler(productRepo),
+		productQuery.NewGetProductByIdHandler(productRepo),
 		productQuery.NewGetProductByCategoryHandler(productRepo),
 		productQuery.NewGetLowStockProductsHandler(productRepo),
 	)

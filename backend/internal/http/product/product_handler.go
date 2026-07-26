@@ -15,6 +15,8 @@ type ProductHandler struct {
 	updateProductHandler     *command.UpdateProductCommandHandler
 	archiveProductHandler    *command.ArchiveProductCommandHandler
 	reactivateProductHandler *command.ReactivateProductCommandHandler
+	getAllProductsHandler    *query.GetAllProductsHandler
+	getProductByIdHandler    *query.GetProductByIdHandler
 	getByCategoryHandler     *query.GetProductByCategoryHandler
 	getLowStockHandler       *query.GetLowStockProductsHandler
 }
@@ -24,6 +26,8 @@ func NewProductHandler(
 	updateHandler *command.UpdateProductCommandHandler,
 	archiveHandler *command.ArchiveProductCommandHandler,
 	reactivateHandler *command.ReactivateProductCommandHandler,
+	getAllProductsHandler *query.GetAllProductsHandler,
+	getProductByIdHandler *query.GetProductByIdHandler,
 	getByCategoryHandler *query.GetProductByCategoryHandler,
 	getLowStockHandler *query.GetLowStockProductsHandler,
 ) *ProductHandler {
@@ -32,6 +36,8 @@ func NewProductHandler(
 		updateProductHandler:     updateHandler,
 		archiveProductHandler:    archiveHandler,
 		reactivateProductHandler: reactivateHandler,
+		getAllProductsHandler:    getAllProductsHandler,
+		getProductByIdHandler:    getProductByIdHandler,
 		getByCategoryHandler:     getByCategoryHandler,
 		getLowStockHandler:       getLowStockHandler,
 	}
@@ -273,6 +279,74 @@ func (ph *ProductHandler) Reactivate(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{
 		"message":    "product reactivated successfully",
 		"product_id": id.Value(),
+	})
+}
+
+// GetAll godoc
+// @Summary      Get all products
+// @Description  Retrieve all active products for the authenticated user
+// @Tags         Product
+// @Produce      json
+// @Success      200  {object} map[string]interface{} "list of products"
+// @Failure      401  {object} map[string]interface{} "unauthorized"
+// @Router       /product/ [get]
+// @Security     CookieAuth
+func (ph *ProductHandler) GetAll(ctx *gin.Context) {
+	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+		return
+	}
+
+	products, err := ph.getAllProductsHandler.Handle(ctx.Request.Context(), userId)
+
+	if err != nil {
+		ctx.JSON(http.StatusUnprocessableEntity, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"products": products,
+		"message":  "products retrieved successfully",
+	})
+}
+
+// GetById godoc
+// @Summary      Get a product by ID
+// @Description  Retrieve a single product by its ID
+// @Tags         Product
+// @Produce      json
+// @Param        id   path     string true "Product ID"
+// @Success      200  {object} map[string]interface{} "product"
+// @Failure      400  {object} map[string]interface{} "invalid id"
+// @Failure      401  {object} map[string]interface{} "unauthorized"
+// @Failure      404  {object} map[string]interface{} "product not found"
+// @Router       /product/{id} [get]
+// @Security     CookieAuth
+func (ph *ProductHandler) GetById(ctx *gin.Context) {
+	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+		return
+	}
+
+	productId, err := vo.ParseProductId(ctx.Param("id"))
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "invalid product id"})
+		return
+	}
+
+	q := query.GetProductByIdQuery{UserId: userId, ProductId: productId}
+	product, err := ph.getProductByIdHandler.Handle(ctx.Request.Context(), q)
+
+	if err != nil {
+		ctx.JSON(http.StatusNotFound, gin.H{"error": "product not found"})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"product": product,
+		"message": "product retrieved successfully",
 	})
 }
 
