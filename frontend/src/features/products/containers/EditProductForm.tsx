@@ -7,7 +7,7 @@ import { useConfirmUpdateProduct } from '../hooks/useConfirmUpdateProduct';
 import { useCurrentProduct } from '../hooks/useCurrentProduct';
 import { useProductPathNavigation } from '../hooks/useProductPathNavigation';
 import { useEffect } from 'react';
-import { useGetCategories } from '@/features/inventory/unit/hooks/queries/category.query';
+import { useGetCategories } from '@/features/products/unit/hooks/queries/category.query';
 
 const EditProductForm = () => {
   const { isLoading: categoryLoading, data: categories } = useGetCategories();

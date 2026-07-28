@@ -1,4 +1,4 @@
-import { useCreateCategory } from '@/features/inventory/unit/hooks/queries/category.query';
+import { useCreateCategory } from '@/features/products/unit/hooks/queries/category.query';
 
 export const useConfirmCreateCategory = () => {
   const { mutate, isPending } = useCreateCategory();

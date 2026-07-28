@@ -1,4 +1,11 @@
-import { getAllProducts, getProduct, createProduct, updateProduct, archiveProduct, reactivateProduct } from '@/shared/lib/api/product.api';
+import {
+  getAllProducts,
+  getProduct,
+  createProduct,
+  updateProduct,
+  archiveProduct,
+  reactivateProduct,
+} from '@/shared/lib/api/product.api';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useProductPathNavigation } from '../useProductPathNavigation';
 import { invalidateProductQuery } from './invalidateProductQuery';

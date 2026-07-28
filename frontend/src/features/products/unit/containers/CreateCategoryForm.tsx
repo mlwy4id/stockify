@@ -1,7 +1,7 @@
 'use client';
-import CategoryForm from '@/features/inventory/unit/components/CategoryForm';
-import { useConfirmCreateCategory } from '@/features/inventory/unit/hooks/useConfirmCreateCategory';
-import { useCreateCategoryForm } from '@/features/inventory/unit/hooks/useCreateCategoryForm';
+import CategoryForm from '@/features/products/unit/components/CategoryForm';
+import { useConfirmCreateCategory } from '@/features/products/unit/hooks/useConfirmCreateCategory';
+import { useCreateCategoryForm } from '@/features/products/unit/hooks/useCreateCategoryForm';
 import { Button } from '@/shared/components/ui/button';
 import { useRouter } from 'next/navigation';
 

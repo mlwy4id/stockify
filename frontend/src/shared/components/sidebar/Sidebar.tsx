@@ -1,25 +1,48 @@
 'use client';
 import SidebarOptions from './SidebarOptions';
-import { Archive, House, NotebookText, ChartColumn } from 'lucide-react';
+import UserProfileCard from './UserProfileCard';
+import { Archive, House, NotebookText, ChartColumn, Inbox, Boxes } from 'lucide-react';
+import clsx from 'clsx';
 
 const Sidebar = () => {
   return (
-    <aside className="bg-sidebar pt-5 hidden md:flex flex-col gap-2 h-screen sticky w-64 top-0 shadow-md border border-sidebar-border shrink-0">
+    <aside
+      className={clsx(
+        'bg-sidebar',
+        'hidden md:flex flex-col',
+        'h-screen sticky top-0 w-64 shrink-0',
+        'gap-2',
+        'shadow-md border border-sidebar-border'
+      )}
+    >
       <nav>
-        <h1 className="font-bold text-2xl mx-2 pb-4 border-b border-b-sidebar-border hidden md:block">
-          Stockify
-        </h1>
-        <ul className="mt-2">
+        <div
+          className={clsx(
+            'px-4 py-6',
+            'border-b border-b-sidebar-border',
+            'hidden md:flex items-center gap-2'
+          )}
+        >
+          <Boxes className="text-blue-500" size={24} />
+          <h1 className="font-bold text-2xl">Stockify</h1>
+        </div>
+
+        <ul className="mt-4 px-1">
           <SidebarOptions icon={House} name="Dashboard" />
           <SidebarOptions icon={NotebookText} name="Transactions" />
           <SidebarOptions
             icon={Archive}
             name="Products"
-            childrenOptions={[{ name: 'Add category', to: '/inventory/unit/add' }]}
+            childrenOptions={[{ icon: Inbox, name: 'Add Category', to: '/products/category/add' }]}
           />
+
           <SidebarOptions icon={ChartColumn} name="Reports" />
         </ul>
       </nav>
+
+      <div className="mt-auto">
+        <UserProfileCard />
+      </div>
     </aside>
   );
 };

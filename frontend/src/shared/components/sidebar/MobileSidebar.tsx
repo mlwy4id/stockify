@@ -2,6 +2,7 @@
 import SidebarOptions from './SidebarOptions';
 import { Archive, House, NotebookText, X, ChartColumn } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
+import clsx from 'clsx';
 
 const MobileSidebar = ({
   isOpen,
@@ -14,7 +15,14 @@ const MobileSidebar = ({
     <AnimatePresence>
       {isOpen && (
         <motion.aside
-          className="fixed z-20 bg-sidebar pt-5 md:hidden flex flex-col gap-2 h-screen w-[50%] sm:w-[30%] top-0 shadow-md border border-sidebar-border"
+          className={clsx(
+            'fixed z-20',
+            'bg-sidebar',
+            'md:hidden flex flex-col',
+            'h-screen w-[50%] sm:w-[30%] top-0',
+            'pt-5 gap-2',
+            'shadow-md border border-sidebar-border'
+          )}
           initial={{ x: -300, opacity: 0 }}
           animate={{ x: 0, opacity: 100, transition: { ease: 'easeInOut' } }}
           exit={{ x: -300, opacity: 0, transition: { ease: 'easeOut' } }}

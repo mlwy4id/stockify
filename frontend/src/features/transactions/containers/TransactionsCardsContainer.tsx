@@ -30,7 +30,8 @@ const TransactionCardsContainers = ({ searchValue, setTransactionsDataAvailabili
   }, [transactionsData]);
 
   if (isLoading) return <TransactionsCardsSkeleton />;
-  if (transactionsData.length === 0 && searchParams.toString() === '') return <EmptyTransactionCard />;
+  if (transactionsData.length === 0 && searchParams.toString() === '')
+    return <EmptyTransactionCard />;
   if (transactionsData.length === 0) return <SearchNotFound message="No transactions found" />;
 
   const filteredTransactions = transactionsData.filter((t: Transaction) =>

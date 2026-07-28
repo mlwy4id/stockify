@@ -1,6 +1,12 @@
-import { getAllCategories, createCategory, deleteCategory, renameCategory } from '@/shared/lib/api/category.api';
+import {
+  getAllCategories,
+  createCategory,
+  deleteCategory,
+  renameCategory,
+} from '@/shared/lib/api/category.api';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useToastStore } from '@/shared/store/toast';
+import { useProductPathNavigation } from '@/features/products/hooks/useProductPathNavigation';
 
 export const useGetCategories = () => {
   return useQuery({
@@ -13,12 +19,14 @@ export const useGetCategories = () => {
 export const useCreateCategory = () => {
   const queryClient = useQueryClient();
   const { addToast } = useToastStore();
+  const { toProducts } = useProductPathNavigation();
 
   return useMutation({
     mutationFn: createCategory,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['Categories'] });
       addToast('Category created successfully', 'success');
+      toProducts();
     },
     onError: (error: Error) => {
       addToast(error.message || 'Failed to create category', 'error');

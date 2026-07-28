@@ -20,7 +20,12 @@ const CategoryForm = ({ register, errors, onSubmitHandler, cancelHandler, submit
     >
       <div className="grid gap-2">
         <label htmlFor="categoryName">Category Name:</label>
-        <Input id="categoryName" type="text" placeholder="(e.g. Electronics)" {...register('name')} />
+        <Input
+          id="categoryName"
+          type="text"
+          placeholder="(e.g. Electronics)"
+          {...register('name')}
+        />
         {errors.name && <p className="text-red-500">{errors.name.message}</p>}
       </div>
 

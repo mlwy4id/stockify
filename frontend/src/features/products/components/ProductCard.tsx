@@ -16,13 +16,7 @@ type Props = {
   openArchiveModal: (id: string) => void;
 };
 
-const ProductCard = ({
-  id,
-  name,
-  quantity,
-  openEditModal,
-  openArchiveModal,
-}: Props) => {
+const ProductCard = ({ id, name, quantity, openEditModal, openArchiveModal }: Props) => {
   return (
     <div className="flex items-center justify-between gap-4 rounded-xl border border-gray-200 bg-white p-4 shadow-sm hover:shadow-md transition">
       <div className="flex flex-col gap-1">

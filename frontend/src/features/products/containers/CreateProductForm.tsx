@@ -4,7 +4,7 @@ import { Button } from '@/shared/components/ui/button';
 import { useProductPathNavigation } from '../hooks/useProductPathNavigation';
 import { useConfirmCreateProduct } from '../hooks/useConfirmCreateProduct';
 import { useCreateProductForm } from '../hooks/useCreateProductForm';
-import { useGetCategories } from '@/features/inventory/unit/hooks/queries/category.query';
+import { useGetCategories } from '@/features/products/unit/hooks/queries/category.query';
 
 const CreateProductForm = () => {
   const { toProducts } = useProductPathNavigation();

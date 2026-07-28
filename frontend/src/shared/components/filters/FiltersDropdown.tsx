@@ -31,7 +31,7 @@ const FiltersDropdown = ({ state, states, applyFilter, type }: Props) => {
         <DropdownMenuContent align="start">
           {states.map((s) => (
             <DropdownMenuItem onClick={() => applyFilter({ [type]: s.name })} key={s.id}>
-              {s.name.split("_").join(" ")}
+              {s.name.split('_').join(' ')}
             </DropdownMenuItem>
           ))}
         </DropdownMenuContent>

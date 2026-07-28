@@ -62,7 +62,9 @@ const ProductForm = ({
           min={0}
           {...register('stockThreshold', { valueAsNumber: true })}
         />
-        {errors.stockThreshold && <p className="text-red-500">{String(errors.stockThreshold.message)}</p>}
+        {errors.stockThreshold && (
+          <p className="text-red-500">{String(errors.stockThreshold.message)}</p>
+        )}
       </div>
 
       <div className="grid gap-2">
@@ -71,7 +73,11 @@ const ProductForm = ({
           name="categoryId"
           control={control}
           render={({ field }) => (
-            <Select key={field.value ?? ''} value={field.value ?? ''} onValueChange={field.onChange}>
+            <Select
+              key={field.value ?? ''}
+              value={field.value ?? ''}
+              onValueChange={field.onChange}
+            >
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select Category" />
               </SelectTrigger>
