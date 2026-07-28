@@ -56,7 +56,7 @@ const SidebarOptions = ({ icon: Icon, name, childrenOptions }: Props) => {
             <Button
               onClick={() => setExpanded(!expanded)}
               className={clsx(
-                'ml-10 rounded-md hover:bg-gray-200 transition-transform duration-200',
+                '-ml-4 md:ml-10 rounded-md hover:bg-gray-200 transition-transform duration-200',
                 expanded && 'rotate-90',
                 'cursor-pointer'
               )}
