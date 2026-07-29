@@ -1,5 +1,6 @@
 'use client';
 import { Button } from '../ui/button';
+import { DialogClose, DialogFooter, DialogDescription } from '../ui/dialog';
 
 type Props = {
   children: React.ReactNode;
@@ -9,14 +10,16 @@ type Props = {
 
 const ConfirmationModal = ({ children, button, cancelHandler }: Props) => {
   return (
-    <div className="w-full h-full flex flex-col gap-4">
-      <div>{children}</div>
-      <div className="flex justify-end items-center gap-2">
-        <Button variant="outline" onClick={cancelHandler}>
-          Cancel
-        </Button>
+    <div className="flex flex-col gap-4">
+      <DialogDescription>{children}</DialogDescription>
+      <DialogFooter>
+        <DialogClose>
+          <Button variant="outline" onClick={cancelHandler}>
+            Cancel
+          </Button>
+        </DialogClose>
         {button}
-      </div>
+      </DialogFooter>
     </div>
   );
 };

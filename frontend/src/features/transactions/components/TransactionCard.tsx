@@ -1,64 +1,56 @@
 'use client';
 import { dateFormatter } from '@/shared/lib/formatters/dateFormatter';
 import { nameFormatter } from '@/shared/lib/formatters/nameFormatter';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/shared/components/ui/dropdown-menu';
-import { EllipsisVertical } from 'lucide-react';
 import ActionBadge from '../components/ActionBadge';
+import type { StockMovementAction } from '@/shared/types/stock-movement.type';
 
 type Props = {
-  id: string;
-  name: string;
-  quantity: string;
-  action: string;
-  date: Date;
-  openEditModal: (id: string) => void;
-  openDeleteModal: (id: string) => void;
+  productName: string;
+  quantity: number;
+  action: StockMovementAction;
+  date: string;
+  source?: string;
+  reason?: string;
 };
 
 const TransactionCard = ({
-  id,
-  name,
+  productName,
   quantity,
   action,
   date,
-  openEditModal,
-  openDeleteModal,
+  source,
+  reason,
 }: Props) => {
-  const isSold = action === 'Sold';
+  const isIn = action === 'RESTOCK' || action === 'REFUND';
 
   return (
     <div className="flex items-center justify-between gap-4 rounded-xl border border-gray-200 bg-white p-4 shadow-sm hover:shadow-md transition">
       <div className="flex flex-col gap-1">
-        <span className="text-base font-semibold text-gray-900">{nameFormatter(name)}</span>
+        <span className="text-base font-semibold text-gray-900">
+          {nameFormatter(productName)}
+        </span>
 
         <div className="flex items-center gap-2 text-sm text-gray-500">
           <span>
-            {isSold ? '-' : '+'}
+            {isIn ? '+' : '-'}
             {quantity} items
           </span>
           <span>•</span>
-          <span>{dateFormatter(date)}</span>
+          <span>{dateFormatter(new Date(date))}</span>
+          {source && (
+            <>
+              <span>•</span>
+              <span className="text-gray-400">{source}</span>
+            </>
+          )}
         </div>
+
+        {reason && (
+          <span className="text-xs text-gray-400">{reason}</span>
+        )}
       </div>
 
-      <div className="flex items-center gap-3">
-        <ActionBadge action={action} />
-
-        <DropdownMenu>
-          <DropdownMenuTrigger className="cursor-pointer">
-            <EllipsisVertical />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" side="left">
-            <DropdownMenuItem onClick={() => openEditModal(id)}>Edit</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => openDeleteModal(id)}>Delete</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
+      <ActionBadge action={action} />
     </div>
   );
 };

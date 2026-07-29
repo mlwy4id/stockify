@@ -4,12 +4,16 @@ import { Button } from '@/shared/components/ui/button';
 import { Spinner } from '@/shared/components/ui/spinner';
 import { useConfirmArchiveProduct } from '../hooks/useConfirmArchiveProduct';
 import { useCurrentProduct } from '../hooks/useCurrentProduct';
-import { useProductPathNavigation } from '../hooks/useProductPathNavigation';
 
-const ConfirmArchiveProductModal = () => {
-  const { isLoading, product } = useCurrentProduct();
-  const { toProducts } = useProductPathNavigation();
-  const { isPending, confirmArchive } = useConfirmArchiveProduct(product);
+type Props = {
+  productId: string;
+  onSuccess?: () => void;
+  onCancel?: () => void;
+};
+
+const ConfirmArchiveProductModal = ({ productId, onSuccess, onCancel }: Props) => {
+  const { isLoading, product } = useCurrentProduct(productId);
+  const { isPending, confirmArchive } = useConfirmArchiveProduct(product, onSuccess);
 
   if (isLoading) return <Spinner />;
 
@@ -24,7 +28,7 @@ const ConfirmArchiveProductModal = () => {
           Archive
         </Button>
       }
-      cancelHandler={toProducts}
+      cancelHandler={onCancel ?? (() => {})}
     >
       <p>This product will be archived and hidden from active listings.</p>
     </ConfirmationModal>

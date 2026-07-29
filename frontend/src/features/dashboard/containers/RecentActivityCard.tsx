@@ -2,11 +2,18 @@
 import ActivityCard from '../components/ActivityCard';
 import EmptyRecentActivity from '../components/EmptyRecentActivity';
 import { Card, CardContent, CardHeader } from '@/shared/components/ui/card';
-import type { Transaction } from '@/shared/types/transaction.type';
 import { Clock } from 'lucide-react';
 
+type RecentActivity = {
+  id: string;
+  action: string;
+  quantity: string;
+  createdAt: Date;
+  item: { id: string; name: string };
+};
+
 type Props = {
-  recentTransactions: Transaction[];
+  recentTransactions: RecentActivity[];
 };
 
 const RecentActivityCard = ({ recentTransactions }: Props) => {

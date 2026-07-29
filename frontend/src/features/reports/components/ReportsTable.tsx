@@ -1,5 +1,4 @@
 'use client';
-import ItemBadge from '@/features/inventory/components/ItemBadge';
 import { nameFormatter } from '@/shared/lib/formatters/nameFormatter';
 import type { Reports } from '@/shared/types/report.type';
 
@@ -24,9 +23,6 @@ const ReportsTable = ({ reportsData }: Props) => {
             <td className="py-3 px-4">{nameFormatter(report.itemName)}</td>
             <td className="py-3 px-4">{report.restock}</td>
             <td className="py-3 px-4">{report.sold}</td>
-            <td className="py-3 px-4">
-              <ItemBadge status={report.status} />
-            </td>
           </tr>
         ))}
       </tbody>

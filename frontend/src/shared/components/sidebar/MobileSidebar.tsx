@@ -52,7 +52,7 @@ const MobileSidebar = ({
                   icon={Archive}
                   name="Products"
                   childrenOptions={[
-                    { icon: Inbox, name: 'Add Category', to: '/products/category/add' },
+                    { icon: Inbox, name: 'Add Category', to: '/products?category=new' },
                   ]}
                 />
                 <SidebarOptions icon={ChartColumn} name="Reports" />

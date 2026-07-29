@@ -1,14 +1,18 @@
 'use client';
 import TransactionCard from '../components/TransactionCard';
-import { useTransactionPathNavigation } from '../hooks/useTransactionPathNavigation';
-import type { Transaction } from '@/shared/types/transaction.type';
 import SearchNotFound from '@/shared/components/filters/SearchNotFound';
-import { useSearchParams } from 'next/navigation';
 import EmptyTransactionCard from '../components/EmptyTransactionCard';
-import { useActionFilterQuery } from '../hooks/useActionFilterQueryNavigation';
-import { useGetAllTransactions } from '../hooks/queries/transactions.query';
 import TransactionsCardsSkeleton from '../components/TransactionsCardsSkeleton';
-import { useEffect } from 'react';
+import { useGetProducts } from '@/features/products/hooks/queries/product.query';
+import { useQueries } from '@tanstack/react-query';
+import { getStockMovementsByProduct } from '@/shared/lib/api/stock-movement.api';
+import { useEffect, useMemo } from 'react';
+import type { StockMovement, StockMovementAction } from '@/shared/types/stock-movement.type';
+import type { Product } from '@/shared/types/product.type';
+import type { UseQueryResult } from '@tanstack/react-query';
+import { useSearchParams } from 'next/navigation';
+
+type MovementWithProduct = StockMovement & { productName: string };
 
 type Props = {
   searchValue: string;
@@ -17,46 +21,66 @@ type Props = {
 
 const TransactionCardsContainers = ({ searchValue, setTransactionsDataAvailability }: Props) => {
   const searchParams = useSearchParams();
-  const { toEditTransaction, toDeleteTransaction } = useTransactionPathNavigation();
+  const actionFilter = searchParams.get('action') ?? 'All';
 
-  const { action: actionValue, date, page } = useActionFilterQuery();
-  const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const { isLoading, data } = useGetAllTransactions(actionValue, date, page, userTimezone);
+  const { isLoading: productsLoading, data: products } = useGetProducts();
 
-  const transactionsData = data?.data ?? [];
+  const productIds = useMemo(() => (products ?? []).map((p: Product) => p.id), [products]);
+
+  const movementResults = useQueries({
+    queries: productIds.map((id: string) => ({
+      queryKey: ['StockMovements', id],
+      queryFn: () => getStockMovementsByProduct(id),
+      enabled: productIds.length > 0,
+    })),
+  }) as UseQueryResult<StockMovement[]>[];
+
+  const isLoading = productsLoading || movementResults.some((r) => r.isLoading);
+
+  const allMovements: MovementWithProduct[] = useMemo(() => {
+    const movements: MovementWithProduct[] = [];
+    movementResults.forEach((result: UseQueryResult<StockMovement[]>, index: number) => {
+      if (result.data) {
+        const productName = products?.[index]?.name ?? '';
+        result.data.forEach((m: StockMovement) => {
+          movements.push({ ...m, productName });
+        });
+      }
+    });
+    return movements.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  }, [movementResults, products]);
 
   useEffect(() => {
-    setTransactionsDataAvailability(transactionsData.length > 0);
-  }, [transactionsData]);
+    setTransactionsDataAvailability(allMovements.length > 0);
+  }, [allMovements]);
 
   if (isLoading) return <TransactionsCardsSkeleton />;
-  if (transactionsData.length === 0 && searchParams.toString() === '')
+  if (allMovements.length === 0 && searchParams.toString() === '')
     return <EmptyTransactionCard />;
-  if (transactionsData.length === 0) return <SearchNotFound message="No transactions found" />;
+  if (allMovements.length === 0) return <SearchNotFound message="No transactions found" />;
 
-  const filteredTransactions = transactionsData.filter((t: Transaction) =>
-    t.item.name.toLowerCase().includes(searchValue.toLowerCase())
-  );
+  const filteredMovements = allMovements.filter((m) => {
+    const matchesSearch = m.productName.toLowerCase().includes(searchValue.toLowerCase());
+    const matchesAction = actionFilter === 'All' || m.action === actionFilter;
+    return matchesSearch && matchesAction;
+  });
 
-  if (filteredTransactions.length === 0) return <SearchNotFound message="No transactions found" />;
+  if (filteredMovements.length === 0) return <SearchNotFound message="No transactions found" />;
 
   return (
     <section>
       <div className="flex flex-col gap-2">
-        {filteredTransactions.map((t: Transaction) => {
-          return (
-            <TransactionCard
-              key={t.id}
-              id={t.id}
-              name={t.item.name}
-              quantity={t.quantity}
-              action={t.action}
-              date={t.createdAt}
-              openEditModal={toEditTransaction}
-              openDeleteModal={toDeleteTransaction}
-            />
-          );
-        })}
+        {filteredMovements.map((m) => (
+          <TransactionCard
+            key={m.id}
+            productName={m.productName}
+            quantity={m.quantity}
+            action={m.action as StockMovementAction}
+            date={m.date}
+            source={m.source}
+            reason={m.reason}
+          />
+        ))}
       </div>
     </section>
   );

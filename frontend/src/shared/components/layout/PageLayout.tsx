@@ -4,10 +4,11 @@ import { Plus } from 'lucide-react';
 type Props = {
   title: string;
   navLink?: string;
+  onAddClick?: () => void;
   children: React.ReactNode;
 };
 
-const PageLayout = ({ title, navLink, children }: Props) => {
+const PageLayout = ({ title, navLink, onAddClick, children }: Props) => {
   const AddButton = navLink ? (
     <a
       href={navLink}
@@ -16,6 +17,14 @@ const PageLayout = ({ title, navLink, children }: Props) => {
     >
       <Plus className="w-6 h-6" />
     </a>
+  ) : onAddClick ? (
+    <button
+      onClick={onAddClick}
+      className="fixed bottom-8 right-8 z-50 w-14 h-14 rounded-full bg-blue-700 text-white flex items-center justify-center shadow-lg hover:bg-primary-dark transition-colors cursor-pointer"
+      aria-label="Tambah"
+    >
+      <Plus className="w-6 h-6" />
+    </button>
   ) : null;
 
   return (

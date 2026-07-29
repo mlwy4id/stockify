@@ -7,7 +7,6 @@ import {
   reactivateProduct,
 } from '@/shared/lib/api/product.api';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useProductPathNavigation } from '../useProductPathNavigation';
 import { invalidateProductQuery } from './invalidateProductQuery';
 import { useToastStore } from '@/shared/store/toast';
 
@@ -27,10 +26,9 @@ export const useGetProduct = (id: string) => {
   });
 };
 
-export const useCreateProduct = () => {
+export const useCreateProduct = (onSettled?: () => void) => {
   const queryClient = useQueryClient();
   const { addToast } = useToastStore();
-  const { toProducts } = useProductPathNavigation();
 
   return useMutation({
     mutationFn: createProduct,
@@ -42,15 +40,14 @@ export const useCreateProduct = () => {
       addToast(error.message || 'Failed to create product', 'error');
     },
     onSettled: () => {
-      toProducts();
+      onSettled?.();
     },
   });
 };
 
-export const useUpdateProduct = () => {
+export const useUpdateProduct = (onSettled?: () => void) => {
   const queryClient = useQueryClient();
   const { addToast } = useToastStore();
-  const { toProducts } = useProductPathNavigation();
 
   return useMutation({
     mutationFn: updateProduct,
@@ -62,15 +59,14 @@ export const useUpdateProduct = () => {
       addToast(error.message || 'Failed to update product', 'error');
     },
     onSettled: () => {
-      toProducts();
+      onSettled?.();
     },
   });
 };
 
-export const useArchiveProduct = () => {
+export const useArchiveProduct = (onSettled?: () => void) => {
   const queryClient = useQueryClient();
   const { addToast } = useToastStore();
-  const { toProducts } = useProductPathNavigation();
 
   return useMutation({
     mutationFn: archiveProduct,
@@ -82,7 +78,7 @@ export const useArchiveProduct = () => {
       addToast(error.message || 'Failed to archive product', 'error');
     },
     onSettled: () => {
-      toProducts();
+      onSettled?.();
     },
   });
 };
@@ -90,7 +86,6 @@ export const useArchiveProduct = () => {
 export const useReactivateProduct = () => {
   const queryClient = useQueryClient();
   const { addToast } = useToastStore();
-  const { toProducts } = useProductPathNavigation();
 
   return useMutation({
     mutationFn: reactivateProduct,
@@ -100,9 +95,6 @@ export const useReactivateProduct = () => {
     },
     onError: (error: Error) => {
       addToast(error.message || 'Failed to reactivate product', 'error');
-    },
-    onSettled: () => {
-      toProducts();
     },
   });
 };

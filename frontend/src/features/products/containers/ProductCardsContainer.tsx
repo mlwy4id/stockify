@@ -1,5 +1,4 @@
 'use client';
-import { useProductPathNavigation } from '../hooks/useProductPathNavigation';
 import { useGetProducts } from '../hooks/queries/product.query';
 import EmptyProductCards from '../components/EmptyProductCards';
 import type { Product } from '@/shared/types/product.type';
@@ -9,11 +8,12 @@ import ProductCardsSkeleton from '../components/ProductCardsSkeleton';
 
 type Props = {
   searchValue: string;
+  onEdit: (id: string) => void;
+  onArchive: (id: string) => void;
 };
 
-const ProductCardsContainer = ({ searchValue }: Props) => {
+const ProductCardsContainer = ({ searchValue, onEdit, onArchive }: Props) => {
   const { isLoading, data } = useGetProducts();
-  const { toEditProduct, toArchiveProduct } = useProductPathNavigation();
 
   const products = data ?? [];
 
@@ -35,8 +35,8 @@ const ProductCardsContainer = ({ searchValue }: Props) => {
             id={product.id}
             name={product.name}
             quantity={product.quantity}
-            openEditModal={toEditProduct}
-            openArchiveModal={toArchiveProduct}
+            onEdit={onEdit}
+            onArchive={onArchive}
           />
         ))}
       </div>

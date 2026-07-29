@@ -12,11 +12,11 @@ type Props = {
   id: string;
   name: string;
   quantity: number;
-  openEditModal: (id: string) => void;
-  openArchiveModal: (id: string) => void;
+  onEdit: (id: string) => void;
+  onArchive: (id: string) => void;
 };
 
-const ProductCard = ({ id, name, quantity, openEditModal, openArchiveModal }: Props) => {
+const ProductCard = ({ id, name, quantity, onEdit, onArchive }: Props) => {
   return (
     <div className="flex items-center justify-between gap-4 rounded-xl border border-gray-200 bg-white p-4 shadow-sm hover:shadow-md transition">
       <div className="flex flex-col gap-1">
@@ -30,8 +30,8 @@ const ProductCard = ({ id, name, quantity, openEditModal, openArchiveModal }: Pr
             <EllipsisVertical />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" side="left">
-            <DropdownMenuItem onClick={() => openEditModal(id)}>Edit</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => openArchiveModal(id)}>Archive</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => onEdit(id)}>Edit</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => onArchive(id)}>Archive</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
