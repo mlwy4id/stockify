@@ -31,7 +31,7 @@ export default function ProductPage() {
 
   return (
     <PageLayout title="Products" onAddClick={() => openDialog('create-product')}>
-      <Card className="h-screen bg-muted border-0 shadow-none">
+      <Card className="bg-muted border-0 shadow-none flex-1 min-h-0">
         <CardContent className="h-full px-0 flex flex-col gap-2">
           <ProductFilters setSearchValue={setSearchValue} />
           <ProductCardsContainer

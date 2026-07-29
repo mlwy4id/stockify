@@ -27,8 +27,8 @@ const ProductCardsContainer = ({ searchValue, onEdit, onArchive }: Props) => {
   if (filteredProducts.length === 0) return <SearchNotFound message="No products found" />;
 
   return (
-    <section>
-      <div className="flex flex-col gap-2">
+    <section className="flex min-h-0 overflow-y-auto">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {filteredProducts.map((product: Product) => (
           <ProductCard
             key={product.id}
