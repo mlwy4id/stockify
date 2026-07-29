@@ -69,8 +69,8 @@ const TransactionCardsContainers = ({ searchValue, setTransactionsDataAvailabili
   if (filteredMovements.length === 0) return <SearchNotFound message="No transactions found" />;
 
   return (
-    <section>
-      <div className="flex flex-col gap-2">
+    <section className="flex-1 min-h-0 overflow-y-auto pb-20">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
         {filteredMovements.map((m) => (
           <TransactionCard
             key={m.id}

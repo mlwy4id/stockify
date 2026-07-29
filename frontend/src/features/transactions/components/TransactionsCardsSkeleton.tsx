@@ -1,29 +1,31 @@
 'use client';
 import { Skeleton } from '@/shared/components/ui/skeleton';
+import { Card, CardContent } from '@/shared/components/ui/card';
 
 const TransactionCardSkeleton = () => {
   return (
-    <div className="flex items-center justify-between gap-4 rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
-      <div className="flex flex-col gap-2">
-        <Skeleton className="h-4 w-44" />
+    <Card className="py-3 px-5 gap-0">
+      <CardContent className="px-0 py-0 flex flex-col gap-1">
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <Skeleton className="h-6 w-20 rounded-full" />
+            <Skeleton className="h-4 w-36" />
+          </div>
+          <Skeleton className="h-4 w-16" />
+        </div>
         <div className="flex items-center gap-2">
           <Skeleton className="h-3 w-24" />
-          <Skeleton className="h-3 w-3 rounded-full" />
+          <Skeleton className="h-3 w-3" />
           <Skeleton className="h-3 w-20" />
         </div>
-      </div>
-
-      <div className="flex items-center gap-3">
-        <Skeleton className="h-6 w-16 rounded-full" />
-        <Skeleton className="h-6 w-6 rounded-md" />
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 };
 
 const TransactionsCardsSkeleton = () => {
   return (
-    <div className="flex flex-col gap-3">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
       {Array.from({ length: 6 }).map((_, i) => (
         <TransactionCardSkeleton key={i} />
       ))}

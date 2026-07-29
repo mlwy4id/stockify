@@ -1,4 +1,5 @@
 'use client';
+import { Card, CardContent } from '@/shared/components/ui/card';
 import { dateFormatter } from '@/shared/lib/formatters/dateFormatter';
 import { nameFormatter } from '@/shared/lib/formatters/nameFormatter';
 import ActionBadge from '../components/ActionBadge';
@@ -17,30 +18,32 @@ const TransactionCard = ({ productName, quantity, action, date, source, reason }
   const isIn = action === 'RESTOCK' || action === 'REFUND';
 
   return (
-    <div className="flex items-center justify-between gap-4 rounded-xl border border-gray-200 bg-white p-4 shadow-sm hover:shadow-md transition">
-      <div className="flex flex-col gap-1">
-        <span className="text-base font-semibold text-gray-900">{nameFormatter(productName)}</span>
-
-        <div className="flex items-center gap-2 text-sm text-gray-500">
-          <span>
-            {isIn ? '+' : '-'}
-            {quantity} items
+    <Card className="py-3 px-5 gap-0">
+      <CardContent className="px-0 py-0">
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex items-center gap-3 min-w-0">
+            <ActionBadge action={action} />
+            <span className="text-base font-semibold text-gray-900 truncate">
+              {nameFormatter(productName)}
+            </span>
+          </div>
+          <span className={`text-sm font-bold whitespace-nowrap ${isIn ? 'text-green-600' : 'text-red-600'}`}>
+            {isIn ? '+' : '-'}{quantity} items
           </span>
-          <span>•</span>
-          <span>{dateFormatter(new Date(date))}</span>
-          {source && (
-            <>
-              <span>•</span>
-              <span className="text-gray-400">{source}</span>
-            </>
-          )}
         </div>
 
-        {reason && <span className="text-xs text-gray-400">{reason}</span>}
-      </div>
+        <div className="flex items-center gap-2 text-sm text-gray-500 mt-1">
+          <span>{dateFormatter(new Date(date))}</span>
+        </div>
 
-      <ActionBadge action={action} />
-    </div>
+        {source && (
+          <p className="text-xs text-gray-400 mt-1 line-clamp-1">Source: {source}</p>
+        )}
+        {reason && (
+          <p className="text-xs text-gray-400 mt-1 line-clamp-1">Reason: {reason}</p>
+        )}
+      </CardContent>
+    </Card>
   );
 };
 
