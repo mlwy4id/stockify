@@ -22,6 +22,7 @@ type Props = {
 const TransactionCardsContainers = ({ searchValue, setTransactionsDataAvailability }: Props) => {
   const searchParams = useSearchParams();
   const actionFilter = searchParams.get('action') ?? 'All';
+  const dateFilter = searchParams.get('date') ?? '';
 
   const { isLoading: productsLoading, data: products } = useGetProducts();
 
@@ -61,7 +62,8 @@ const TransactionCardsContainers = ({ searchValue, setTransactionsDataAvailabili
   const filteredMovements = allMovements.filter((m) => {
     const matchesSearch = m.productName.toLowerCase().includes(searchValue.toLowerCase());
     const matchesAction = actionFilter === 'All' || m.action === actionFilter;
-    return matchesSearch && matchesAction;
+    const matchesDate = !dateFilter || m.date.startsWith(dateFilter);
+    return matchesSearch && matchesAction && matchesDate;
   });
 
   if (filteredMovements.length === 0) return <SearchNotFound message="No transactions found" />;

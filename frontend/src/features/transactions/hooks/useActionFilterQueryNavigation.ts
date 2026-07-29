@@ -12,7 +12,7 @@ export const useActionFilterQuery = () => {
 
   const rawDate = searchParams.get('date') ?? new Date().toISOString().split('T')[0];
   const date = isoDateFormatter(rawDate);
-  const displayedDate = dateFormatter(new Date(date));
+  const displayedDate = date ? dateFormatter(new Date(date)) : '';
 
   const page = searchParams.get('page') ? Number(searchParams.get('page')) : 1;
 
