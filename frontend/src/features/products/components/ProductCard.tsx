@@ -42,7 +42,9 @@ const ProductCard = ({ id, name, quantity, onEdit, onArchive }: Props) => {
       </CardHeader>
 
       <CardContent className="px-0 text-center">
-        <span className="block text-sm font-semibold text-gray-900 leading-tight">{nameFormatter(name)}</span>
+        <span className="block text-sm font-semibold text-gray-900 leading-tight">
+          {nameFormatter(name)}
+        </span>
         <span className="block text-xs text-gray-500">Stock: {quantity}</span>
       </CardContent>
 

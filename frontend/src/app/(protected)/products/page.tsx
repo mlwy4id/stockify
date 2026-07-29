@@ -42,7 +42,10 @@ export default function ProductPage() {
         </CardContent>
       </Card>
 
-      <Dialog open={dialog.type === 'create-product'} onOpenChange={(open) => !open && closeDialog()}>
+      <Dialog
+        open={dialog.type === 'create-product'}
+        onOpenChange={(open) => !open && closeDialog()}
+      >
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Create Product</DialogTitle>
@@ -57,18 +60,29 @@ export default function ProductPage() {
             <DialogTitle>Edit Product</DialogTitle>
           </DialogHeader>
           {dialog.productId && (
-            <EditProductForm productId={dialog.productId} onSuccess={closeDialog} onCancel={closeDialog} />
+            <EditProductForm
+              productId={dialog.productId}
+              onSuccess={closeDialog}
+              onCancel={closeDialog}
+            />
           )}
         </DialogContent>
       </Dialog>
 
-      <Dialog open={dialog.type === 'archive-product'} onOpenChange={(open) => !open && closeDialog()}>
+      <Dialog
+        open={dialog.type === 'archive-product'}
+        onOpenChange={(open) => !open && closeDialog()}
+      >
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Archive Product?</DialogTitle>
           </DialogHeader>
           {dialog.productId && (
-            <ConfirmArchiveProductModal productId={dialog.productId} onSuccess={closeDialog} onCancel={closeDialog} />
+            <ConfirmArchiveProductModal
+              productId={dialog.productId}
+              onSuccess={closeDialog}
+              onCancel={closeDialog}
+            />
           )}
         </DialogContent>
       </Dialog>

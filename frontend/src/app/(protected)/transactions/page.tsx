@@ -35,7 +35,10 @@ export default function TransactionsPage() {
           <DialogHeader>
             <DialogTitle>Create Transaction</DialogTitle>
           </DialogHeader>
-          <CreateTransactionForm onSuccess={() => setDialogOpen(false)} onCancel={() => setDialogOpen(false)} />
+          <CreateTransactionForm
+            onSuccess={() => setDialogOpen(false)}
+            onCancel={() => setDialogOpen(false)}
+          />
         </DialogContent>
       </Dialog>
     </PageLayout>

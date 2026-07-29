@@ -55,8 +55,7 @@ const TransactionCardsContainers = ({ searchValue, setTransactionsDataAvailabili
   }, [allMovements]);
 
   if (isLoading) return <TransactionsCardsSkeleton />;
-  if (allMovements.length === 0 && searchParams.toString() === '')
-    return <EmptyTransactionCard />;
+  if (allMovements.length === 0 && searchParams.toString() === '') return <EmptyTransactionCard />;
   if (allMovements.length === 0) return <SearchNotFound message="No transactions found" />;
 
   const filteredMovements = allMovements.filter((m) => {

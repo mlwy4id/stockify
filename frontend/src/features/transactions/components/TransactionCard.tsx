@@ -13,22 +13,13 @@ type Props = {
   reason?: string;
 };
 
-const TransactionCard = ({
-  productName,
-  quantity,
-  action,
-  date,
-  source,
-  reason,
-}: Props) => {
+const TransactionCard = ({ productName, quantity, action, date, source, reason }: Props) => {
   const isIn = action === 'RESTOCK' || action === 'REFUND';
 
   return (
     <div className="flex items-center justify-between gap-4 rounded-xl border border-gray-200 bg-white p-4 shadow-sm hover:shadow-md transition">
       <div className="flex flex-col gap-1">
-        <span className="text-base font-semibold text-gray-900">
-          {nameFormatter(productName)}
-        </span>
+        <span className="text-base font-semibold text-gray-900">{nameFormatter(productName)}</span>
 
         <div className="flex items-center gap-2 text-sm text-gray-500">
           <span>
@@ -45,9 +36,7 @@ const TransactionCard = ({
           )}
         </div>
 
-        {reason && (
-          <span className="text-xs text-gray-400">{reason}</span>
-        )}
+        {reason && <span className="text-xs text-gray-400">{reason}</span>}
       </div>
 
       <ActionBadge action={action} />

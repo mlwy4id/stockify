@@ -1,5 +1,4 @@
 'use client';
-import { Button } from '@/shared/components/ui/button';
 import FiltersDropdown from '@/shared/components/filters/FiltersDropdown';
 import SearchInput from '@/shared/components/filters/SearchInput';
 import { useActionFilterQuery } from '../hooks/useActionFilterQueryNavigation';
@@ -22,12 +21,7 @@ const TransactionFilters = ({ setSearchValue }: Props) => {
   return (
     <div className="flex justify-between">
       <SearchInput setState={setSearchValue} />
-      <FiltersDropdown
-        state={actionValue}
-        states={action}
-        type="action"
-        applyFilter={setFilters}
-      />
+      <FiltersDropdown state={actionValue} states={action} type="action" applyFilter={setFilters} />
     </div>
   );
 };
