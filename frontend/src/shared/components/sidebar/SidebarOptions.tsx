@@ -36,7 +36,7 @@ const SidebarOptions = ({ icon: Icon, name, childrenOptions }: Props) => {
         <Link
           href={basePath}
           className={clsx(
-            'group flex-1 flex gap-5 items-center',
+            'group flex-1 flex gap-4 items-center',
             'mb-1 mx-2 p-2 rounded-md hover:cursor-pointer',
             isActive ? 'bg-blue-100 font-medium' : 'font-normal hover:bg-gray-200'
           )}
