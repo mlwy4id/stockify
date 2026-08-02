@@ -1,7 +1,7 @@
 'use client';
 import SidebarOptions from './SidebarOptions';
 import UserProfileCard from './UserProfileCard';
-import { Archive, House, NotebookText, Inbox, Boxes } from 'lucide-react';
+import { Archive, House, NotebookText, Tags, Boxes } from 'lucide-react';
 import clsx from 'clsx';
 
 const Sidebar = () => {
@@ -30,11 +30,8 @@ const Sidebar = () => {
         <ul className="mt-4 px-1">
           <SidebarOptions icon={House} name="Dashboard" />
           <SidebarOptions icon={NotebookText} name="Transactions" />
-          <SidebarOptions
-            icon={Archive}
-            name="Products"
-            childrenOptions={[{ icon: Inbox, name: 'Add Category', to: '/products?category=new' }]}
-          />
+          <SidebarOptions icon={Archive} name="Products" />
+          <SidebarOptions icon={Tags} name="Categories" />
         </ul>
       </nav>
 

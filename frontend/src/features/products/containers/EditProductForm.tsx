@@ -39,7 +39,7 @@ const EditProductForm = ({ productId, onSuccess, onCancel }: Props) => {
       errors={errors}
       control={control}
       cancelHandler={onCancel ?? (() => {})}
-      categoryList={categories}
+      categoryList={categories ?? []}
       submitBtn={
         <Button className="bg-blue-600 hover:bg-blue-500" disabled={isPending}>
           Update Product

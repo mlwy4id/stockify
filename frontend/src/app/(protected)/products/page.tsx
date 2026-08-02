@@ -7,23 +7,30 @@ import ProductFilters from '@/features/products/containers/ProductFilters';
 import CreateProductForm from '@/features/products/containers/CreateProductForm';
 import EditProductForm from '@/features/products/containers/EditProductForm';
 import ConfirmArchiveProductModal from '@/features/products/containers/ConfirmArchiveProductModal';
-import CreateCategoryForm from '@/features/category/containers/CreateCategoryForm';
+import { useGetCategories } from '@/features/category/hooks/queries/category.query';
 import { useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
+import { cn } from '@/shared/lib/utils';
 
-type DialogType = 'create-product' | 'edit-product' | 'archive-product' | 'create-category' | null;
+type DialogType = 'create-product' | 'edit-product' | 'archive-product' | null;
 
 export default function ProductPage() {
   const [searchValue, setSearchValue] = useState<string>('');
+  const [isProductsDataAvailable, setProductsDataAvailability] = useState<boolean>(true);
   const [dialog, setDialog] = useState<{ type: DialogType; productId?: string }>({ type: null });
   const searchParams = useSearchParams();
   const router = useRouter();
-  const categoryDialogOpen = searchParams.get('category') === 'new';
+  const categoryId = searchParams.get('category');
+  const { data: categories } = useGetCategories();
+  const activeCategory = categories?.find((c) => c.id === categoryId);
+  const sortedCategories = [...(categories ?? [])].sort((a, b) => a.name.localeCompare(b.name));
 
-  const handleCategoryClose = () => {
+  const setCategoryFilter = (id: string | null) => {
     const newParams = new URLSearchParams(searchParams.toString());
-    newParams.delete('category');
-    router.replace(`/products?${newParams.toString()}`);
+    if (id) newParams.set('category', id);
+    else newParams.delete('category');
+    const query = newParams.toString();
+    router.replace(query ? `/products?${query}` : '/products');
   };
 
   const openDialog = (type: DialogType, productId?: string) => setDialog({ type, productId });
@@ -31,13 +38,25 @@ export default function ProductPage() {
 
   return (
     <PageLayout title="Products" onAddClick={() => openDialog('create-product')}>
-      <Card className="bg-muted border-0 shadow-none flex-1 min-h-0">
+      <Card
+        className={cn(
+          'bg-muted border-0 shadow-none',
+          isProductsDataAvailable ? 'h-[70vh]' : 'h-full'
+        )}
+      >
         <CardContent className="h-full px-0 flex flex-col gap-2">
-          <ProductFilters setSearchValue={setSearchValue} />
+          <ProductFilters
+            setSearchValue={setSearchValue}
+            categories={sortedCategories}
+            categoryValue={categoryId}
+            onCategoryChange={setCategoryFilter}
+          />
           <ProductCardsContainer
             searchValue={searchValue}
-            onEdit={(id) => openDialog('edit-product', id)}
-            onArchive={(id) => openDialog('archive-product', id)}
+            categoryId={activeCategory ? categoryId : null}
+            setProductsDataAvailability={setProductsDataAvailability}
+            onEdit={(id: string) => openDialog('edit-product', id)}
+            onArchive={(id: string) => openDialog('archive-product', id)}
           />
         </CardContent>
       </Card>
@@ -84,15 +103,6 @@ export default function ProductPage() {
               onCancel={closeDialog}
             />
           )}
-        </DialogContent>
-      </Dialog>
-
-      <Dialog open={categoryDialogOpen} onOpenChange={(open) => !open && handleCategoryClose()}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Create Category</DialogTitle>
-          </DialogHeader>
-          <CreateCategoryForm onSuccess={handleCategoryClose} onCancel={handleCategoryClose} />
         </DialogContent>
       </Dialog>
     </PageLayout>

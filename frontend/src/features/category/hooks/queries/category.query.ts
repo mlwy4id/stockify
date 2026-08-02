@@ -5,10 +5,11 @@ import {
   renameCategory,
 } from '@/shared/lib/api/category.api';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import type { Category } from '@/shared/types/category.type';
 import { useToastStore } from '@/shared/store/toast';
 
 export const useGetCategories = () => {
-  return useQuery({
+  return useQuery<Category[]>({
     queryKey: ['Categories'],
     queryFn: getAllCategories,
     staleTime: 1000 * 30,
