@@ -1,13 +1,13 @@
 'use client';
-import TransactionCard from '../components/TransactionCard';
+import TransactionsTable from '../components/TransactionsTable';
 import SearchNotFound from '@/shared/components/filters/SearchNotFound';
-import EmptyTransactionCard from '../components/EmptyTransactionCard';
-import TransactionsCardsSkeleton from '../components/TransactionsCardsSkeleton';
+import EmptyTransactionCard from '../components/EmptyTransactionTable';
+import TransactionsCardsSkeleton from '../components/TransactionsTableSkeleton';
 import { useGetProducts } from '@/features/products/hooks/queries/product.query';
 import { useQueries } from '@tanstack/react-query';
 import { getStockMovementsByProduct } from '@/shared/lib/api/stock-movement.api';
 import { useEffect, useMemo } from 'react';
-import type { StockMovement, StockMovementAction } from '@/shared/types/stock-movement.type';
+import type { StockMovement } from '@/shared/types/stock-movement.type';
 import type { Product } from '@/shared/types/product.type';
 import type { UseQueryResult } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
@@ -22,7 +22,7 @@ type Props = {
 const TransactionCardsContainers = ({ searchValue, setTransactionsDataAvailability }: Props) => {
   const searchParams = useSearchParams();
   const actionFilter = searchParams.get('action') ?? 'All';
-  const dateFilter = searchParams.get('date') ?? '';
+  const dateFilter = searchParams.get('date') ?? new Date().toISOString();
 
   const { isLoading: productsLoading, data: products } = useGetProducts();
 
@@ -70,19 +70,7 @@ const TransactionCardsContainers = ({ searchValue, setTransactionsDataAvailabili
 
   return (
     <section className="flex-1 min-h-0 overflow-y-auto pb-20">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-        {filteredMovements.map((m) => (
-          <TransactionCard
-            key={m.id}
-            productName={m.productName}
-            quantity={m.quantity}
-            action={m.action as StockMovementAction}
-            date={m.date}
-            source={m.source}
-            reason={m.reason}
-          />
-        ))}
-      </div>
+      <TransactionsTable movements={filteredMovements} />
     </section>
   );
 };

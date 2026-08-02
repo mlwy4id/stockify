@@ -1,7 +1,7 @@
 'use client';
 import PageLayout from '@/shared/components/layout/PageLayout';
 import { Card, CardContent } from '@/shared/components/ui/card';
-import TransactionCardsContainers from '@/features/transactions/containers/TransactionsCardsContainer';
+import TransactionCardsContainers from '@/features/transactions/containers/TransactionsTableContainer';
 import TransactionFilters from '@/features/transactions/containers/TransactionsFilters';
 import CreateTransactionForm from '@/features/transactions/containers/CreateTransactionForm';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/shared/components/ui/dialog';
@@ -18,7 +18,7 @@ export default function TransactionsPage() {
       <Card
         className={cn(
           'bg-muted border-0 shadow-none',
-          isTransactionDataAvailable ? 'h-full' : 'h-screen'
+          isTransactionDataAvailable ? 'h-[70vh]' : 'h-screen'
         )}
       >
         <CardContent className="h-full px-0 flex flex-col gap-2">
