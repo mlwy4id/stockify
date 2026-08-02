@@ -35,9 +35,9 @@ const LowStockItemCardContainer = ({ lowStockItems }: Props) => {
             variant="outline"
             size="sm"
             className="cursor-pointer"
-            onClick={() => router.push('/inventory?status=Low+Stock')}
+            onClick={() => router.push('/products')}
           >
-            View Inventory
+            View Products
           </Button>
         )}
       </CardFooter>

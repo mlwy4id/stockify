@@ -6,6 +6,11 @@ export const getAllProducts = async () => {
   return res.data.products ?? [];
 };
 
+export const getLowStockProducts = async () => {
+  const res = await api.get('product/low-stock');
+  return res.data.products ?? [];
+};
+
 export const getProduct = async (id: string) => {
   const res = await api.get(`product/${id}`);
   return res.data.product;

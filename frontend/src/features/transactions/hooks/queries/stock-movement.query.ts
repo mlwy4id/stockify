@@ -51,7 +51,7 @@ export const useCreateStockMovement = (onSettled?: () => void) => {
       queryClient.invalidateQueries({ queryKey: ['GlobalStockMovementSummary'] });
       queryClient.invalidateQueries({ queryKey: ['TopMovers'] });
       queryClient.invalidateQueries({ queryKey: ['Products'] });
-      queryClient.invalidateQueries({ queryKey: ['Dashboard'] });
+      queryClient.invalidateQueries({ queryKey: ['LowStockProducts'] });
       addToast('Stock movement created successfully', 'success');
     },
     onError: (error: Error) => {

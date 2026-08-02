@@ -1,30 +1,17 @@
 import {
-  getDashboardItemSummary,
-  getDashboardLowStockItem,
-  getDashboardRecentActivity,
-} from '@/shared/lib/api/dashboard.api';
-import { useQuery } from '@tanstack/react-query';
+  useGetGlobalStockMovementSummary,
+  useGetTopMovers,
+} from '@/features/transactions/hooks/queries/stock-movement.query';
+import { useGetLowStockProducts } from '@/features/products/hooks/queries/product.query';
 
-export const useGetItemSummary = () => {
-  return useQuery({
-    queryFn: getDashboardItemSummary,
-    queryKey: ['Dashboard', 'Item Summary'],
-    staleTime: 1000 * 60,
-  });
+export const useGetDashboardSummary = (dateFilter?: string) => {
+  return useGetGlobalStockMovementSummary(dateFilter);
 };
 
-export const useGetLowStockItem = () => {
-  return useQuery({
-    queryFn: getDashboardLowStockItem,
-    queryKey: ['Dashboard', 'Low Stock'],
-    staleTime: 1000 * 60,
-  });
+export const useGetDashboardLowStockProducts = () => {
+  return useGetLowStockProducts();
 };
 
-export const useGetRecentActivity = () => {
-  return useQuery({
-    queryFn: getDashboardRecentActivity,
-    queryKey: ['Dashboard', 'Recent Activity'],
-    staleTime: 1000 * 60,
-  });
+export const useGetDashboardTopMovers = (limit?: number, dateFilter?: string) => {
+  return useGetTopMovers(limit, dateFilter);
 };

@@ -1,8 +1,8 @@
 'use client';
 import TransactionsTable from '../components/TransactionsTable';
 import SearchNotFound from '@/shared/components/filters/SearchNotFound';
-import EmptyTransactionCard from '../components/EmptyTransactionTable';
-import TransactionsCardsSkeleton from '../components/TransactionsTableSkeleton';
+import EmptyTransactionTable from '../components/EmptyTransactionTable';
+import TransactionsTableSkeleton from '../components/TransactionsTableSkeleton';
 import { useGetProducts } from '@/features/products/hooks/queries/product.query';
 import { useQueries } from '@tanstack/react-query';
 import { getStockMovementsByProduct } from '@/shared/lib/api/stock-movement.api';
@@ -55,8 +55,8 @@ const TransactionCardsContainers = ({ searchValue, setTransactionsDataAvailabili
     setTransactionsDataAvailability(allMovements.length > 0);
   }, [allMovements]);
 
-  if (isLoading) return <TransactionsCardsSkeleton />;
-  if (allMovements.length === 0 && searchParams.toString() === '') return <EmptyTransactionCard />;
+  if (isLoading) return <TransactionsTableSkeleton />;
+  if (allMovements.length === 0 && searchParams.toString() === '') return <EmptyTransactionTable />;
   if (allMovements.length === 0) return <SearchNotFound message="No transactions found" />;
 
   const filteredMovements = allMovements.filter((m) => {

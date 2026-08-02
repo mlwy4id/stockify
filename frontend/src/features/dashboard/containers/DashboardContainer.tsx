@@ -1,29 +1,31 @@
 'use client';
 import {
-  useGetItemSummary,
-  useGetRecentActivity,
-  useGetLowStockItem,
+  useGetDashboardSummary,
+  useGetDashboardLowStockProducts,
+  useGetDashboardTopMovers,
 } from '../hooks/dashboard.query';
 import DashboardSkeleton from '../components/DashboardSkeleton';
 import StocksSummaryCard from './StocksSummaryCard';
 import LowStockItemCardContainer from './LowStockItemCardContainer';
-import RecentActivityCard from './RecentActivityCard';
+import TopMoversCard from './TopMoversCard';
 
 const DashboardContainer = () => {
-  const { isLoading: lowStockItemLoading, data: lowStockItem } = useGetLowStockItem();
-  const { isLoading: recentTransactionsLoading, data: recentTransactions } = useGetRecentActivity();
-  const { isLoading: itemSummaryLoading, data: itemSummary } = useGetItemSummary();
+  const { isLoading: summaryLoading, data: summary } = useGetDashboardSummary('1d');
+  const { isLoading: lowStockLoading, data: lowStockProducts } = useGetDashboardLowStockProducts();
+  const { isLoading: topMoversLoading, data: topMovers } = useGetDashboardTopMovers(5, '1d');
 
-  if (lowStockItemLoading || recentTransactionsLoading || itemSummaryLoading)
-    return <DashboardSkeleton />;
+  if (summaryLoading || lowStockLoading || topMoversLoading) return <DashboardSkeleton />;
 
-  const { itemRestock, itemSold } = itemSummary;
+  const totalIn = summary?.totalIn ?? 0;
+  const totalOut = summary?.totalOut ?? 0;
 
   return (
     <>
-      <StocksSummaryCard itemRestock={itemRestock} itemSold={itemSold} />
-      <LowStockItemCardContainer lowStockItems={lowStockItem} />
-      <RecentActivityCard recentTransactions={recentTransactions} />
+      <StocksSummaryCard totalIn={totalIn} totalOut={totalOut} />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <LowStockItemCardContainer lowStockItems={lowStockProducts ?? []} />
+        <TopMoversCard topMovers={topMovers ?? []} />
+      </div>
     </>
   );
 };

@@ -26,8 +26,4 @@ const TransactionsTableSkeleton = () => {
   );
 };
 
-const TransactionsCardsSkeleton = () => {
-  return <TransactionsTableSkeleton />;
-};
-
-export default TransactionsCardsSkeleton;
+export default TransactionsTableSkeleton;

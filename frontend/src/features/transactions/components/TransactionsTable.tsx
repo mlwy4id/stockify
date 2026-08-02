@@ -36,8 +36,12 @@ const TransactionsTable = ({ movements }: Props) => {
             <TableHead className="border-l-2 border-gray-200 pl-3">Action</TableHead>
             <TableHead className="border-l-2 border-gray-200 pl-3">Quantity</TableHead>
             <TableHead className="border-l-2 border-gray-200 pl-3">Date</TableHead>
-            <TableHead className="border-l-2 border-gray-200 pl-3 hidden lg:table-cell">Source</TableHead>
-            <TableHead className="border-l-2 border-gray-200 pl-3 hidden lg:table-cell">Reason</TableHead>
+            <TableHead className="border-l-2 border-gray-200 pl-3 hidden lg:table-cell">
+              Source
+            </TableHead>
+            <TableHead className="border-l-2 border-gray-200 pl-3 hidden lg:table-cell">
+              Reason
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

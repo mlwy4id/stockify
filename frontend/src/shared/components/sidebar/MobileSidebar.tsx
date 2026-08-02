@@ -1,7 +1,7 @@
 'use client';
 import SidebarOptions from './SidebarOptions';
 import UserProfileCard from './UserProfileCard';
-import { Archive, House, NotebookText, X, ChartColumn, Inbox } from 'lucide-react';
+import { Archive, House, NotebookText, X, Inbox } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import clsx from 'clsx';
 
@@ -55,7 +55,6 @@ const MobileSidebar = ({
                     { icon: Inbox, name: 'Add Category', to: '/products?category=new' },
                   ]}
                 />
-                <SidebarOptions icon={ChartColumn} name="Reports" />
               </ul>
             </nav>
 

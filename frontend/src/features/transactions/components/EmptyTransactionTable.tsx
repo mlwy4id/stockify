@@ -1,7 +1,7 @@
 'use client';
 import { ReceiptText } from 'lucide-react';
 
-const EmptyTransactionCard = () => {
+const EmptyTransactionTable = () => {
   return (
     <div className="h-full flex flex-col items-center justify-center gap-4">
       <ReceiptText size={56} />
@@ -13,4 +13,4 @@ const EmptyTransactionCard = () => {
   );
 };
 
-export default EmptyTransactionCard;
+export default EmptyTransactionTable;
