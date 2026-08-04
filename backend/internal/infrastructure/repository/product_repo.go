@@ -51,7 +51,8 @@ func (r *ProductRepository) Save(ctx context.Context, product *entity.Product) e
 					UserID:    sm.UserId().Value(),
 					ProductID: sm.ProductId().Value(),
 					Action:    sm.Action().String(),
-					Quantity:  sm.Quantity().Value(),
+					Quantity:       sm.Quantity().Value(),
+					ProductBalance: sm.ProductBalance().Value(),
 					Source:    sm.Source(),
 					Reason:    sm.Reason(),
 					Date:      sm.Date(),
@@ -158,6 +159,20 @@ func (r *ProductRepository) GetAllStockMovementsAndDateRange(ctx context.Context
 	return r.toStockMovementEntities(models)
 }
 
+func (r *ProductRepository) GetTotalQuantity(ctx context.Context, userId vo.UserId) (int, error) {
+	var total int
+	err := r.db.WithContext(ctx).
+		Model(&model.ProductModel{}).
+		Where("user_id = ? AND archived_at IS NULL", userId.Value()).
+		Select("COALESCE(SUM(quantity), 0)").
+		Scan(&total).Error
+	if err != nil {
+		return 0, err
+	}
+
+	return total, nil
+}
+
 func (r *ProductRepository) toEntityFromModel(m *model.ProductModel) (*entity.Product, error) {
 	productId, err := vo.ParseProductId(m.ID)
 	if err != nil {
@@ -222,7 +237,7 @@ func (r *ProductRepository) toStockMovementEntity(m *model.StockMovementModel) (
 		return nil, err
 	}
 
-	movement := entity.ReconstructStockMovement(smId, userId, productId, m.Action, m.Quantity, m.Source, m.Reason, m.Date)
+	movement := entity.ReconstructStockMovement(smId, userId, productId, m.Action, m.Quantity, m.ProductBalance, m.Source, m.Reason, m.Date)
 	return &movement, nil
 }
 
