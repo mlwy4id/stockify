@@ -7,7 +7,8 @@ type StockMovementModel struct {
 	UserID    string       `gorm:"column:user_id"`
 	ProductID string       `gorm:"column:product_id"`
 	Action    string       `gorm:"column:action"`
-	Quantity  int          `gorm:"column:quantity"`
+	Quantity       int          `gorm:"column:quantity"`
+	ProductBalance int          `gorm:"column:product_balance"`
 	Source    *string      `gorm:"column:source"`
 	Reason    *string      `gorm:"column:reason"`
 	Date      time.Time    `gorm:"column:date"`
