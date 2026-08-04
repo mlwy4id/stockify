@@ -14,7 +14,7 @@ const SignUpFormContainer = () => {
       errors={errors}
       onSubmitHandler={handleSubmit(confirmSignUp)}
       submitBtn={
-        <Button className="bg-blue-600 hover:bg-blue-500" disabled={isPending}>
+        <Button disabled={isPending}>
           Submit
         </Button>
       }

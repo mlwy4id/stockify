@@ -1,6 +1,7 @@
 'use client';
 import type { FieldErrors, UseFormRegister } from 'react-hook-form';
 import { Input } from '@/shared/components/ui/input';
+import { PasswordInput } from '@/shared/components/ui/password-input';
 import type { UserSignUp } from '@/shared/types/user.type';
 import Link from 'next/link';
 
@@ -21,19 +22,19 @@ const SignUpForm = ({ register, errors, onSubmitHandler, submitBtn }: Props) => 
       <div className="grid gap-2">
         <label htmlFor="name">Name:</label>
         <Input id="name" type="text" {...register('name')} />
-        {errors.name && <p className="text-red-500">{errors.name.message}</p>}
+        {errors.name && <p className="text-danger">{errors.name.message}</p>}
       </div>
       <div className="grid gap-2">
         <label htmlFor="email">Email:</label>
         <Input id="email" type="email" {...register('email')} />
-        {errors.email && <p className="text-red-500">{errors.email.message}</p>}
+        {errors.email && <p className="text-danger">{errors.email.message}</p>}
       </div>
       <div className="grid gap-2">
         <label htmlFor="password">Password:</label>
-        <Input id="password" type="text" {...register('password')} />
-        {errors.password && <p className="text-red-500">{errors.password.message}</p>}
+        <PasswordInput id="password" {...register('password')} />
+        {errors.password && <p className="text-danger">{errors.password.message}</p>}
       </div>
-      <Link href={'/sign-in'} className="text-blue-700">
+      <Link href={'/sign-in'} className="text-primary">
         Already have an account?{' '}
       </Link>
       {submitBtn}

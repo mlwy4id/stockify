@@ -1,6 +1,7 @@
 'use client';
 import type { FieldErrors, UseFormRegister } from 'react-hook-form';
 import { Input } from '@/shared/components/ui/input';
+import { PasswordInput } from '@/shared/components/ui/password-input';
 import type { UserSignIn } from '@/shared/types/user.type';
 import Link from 'next/link';
 
@@ -21,14 +22,14 @@ const SignInForm = ({ register, errors, onSubmitHandler, submitBtn }: Props) => 
       <div className="grid gap-2">
         <label htmlFor="email">Email:</label>
         <Input id="email" type="email" {...register('email')} />
-        {errors.email && <p className="text-red-500">{errors.email.message}</p>}
+        {errors.email && <p className="text-danger">{errors.email.message}</p>}
       </div>
       <div className="grid gap-2">
         <label htmlFor="password">Password:</label>
-        <Input id="password" type="text" {...register('password')} />
-        {errors.password && <p className="text-red-500">{errors.password.message}</p>}
+        <PasswordInput id="password" {...register('password')} />
+        {errors.password && <p className="text-danger">{errors.password.message}</p>}
       </div>
-      <Link href={'/sign-up'} className="text-blue-700">
+      <Link href={'/sign-up'} className="text-primary">
         New to Stockify?{' '}
       </Link>
       {submitBtn}
