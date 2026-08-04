@@ -44,28 +44,27 @@ func (p *Product) AddStockMovement(action enum.Action, quantity vo.Quantity, sou
 		return errors.New("invalid action")
 	}
 
-	if action.String() == "SOLD" || action.String() == "BROKEN" {
-		if _, err := p.quantity.Subtract(quantity); err != nil {
+	var newQuantity vo.Quantity
+	var err error
+
+	switch action {
+	case enum.Restock, enum.Refund:
+		newQuantity = p.quantity.Add(quantity)
+	case enum.Sold, enum.Broken:
+		if newQuantity, err = p.quantity.Subtract(quantity); err != nil {
 			return err
 		}
-
+	default:
+		return errors.New("invalid action")
 	}
 
-	sm, err := NewStockMovement(p.userId, p.id, action, quantity, source, reason, date)
+	sm, err := NewStockMovement(p.userId, p.id, action, quantity, newQuantity, source, reason, date)
 	if err != nil {
 		return err
 	}
 
 	p.pendingStockMovements = append(p.pendingStockMovements, sm)
-
-	switch action.String() {
-	case "RESTOCK", "REFUND":
-		p.quantity = p.quantity.Add(quantity)
-	case "SOLD", "BROKEN":
-		if p.quantity, err = p.quantity.Subtract(quantity); err != nil {
-			return err
-		}
-	}
+	p.quantity = newQuantity
 
 	return nil
 }

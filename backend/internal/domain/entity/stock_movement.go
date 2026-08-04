@@ -10,28 +10,30 @@ import (
 )
 
 type StockMovement struct {
-	id        vo.StockMovementId
-	userId    vo.UserId
-	productId vo.ProductId
-	action    enum.Action
-	quantity  vo.Quantity
-	source    *string
-	reason    *string
-	date      time.Time
+	id             vo.StockMovementId
+	userId         vo.UserId
+	productId      vo.ProductId
+	action         enum.Action
+	quantity       vo.Quantity
+	productBalance vo.Quantity
+	source         *string
+	reason         *string
+	date           time.Time
 }
 
-func NewStockMovement(userId vo.UserId, productId vo.ProductId, action enum.Action, quantity vo.Quantity, source string, reason string, date time.Time) (StockMovement, error) {
+func NewStockMovement(userId vo.UserId, productId vo.ProductId, action enum.Action, quantity vo.Quantity, productBalance vo.Quantity, source string, reason string, date time.Time) (StockMovement, error) {
 	if !action.IsValid() {
 		return StockMovement{}, errors.New("action is not valid")
 	}
 
 	sm := StockMovement{
-		id:        vo.NewStockMovementId(),
-		userId:    userId,
-		productId: productId,
-		action:    action,
-		quantity:  quantity,
-		date:      date,
+		id:             vo.NewStockMovementId(),
+		userId:         userId,
+		productId:      productId,
+		action:         action,
+		quantity:       quantity,
+		productBalance: productBalance,
+		date:           date,
 	}
 
 	trimmedSource := strings.TrimSpace(source)
@@ -68,6 +70,10 @@ func (s StockMovement) Quantity() vo.Quantity {
 	return s.quantity
 }
 
+func (s StockMovement) ProductBalance() vo.Quantity {
+	return s.productBalance
+}
+
 func (s StockMovement) Source() *string {
 	return s.source
 }
@@ -80,15 +86,16 @@ func (s StockMovement) Date() time.Time {
 	return s.date
 }
 
-func ReconstructStockMovement(id vo.StockMovementId, userId vo.UserId, productId vo.ProductId, action string, quantity int, source *string, reason *string, date time.Time) StockMovement {
+func ReconstructStockMovement(id vo.StockMovementId, userId vo.UserId, productId vo.ProductId, action string, quantity int, productBalance int, source *string, reason *string, date time.Time) StockMovement {
 	return StockMovement{
-		id:        id,
-		userId:    userId,
-		productId: productId,
-		action:    enum.Action(action),
-		quantity:  vo.ReconstructQuantity(quantity),
-		source:    source,
-		reason:    reason,
-		date:      date,
+		id:             id,
+		userId:         userId,
+		productId:      productId,
+		action:         enum.Action(action),
+		quantity:       vo.ReconstructQuantity(quantity),
+		productBalance: vo.ReconstructQuantity(productBalance),
+		source:         source,
+		reason:         reason,
+		date:           date,
 	}
 }
