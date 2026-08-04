@@ -23,7 +23,7 @@ export const GlobalTopLoadingBar = ({ children }: Props) => {
 
   return (
     <>
-      <LoadingBar ref={barRef} color="#4f46e5" height={3} shadow />
+      <LoadingBar ref={barRef} color="var(--primary)" height={3} shadow />
       {children}
     </>
   );

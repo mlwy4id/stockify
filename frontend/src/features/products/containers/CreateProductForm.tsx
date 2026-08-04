@@ -26,7 +26,7 @@ const CreateProductForm = ({ onSuccess, onCancel }: Props) => {
       cancelHandler={onCancel ?? (() => {})}
       categoryList={categories ?? []}
       submitBtn={
-        <Button className="bg-blue-600 hover:bg-blue-500" disabled={isPending}>
+        <Button disabled={isPending}>
           Add Product
         </Button>
       }

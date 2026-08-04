@@ -18,25 +18,25 @@ const TopMoversCard = ({ topMovers }: Props) => {
   return (
     <Card className="h-full">
       <CardHeader className="font-semibold flex flex-row items-center gap-2 border-b">
-        <TrendingUp size={20} stroke="blue" />
+        <TrendingUp size={20} className="text-primary" />
         <h1>Top Movers</h1>
       </CardHeader>
       <CardContent className="flex flex-col gap-3">
         {topMovers.length === 0 ? (
-          <p className="text-sm text-gray-400 text-center py-4">No stock-out activity yet</p>
+          <p className="text-sm text-muted-foreground text-center py-4">No stock-out activity yet</p>
         ) : (
           topMovers.map((mover, index) => (
             <div
               key={mover.productId}
-              className="flex items-center justify-between p-2 border-l-4 border-l-blue-400 hover:bg-blue-50"
+              className="flex items-center justify-between p-2 border-l-4 border-l-primary hover:bg-primary-subtle"
             >
               <div className="flex items-center gap-3 min-w-0">
-                <span className="text-sm font-bold text-gray-400 w-5">{index + 1}</span>
-                <p className="text-sm font-semibold text-gray-700 truncate">
+                <span className="text-sm font-bold text-muted-foreground w-5">{index + 1}</span>
+                <p className="text-sm font-semibold text-foreground truncate">
                   {nameFormatter(mover.productName)}
                 </p>
               </div>
-              <p className="text-sm font-semibold text-red-600 min-w-16 text-left">
+              <p className="text-sm font-semibold text-neutral-action min-w-16 text-left">
                 -{mover.totalOut} items
               </p>
             </div>

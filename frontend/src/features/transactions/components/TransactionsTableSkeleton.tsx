@@ -3,7 +3,7 @@ import { Skeleton } from '@/shared/components/ui/skeleton';
 
 const TransactionsTableSkeleton = () => {
   return (
-    <div className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+    <div className="rounded-xl border border-border bg-background shadow-sm overflow-hidden">
       <div className="border-b bg-muted/50 px-2 py-3 flex gap-4">
         <Skeleton className="h-4 w-24" />
         <Skeleton className="h-4 w-16" />

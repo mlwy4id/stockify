@@ -24,7 +24,7 @@ const FiltersDropdown = ({ state, states, applyFilter, type }: Props) => {
   return (
     <div className="flex flex-wrap gap-2 justify-end">
       <DropdownMenu>
-        <DropdownMenuTrigger className="bg-white px-3 py-1 shadow-sm rounded-md flex justify-between gap-1 items-center font-medium min-w-36">
+        <DropdownMenuTrigger className="bg-background px-3 py-1 shadow-sm rounded-md flex justify-between gap-1 items-center font-medium min-w-36">
           {state} <ChevronDown />
         </DropdownMenuTrigger>
 

@@ -26,7 +26,7 @@ const CategoryForm = ({ register, errors, onSubmitHandler, cancelHandler, submit
           placeholder="(e.g. Electronics)"
           {...register('name')}
         />
-        {errors.name && <p className="text-red-500">{errors.name.message}</p>}
+        {errors.name && <p className="text-danger">{errors.name.message}</p>}
       </div>
 
       <div className="flex justify-end items-center gap-2">

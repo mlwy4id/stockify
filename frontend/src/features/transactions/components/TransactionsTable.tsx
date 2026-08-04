@@ -26,20 +26,27 @@ type Props = {
   movements: MovementRow[];
 };
 
+const quantityColor: Record<StockMovementAction, string> = {
+  RESTOCK: 'text-success',
+  REFUND: 'text-success',
+  SOLD: 'text-danger',
+  BROKEN: 'text-danger',
+};
+
 const TransactionsTable = ({ movements }: Props) => {
   return (
-    <div className="border border-gray-200 bg-white shadow-sm overflow-hidden">
+    <div className="border border-border bg-background shadow-sm overflow-hidden">
       <Table>
         <TableHeader className="bg-muted/50">
           <TableRow className="hover:bg-transparent">
             <TableHead>Product</TableHead>
-            <TableHead className="border-l-2 border-gray-200 pl-3">Action</TableHead>
-            <TableHead className="border-l-2 border-gray-200 pl-3">Quantity</TableHead>
-            <TableHead className="border-l-2 border-gray-200 pl-3">Date</TableHead>
-            <TableHead className="border-l-2 border-gray-200 pl-3 hidden lg:table-cell">
+            <TableHead className="border-l-2 border-border pl-3">Action</TableHead>
+            <TableHead className="border-l-2 border-border pl-3">Quantity</TableHead>
+            <TableHead className="border-l-2 border-border pl-3">Date</TableHead>
+            <TableHead className="border-l-2 border-border pl-3 hidden lg:table-cell">
               Source
             </TableHead>
-            <TableHead className="border-l-2 border-gray-200 pl-3 hidden lg:table-cell">
+            <TableHead className="border-l-2 border-border pl-3 hidden lg:table-cell">
               Reason
             </TableHead>
           </TableRow>
@@ -50,24 +57,22 @@ const TransactionsTable = ({ movements }: Props) => {
             return (
               <TableRow key={m.id}>
                 <TableCell className="font-medium">{nameFormatter(m.productName)}</TableCell>
-                <TableCell className="border-l-2 border-gray-200 pl-3">
+                <TableCell className="border-l-2 border-border pl-3">
                   <ActionBadge action={m.action} />
                 </TableCell>
                 <TableCell
-                  className={`border-l-2 border-gray-200 pl-3 ${
-                    isIn ? 'text-green-600 font-semibold' : 'text-red-600 font-semibold'
-                  }`}
+                  className={`border-l-2 border-border pl-3 ${quantityColor[m.action]} font-semibold`}
                 >
                   {isIn ? '+' : '-'}
                   {m.quantity}
                 </TableCell>
-                <TableCell className="border-l-2 border-gray-200 pl-3 text-muted-foreground">
+                <TableCell className="border-l-2 border-border pl-3 text-muted-foreground">
                   {dateFormatter(new Date(m.date))}
                 </TableCell>
-                <TableCell className="border-l-2 border-gray-200 pl-3 hidden lg:table-cell text-muted-foreground">
+                <TableCell className="border-l-2 border-border pl-3 hidden lg:table-cell text-muted-foreground">
                   {m.source || '-'}
                 </TableCell>
-                <TableCell className="border-l-2 border-gray-200 pl-3 hidden lg:table-cell text-muted-foreground max-w-48 truncate">
+                <TableCell className="border-l-2 border-border pl-3 hidden lg:table-cell text-muted-foreground max-w-48 truncate">
                   {m.reason || '-'}
                 </TableCell>
               </TableRow>

@@ -68,7 +68,7 @@
 
   --stamp: oklch(0.68 0.14 55);          
 
-  --success: oklch(0.55 0.15 155);       
+  --success: oklch(0.627 0.194 149.214);  /* ~#16A34A, setara green-600 */
   --danger: oklch(0.50 0.16 30);          
   --neutral-action: var(--primary);
   

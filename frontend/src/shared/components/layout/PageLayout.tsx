@@ -12,7 +12,7 @@ const PageLayout = ({ title, navLink, onAddClick, children }: Props) => {
   const AddButton = navLink ? (
     <a
       href={navLink}
-      className="fixed bottom-8 right-8 z-50 w-14 h-14 rounded-full bg-blue-700 text-white flex items-center justify-center shadow-lg hover:bg-primary-dark transition-colors"
+      className="fixed bottom-8 right-8 z-50 w-14 h-14 rounded-full bg-primary hover:bg-primary-hover text-primary-foreground flex items-center justify-center shadow-lg transition-colors"
       aria-label="Tambah"
     >
       <Plus className="w-6 h-6" />
@@ -20,7 +20,7 @@ const PageLayout = ({ title, navLink, onAddClick, children }: Props) => {
   ) : onAddClick ? (
     <button
       onClick={onAddClick}
-      className="fixed bottom-8 right-8 z-50 w-14 h-14 rounded-full bg-blue-700 text-white flex items-center justify-center shadow-lg hover:bg-primary-dark transition-colors cursor-pointer"
+      className="fixed bottom-8 right-8 z-50 w-14 h-14 rounded-full bg-primary hover:bg-primary-hover text-primary-foreground flex items-center justify-center shadow-lg transition-colors cursor-pointer"
       aria-label="Tambah"
     >
       <Plus className="w-6 h-6" />

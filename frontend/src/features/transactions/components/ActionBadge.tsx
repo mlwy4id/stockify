@@ -7,10 +7,10 @@ type Props = {
 };
 
 const badgeVariants: Record<StockMovementAction, string> = {
-  RESTOCK: 'bg-green-500',
-  SOLD: 'bg-red-500',
-  REFUND: 'bg-yellow-500',
-  BROKEN: 'bg-orange-500',
+  RESTOCK: 'bg-success',
+  SOLD: 'bg-danger',
+  REFUND: 'bg-success',
+  BROKEN: 'bg-danger',
 };
 
 const ActionBadge = ({ action }: Props) => {

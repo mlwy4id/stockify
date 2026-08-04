@@ -17,7 +17,7 @@ const LowStockItemCardContainer = ({ lowStockItems }: Props) => {
   return (
     <Card className="h-full">
       <CardHeader className="font-semibold flex items-center border-b">
-        <TriangleAlert size={20} fill="yellow" />
+        <TriangleAlert size={20} className="text-stamp" />
         <h1>Low Stock Items</h1>
       </CardHeader>
       <CardContent className="flex flex-col gap-3">

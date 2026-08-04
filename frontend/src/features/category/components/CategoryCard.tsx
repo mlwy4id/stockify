@@ -32,10 +32,10 @@ const CategoryCard = ({ id, name, productCount, onClick, onEdit, onDelete }: Pro
         className="px-0 py-0 flex flex-col items-start gap-3"
       >
         <div className="flex items-center gap-3 w-full">
-          <div className="flex size-9 items-center justify-center rounded-full bg-indigo-100 text-sm font-bold text-indigo-600 select-none">
+          <div className="flex size-9 items-center justify-center rounded-full bg-primary-subtle text-sm font-bold text-primary select-none">
             {name.charAt(0).toUpperCase()}
           </div>
-          <span className="text-sm font-semibold text-gray-900 truncate">{nameFormatter(name)}</span>
+          <span className="text-sm font-semibold text-foreground truncate">{nameFormatter(name)}</span>
         </div>
         <p className="text-xs text-muted-foreground">
           {productCount} Product{productCount <= 1 ? '' : 's'}

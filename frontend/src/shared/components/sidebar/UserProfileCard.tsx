@@ -20,7 +20,7 @@ const UserProfileCard = () => {
         <div
           className={clsx(
             'w-9 h-9 rounded-full',
-            'bg-blue-500 text-white',
+            'bg-primary text-primary-foreground',
             'flex items-center justify-center',
             'font-bold text-sm shrink-0'
           )}
@@ -28,21 +28,20 @@ const UserProfileCard = () => {
           {initial}
         </div>
         <div className="flex-1 min-w-0">
-          <p className={clsx('text-sm font-semibold truncate', 'text-gray-900')}>{displayName}</p>
-          <p className={clsx('text-xs truncate', 'text-gray-500')}>{displayEmail}</p>
+          <p className={clsx('text-sm font-semibold truncate', 'text-foreground')}>{displayName}</p>
+          <p className={clsx('text-xs truncate', 'text-muted-foreground')}>{displayEmail}</p>
         </div>
         <Button
           onClick={() => signOut()}
           disabled={isPending}
           className={clsx(
             'p-1.5 rounded-md',
-            'text-gray-200 hover:text-red-500',
-            'hover:bg-gray-200',
+            'hover:text-danger',
             'transition-colors duration-150',
             'cursor-pointer'
           )}
           title="Sign out"
-          variant="destructive"
+          variant="ghost"
         >
           <LogOut size={16} />
         </Button>

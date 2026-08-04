@@ -21,7 +21,7 @@ const ConfirmArchiveProductModal = ({ productId, onSuccess, onCancel }: Props) =
     <ConfirmationModal
       button={
         <Button
-          className="bg-red-600 hover:bg-red-500"
+          className="bg-danger hover:bg-danger/90"
           disabled={isPending}
           onClick={confirmArchive}
         >

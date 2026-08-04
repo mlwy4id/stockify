@@ -26,7 +26,7 @@ const TransactionFilters = ({ setSearchValue }: Props) => {
           type="date"
           value={currentDate}
           onChange={(e) => setFilters({ date: e.target.value })}
-          className="bg-white px-3 py-1 shadow-sm rounded-md text-sm font-medium border-0 cursor-pointer"
+          className="bg-background px-3 py-1 shadow-sm rounded-md text-sm font-medium border-0 cursor-pointer"
         />
         <FiltersDropdown
           state={actionValue}

@@ -33,7 +33,7 @@ const EditCategoryForm = ({ categoryId, onSuccess, onCancel }: Props) => {
       register={register}
       errors={errors}
       submitBtn={
-        <Button className="bg-blue-600 hover:bg-blue-500" disabled={isPending}>
+        <Button disabled={isPending}>
           Save
         </Button>
       }

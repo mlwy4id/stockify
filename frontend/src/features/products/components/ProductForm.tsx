@@ -40,7 +40,7 @@ const ProductForm = ({
       <div className="grid gap-2">
         <label htmlFor="productName">Product Name:</label>
         <Input id="productName" type="text" {...register('name')} />
-        {errors.name && <p className="text-red-500">{String(errors.name.message)}</p>}
+        {errors.name && <p className="text-danger">{String(errors.name.message)}</p>}
       </div>
 
       <div className="grid gap-2">
@@ -51,7 +51,7 @@ const ProductForm = ({
           min={0}
           {...register('quantity', { valueAsNumber: true })}
         />
-        {errors.quantity && <p className="text-red-500">{String(errors.quantity.message)}</p>}
+        {errors.quantity && <p className="text-danger">{String(errors.quantity.message)}</p>}
       </div>
 
       <div className="grid gap-2">
@@ -63,7 +63,7 @@ const ProductForm = ({
           {...register('stockThreshold', { valueAsNumber: true })}
         />
         {errors.stockThreshold && (
-          <p className="text-red-500">{String(errors.stockThreshold.message)}</p>
+          <p className="text-danger">{String(errors.stockThreshold.message)}</p>
         )}
       </div>
 

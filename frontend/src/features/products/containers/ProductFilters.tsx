@@ -27,7 +27,7 @@ const ProductFilters = ({ setSearchValue, categories, categoryValue, onCategoryC
         value={categoryValue ?? 'all'}
         onValueChange={(value) => onCategoryChange(value === 'all' ? null : value)}
       >
-        <SelectTrigger className="w-48 bg-white shadow-sm rounded-md font-medium">
+        <SelectTrigger className="w-48 bg-background shadow-sm rounded-md font-medium">
           <SelectValue placeholder="All Categories" />
         </SelectTrigger>
         <SelectContent>

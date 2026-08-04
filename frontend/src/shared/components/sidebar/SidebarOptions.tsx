@@ -38,15 +38,15 @@ const SidebarOptions = ({ icon: Icon, name, childrenOptions }: Props) => {
           className={clsx(
             'group flex-1 flex gap-4 items-center',
             'mb-1 mx-2 p-2 rounded-md hover:cursor-pointer',
-            isActive ? 'bg-blue-100 font-medium' : 'font-normal hover:bg-gray-200'
+            isActive ? 'bg-primary-subtle font-medium' : 'font-normal hover:bg-accent'
           )}
         >
-          <Icon className={isActive ? 'text-blue-500' : 'text-black'} size={22} />
+          <Icon className={isActive ? 'text-primary' : 'text-foreground'} size={22} />
 
           <p
             className={clsx(
               'lg:text-md',
-              isActive ? 'text-blue-700 font-bold' : 'text-black font-semibold'
+              isActive ? 'text-primary-hover font-bold' : 'text-foreground font-semibold'
             )}
           >
             {name}
@@ -56,7 +56,7 @@ const SidebarOptions = ({ icon: Icon, name, childrenOptions }: Props) => {
             <Button
               onClick={() => setExpanded(!expanded)}
               className={clsx(
-                '-ml-4 md:ml-10 rounded-md hover:bg-gray-200 transition-transform duration-200',
+                '-ml-4 md:ml-10 rounded-md transition-transform duration-200',
                 expanded && 'rotate-90',
                 'cursor-pointer'
               )}
@@ -83,18 +83,18 @@ const SidebarOptions = ({ icon: Icon, name, childrenOptions }: Props) => {
                     href={child.to}
                     className={clsx(
                       'flex items-center gap-3',
-                      'block p-2 rounded text-sm text-gray-700',
-                      isChildActive ? 'bg-blue-200 font-medium' : 'font-normal hover:bg-gray-300'
+                      'block p-2 rounded text-sm text-muted-foreground',
+                      isChildActive ? 'bg-primary-subtle font-medium' : 'font-normal hover:bg-accent'
                     )}
                   >
                     <child.icon
-                      className={isChildActive ? 'text-blue-500' : 'text-black'}
+                      className={isChildActive ? 'text-primary' : 'text-foreground'}
                       size={18}
                     />
                     <p
                       className={clsx(
                         'lg:text-[16px]',
-                        isChildActive ? 'text-blue-700 font-bold' : 'text-black font-semibold'
+                        isChildActive ? 'text-primary-hover font-bold' : 'text-foreground font-semibold'
                       )}
                     >
                       {child.name}

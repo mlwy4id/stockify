@@ -40,7 +40,7 @@ const MobileSidebar = ({
               <div className="flex items-center justify-end px-4 py-4">
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="p-1 rounded-md hover:bg-gray-200 cursor-pointer"
+                  className="p-1 rounded-md hover:bg-accent cursor-pointer"
                 >
                   <X size={20} />
                 </button>

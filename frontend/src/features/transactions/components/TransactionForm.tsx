@@ -52,7 +52,7 @@ const TransactionForm = ({
           <option value="REFUND">Refund</option>
           <option value="BROKEN">Broken</option>
         </Select>
-        {errors.action && <p className="text-red-500">{errors.action.message}</p>}
+        {errors.action && <p className="text-danger">{errors.action.message}</p>}
       </div>
 
       <div className="grid gap-2">
@@ -63,13 +63,13 @@ const TransactionForm = ({
           min={1}
           {...register('quantity', { valueAsNumber: true })}
         />
-        {errors.quantity && <p className="text-red-500">{errors.quantity.message}</p>}
+        {errors.quantity && <p className="text-danger">{errors.quantity.message}</p>}
       </div>
 
       <div className="grid gap-2">
         <label htmlFor="date">Date:</label>
         <Input id="date" type="date" {...register('date')} />
-        {errors.date && <p className="text-red-500">{errors.date.message}</p>}
+        {errors.date && <p className="text-danger">{errors.date.message}</p>}
       </div>
 
       <div className="grid gap-2">

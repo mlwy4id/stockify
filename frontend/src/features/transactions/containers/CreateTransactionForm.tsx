@@ -61,7 +61,7 @@ const CreateTransactionForm = ({ onSuccess, onCancel }: Props) => {
         ref: () => {},
       }}
       submitBtn={
-        <Button className="bg-blue-600 hover:bg-blue-500" disabled={isPending}>
+        <Button disabled={isPending}>
           Add Transaction
         </Button>
       }

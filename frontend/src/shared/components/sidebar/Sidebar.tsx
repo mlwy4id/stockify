@@ -23,7 +23,7 @@ const Sidebar = () => {
             'hidden md:flex items-center gap-2'
           )}
         >
-          <Boxes className="text-blue-500" size={24} />
+          <Boxes className="text-primary" size={24} />
           <h1 className="font-bold text-2xl">Stockify</h1>
         </div>
 

@@ -12,7 +12,7 @@ const SearchInput = ({ setState }: { setState: React.Dispatch<React.SetStateActi
   }, [input]);
 
   return (
-    <InputGroup className="bg-white max-w-[30%]">
+    <InputGroup className="bg-background max-w-[30%]">
       <InputGroupInput placeholder="Search..." onChange={(e) => setInput(e.target.value)} />
 
       <InputGroupAddon>

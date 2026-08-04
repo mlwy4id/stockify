@@ -14,17 +14,17 @@ const StocksSummaryCard = ({ totalIn, totalOut }: Props) => {
         icon={ArrowUp}
         cardTitle="Total Restocked Today"
         cardContent={`+${totalIn} items`}
-        cardBgColor="bg-green-100"
-        cardTitleColor="text-green-700"
-        cardContentColor="text-green-800"
+        cardBgColor="bg-success/10"
+        cardTitleColor="text-success"
+        cardContentColor="text-success"
       />
       <SummaryCard
         icon={ArrowDown}
         cardTitle="Total Sold Today"
         cardContent={`-${totalOut} items`}
-        cardBgColor="bg-red-100"
-        cardTitleColor="text-red-700"
-        cardContentColor="text-red-800"
+        cardBgColor="bg-neutral-action/10"
+        cardTitleColor="text-neutral-action"
+        cardContentColor="text-neutral-action"
       />
     </div>
   );

@@ -37,15 +37,15 @@ const ProductCard = ({ id, name, quantity, onEdit, onArchive }: Props) => {
         'py-4 px-8 gap-3 items-center justify-center'
       )}
     >
-      <CardHeader className="flex w-full h-32 rounded-md items-center justify-center bg-indigo-100 text-lg font-bold text-indigo-600 select-none">
+      <CardHeader className="flex w-full h-32 rounded-md items-center justify-center bg-primary-subtle text-lg font-bold text-primary select-none">
         {initials}
       </CardHeader>
 
       <CardContent className="px-0 text-center">
-        <span className="block text-sm font-semibold text-gray-900 leading-tight">
+        <span className="block text-sm font-semibold text-foreground leading-tight">
           {nameFormatter(name)}
         </span>
-        <span className="block text-xs text-gray-500">Stock: {quantity}</span>
+        <span className="block text-xs text-muted-foreground">Stock: {quantity}</span>
       </CardContent>
 
       <DropdownMenu>
