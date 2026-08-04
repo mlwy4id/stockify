@@ -19,6 +19,12 @@
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-subtle: var(--primary-subtle);
+  --color-stamp: var(--stamp);
+  --color-success: var(--success);
+  --color-danger: var(--danger);
+  --color-neutral-action: var(--neutral-action);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
@@ -53,8 +59,19 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
+  
+  --primary: oklch(0.52 0.19 255);        
+  --primary-foreground: oklch(0.98 0 0);
+
+  --primary-hover: oklch(0.46 0.19 255);  
+  --primary-subtle: oklch(0.95 0.03 255);
+
+  --stamp: oklch(0.68 0.14 55);          
+
+  --success: oklch(0.55 0.15 155);       
+  --danger: oklch(0.50 0.16 30);          
+  --neutral-action: var(--primary);
+  
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
