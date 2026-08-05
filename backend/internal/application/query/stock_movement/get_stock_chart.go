@@ -95,8 +95,8 @@ func stockDelta(m *entity.StockMovement) int {
  *  <= 90 hari   -> per hari
  *  <= 180 hari  -> per minggu
  *  <= 365 hari  -> per minggu
- *  > 365 hari   -> per bulan (30 hari) 
-*/
+ *  > 365 hari   -> per bulan (30 hari)
+ */
 func bucketSizeFor(span time.Duration) time.Duration {
 	day := 24 * time.Hour
 	week := 7 * day
@@ -142,7 +142,7 @@ func nextBucketEnd(t time.Time, bucket time.Duration) time.Time {
 /*
  * Alur build chart:
  * - Membangun boundaries (batas akhir tiap bucket) dari start hingga end
- * - Taruh tiap movement ke bucket yang sesuai & hitung running balance 
+ * - Taruh tiap movement ke bucket yang sesuai & hitung running balance
  * - Isi titik yang tidak memiliki stock movement dengan carry-forward dari balance terakhir (bucket sebelumnya)
  */
 func buildChartPoints(start time.Time, end time.Time, startBalance int, movements []*entity.StockMovement, bucket time.Duration) []dto.StockChartPointDTO {

@@ -1,0 +1,15 @@
+package dto
+
+type StockMovementSoldBrokenRatioRangeDTO struct {
+	Range            string  `json:"range"`
+	TotalSold        int     `json:"totalSold"`
+	TotalBroken      int     `json:"totalBroken"`
+	SoldPercentage   float64 `json:"soldPercentage"`
+	BrokenPercentage float64 `json:"brokenPercentage"`
+}
+
+type StockMovementSoldBrokenRatioDTO struct {
+	ProductId   *string                                `json:"productId,omitempty"`
+	ProductName *string                                `json:"productName,omitempty"`
+	Ranges      []StockMovementSoldBrokenRatioRangeDTO `json:"ranges"`
+}
