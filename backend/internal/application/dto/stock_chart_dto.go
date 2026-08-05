@@ -8,5 +8,7 @@ type StockChartPointDTO struct {
 }
 
 type StockChartDTO struct {
-	Points []StockChartPointDTO `json:"points"`
+	ProductId   *string              `json:"productId,omitempty"`
+	ProductName *string              `json:"productName,omitempty"`
+	Points      []StockChartPointDTO `json:"points"`
 }
