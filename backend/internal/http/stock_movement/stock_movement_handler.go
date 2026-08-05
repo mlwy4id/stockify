@@ -6,8 +6,8 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	command "github.com/mlwy4id/stockify/internal/application/command/product"
-	query "github.com/mlwy4id/stockify/internal/application/query/product"
+	command "github.com/mlwy4id/stockify/internal/application/command/stock_movement"
+	query "github.com/mlwy4id/stockify/internal/application/query/stock_movement"
 	"github.com/mlwy4id/stockify/internal/domain/enum"
 	vo "github.com/mlwy4id/stockify/internal/domain/values_object"
 	"github.com/mlwy4id/stockify/internal/http/middleware"

@@ -8,9 +8,11 @@ import (
 	authCommand "github.com/mlwy4id/stockify/internal/application/command/auth"
 	categoryCommand "github.com/mlwy4id/stockify/internal/application/command/category"
 	productCommand "github.com/mlwy4id/stockify/internal/application/command/product"
+	stockMovementCommand "github.com/mlwy4id/stockify/internal/application/command/stock_movement"
 	authQuery "github.com/mlwy4id/stockify/internal/application/query/auth"
 	categoryQuery "github.com/mlwy4id/stockify/internal/application/query/category"
 	productQuery "github.com/mlwy4id/stockify/internal/application/query/product"
+	stockMovementQuery "github.com/mlwy4id/stockify/internal/application/query/stock_movement"
 	"github.com/mlwy4id/stockify/internal/http"
 	authHandler "github.com/mlwy4id/stockify/internal/http/auth"
 	categoryHandler "github.com/mlwy4id/stockify/internal/http/category"
@@ -91,11 +93,11 @@ func main() {
 
 	// Stock Movement Handler
 	stockMovementH := stockMovementHandler.NewStockMovementHandler(
-		productCommand.NewCreateStockMovementCommandHandler(productRepo),
-		productQuery.NewGetStockMovementByProductIDHandler(productRepo),
-		productQuery.NewGetStockMovementSummaryByProductIDHandler(productRepo),
-		productQuery.NewGetGlobalStockMovementSummaryHandler(productRepo),
-		productQuery.NewGetTopMoversHandler(productRepo),
+		stockMovementCommand.NewCreateStockMovementCommandHandler(productRepo),
+		stockMovementQuery.NewGetStockMovementByProductIDHandler(productRepo),
+		stockMovementQuery.NewGetStockMovementSummaryByProductIDHandler(productRepo),
+		stockMovementQuery.NewGetGlobalStockMovementSummaryHandler(productRepo),
+		stockMovementQuery.NewGetTopMoversHandler(productRepo),
 	)
 
 	router := http.NewRouter(http.Handlers{
