@@ -20,6 +20,12 @@ type GetStockMovementVolumeByProductIDHandler struct {
 	productRepo repo.ProductRepository
 }
 
+type volumeRangeTotals struct {
+	Range    string
+	TotalIn  int
+	TotalOut int
+}
+
 func NewGetStockMovementVolumeByProductIDHandler(productRepo repo.ProductRepository) *GetStockMovementVolumeByProductIDHandler {
 	return &GetStockMovementVolumeByProductIDHandler{productRepo: productRepo}
 }
@@ -37,70 +43,65 @@ func (h *GetStockMovementVolumeByProductIDHandler) Handle(ctx context.Context, q
 
 	now := time.Now()
 
-	ranges := []struct {
-		key    string
-		filter *enum.DateFilter
-	}{
-		{"1w", enumFilter(enum.Filter1w)},
-		{"1m", enumFilter(enum.Filter1m)},
-		{"3m", enumFilter(enum.Filter3m)},
-		{"6m", enumFilter(enum.Filter6m)},
-		{"1y", enumFilter(enum.Filter1y)},
-		{"all", nil},
-	}
-
-	result := make([]dto.StockMovementVolumeRangeDTO, 0, len(ranges))
-
-	for _, r := range ranges {
-		start := time.Time{}
-		if r.filter != nil {
-			start = now.Add(-r.filter.Duration())
-		}
-
-		totalIn, totalOut := totalInOut(movements, start, now)
-
-		result = append(result, dto.StockMovementVolumeRangeDTO{
-			Range:    r.key,
-			TotalIn:  totalIn,
-			TotalOut: totalOut,
-		})
-	}
-
 	productId := product.Id().Value()
 	productName := product.Name()
 
 	return dto.StockMovementVolumeDTO{
 		ProductId:   &productId,
 		ProductName: &productName,
-		Ranges:      result,
+		Ranges:      totalInOutAll(movements, now),
 	}, nil
 }
 
-func enumFilter(f enum.DateFilter) *enum.DateFilter {
-	return &f
-}
+func totalInOutAll(movements []*entity.StockMovement, now time.Time) []dto.StockMovementVolumeRangeDTO {
+	ranges := []struct {
+		key      string
+		duration time.Duration
+		isAll    bool
+	}{
+		{"1w", enum.Filter1w.Duration(), false},
+		{"1m", enum.Filter1m.Duration(), false},
+		{"3m", enum.Filter3m.Duration(), false},
+		{"6m", enum.Filter6m.Duration(), false},
+		{"1y", enum.Filter1y.Duration(), false},
+		{"all", 0, true},
+	}
 
-func totalInOut(movements []*entity.StockMovement, start time.Time, end time.Time) (int, int) {
-	totalIn, totalOut := 0, 0
+	totals := make([]volumeRangeTotals, len(ranges))
+	for i, r := range ranges {
+		totals[i].Range = r.key
+	}
 
 	for _, m := range movements {
-		if !start.IsZero() && m.Date().Before(start) {
-			continue
-		}
-
-		if m.Date().After(end) {
+		if m.Date().After(now) {
 			continue
 		}
 
 		qty := m.Quantity().Value()
+		age := now.Sub(m.Date())
 
-		switch m.Action() {
-		case enum.Restock, enum.Refund:
-			totalIn += qty
-		case enum.Sold, enum.Broken:
-			totalOut += qty
+		for i, r := range ranges {
+			if !r.isAll && age > r.duration {
+				continue
+			}
+
+			switch m.Action() {
+			case enum.Restock, enum.Refund:
+				totals[i].TotalIn += qty
+			case enum.Sold, enum.Broken:
+				totals[i].TotalOut += qty
+			}
 		}
 	}
 
-	return totalIn, totalOut
+	result := make([]dto.StockMovementVolumeRangeDTO, len(totals))
+	for i, t := range totals {
+		result[i] = dto.StockMovementVolumeRangeDTO{
+			Range:    t.Range,
+			TotalIn:  t.TotalIn,
+			TotalOut: t.TotalOut,
+		}
+	}
+
+	return result
 }
