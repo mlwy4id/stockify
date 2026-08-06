@@ -68,7 +68,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_http_auth.SignInRequest"
+                            "$ref": "#/definitions/auth.SignInRequest"
                         }
                     }
                 ],
@@ -143,7 +143,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_http_auth.SignUpRequest"
+                            "$ref": "#/definitions/auth.SignUpRequest"
                         }
                     }
                 ],
@@ -228,7 +228,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_http_category.CreateCategoryRequest"
+                            "$ref": "#/definitions/category.CreateCategoryRequest"
                         }
                     }
                 ],
@@ -383,7 +383,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_http_category.RenameCategoryRequest"
+                            "$ref": "#/definitions/category.RenameCategoryRequest"
                         }
                     }
                 ],
@@ -413,6 +413,37 @@ const docTemplate = `{
             }
         },
         "/product/": {
+            "get": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "description": "Retrieve all active products for the authenticated user",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Get all products",
+                "responses": {
+                    "200": {
+                        "description": "list of products",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "401": {
+                        "description": "unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
             "post": {
                 "security": [
                     {
@@ -437,7 +468,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_http_product.CreateProductRequest"
+                            "$ref": "#/definitions/product.CreateProductRequest"
                         }
                     }
                 ],
@@ -580,7 +611,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_http_product.UpdateProductRequest"
+                            "$ref": "#/definitions/product.UpdateProductRequest"
                         }
                     }
                 ],
@@ -650,6 +681,124 @@ const docTemplate = `{
                     },
                     "401": {
                         "description": "unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/product/{id}/chart": {
+            "get": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "description": "Get stock level over time for a product, optionally filtered by date range",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Stock Movement"
+                ],
+                "summary": "Get stock chart by product",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Product ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Date filter: 1w, 1m, 3m, 6m, 1y (empty means all time)",
+                        "name": "range",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "chart data",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "invalid id or range",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "401": {
+                        "description": "unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "product not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/product/{id}/dashboard": {
+            "get": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "description": "Get combined analytics (volume, sold/broken ratio, depletion prediction, restock interval) for a product",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Get product dashboard analytics",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Product ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "dashboard data",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "invalid id",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "401": {
+                        "description": "unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "product not found",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -786,7 +935,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/internal_http_stock_movement.CreateStockMovementRequest"
+                            "$ref": "#/definitions/stockmovement.CreateStockMovementRequest"
                         }
                     }
                 ],
@@ -800,61 +949,6 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "validation error",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "401": {
-                        "description": "unauthorized",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            }
-        },
-        "/product/{id}/stock-movements/summary": {
-            "get": {
-                "security": [
-                    {
-                        "CookieAuth": []
-                    }
-                ],
-                "description": "Get in/out summary for a product, optionally filtered by date",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Stock Movement"
-                ],
-                "summary": "Get stock movement summary by product",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Product ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Date filter: 1d, 1w, 1m, 3m, 6m, 1y",
-                        "name": "dateFilter",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "summary data",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "400": {
-                        "description": "invalid id or filter",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -974,7 +1068,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "internal_http_auth.SignInRequest": {
+        "auth.SignInRequest": {
             "type": "object",
             "required": [
                 "email",
@@ -989,7 +1083,7 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_http_auth.SignUpRequest": {
+        "auth.SignUpRequest": {
             "type": "object",
             "required": [
                 "email",
@@ -1009,7 +1103,7 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_http_category.CreateCategoryRequest": {
+        "category.CreateCategoryRequest": {
             "type": "object",
             "required": [
                 "name"
@@ -1020,7 +1114,7 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_http_category.RenameCategoryRequest": {
+        "category.RenameCategoryRequest": {
             "type": "object",
             "required": [
                 "name"
@@ -1031,7 +1125,7 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_http_product.CreateProductRequest": {
+        "product.CreateProductRequest": {
             "type": "object",
             "required": [
                 "name",
@@ -1053,7 +1147,7 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_http_product.UpdateProductRequest": {
+        "product.UpdateProductRequest": {
             "type": "object",
             "properties": {
                 "categoryId": {
@@ -1067,7 +1161,7 @@ const docTemplate = `{
                 }
             }
         },
-        "internal_http_stock_movement.CreateStockMovementRequest": {
+        "stockmovement.CreateStockMovementRequest": {
             "type": "object",
             "required": [
                 "action",

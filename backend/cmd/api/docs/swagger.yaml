@@ -1,6 +1,6 @@
 basePath: /api
 definitions:
-  internal_http_auth.SignInRequest:
+  auth.SignInRequest:
     properties:
       email:
         type: string
@@ -10,7 +10,7 @@ definitions:
     - email
     - password
     type: object
-  internal_http_auth.SignUpRequest:
+  auth.SignUpRequest:
     properties:
       email:
         type: string
@@ -24,21 +24,21 @@ definitions:
     - name
     - password
     type: object
-  internal_http_category.CreateCategoryRequest:
+  category.CreateCategoryRequest:
     properties:
       name:
         type: string
     required:
     - name
     type: object
-  internal_http_category.RenameCategoryRequest:
+  category.RenameCategoryRequest:
     properties:
       name:
         type: string
     required:
     - name
     type: object
-  internal_http_product.CreateProductRequest:
+  product.CreateProductRequest:
     properties:
       categoryId:
         type: string
@@ -53,7 +53,7 @@ definitions:
     - quantity
     - stockThreshold
     type: object
-  internal_http_product.UpdateProductRequest:
+  product.UpdateProductRequest:
     properties:
       categoryId:
         type: string
@@ -62,7 +62,7 @@ definitions:
       stockThreshold:
         type: integer
     type: object
-  internal_http_stock_movement.CreateStockMovementRequest:
+  stockmovement.CreateStockMovementRequest:
     properties:
       action:
         type: string
@@ -118,7 +118,7 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/internal_http_auth.SignInRequest'
+          $ref: '#/definitions/auth.SignInRequest'
       produces:
       - application/json
       responses:
@@ -167,7 +167,7 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/internal_http_auth.SignUpRequest'
+          $ref: '#/definitions/auth.SignUpRequest'
       produces:
       - application/json
       responses:
@@ -220,7 +220,7 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/internal_http_category.CreateCategoryRequest'
+          $ref: '#/definitions/category.CreateCategoryRequest'
       produces:
       - application/json
       responses:
@@ -322,7 +322,7 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/internal_http_category.RenameCategoryRequest'
+          $ref: '#/definitions/category.RenameCategoryRequest'
       produces:
       - application/json
       responses:
@@ -347,6 +347,26 @@ paths:
       tags:
       - Category
   /product/:
+    get:
+      description: Retrieve all active products for the authenticated user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: list of products
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - CookieAuth: []
+      summary: Get all products
+      tags:
+      - Product
     post:
       consumes:
       - application/json
@@ -357,7 +377,7 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/internal_http_product.CreateProductRequest'
+          $ref: '#/definitions/product.CreateProductRequest'
       produces:
       - application/json
       responses:
@@ -397,7 +417,7 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/internal_http_product.UpdateProductRequest'
+          $ref: '#/definitions/product.UpdateProductRequest'
       produces:
       - application/json
       responses:
@@ -451,6 +471,86 @@ paths:
       security:
       - CookieAuth: []
       summary: Archive a product
+      tags:
+      - Product
+  /product/{id}/chart:
+    get:
+      description: Get stock level over time for a product, optionally filtered by
+        date range
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: 'Date filter: 1w, 1m, 3m, 6m, 1y (empty means all time)'
+        in: query
+        name: range
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: chart data
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: invalid id or range
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: product not found
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - CookieAuth: []
+      summary: Get stock chart by product
+      tags:
+      - Stock Movement
+  /product/{id}/dashboard:
+    get:
+      description: Get combined analytics (volume, sold/broken ratio, depletion prediction,
+        restock interval) for a product
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: dashboard data
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: invalid id
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: product not found
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - CookieAuth: []
+      summary: Get product dashboard analytics
       tags:
       - Product
   /product/{id}/reactivate:
@@ -532,7 +632,7 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/internal_http_stock_movement.CreateStockMovementRequest'
+          $ref: '#/definitions/stockmovement.CreateStockMovementRequest'
       produces:
       - application/json
       responses:
@@ -554,42 +654,6 @@ paths:
       security:
       - CookieAuth: []
       summary: Create a stock movement
-      tags:
-      - Stock Movement
-  /product/{id}/stock-movements/summary:
-    get:
-      description: Get in/out summary for a product, optionally filtered by date
-      parameters:
-      - description: Product ID
-        in: path
-        name: id
-        required: true
-        type: string
-      - description: 'Date filter: 1d, 1w, 1m, 3m, 6m, 1y'
-        in: query
-        name: dateFilter
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: summary data
-          schema:
-            additionalProperties: true
-            type: object
-        "400":
-          description: invalid id or filter
-          schema:
-            additionalProperties: true
-            type: object
-        "401":
-          description: unauthorized
-          schema:
-            additionalProperties: true
-            type: object
-      security:
-      - CookieAuth: []
-      summary: Get stock movement summary by product
       tags:
       - Stock Movement
   /product/category/{id}:

@@ -11,14 +11,14 @@ import (
 )
 
 type ProductHandler struct {
-	createProductHandler     *command.CreateProductCommandHandler
-	updateProductHandler     *command.UpdateProductCommandHandler
-	archiveProductHandler    *command.ArchiveProductCommandHandler
-	reactivateProductHandler *command.ReactivateProductCommandHandler
-	getAllProductsHandler    *query.GetAllProductsHandler
-	getProductByIdHandler    *query.GetProductByIdHandler
-	getByCategoryHandler     *query.GetProductByCategoryHandler
-	getLowStockHandler       *query.GetLowStockProductsHandler
+	createProductHandler       *command.CreateProductCommandHandler
+	updateProductHandler       *command.UpdateProductCommandHandler
+	archiveProductHandler      *command.ArchiveProductCommandHandler
+	reactivateProductHandler   *command.ReactivateProductCommandHandler
+	getAllProductsHandler      *query.GetAllProductsHandler
+	getByCategoryHandler       *query.GetProductByCategoryHandler
+	getLowStockHandler         *query.GetLowStockProductsHandler
+	getProductDashboardHandler *query.GetProductDashboardByProductIDHandler
 }
 
 func NewProductHandler(
@@ -27,19 +27,19 @@ func NewProductHandler(
 	archiveHandler *command.ArchiveProductCommandHandler,
 	reactivateHandler *command.ReactivateProductCommandHandler,
 	getAllProductsHandler *query.GetAllProductsHandler,
-	getProductByIdHandler *query.GetProductByIdHandler,
 	getByCategoryHandler *query.GetProductByCategoryHandler,
 	getLowStockHandler *query.GetLowStockProductsHandler,
+	getProductDashboardHandler *query.GetProductDashboardByProductIDHandler,
 ) *ProductHandler {
 	return &ProductHandler{
-		createProductHandler:     createHandler,
-		updateProductHandler:     updateHandler,
-		archiveProductHandler:    archiveHandler,
-		reactivateProductHandler: reactivateHandler,
-		getAllProductsHandler:    getAllProductsHandler,
-		getProductByIdHandler:    getProductByIdHandler,
-		getByCategoryHandler:     getByCategoryHandler,
-		getLowStockHandler:       getLowStockHandler,
+		createProductHandler:       createHandler,
+		updateProductHandler:       updateHandler,
+		archiveProductHandler:      archiveHandler,
+		reactivateProductHandler:   reactivateHandler,
+		getAllProductsHandler:      getAllProductsHandler,
+		getByCategoryHandler:       getByCategoryHandler,
+		getLowStockHandler:         getLowStockHandler,
+		getProductDashboardHandler: getProductDashboardHandler,
 	}
 }
 
@@ -103,7 +103,7 @@ func (ph *ProductHandler) Create(ctx *gin.Context) {
 		StockThreshold: stockThreshold,
 		CategoryId:     categoryId,
 	}
-	
+
 	productId, err := ph.createProductHandler.Handle(ctx.Request.Context(), cmd)
 
 	if err != nil {
@@ -311,19 +311,19 @@ func (ph *ProductHandler) GetAll(ctx *gin.Context) {
 	})
 }
 
-// GetById godoc
-// @Summary      Get a product by ID
-// @Description  Retrieve a single product by its ID
+// GetDashboardByProductId godoc
+// @Summary      Get product dashboard analytics
+// @Description  Get combined analytics (volume, sold/broken ratio, depletion prediction, restock interval) for a product
 // @Tags         Product
 // @Produce      json
 // @Param        id   path     string true "Product ID"
-// @Success      200  {object} map[string]interface{} "product"
+// @Success      200  {object} map[string]interface{} "dashboard data"
 // @Failure      400  {object} map[string]interface{} "invalid id"
 // @Failure      401  {object} map[string]interface{} "unauthorized"
 // @Failure      404  {object} map[string]interface{} "product not found"
-// @Router       /product/{id} [get]
+// @Router       /product/{id}/dashboard [get]
 // @Security     CookieAuth
-func (ph *ProductHandler) GetById(ctx *gin.Context) {
+func (ph *ProductHandler) GetDashboardByProductId(ctx *gin.Context) {
 	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
 	if err != nil {
 		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
@@ -336,8 +336,8 @@ func (ph *ProductHandler) GetById(ctx *gin.Context) {
 		return
 	}
 
-	q := query.GetProductByIdQuery{UserId: userId, ProductId: productId}
-	product, err := ph.getProductByIdHandler.Handle(ctx.Request.Context(), q)
+	q := query.GetProductDashboardByProductIDQuery{UserId: userId, ProductId: productId}
+	dashboard, err := ph.getProductDashboardHandler.Handle(ctx.Request.Context(), q)
 
 	if err != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{"error": "product not found"})
@@ -345,8 +345,8 @@ func (ph *ProductHandler) GetById(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{
-		"product": product,
-		"message": "product retrieved successfully",
+		"data":    dashboard,
+		"message": "dashboard retrieved successfully",
 	})
 }
 

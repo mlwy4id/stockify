@@ -18,6 +18,7 @@ type StockMovementHandler struct {
 	getStockMovementByProductIDHandler   *query.GetStockMovementByProductIDHandler
 	getGlobalStockMovementSummaryHandler *query.GetGlobalStockMovementSummaryHandler
 	getTopMoversHandler                  *query.GetTopMoversHandler
+	getStockChartByProductIDHandler      *query.GetStockChartByProductIDHandler
 }
 
 func NewStockMovementHandler(
@@ -25,12 +26,14 @@ func NewStockMovementHandler(
 	getByProductIDHandler *query.GetStockMovementByProductIDHandler,
 	getGlobalSummaryHandler *query.GetGlobalStockMovementSummaryHandler,
 	getTopMoversHandler *query.GetTopMoversHandler,
+	getStockChartByProductIDHandler *query.GetStockChartByProductIDHandler,
 ) *StockMovementHandler {
 	return &StockMovementHandler{
 		createStockMovementHandler:           createHandler,
 		getStockMovementByProductIDHandler:   getByProductIDHandler,
 		getGlobalStockMovementSummaryHandler: getGlobalSummaryHandler,
 		getTopMoversHandler:                  getTopMoversHandler,
+		getStockChartByProductIDHandler:      getStockChartByProductIDHandler,
 	}
 }
 
@@ -149,6 +152,64 @@ func (smh *StockMovementHandler) GetByProductID(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{
 		"movements": movements,
 		"message":   "movements retrieved successfully",
+	})
+}
+
+// GetChartByProductID godoc
+// @Summary      Get stock chart by product
+// @Description  Get stock level over time for a product, optionally filtered by date range
+// @Tags         Stock Movement
+// @Produce      json
+// @Param        id     path     string true "Product ID"
+// @Param        range  query    string false "Date filter: 1w, 1m, 3m, 6m, 1y (empty means all time)"
+// @Success      200  {object} map[string]interface{} "chart data"
+// @Failure      400  {object} map[string]interface{} "invalid id or range"
+// @Failure      401  {object} map[string]interface{} "unauthorized"
+// @Failure      404  {object} map[string]interface{} "product not found"
+// @Router       /product/{id}/chart [get]
+// @Security     CookieAuth
+func (smh *StockMovementHandler) GetChartByProductID(ctx *gin.Context) {
+	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+		return
+	}
+
+	productId, err := vo.ParseProductId(ctx.Param("id"))
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "invalid product id"})
+		return
+	}
+
+	var dateFilter *enum.DateFilter
+
+	if df := ctx.Query("range"); df != "" {
+		filter := enum.DateFilter(df)
+
+		if !filter.IsValid() {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "invalid range, use: 1w, 1m, 3m, 6m, 1y"})
+			return
+		}
+
+		dateFilter = &filter
+	}
+
+	q := query.GetStockChartByProductIDQuery{
+		UserId:     userId,
+		ProductId:  productId,
+		DateFilter: dateFilter,
+	}
+
+	chart, err := smh.getStockChartByProductIDHandler.Handle(ctx.Request.Context(), q)
+
+	if err != nil {
+		ctx.JSON(http.StatusNotFound, gin.H{"error": "product not found"})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"chart":   chart,
+		"message": "chart retrieved successfully",
 	})
 }
 

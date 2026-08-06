@@ -86,9 +86,9 @@ func main() {
 		productCommand.NewArchiveProductCommandHandler(productRepo),
 		productCommand.NewReactivateProductCommandHandler(productRepo),
 		productQuery.NewGetAllProductsHandler(productRepo),
-		productQuery.NewGetProductByIdHandler(productRepo),
 		productQuery.NewGetProductByCategoryHandler(productRepo),
 		productQuery.NewGetLowStockProductsHandler(productRepo),
+		productQuery.NewGetProductDashboardByProductIDHandler(productRepo),
 	)
 
 	// Stock Movement Handler
@@ -97,6 +97,7 @@ func main() {
 		stockMovementQuery.NewGetStockMovementByProductIDHandler(productRepo),
 		stockMovementQuery.NewGetGlobalStockMovementSummaryHandler(productRepo),
 		stockMovementQuery.NewGetTopMoversHandler(productRepo),
+		stockMovementQuery.NewGetStockChartByProductIDHandler(productRepo),
 	)
 
 	router := http.NewRouter(http.Handlers{
