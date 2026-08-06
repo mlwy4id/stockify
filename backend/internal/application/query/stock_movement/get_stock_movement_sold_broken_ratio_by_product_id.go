@@ -1,24 +1,12 @@
 package stockmovement
 
 import (
-	"context"
 	"time"
 
 	"github.com/mlwy4id/stockify/internal/application/dto"
 	"github.com/mlwy4id/stockify/internal/domain/entity"
 	"github.com/mlwy4id/stockify/internal/domain/enum"
-	repo "github.com/mlwy4id/stockify/internal/domain/repository"
-	vo "github.com/mlwy4id/stockify/internal/domain/values_object"
 )
-
-type GetStockMovementSoldBrokenRatioByProductIDQuery struct {
-	UserId    vo.UserId
-	ProductId vo.ProductId
-}
-
-type GetStockMovementSoldBrokenRatioByProductIDHandler struct {
-	productRepo repo.ProductRepository
-}
 
 type soldBrokenRangeTotals struct {
 	Range       string
@@ -26,32 +14,7 @@ type soldBrokenRangeTotals struct {
 	TotalBroken int
 }
 
-func NewGetStockMovementSoldBrokenRatioByProductIDHandler(productRepo repo.ProductRepository) *GetStockMovementSoldBrokenRatioByProductIDHandler {
-	return &GetStockMovementSoldBrokenRatioByProductIDHandler{productRepo: productRepo}
-}
-
-func (h *GetStockMovementSoldBrokenRatioByProductIDHandler) Handle(ctx context.Context, query GetStockMovementSoldBrokenRatioByProductIDQuery) (dto.StockMovementSoldBrokenRatioDTO, error) {
-	product, err := h.productRepo.FindByID(ctx, query.UserId, query.ProductId)
-	if err != nil {
-		return dto.StockMovementSoldBrokenRatioDTO{}, err
-	}
-
-	movements, err := h.productRepo.GetStockMovementsByProductID(ctx, query.UserId, query.ProductId, false)
-	if err != nil {
-		return dto.StockMovementSoldBrokenRatioDTO{}, err
-	}
-
-	productId := product.Id().Value()
-	productName := product.Name()
-
-	return dto.StockMovementSoldBrokenRatioDTO{
-		ProductId:   &productId,
-		ProductName: &productName,
-		Ranges:      totalSoldBrokenAll(movements, time.Now()),
-	}, nil
-}
-
-func totalSoldBrokenAll(movements []*entity.StockMovement, now time.Time) []dto.StockMovementSoldBrokenRatioRangeDTO {
+func TotalSoldBrokenAll(movements []*entity.StockMovement, now time.Time) []dto.StockMovementSoldBrokenRatioRangeDTO {
 	ranges := []struct {
 		key      string
 		duration time.Duration

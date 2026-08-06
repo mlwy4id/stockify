@@ -95,7 +95,6 @@ func main() {
 	stockMovementH := stockMovementHandler.NewStockMovementHandler(
 		stockMovementCommand.NewCreateStockMovementCommandHandler(productRepo),
 		stockMovementQuery.NewGetStockMovementByProductIDHandler(productRepo),
-		stockMovementQuery.NewGetStockMovementSummaryByProductIDHandler(productRepo),
 		stockMovementQuery.NewGetGlobalStockMovementSummaryHandler(productRepo),
 		stockMovementQuery.NewGetTopMoversHandler(productRepo),
 	)

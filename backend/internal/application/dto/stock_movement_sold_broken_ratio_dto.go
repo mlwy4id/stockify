@@ -7,9 +7,3 @@ type StockMovementSoldBrokenRatioRangeDTO struct {
 	SoldPercentage   float64 `json:"soldPercentage"`
 	BrokenPercentage float64 `json:"brokenPercentage"`
 }
-
-type StockMovementSoldBrokenRatioDTO struct {
-	ProductId   *string                                `json:"productId,omitempty"`
-	ProductName *string                                `json:"productName,omitempty"`
-	Ranges      []StockMovementSoldBrokenRatioRangeDTO `json:"ranges"`
-}

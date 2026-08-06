@@ -6,20 +6,20 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"github.com/swaggo/gin-swagger"
-	"github.com/swaggo/files"
 	authHandler "github.com/mlwy4id/stockify/internal/http/auth"
-	"github.com/mlwy4id/stockify/internal/http/middleware"
 	categoryHandler "github.com/mlwy4id/stockify/internal/http/category"
+	"github.com/mlwy4id/stockify/internal/http/middleware"
 	productHandler "github.com/mlwy4id/stockify/internal/http/product"
 	stockMovementHandler "github.com/mlwy4id/stockify/internal/http/stock_movement"
+	"github.com/swaggo/files"
+	"github.com/swaggo/gin-swagger"
 )
 
 type Handlers struct {
-	Auth           *authHandler.AuthHandler
-	Category       *categoryHandler.CategoryHandler
-	Product        *productHandler.ProductHandler
-	StockMovement  *stockMovementHandler.StockMovementHandler
+	Auth          *authHandler.AuthHandler
+	Category      *categoryHandler.CategoryHandler
+	Product       *productHandler.ProductHandler
+	StockMovement *stockMovementHandler.StockMovementHandler
 }
 
 func NewRouter(h Handlers) *gin.Engine {
@@ -86,7 +86,6 @@ func NewRouter(h Handlers) *gin.Engine {
 			{
 				productStockMovement.POST("/", h.StockMovement.Create)
 				productStockMovement.GET("/", h.StockMovement.GetByProductID)
-				productStockMovement.GET("/summary", h.StockMovement.GetSummaryByProductID)
 			}
 		}
 	}

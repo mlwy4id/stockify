@@ -1,60 +1,31 @@
 package stockmovement
 
 import (
-	"context"
 	"math"
 	"time"
 
 	"github.com/mlwy4id/stockify/internal/application/dto"
 	"github.com/mlwy4id/stockify/internal/domain/entity"
 	"github.com/mlwy4id/stockify/internal/domain/enum"
-	repo "github.com/mlwy4id/stockify/internal/domain/repository"
-	vo "github.com/mlwy4id/stockify/internal/domain/values_object"
 )
 
-type GetStockDepletionPredictionByProductIDQuery struct {
-	UserId    vo.UserId
-	ProductId vo.ProductId
-}
-
-type GetStockDepletionPredictionByProductIDHandler struct {
-	productRepo repo.ProductRepository
-}
-
-func NewGetStockDepletionPredictionByProductIDHandler(productRepo repo.ProductRepository) *GetStockDepletionPredictionByProductIDHandler {
-	return &GetStockDepletionPredictionByProductIDHandler{productRepo: productRepo}
-}
-
-func (h *GetStockDepletionPredictionByProductIDHandler) Handle(ctx context.Context, query GetStockDepletionPredictionByProductIDQuery) (dto.StockDepletionPredictionDTO, error) {
-	product, err := h.productRepo.FindByID(ctx, query.UserId, query.ProductId)
-	if err != nil {
-		return dto.StockDepletionPredictionDTO{}, err
-	}
-
-	movements, err := h.productRepo.GetStockMovementsByProductID(ctx, query.UserId, query.ProductId, false)
-	if err != nil {
-		return dto.StockDepletionPredictionDTO{}, err
-	}
-
-	now := time.Now()
+func ComputeDepletion(currentStock int, movements []*entity.StockMovement, now time.Time) dto.StockDepletionPredictionDTO {
 	window := enum.Filter1m.Duration()
 
 	totalOut := totalOutflowWindow(movements, now, window)
 	if totalOut == 0 {
-		return dto.StockDepletionPredictionDTO{}, nil
+		return dto.StockDepletionPredictionDTO{}
 	}
 
 	avgDailyOut := float64(totalOut) / (window.Hours() / 24)
-	daysLeft := int(math.Ceil(float64(product.Quantity().Value()) / avgDailyOut))
+	daysLeft := int(math.Ceil(float64(currentStock) / avgDailyOut))
 	estimatedDate := now.Add(time.Duration(daysLeft) * 24 * time.Hour)
 
-	result := dto.StockDepletionPredictionDTO{
+	return dto.StockDepletionPredictionDTO{
 		AvgDailyOut:   &avgDailyOut,
 		DaysLeft:      &daysLeft,
 		EstimatedDate: &estimatedDate,
 	}
-
-	return result, nil
 }
 
 func totalOutflowWindow(movements []*entity.StockMovement, now time.Time, window time.Duration) int {

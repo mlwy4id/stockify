@@ -1,24 +1,12 @@
 package stockmovement
 
 import (
-	"context"
 	"time"
 
 	"github.com/mlwy4id/stockify/internal/application/dto"
 	"github.com/mlwy4id/stockify/internal/domain/entity"
 	"github.com/mlwy4id/stockify/internal/domain/enum"
-	repo "github.com/mlwy4id/stockify/internal/domain/repository"
-	vo "github.com/mlwy4id/stockify/internal/domain/values_object"
 )
-
-type GetStockMovementVolumeByProductIDQuery struct {
-	UserId    vo.UserId
-	ProductId vo.ProductId
-}
-
-type GetStockMovementVolumeByProductIDHandler struct {
-	productRepo repo.ProductRepository
-}
 
 type volumeRangeTotals struct {
 	Range    string
@@ -26,34 +14,7 @@ type volumeRangeTotals struct {
 	TotalOut int
 }
 
-func NewGetStockMovementVolumeByProductIDHandler(productRepo repo.ProductRepository) *GetStockMovementVolumeByProductIDHandler {
-	return &GetStockMovementVolumeByProductIDHandler{productRepo: productRepo}
-}
-
-func (h *GetStockMovementVolumeByProductIDHandler) Handle(ctx context.Context, query GetStockMovementVolumeByProductIDQuery) (dto.StockMovementVolumeDTO, error) {
-	product, err := h.productRepo.FindByID(ctx, query.UserId, query.ProductId)
-	if err != nil {
-		return dto.StockMovementVolumeDTO{}, err
-	}
-
-	movements, err := h.productRepo.GetStockMovementsByProductID(ctx, query.UserId, query.ProductId, false)
-	if err != nil {
-		return dto.StockMovementVolumeDTO{}, err
-	}
-
-	now := time.Now()
-
-	productId := product.Id().Value()
-	productName := product.Name()
-
-	return dto.StockMovementVolumeDTO{
-		ProductId:   &productId,
-		ProductName: &productName,
-		Ranges:      totalInOutAll(movements, now),
-	}, nil
-}
-
-func totalInOutAll(movements []*entity.StockMovement, now time.Time) []dto.StockMovementVolumeRangeDTO {
+func TotalInOutAll(movements []*entity.StockMovement, now time.Time) []dto.StockMovementVolumeRangeDTO {
 	ranges := []struct {
 		key      string
 		duration time.Duration

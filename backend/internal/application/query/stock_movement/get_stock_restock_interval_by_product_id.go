@@ -1,43 +1,23 @@
 package stockmovement
 
 import (
-	"context"
 	"math"
 	"time"
 
 	"github.com/mlwy4id/stockify/internal/application/dto"
 	"github.com/mlwy4id/stockify/internal/domain/entity"
 	"github.com/mlwy4id/stockify/internal/domain/enum"
-	repo "github.com/mlwy4id/stockify/internal/domain/repository"
-	vo "github.com/mlwy4id/stockify/internal/domain/values_object"
 )
 
-type GetStockRestockIntervalByProductIDQuery struct {
-	UserId    vo.UserId
-	ProductId vo.ProductId
-}
+func ComputeRestockInterval(movements []*entity.StockMovement, now time.Time) dto.StockRestockIntervalDTO {
+	dates := restockDatesInWindow(movements, now, enum.Filter1y.Duration())
 
-type GetStockRestockIntervalByProductIDHandler struct {
-	productRepo repo.ProductRepository
-}
-
-func NewGetStockRestockIntervalByProductIDHandler(productRepo repo.ProductRepository) *GetStockRestockIntervalByProductIDHandler {
-	return &GetStockRestockIntervalByProductIDHandler{productRepo: productRepo}
-}
-
-func (h *GetStockRestockIntervalByProductIDHandler) Handle(ctx context.Context, query GetStockRestockIntervalByProductIDQuery) (dto.StockRestockIntervalDTO, error) {
-	movements, err := h.productRepo.GetStockMovementsByProductID(ctx, query.UserId, query.ProductId, true)
-	if err != nil {
-		return dto.StockRestockIntervalDTO{}, err
-	}
-
-	dates := restockDatesInWindow(movements, time.Now(), enum.Filter1y.Duration())
 	result := dto.StockRestockIntervalDTO{
 		RestockCount: len(dates),
 	}
 
 	if len(dates) < 2 {
-		return result, nil
+		return result
 	}
 
 	totalGapDays := 0.0
@@ -48,7 +28,7 @@ func (h *GetStockRestockIntervalByProductIDHandler) Handle(ctx context.Context, 
 	avg := math.Round((totalGapDays/float64(len(dates)-1))*10) / 10
 	result.AvgRestockIntervalDays = &avg
 
-	return result, nil
+	return result
 }
 
 func restockDatesInWindow(movements []*entity.StockMovement, now time.Time, window time.Duration) []time.Time {
