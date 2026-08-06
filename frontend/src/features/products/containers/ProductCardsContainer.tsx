@@ -1,5 +1,6 @@
 'use client';
 import { useGetProducts } from '../hooks/queries/product.query';
+import { useGetCategories } from '@/features/category/hooks/queries/category.query';
 import EmptyProductCards from '../components/EmptyProductCards';
 import type { Product } from '@/shared/types/product.type';
 import SearchNotFound from '@/shared/components/filters/SearchNotFound';
@@ -23,8 +24,15 @@ const ProductCardsContainer = ({
   onArchive,
 }: Props) => {
   const { isLoading, data } = useGetProducts();
+  const { data: categories } = useGetCategories();
 
   const products = useMemo(() => data ?? [], [data]);
+
+  const categoryNames = useMemo(() => {
+    const map = new Map<string, string>();
+    (categories ?? []).forEach((category) => map.set(category.id, category.name));
+    return map;
+  }, [categories]);
 
   useEffect(() => {
     setProductsDataAvailability(products.length > 0);
@@ -50,6 +58,7 @@ const ProductCardsContainer = ({
             id={product.id}
             name={product.name}
             quantity={product.quantity}
+            categoryName={product.categoryId ? categoryNames.get(product.categoryId) : null}
             onEdit={onEdit}
             onArchive={onArchive}
           />
