@@ -2,7 +2,6 @@ package stockmovement
 
 import (
 	"context"
-	"math"
 	"time"
 
 	"github.com/mlwy4id/stockify/internal/application/dto"
@@ -21,6 +20,12 @@ type GetStockMovementSoldBrokenRatioByProductIDHandler struct {
 	productRepo repo.ProductRepository
 }
 
+type soldBrokenRangeTotals struct {
+	Range       string
+	TotalSold   int
+	TotalBroken int
+}
+
 func NewGetStockMovementSoldBrokenRatioByProductIDHandler(productRepo repo.ProductRepository) *GetStockMovementSoldBrokenRatioByProductIDHandler {
 	return &GetStockMovementSoldBrokenRatioByProductIDHandler{productRepo: productRepo}
 }
@@ -36,81 +41,75 @@ func (h *GetStockMovementSoldBrokenRatioByProductIDHandler) Handle(ctx context.C
 		return dto.StockMovementSoldBrokenRatioDTO{}, err
 	}
 
-	now := time.Now()
-
-	ranges := []struct {
-		key    string
-		filter *enum.DateFilter
-	}{
-		{"1w", enumFilter(enum.Filter1w)},
-		{"1m", enumFilter(enum.Filter1m)},
-		{"3m", enumFilter(enum.Filter3m)},
-		{"6m", enumFilter(enum.Filter6m)},
-		{"1y", enumFilter(enum.Filter1y)},
-		{"all", nil},
-	}
-
-	result := make([]dto.StockMovementSoldBrokenRatioRangeDTO, 0, len(ranges))
-
-	for _, r := range ranges {
-		start := time.Time{}
-		if r.filter != nil {
-			start = now.Add(-r.filter.Duration())
-		}
-
-		totalSold, totalBroken := totalSoldBroken(movements, start, now)
-		totalOut := totalSold + totalBroken
-
-		soldPercentage, brokenPercentage := 0.0, 0.0
-		if totalOut > 0 {
-			soldPercentage = roundPercentage(float64(totalSold) / float64(totalOut) * 100)
-			brokenPercentage = roundPercentage(float64(totalBroken) / float64(totalOut) * 100)
-		}
-
-		result = append(result, dto.StockMovementSoldBrokenRatioRangeDTO{
-			Range:            r.key,
-			TotalSold:        totalSold,
-			TotalBroken:      totalBroken,
-			SoldPercentage:   soldPercentage,
-			BrokenPercentage: brokenPercentage,
-		})
-	}
-
 	productId := product.Id().Value()
 	productName := product.Name()
 
 	return dto.StockMovementSoldBrokenRatioDTO{
 		ProductId:   &productId,
 		ProductName: &productName,
-		Ranges:      result,
+		Ranges:      totalSoldBrokenAll(movements, time.Now()),
 	}, nil
 }
 
-func totalSoldBroken(movements []*entity.StockMovement, start time.Time, end time.Time) (int, int) {
-	totalSold, totalBroken := 0, 0
+func totalSoldBrokenAll(movements []*entity.StockMovement, now time.Time) []dto.StockMovementSoldBrokenRatioRangeDTO {
+	ranges := []struct {
+		key      string
+		duration time.Duration
+		isAll    bool
+	}{
+		{"1w", enum.Filter1w.Duration(), false},
+		{"1m", enum.Filter1m.Duration(), false},
+		{"3m", enum.Filter3m.Duration(), false},
+		{"6m", enum.Filter6m.Duration(), false},
+		{"1y", enum.Filter1y.Duration(), false},
+		{"all", 0, true},
+	}
+
+	totals := make([]soldBrokenRangeTotals, len(ranges))
+	for i, r := range ranges {
+		totals[i].Range = r.key
+	}
 
 	for _, m := range movements {
-		if !start.IsZero() && m.Date().Before(start) {
-			continue
-		}
-
-		if m.Date().After(end) {
+		if m.Date().After(now) {
 			continue
 		}
 
 		qty := m.Quantity().Value()
+		age := now.Sub(m.Date())
 
-		switch m.Action() {
-		case enum.Sold:
-			totalSold += qty
-		case enum.Broken:
-			totalBroken += qty
+		for i, r := range ranges {
+			if !r.isAll && age > r.duration {
+				continue
+			}
+
+			switch m.Action() {
+			case enum.Sold:
+				totals[i].TotalSold += qty
+			case enum.Broken:
+				totals[i].TotalBroken += qty
+			}
 		}
 	}
 
-	return totalSold, totalBroken
-}
+	result := make([]dto.StockMovementSoldBrokenRatioRangeDTO, len(totals))
+	for i, t := range totals {
+		totalOut := t.TotalSold + t.TotalBroken
 
-func roundPercentage(value float64) float64 {
-	return math.Round(value*100) / 100
+		soldPercentage, brokenPercentage := 0.0, 0.0
+		if totalOut > 0 {
+			soldPercentage = roundPercentage(float64(t.TotalSold) / float64(totalOut) * 100)
+			brokenPercentage = roundPercentage(float64(t.TotalBroken) / float64(totalOut) * 100)
+		}
+
+		result[i] = dto.StockMovementSoldBrokenRatioRangeDTO{
+			Range:            t.Range,
+			TotalSold:        t.TotalSold,
+			TotalBroken:      t.TotalBroken,
+			SoldPercentage:   soldPercentage,
+			BrokenPercentage: brokenPercentage,
+		}
+	}
+
+	return result
 }
