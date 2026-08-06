@@ -47,15 +47,15 @@ func (r *ProductRepository) Save(ctx context.Context, product *entity.Product) e
 			movements := make([]model.StockMovementModel, len(pending))
 			for i, sm := range pending {
 				movements[i] = model.StockMovementModel{
-					ID:        sm.Id().Value(),
-					UserID:    sm.UserId().Value(),
-					ProductID: sm.ProductId().Value(),
-					Action:    sm.Action().String(),
+					ID:             sm.Id().Value(),
+					UserID:         sm.UserId().Value(),
+					ProductID:      sm.ProductId().Value(),
+					Action:         sm.Action().String(),
 					Quantity:       sm.Quantity().Value(),
 					ProductBalance: sm.ProductBalance().Value(),
-					Source:    sm.Source(),
-					Reason:    sm.Reason(),
-					Date:      sm.Date(),
+					Source:         sm.Source(),
+					Reason:         sm.Reason(),
+					Date:           sm.Date(),
 				}
 			}
 
@@ -113,9 +113,15 @@ func (r *ProductRepository) RemoveCategoryByCategoryId(ctx context.Context, user
 	return r.db.WithContext(ctx).Model(&model.ProductModel{}).Where("user_id = ? AND category_id = ?", userId.Value(), categoryId.Value()).Update("category_id", nil).Error
 }
 
-func (r *ProductRepository) GetStockMovementsByProductID(ctx context.Context, userId vo.UserId, productId vo.ProductId) ([]*entity.StockMovement, error) {
+func (r *ProductRepository) GetStockMovementsByProductID(ctx context.Context, userId vo.UserId, productId vo.ProductId, asc bool) ([]*entity.StockMovement, error) {
 	var models []model.StockMovementModel
-	err := r.db.WithContext(ctx).Where("user_id = ? AND product_id = ?", userId.Value(), productId.Value()).Order("date DESC").Find(&models).Error
+
+	order := "date DESC"
+	if asc {
+		order = "date ASC"
+	}
+
+	err := r.db.WithContext(ctx).Where("user_id = ? AND product_id = ?", userId.Value(), productId.Value()).Order(order).Find(&models).Error
 	if err != nil {
 		return nil, err
 	}
