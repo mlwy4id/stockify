@@ -20,10 +20,10 @@ function PasswordInput(props: React.ComponentProps<'input'>) {
       />
       <InputGroupAddon align="inline-end">
         <InputGroupButton
-          aria-label={showPassword ? 'Hide password' : 'Show password'}
+          aria-label={!showPassword ? 'Hide password' : 'Show password'}
           onClick={() => setShowPassword((prev) => !prev)}
         >
-          {showPassword ? <EyeOff /> : <Eye />}
+          {!showPassword ? <EyeOff /> : <Eye />}
         </InputGroupButton>
       </InputGroupAddon>
     </InputGroup>

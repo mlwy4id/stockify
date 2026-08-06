@@ -1,6 +1,7 @@
 'use client';
 import SignUpForm from '../components/SignUpForm';
 import { Button } from '@/shared/components/ui/button';
+import { Spinner } from '@/shared/components/ui/spinner';
 import { useConfirmSignUp } from '../hooks/useConfirmSignUp';
 import { useSignUpForm } from '@/features/auth/hooks/useSignUpForm';
 
@@ -14,8 +15,8 @@ const SignUpFormContainer = () => {
       errors={errors}
       onSubmitHandler={handleSubmit(confirmSignUp)}
       submitBtn={
-        <Button disabled={isPending}>
-          Submit
+        <Button size="lg" className="w-full" disabled={isPending}>
+          {isPending ? <Spinner /> : 'Sign Up'}
         </Button>
       }
     />
