@@ -32,7 +32,7 @@ func (h *GetStockMovementByProductIDHandler) Handle(ctx context.Context, query G
 	if query.Start != nil && query.End != nil {
 		movements, err = h.productRepo.GetStockMovementsByProductIDAndDateRange(ctx, query.UserId, query.ProductId, *query.Start, *query.End)
 	} else {
-		movements, err = h.productRepo.GetStockMovementsByProductID(ctx, query.UserId, query.ProductId)
+		movements, err = h.productRepo.GetStockMovementsByProductID(ctx, query.UserId, query.ProductId, false)
 	}
 
 	if err != nil {

@@ -36,7 +36,7 @@ func (h *GetStockMovementVolumeByProductIDHandler) Handle(ctx context.Context, q
 		return dto.StockMovementVolumeDTO{}, err
 	}
 
-	movements, err := h.productRepo.GetStockMovementsByProductID(ctx, query.UserId, query.ProductId)
+	movements, err := h.productRepo.GetStockMovementsByProductID(ctx, query.UserId, query.ProductId, false)
 	if err != nil {
 		return dto.StockMovementVolumeDTO{}, err
 	}

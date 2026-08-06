@@ -31,7 +31,7 @@ func (h *GetStockDepletionPredictionByProductIDHandler) Handle(ctx context.Conte
 		return dto.StockDepletionPredictionDTO{}, err
 	}
 
-	movements, err := h.productRepo.GetStockMovementsByProductID(ctx, query.UserId, query.ProductId)
+	movements, err := h.productRepo.GetStockMovementsByProductID(ctx, query.UserId, query.ProductId, false)
 	if err != nil {
 		return dto.StockDepletionPredictionDTO{}, err
 	}

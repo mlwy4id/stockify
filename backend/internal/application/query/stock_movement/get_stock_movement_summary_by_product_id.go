@@ -38,7 +38,7 @@ func (h *GetStockMovementSummaryByProductIDHandler) Handle(ctx context.Context, 
 		start := now.Add(-query.DateFilter.Duration())
 		movements, err = h.productRepo.GetStockMovementsByProductIDAndDateRange(ctx, query.UserId, query.ProductId, start, now)
 	} else {
-		movements, err = h.productRepo.GetStockMovementsByProductID(ctx, query.UserId, query.ProductId)
+		movements, err = h.productRepo.GetStockMovementsByProductID(ctx, query.UserId, query.ProductId, false)
 	}
 
 	if err != nil {

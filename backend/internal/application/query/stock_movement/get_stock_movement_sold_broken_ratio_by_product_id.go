@@ -36,7 +36,7 @@ func (h *GetStockMovementSoldBrokenRatioByProductIDHandler) Handle(ctx context.C
 		return dto.StockMovementSoldBrokenRatioDTO{}, err
 	}
 
-	movements, err := h.productRepo.GetStockMovementsByProductID(ctx, query.UserId, query.ProductId)
+	movements, err := h.productRepo.GetStockMovementsByProductID(ctx, query.UserId, query.ProductId, false)
 	if err != nil {
 		return dto.StockMovementSoldBrokenRatioDTO{}, err
 	}
