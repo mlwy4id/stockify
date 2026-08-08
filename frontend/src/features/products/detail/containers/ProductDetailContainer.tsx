@@ -51,7 +51,7 @@ const ProductDetailContainer = ({ id }: Props) => {
           icon={Package}
           cardTitle="Current Stock"
           cardContent={`${currentStock} items`}
-          cardBgColor="bg-primary-subtle"
+          stripColor="bg-primary"
           cardTitleColor="text-primary"
           cardContentColor="text-primary"
         />
@@ -59,15 +59,15 @@ const ProductDetailContainer = ({ id }: Props) => {
           icon={AlertTriangle}
           cardTitle="Stock Threshold"
           cardContent={stockThreshold ? `${stockThreshold} items` : 'Not set'}
-          cardBgColor="bg-neutral-action/10"
-          cardTitleColor="text-neutral-action"
-          cardContentColor="text-neutral-action"
+          stripColor="bg-warning"
+          cardTitleColor="text-warning"
+          cardContentColor="text-warning"
         />
         <SummaryCard
           icon={RefreshCcw}
           cardTitle="Avg Restock Interval"
           cardContent={avgRestockDays != null ? `${avgRestockDays} days` : 'No data'}
-          cardBgColor="bg-success/10"
+          stripColor="bg-success"
           cardTitleColor="text-success"
           cardContentColor="text-success"
         />
@@ -75,7 +75,7 @@ const ProductDetailContainer = ({ id }: Props) => {
           icon={TrendingDown}
           cardTitle="Est. Stock Depletion"
           cardContent={depletion?.daysLeft != null ? `${depletion.daysLeft} days` : 'No data'}
-          cardBgColor="bg-danger/10"
+          stripColor="bg-danger"
           cardTitleColor="text-danger"
           cardContentColor="text-danger"
         />

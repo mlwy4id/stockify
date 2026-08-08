@@ -23,6 +23,7 @@
   --color-primary-subtle: var(--primary-subtle);
   --color-stamp: var(--stamp);
   --color-success: var(--success);
+  --color-warning: var(--warning);
   --color-danger: var(--danger);
   --color-neutral-action: var(--neutral-action);
   --color-secondary: var(--secondary);
@@ -68,7 +69,8 @@
 
   --stamp: oklch(0.68 0.14 55);          
 
-  --success: oklch(0.627 0.194 149.214);  /* ~#16A34A, setara green-600 */
+  --success: oklch(0.627 0.194 149.214);
+  --warning: oklch(0.795 0.184 86.047);  
   --danger: oklch(0.50 0.16 30);          
   --neutral-action: var(--primary);
   
@@ -113,6 +115,7 @@
   --accent: oklch(0.269 0 0);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
+  --warning: oklch(0.85 0.16 84);        
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
