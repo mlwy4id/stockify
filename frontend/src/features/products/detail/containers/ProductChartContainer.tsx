@@ -15,7 +15,7 @@ const ProductChartContainer = ({ id }: Props) => {
 
   return (
     <Card>
-      <CardHeader className="font-semibold border-b">
+      <CardHeader className="font-semibold border-b text-xl">
         <h2>Stock Level Over Time</h2>
       </CardHeader>
       <CardContent>
