@@ -36,10 +36,11 @@ func (h *GetStockChartByProductIDHandler) Handle(ctx context.Context, query GetS
 
 	var movements []*entity.StockMovement
 	start := time.Time{}
+	end := now
 
 	if query.DateFilter != nil && query.DateFilter.IsValid() {
-		start = now.Add(-query.DateFilter.Duration())
-		movements, err = h.productRepo.GetStockMovementsByProductIDAndDateRange(ctx, query.UserId, query.ProductId, start, now)
+		start, end = dateRangeFor(now, query.DateFilter)
+		movements, err = h.productRepo.GetStockMovementsByProductIDAndDateRange(ctx, query.UserId, query.ProductId, start, end)
 	} else {
 		movements, err = h.productRepo.GetStockMovementsByProductID(ctx, query.UserId, query.ProductId, false)
 	}
@@ -69,8 +70,8 @@ func (h *GetStockChartByProductIDHandler) Handle(ctx context.Context, query GetS
 	}
 
 	startBalance := totalQuantity - netStockChange(movements)
-	bucket := bucketSizeFor(now.Sub(start))
-	points := buildChartPoints(start, now, startBalance, movements, bucket)
+	bucket := bucketSizeFor(end.Sub(start))
+	points := buildChartPoints(start, end, startBalance, movements, bucket)
 
 	return dto.StockChartDTO{
 		ProductId:   &productId,

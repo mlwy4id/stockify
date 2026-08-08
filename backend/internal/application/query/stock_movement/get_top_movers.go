@@ -36,8 +36,8 @@ func (h *GetTopMoversHandler) Handle(ctx context.Context, query GetTopMoversQuer
 	now := time.Now()
 
 	if query.DateFilter != nil && query.DateFilter.IsValid() {
-		start := now.Add(-query.DateFilter.Duration())
-		movements, err = h.productRepo.GetAllStockMovementsAndDateRange(ctx, query.UserId, start, now)
+		start, end := dateRangeFor(now, query.DateFilter)
+		movements, err = h.productRepo.GetAllStockMovementsAndDateRange(ctx, query.UserId, start, end)
 	} else {
 		movements, err = h.productRepo.GetAllStockMovements(ctx, query.UserId)
 	}
