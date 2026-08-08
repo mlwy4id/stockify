@@ -98,6 +98,7 @@ func main() {
 		stockMovementQuery.NewGetGlobalStockMovementSummaryHandler(productRepo),
 		stockMovementQuery.NewGetTopMoversHandler(productRepo),
 		stockMovementQuery.NewGetStockChartByProductIDHandler(productRepo),
+		stockMovementQuery.NewGetStockChartHandler(productRepo),
 	)
 
 	router := http.NewRouter(http.Handlers{
