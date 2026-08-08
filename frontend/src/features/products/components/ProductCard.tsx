@@ -33,7 +33,7 @@ const ProductCard = ({ id, name, quantity, categoryName, onEdit, onArchive }: Pr
   const initials = getInitials(name);
   const router = useRouter();
 
-  const goToProduct = () => router.push(`/product/${id}`);
+  const goToProduct = () => router.push(`/products/${id}`);
 
   return (
     <Card
@@ -74,7 +74,7 @@ const ProductCard = ({ id, name, quantity, categoryName, onEdit, onArchive }: Pr
         >
           <EllipsisVertical className="size-4" />
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" side="left">
+        <DropdownMenuContent align="end" side="left" onClick={(e) => e.stopPropagation()}>
           <DropdownMenuItem onClick={() => onEdit(id)}>Edit</DropdownMenuItem>
           <DropdownMenuItem onClick={() => onArchive(id)}>Archive</DropdownMenuItem>
         </DropdownMenuContent>

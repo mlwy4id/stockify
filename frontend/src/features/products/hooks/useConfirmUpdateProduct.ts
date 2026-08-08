@@ -1,10 +1,11 @@
 import type { Product, UpdateProduct } from '@/shared/types/product.type';
 import { useUpdateProduct } from './queries/product.query';
 
-export const useConfirmUpdateProduct = (product: Product, onSuccess?: () => void) => {
+export const useConfirmUpdateProduct = (product?: Product, onSuccess?: () => void) => {
   const { mutate, isPending } = useUpdateProduct(onSuccess);
 
   const confirmUpdate = (updatedProduct: UpdateProduct) => {
+    if (!product) return;
     mutate({ id: product.id, ...updatedProduct });
   };
 

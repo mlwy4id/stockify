@@ -30,7 +30,7 @@ const ConfirmArchiveProductModal = ({ productId, onSuccess, onCancel }: Props) =
       }
       cancelHandler={onCancel ?? (() => {})}
     >
-      <p>This product will be archived and hidden from active listings.</p>
+      This product will be archived and hidden from active listings.
     </ConfirmationModal>
   );
 };

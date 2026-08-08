@@ -1,4 +1,4 @@
-import type { CreateProduct, UpdateProduct } from '@/shared/types/product.type';
+import type { CreateProduct, Product, UpdateProduct } from '@/shared/types/product.type';
 import api from '../axios/axios';
 
 export const getAllProducts = async () => {
@@ -12,8 +12,27 @@ export const getLowStockProducts = async () => {
 };
 
 export const getProduct = async (id: string) => {
-  const res = await api.get(`product/${id}`);
-  return res.data.product;
+  const res = await api.get(`product/${id}/dashboard`);
+  const dashboard = res.data.data;
+  const product: Product = {
+    id: dashboard.productId,
+    name: dashboard.productName,
+    quantity: dashboard.currentStock,
+    categoryId: dashboard.categoryId ?? null,
+  };
+  return product;
+};
+
+export const getProductDashboard = async (id: string) => {
+  const res = await api.get(`product/${id}/dashboard`);
+  return res.data.data;
+};
+
+export const getProductChart = async (id: string, range?: string) => {
+  const res = await api.get(`product/${id}/chart`, {
+    params: range ? { range } : undefined,
+  });
+  return res.data.chart;
 };
 
 export const createProduct = async (product: CreateProduct) => {

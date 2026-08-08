@@ -1,3 +1,11 @@
-import DashboardPage from '@/features/dashboard/pages/page';
+'use client';
+import PageLayout from '@/shared/components/layout/PageLayout';
+import DashboardContainer from '@/features/dashboard/containers/DashboardContainer';
 
-export default DashboardPage;
+export default function DashboardPage() {
+  return (
+    <PageLayout title="Dashboard">
+      <DashboardContainer />
+    </PageLayout>
+  );
+}
