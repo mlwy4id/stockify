@@ -274,7 +274,7 @@ func (smh *StockMovementHandler) GetChart(ctx *gin.Context) {
 // @Failure      401  {object} map[string]interface{} "unauthorized"
 // @Router       /stock-movements/ [get]
 // @Security     CookieAuth
-func (smh *StockMovementHandler) GetGlobalSummary(ctx *gin.Context) {
+func (smh *StockMovementHandler) GetDashboardSummary(ctx *gin.Context) {
 	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
 	if err != nil {
 		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})

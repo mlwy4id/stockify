@@ -58,6 +58,14 @@ func (h *GetDashboardStockMovementSummaryHandler) Handle(ctx context.Context, qu
 	summary.InChangePercentage = percentageChange(prevIn, currentIn)
 	summary.OutChangePercentage = percentageChange(prevOut, currentOut)
 
+	movements, err := h.productRepo.GetAllStockMovements(ctx, query.UserId)
+	if err != nil {
+		return dto.DashboardStockMovementSummaryDTO{}, err
+	}
+
+	summary.Volume = TotalInOutAll(movements, now)
+	summary.Ratio = TotalSoldBrokenAll(movements, now)
+
 	return summary, nil
 }
 
