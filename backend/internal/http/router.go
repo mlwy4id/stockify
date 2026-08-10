@@ -11,8 +11,8 @@ import (
 	"github.com/mlwy4id/stockify/internal/http/middleware"
 	productHandler "github.com/mlwy4id/stockify/internal/http/product"
 	stockMovementHandler "github.com/mlwy4id/stockify/internal/http/stock_movement"
-	"github.com/swaggo/files"
-	"github.com/swaggo/gin-swagger"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 type Handlers struct {

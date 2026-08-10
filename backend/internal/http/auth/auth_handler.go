@@ -6,8 +6,8 @@ import (
 	"github.com/gin-gonic/gin"
 	command "github.com/mlwy4id/stockify/internal/application/command/auth"
 	query "github.com/mlwy4id/stockify/internal/application/query/auth"
-	"github.com/mlwy4id/stockify/internal/http/middleware"
 	vo "github.com/mlwy4id/stockify/internal/domain/values_object"
+	"github.com/mlwy4id/stockify/internal/http/middleware"
 )
 
 type AuthHandler struct {
