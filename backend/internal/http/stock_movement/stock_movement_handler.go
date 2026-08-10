@@ -14,29 +14,29 @@ import (
 )
 
 type StockMovementHandler struct {
-	createStockMovementHandler           *command.CreateStockMovementCommandHandler
-	getStockMovementByProductIDHandler   *query.GetStockMovementByProductIDHandler
-	getGlobalStockMovementSummaryHandler *query.GetGlobalStockMovementSummaryHandler
-	getTopMoversHandler                  *query.GetTopMoversHandler
-	getStockChartByProductIDHandler      *query.GetStockChartByProductIDHandler
-	getStockChartHandler                 *query.GetStockChartHandler
+	createStockMovementHandler              *command.CreateStockMovementCommandHandler
+	getStockMovementByProductIDHandler      *query.GetStockMovementByProductIDHandler
+	getDashboardStockMovementSummaryHandler *query.GetDashboardStockMovementSummaryHandler
+	getTopMoversHandler                     *query.GetTopMoversHandler
+	getStockChartByProductIDHandler         *query.GetStockChartByProductIDHandler
+	getStockChartHandler                    *query.GetStockChartHandler
 }
 
 func NewStockMovementHandler(
 	createHandler *command.CreateStockMovementCommandHandler,
 	getByProductIDHandler *query.GetStockMovementByProductIDHandler,
-	getGlobalSummaryHandler *query.GetGlobalStockMovementSummaryHandler,
+	getGlobalSummaryHandler *query.GetDashboardStockMovementSummaryHandler,
 	getTopMoversHandler *query.GetTopMoversHandler,
 	getStockChartByProductIDHandler *query.GetStockChartByProductIDHandler,
 	getStockChartHandler *query.GetStockChartHandler,
 ) *StockMovementHandler {
 	return &StockMovementHandler{
-		createStockMovementHandler:           createHandler,
-		getStockMovementByProductIDHandler:   getByProductIDHandler,
-		getGlobalStockMovementSummaryHandler: getGlobalSummaryHandler,
-		getTopMoversHandler:                  getTopMoversHandler,
-		getStockChartByProductIDHandler:      getStockChartByProductIDHandler,
-		getStockChartHandler:                 getStockChartHandler,
+		createStockMovementHandler:              createHandler,
+		getStockMovementByProductIDHandler:      getByProductIDHandler,
+		getDashboardStockMovementSummaryHandler: getGlobalSummaryHandler,
+		getTopMoversHandler:                     getTopMoversHandler,
+		getStockChartByProductIDHandler:         getStockChartByProductIDHandler,
+		getStockChartHandler:                    getStockChartHandler,
 	}
 }
 
@@ -267,12 +267,10 @@ func (smh *StockMovementHandler) GetChart(ctx *gin.Context) {
 
 // GetGlobalSummary godoc
 // @Summary      Get global stock movement summary
-// @Description  Get overall in/out summary across all products, optionally filtered by date
+// @Description  Get daily in/out summary across all products, compared to the previous day
 // @Tags         Stock Movement
 // @Produce      json
-// @Param        dateFilter  query    string false "Date filter: 1d, 1w, 1m, 3m, 6m, 1y"
 // @Success      200  {object} map[string]interface{} "global summary"
-// @Failure      400  {object} map[string]interface{} "invalid filter"
 // @Failure      401  {object} map[string]interface{} "unauthorized"
 // @Router       /stock-movements/ [get]
 // @Security     CookieAuth
@@ -283,25 +281,11 @@ func (smh *StockMovementHandler) GetGlobalSummary(ctx *gin.Context) {
 		return
 	}
 
-	var dateFilter *enum.DateFilter
-
-	if df := ctx.Query("dateFilter"); df != "" {
-		filter := enum.DateFilter(df)
-
-		if !filter.IsValid() {
-			ctx.JSON(http.StatusBadRequest, gin.H{"error": "invalid date filter, use: 1d, 1w, 1m, 3m, 6m, 1y"})
-			return
-		}
-
-		dateFilter = &filter
+	q := query.GetDashboardStockMovementSummaryQuery{
+		UserId: userId,
 	}
 
-	q := query.GetGlobalStockMovementSummaryQuery{
-		UserId:     userId,
-		DateFilter: dateFilter,
-	}
-
-	summary, err := smh.getGlobalStockMovementSummaryHandler.Handle(ctx.Request.Context(), q)
+	summary, err := smh.getDashboardStockMovementSummaryHandler.Handle(ctx.Request.Context(), q)
 
 	if err != nil {
 		ctx.JSON(http.StatusUnprocessableEntity, gin.H{"error": err.Error()})

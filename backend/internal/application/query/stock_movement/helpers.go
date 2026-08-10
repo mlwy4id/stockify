@@ -11,6 +11,18 @@ func roundPercentage(value float64) float64 {
 	return math.Round(value*100) / 100
 }
 
+func percentageChange(prev int, current int) float64 {
+	if prev == 0 {
+		if current == 0 {
+			return 0
+		}
+
+		return 100
+	}
+
+	return roundPercentage((float64(current-prev) / float64(prev)) * 100)
+}
+
 func dateRangeFor(now time.Time, filter *enum.DateFilter) (time.Time, time.Time) {
 	start := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location()).Add(-filter.Duration())
 	end := time.Date(now.Year(), now.Month(), now.Day(), 23, 59, 59, 0, now.Location())
