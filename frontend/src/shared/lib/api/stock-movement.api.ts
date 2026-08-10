@@ -18,11 +18,16 @@ export const getStockMovementSummaryByProduct = async (productId: string, dateFi
   return res.data.summary;
 };
 
-export const getGlobalStockMovementSummary = async (dateFilter?: string) => {
-  const res = await api.get('stock-movements/', {
-    params: dateFilter ? { dateFilter } : {},
-  });
+export const getDashboardStockMovementSummary = async () => {
+  const res = await api.get('stock-movements/');
   return res.data.summary;
+};
+
+export const getGlobalStockChart = async (range?: string) => {
+  const res = await api.get('stock-movements/chart', {
+    params: range ? { range } : undefined,
+  });
+  return res.data.chart;
 };
 
 export const getTopMovers = async (limit?: number, dateFilter?: string) => {

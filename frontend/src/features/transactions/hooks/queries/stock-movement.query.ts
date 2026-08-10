@@ -2,8 +2,6 @@ import {
   createStockMovement,
   getStockMovementsByProduct,
   getStockMovementSummaryByProduct,
-  getGlobalStockMovementSummary,
-  getTopMovers,
 } from '@/shared/lib/api/stock-movement.api';
 import type { CreateStockMovement } from '@/shared/types/stock-movement.type';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -25,20 +23,6 @@ export const useGetStockMovementSummaryByProduct = (productId: string, dateFilte
   });
 };
 
-export const useGetGlobalStockMovementSummary = (dateFilter?: string) => {
-  return useQuery({
-    queryKey: ['GlobalStockMovementSummary', dateFilter],
-    queryFn: () => getGlobalStockMovementSummary(dateFilter),
-  });
-};
-
-export const useGetTopMovers = (limit?: number, dateFilter?: string) => {
-  return useQuery({
-    queryKey: ['TopMovers', limit, dateFilter],
-    queryFn: () => getTopMovers(limit, dateFilter),
-  });
-};
-
 export const useCreateStockMovement = (onSettled?: () => void) => {
   const queryClient = useQueryClient();
   const { addToast } = useToastStore();
@@ -49,6 +33,7 @@ export const useCreateStockMovement = (onSettled?: () => void) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['StockMovements'] });
       queryClient.invalidateQueries({ queryKey: ['GlobalStockMovementSummary'] });
+      queryClient.invalidateQueries({ queryKey: ['GlobalStockChart'] });
       queryClient.invalidateQueries({ queryKey: ['TopMovers'] });
       queryClient.invalidateQueries({ queryKey: ['Products'] });
       queryClient.invalidateQueries({ queryKey: ['LowStockProducts'] });

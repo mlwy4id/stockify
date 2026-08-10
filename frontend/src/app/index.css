@@ -71,7 +71,7 @@
 
   --success: oklch(0.627 0.194 149.214);
   --warning: oklch(0.795 0.184 86.047);  
-  --danger: oklch(0.50 0.16 30);          
+  --danger: oklch(0.577 0.245 27.325);
   --neutral-action: var(--primary);
   
   --secondary: oklch(0.97 0 0);

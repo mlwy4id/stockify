@@ -1,6 +1,5 @@
 import {
   getAllProducts,
-  getLowStockProducts,
   getProduct,
   createProduct,
   updateProduct,
@@ -24,14 +23,6 @@ export const useGetProduct = (id: string) => {
     queryKey: ['Product', id],
     queryFn: () => getProduct(id),
     enabled: !!id,
-  });
-};
-
-export const useGetLowStockProducts = () => {
-  return useQuery({
-    queryKey: ['LowStockProducts'],
-    queryFn: getLowStockProducts,
-    staleTime: 1000 * 30,
   });
 };
 
