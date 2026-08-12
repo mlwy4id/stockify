@@ -35,9 +35,16 @@ func (h *GetProductByCategoryHandler) Handle(ctx context.Context, query GetProdu
 			v := c.Value()
 			catId = &v
 		}
+
+		var imageUrl *string
+		if url := p.ImageUrl(); url != "" {
+			imageUrl = &url
+		}
+
 		dtos = append(dtos, dto.ProductSummaryDTO{
 			ID:         p.Id().Value(),
 			Name:       p.Name(),
+			ImageUrl:   imageUrl,
 			Quantity:   p.Quantity().Value(),
 			CategoryId: catId,
 		})

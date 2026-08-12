@@ -29,9 +29,16 @@ func (h *GetAllProductsHandler) Handle(ctx context.Context, userId vo.UserId) ([
 			v := c.Value()
 			catId = &v
 		}
+
+		var imageUrl *string
+		if url := p.ImageUrl(); url != "" {
+			imageUrl = &url
+		}
+
 		dtos = append(dtos, dto.ProductSummaryDTO{
 			ID:         p.Id().Value(),
 			Name:       p.Name(),
+			ImageUrl:   imageUrl,
 			Quantity:   p.Quantity().Value(),
 			CategoryId: catId,
 		})

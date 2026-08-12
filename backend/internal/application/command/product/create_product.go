@@ -11,6 +11,7 @@ import (
 type CreateProductCommand struct {
 	UserId         vo.UserId
 	Name           string
+	ImageUrl       string
 	Quantity       vo.Quantity
 	StockThreshold vo.StockThreshold
 	CategoryId     *vo.CategoryId
@@ -25,7 +26,7 @@ func NewCreateProductCommandHandler(productRepo repo.ProductRepository) *CreateP
 }
 
 func (h *CreateProductCommandHandler) Handle(ctx context.Context, command CreateProductCommand) (string, error) {
-	product, err := entity.NewProduct(command.UserId, command.Name, command.Quantity, command.StockThreshold, command.CategoryId)
+	product, err := entity.NewProduct(command.UserId, command.Name, command.ImageUrl, command.Quantity, command.StockThreshold, command.CategoryId)
 
 	if err != nil {
 		return "", err

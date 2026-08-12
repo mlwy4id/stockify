@@ -25,6 +25,7 @@ func (r *ProductRepository) Save(ctx context.Context, product *entity.Product) e
 			ID:             product.Id().Value(),
 			UserID:         product.UserId().Value(),
 			Name:           product.Name(),
+			ImageURL:       product.ImageUrl(),
 			Quantity:       product.Quantity().Value(),
 			StockThreshold: product.StockThreshold().Value(),
 		}
@@ -211,7 +212,7 @@ func (r *ProductRepository) toEntityFromModel(m *model.ProductModel) (*entity.Pr
 		stockMovements[i] = *esm
 	}
 
-	p := entity.ReconstructProduct(productId, userId, m.Name, quantity, threshold, categoryId, stockMovements, m.ArchivedAt)
+	p := entity.ReconstructProduct(productId, userId, m.Name, m.ImageURL, quantity, threshold, categoryId, stockMovements, m.ArchivedAt)
 	return &p, nil
 }
 

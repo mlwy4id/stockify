@@ -6,6 +6,7 @@ type ProductModel struct {
 	ID             string               `gorm:"column:id;primaryKey"`
 	UserID         string               `gorm:"column:user_id"`
 	Name           string               `gorm:"column:name"`
+	ImageURL       string               `gorm:"column:image_url"`
 	Quantity       int                  `gorm:"column:quantity"`
 	StockThreshold int                  `gorm:"column:stock_threshold"`
 	CategoryID     *string              `gorm:"column:category_id"`

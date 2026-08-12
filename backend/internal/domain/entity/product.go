@@ -13,6 +13,7 @@ type Product struct {
 	id                    vo.ProductId
 	userId                vo.UserId
 	name                  string
+	imageUrl              string
 	quantity              vo.Quantity
 	stockThreshold        vo.StockThreshold
 	categoryId            *vo.CategoryId
@@ -21,7 +22,7 @@ type Product struct {
 	archivedAt            *time.Time
 }
 
-func NewProduct(userId vo.UserId, name string, quantity vo.Quantity, stockThreshold vo.StockThreshold, categoryId *vo.CategoryId) (Product, error) {
+func NewProduct(userId vo.UserId, name string, imageUrl string, quantity vo.Quantity, stockThreshold vo.StockThreshold, categoryId *vo.CategoryId) (Product, error) {
 	trimmedName := strings.TrimSpace(name)
 
 	if trimmedName == "" {
@@ -32,6 +33,7 @@ func NewProduct(userId vo.UserId, name string, quantity vo.Quantity, stockThresh
 		id:             vo.NewProductId(),
 		userId:         userId,
 		name:           trimmedName,
+		imageUrl:       imageUrl,
 		quantity:       quantity,
 		stockThreshold: stockThreshold,
 		categoryId:     categoryId,
@@ -132,6 +134,10 @@ func (p Product) Name() string {
 	return p.name
 }
 
+func (p Product) ImageUrl() string {
+	return p.imageUrl
+}
+
 func (p Product) Quantity() vo.Quantity {
 	return p.quantity
 }
@@ -163,11 +169,12 @@ func (p Product) ArchivedAt() *time.Time {
 	return p.archivedAt
 }
 
-func ReconstructProduct(id vo.ProductId, userId vo.UserId, name string, quantity vo.Quantity, stockThreshold vo.StockThreshold, categoryId *vo.CategoryId, stockMovements []StockMovement, archivedAt *time.Time) Product {
+func ReconstructProduct(id vo.ProductId, userId vo.UserId, name string, imageUrl string, quantity vo.Quantity, stockThreshold vo.StockThreshold, categoryId *vo.CategoryId, stockMovements []StockMovement, archivedAt *time.Time) Product {
 	return Product{
 		id:                    id,
 		userId:                userId,
 		name:                  name,
+		imageUrl:              imageUrl,
 		quantity:              quantity,
 		stockThreshold:        stockThreshold,
 		categoryId:            categoryId,

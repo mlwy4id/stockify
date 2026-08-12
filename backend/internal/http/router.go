@@ -67,6 +67,7 @@ func NewRouter(h Handlers) *gin.Engine {
 			product := protected.Group("/product")
 			{
 				product.POST("/", h.Product.Create)
+				product.POST("/upload-url", h.Product.GetUploadURL)
 				product.GET("/", h.Product.GetAll)
 				product.GET("/category/:id", h.Product.GetByCategory)
 				product.GET("/low-stock", h.Product.GetLowStock)

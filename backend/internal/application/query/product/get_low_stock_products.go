@@ -30,9 +30,16 @@ func (h *GetLowStockProductsHandler) Handle(ctx context.Context, userId vo.UserI
 				v := c.Value()
 				catId = &v
 			}
+
+			var imageUrl *string
+			if url := p.ImageUrl(); url != "" {
+				imageUrl = &url
+			}
+
 			results = append(results, dto.ProductSummaryDTO{
 				ID:         p.Id().Value(),
 				Name:       p.Name(),
+				ImageUrl:   imageUrl,
 				Quantity:   p.Quantity().Value(),
 				CategoryId: catId,
 			})

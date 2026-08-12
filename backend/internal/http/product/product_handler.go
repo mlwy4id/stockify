@@ -1,10 +1,13 @@
 package product
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	command "github.com/mlwy4id/stockify/internal/application/command/product"
+	"github.com/mlwy4id/stockify/internal/application/ports"
 	query "github.com/mlwy4id/stockify/internal/application/query/product"
 	vo "github.com/mlwy4id/stockify/internal/domain/values_object"
 	"github.com/mlwy4id/stockify/internal/http/middleware"
@@ -19,6 +22,7 @@ type ProductHandler struct {
 	getByCategoryHandler       *query.GetProductByCategoryHandler
 	getLowStockHandler         *query.GetLowStockProductsHandler
 	getProductDashboardHandler *query.GetProductDashboardByProductIDHandler
+	fileStorage                ports.FileStorage
 }
 
 func NewProductHandler(
@@ -30,6 +34,7 @@ func NewProductHandler(
 	getByCategoryHandler *query.GetProductByCategoryHandler,
 	getLowStockHandler *query.GetLowStockProductsHandler,
 	getProductDashboardHandler *query.GetProductDashboardByProductIDHandler,
+	fileStorage ports.FileStorage,
 ) *ProductHandler {
 	return &ProductHandler{
 		createProductHandler:       createHandler,
@@ -40,6 +45,7 @@ func NewProductHandler(
 		getByCategoryHandler:       getByCategoryHandler,
 		getLowStockHandler:         getLowStockHandler,
 		getProductDashboardHandler: getProductDashboardHandler,
+		fileStorage:                fileStorage,
 	}
 }
 
@@ -96,9 +102,16 @@ func (ph *ProductHandler) Create(ctx *gin.Context) {
 		categoryId = &cid
 	}
 
+	var imageUrl string
+
+	if req.ImageUrl != nil {
+		imageUrl = *req.ImageUrl
+	}
+
 	cmd := command.CreateProductCommand{
 		UserId:         userId,
 		Name:           req.Name,
+		ImageUrl:       imageUrl,
 		Quantity:       quantity,
 		StockThreshold: stockThreshold,
 		CategoryId:     categoryId,
@@ -115,6 +128,67 @@ func (ph *ProductHandler) Create(ctx *gin.Context) {
 		"message":    "product created successfully",
 		"product_id": productId,
 	})
+}
+
+// UploadURL godoc
+// @Summary      Generate a signed upload URL for a product image
+// @Description  Generate a signed GCS URL to upload a product image directly from the client
+// @Tags         Product
+// @Accept       json
+// @Produce      json
+// @Param        body body     UploadURLRequest true "Image metadata"
+// @Success      200  {object} map[string]interface{} "signedUrl, path, publicUrl"
+// @Failure      400  {object} map[string]interface{} "validation error"
+// @Failure      401  {object} map[string]interface{} "unauthorized"
+// @Failure      500  {object} map[string]interface{} "internal server error"
+// @Router       /product/upload-url [post]
+// @Security     CookieAuth
+func (ph *ProductHandler) GetUploadURL(ctx *gin.Context) {
+	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+		return
+	}
+
+	var req UploadURLRequest
+
+	if err := ctx.BindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	extension, err := imageExtension(req.ContentType)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	path := fmt.Sprintf("products/%s/%s%s", userId.Value(), uuid.New().String(), extension)
+
+	signedUrl, err := ph.fileStorage.GenerateSignedUploadURL(ctx.Request.Context(), path, req.ContentType)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "failed to generate upload url"})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"signedUrl": signedUrl,
+		"path":      path,
+		"publicUrl": ph.fileStorage.GetPublicURL(path),
+	})
+}
+
+func imageExtension(contentType string) (string, error) {
+	switch contentType {
+	case "image/jpeg":
+		return ".jpg", nil
+	case "image/png":
+		return ".png", nil
+	case "image/webp":
+		return ".webp", nil
+	default:
+		return "", fmt.Errorf("unsupported image content type: %s", contentType)
+	}
 }
 
 // Update godoc

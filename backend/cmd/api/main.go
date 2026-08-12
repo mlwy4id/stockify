@@ -1,7 +1,9 @@
 package main
 
 import (
+	"context"
 	"log"
+	"os"
 
 	"github.com/joho/godotenv"
 	_ "github.com/mlwy4id/stockify/cmd/api/docs"
@@ -21,6 +23,7 @@ import (
 	"github.com/mlwy4id/stockify/internal/infrastructure/database"
 	"github.com/mlwy4id/stockify/internal/infrastructure/repository"
 	"github.com/mlwy4id/stockify/internal/infrastructure/service"
+	"github.com/mlwy4id/stockify/internal/infrastructure/storage/gcs"
 )
 
 // @title           Stockify API
@@ -63,6 +66,15 @@ func main() {
 	// Services
 	categoryDeletionService := service.NewCategoryDeletionService(db)
 
+	// File Storage
+	fileStorage, err := gcs.NewGCSStorage(context.Background(), gcs.Config{
+		ProjectID:  os.Getenv("GCS_PROJECT_ID"),
+		BucketName: os.Getenv("GCS_BUCKET_NAME"),
+	})
+	if err != nil {
+		log.Fatalf("failed to initialize gcs storage: %v", err)
+	}
+
 	// Auth Handler
 	authH := authHandler.NewAuthHandler(
 		authCommand.NewSignUpCommandHandler(userRepo),
@@ -89,6 +101,7 @@ func main() {
 		productQuery.NewGetProductByCategoryHandler(productRepo),
 		productQuery.NewGetLowStockProductsHandler(productRepo),
 		productQuery.NewGetProductDashboardByProductIDHandler(productRepo),
+		fileStorage,
 	)
 
 	// Stock Movement Handler
