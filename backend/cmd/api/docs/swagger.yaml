@@ -42,6 +42,8 @@ definitions:
     properties:
       categoryId:
         type: string
+      imageUrl:
+        type: string
       name:
         type: string
       quantity:
@@ -61,6 +63,16 @@ definitions:
         type: string
       stockThreshold:
         type: integer
+    type: object
+  product.UploadURLRequest:
+    properties:
+      contentType:
+        type: string
+      fileName:
+        type: string
+    required:
+    - contentType
+    - fileName
     type: object
   stockmovement.CreateStockMovementRequest:
     properties:
@@ -709,25 +721,56 @@ paths:
       summary: Get low stock products
       tags:
       - Product
+  /product/upload-url:
+    post:
+      consumes:
+      - application/json
+      description: Generate a signed GCS URL to upload a product image directly from
+        the client
+      parameters:
+      - description: Image metadata
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/product.UploadURLRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: signedUrl, path, publicUrl
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: validation error
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - CookieAuth: []
+      summary: Generate a signed upload URL for a product image
+      tags:
+      - Product
   /stock-movements/:
     get:
-      description: Get overall in/out summary across all products, optionally filtered
-        by date
-      parameters:
-      - description: 'Date filter: 1d, 1w, 1m, 3m, 6m, 1y'
-        in: query
-        name: dateFilter
-        type: string
+      description: Get daily in/out summary across all products, compared to the previous
+        day
       produces:
       - application/json
       responses:
         "200":
           description: global summary
-          schema:
-            additionalProperties: true
-            type: object
-        "400":
-          description: invalid filter
           schema:
             additionalProperties: true
             type: object
@@ -739,6 +782,38 @@ paths:
       security:
       - CookieAuth: []
       summary: Get global stock movement summary
+      tags:
+      - Stock Movement
+  /stock-movements/chart:
+    get:
+      description: Get overall stock level over time across all products, optionally
+        filtered by date range
+      parameters:
+      - description: 'Date filter: 1w, 1m, 3m, 6m, 1y (empty means all time)'
+        in: query
+        name: range
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: chart data
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: invalid range
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - CookieAuth: []
+      summary: Get global stock chart
       tags:
       - Stock Movement
   /stock-movements/top-movers:

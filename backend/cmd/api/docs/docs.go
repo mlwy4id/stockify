@@ -579,6 +579,67 @@ const docTemplate = `{
                 }
             }
         },
+        "/product/upload-url": {
+            "post": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "description": "Generate a signed GCS URL to upload a product image directly from the client",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Generate a signed upload URL for a product image",
+                "parameters": [
+                    {
+                        "description": "Image metadata",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/product.UploadURLRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "signedUrl, path, publicUrl",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "validation error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "401": {
+                        "description": "unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/product/{id}": {
             "patch": {
                 "security": [
@@ -971,7 +1032,7 @@ const docTemplate = `{
                         "CookieAuth": []
                     }
                 ],
-                "description": "Get overall in/out summary across all products, optionally filtered by date",
+                "description": "Get daily in/out summary across all products, compared to the previous day",
                 "produces": [
                     "application/json"
                 ],
@@ -979,14 +1040,6 @@ const docTemplate = `{
                     "Stock Movement"
                 ],
                 "summary": "Get global stock movement summary",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Date filter: 1d, 1w, 1m, 3m, 6m, 1y",
-                        "name": "dateFilter",
-                        "in": "query"
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "global summary",
@@ -995,8 +1048,49 @@ const docTemplate = `{
                             "additionalProperties": true
                         }
                     },
+                    "401": {
+                        "description": "unauthorized",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/stock-movements/chart": {
+            "get": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "description": "Get overall stock level over time across all products, optionally filtered by date range",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Stock Movement"
+                ],
+                "summary": "Get global stock chart",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Date filter: 1w, 1m, 3m, 6m, 1y (empty means all time)",
+                        "name": "range",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "chart data",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
                     "400": {
-                        "description": "invalid filter",
+                        "description": "invalid range",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -1136,6 +1230,9 @@ const docTemplate = `{
                 "categoryId": {
                     "type": "string"
                 },
+                "imageUrl": {
+                    "type": "string"
+                },
                 "name": {
                     "type": "string"
                 },
@@ -1158,6 +1255,21 @@ const docTemplate = `{
                 },
                 "stockThreshold": {
                     "type": "integer"
+                }
+            }
+        },
+        "product.UploadURLRequest": {
+            "type": "object",
+            "required": [
+                "contentType",
+                "fileName"
+            ],
+            "properties": {
+                "contentType": {
+                    "type": "string"
+                },
+                "fileName": {
+                    "type": "string"
                 }
             }
         },
