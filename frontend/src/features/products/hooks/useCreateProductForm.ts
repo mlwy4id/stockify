@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { CreateProduct } from '@/shared/types/product.type';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -11,6 +12,8 @@ const CreateProductSchema = z.object({
 });
 
 export const useCreateProductForm = () => {
+  const [imageFile, setImageFile] = useState<File | null>(null);
+
   const {
     register,
     handleSubmit,
@@ -26,5 +29,5 @@ export const useCreateProductForm = () => {
     },
   });
 
-  return { register, handleSubmit, errors, control };
+  return { register, handleSubmit, errors, control, imageFile, setImageFile };
 };

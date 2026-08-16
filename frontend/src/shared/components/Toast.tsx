@@ -39,7 +39,7 @@ export function Toast() {
   };
 
   return (
-    <div className="fixed top-4 right-4 z-50 space-y-2 max-w-md pointer-events-auto">
+    <div className="fixed top-4 right-4 z-100 space-y-2 max-w-md pointer-events-auto">
       {toasts.map((toast) => {
         const styles = getStyles(toast.type);
         const IconComponent = styles.icon;

@@ -1,12 +1,14 @@
 export type Product = {
   id: string;
   name: string;
+  imageUrl?: string | null;
   quantity: number;
   categoryId: string | null;
 };
 
 export type CreateProduct = {
   name: string;
+  imageUrl?: string;
   quantity: number;
   stockThreshold: number;
   categoryId?: string;

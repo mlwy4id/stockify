@@ -40,6 +40,19 @@ export const createProduct = async (product: CreateProduct) => {
   return res.data;
 };
 
+export const getProductUploadUrl = async (fileName: string, contentType: string) => {
+  const res = await api.post('product/upload-url', { fileName, contentType });
+  return res.data as { signedUrl: string; path: string; publicUrl: string };
+};
+
+export const uploadFileToGcs = async (signedUrl: string, file: File) => {
+  await fetch(signedUrl, {
+    method: 'PUT',
+    headers: { 'Content-Type': file.type },
+    body: file,
+  });
+};
+
 export const updateProduct = async ({ id, ...product }: UpdateProduct & { id: string }) => {
   const res = await api.patch(`product/${id}`, product);
   return res.data;

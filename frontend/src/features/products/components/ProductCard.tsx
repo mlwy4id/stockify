@@ -14,6 +14,7 @@ import { useRouter } from 'next/navigation';
 type Props = {
   id: string;
   name: string;
+  imageUrl?: string | null;
   quantity: number;
   categoryName?: string | null;
   onEdit: (id: string) => void;
@@ -29,7 +30,7 @@ function getInitials(name: string): string {
     .slice(0, 2);
 }
 
-const ProductCard = ({ id, name, quantity, categoryName, onEdit, onArchive }: Props) => {
+const ProductCard = ({ id, name, imageUrl, quantity, categoryName, onEdit, onArchive }: Props) => {
   const initials = getInitials(name);
   const router = useRouter();
 
@@ -51,9 +52,15 @@ const ProductCard = ({ id, name, quantity, categoryName, onEdit, onArchive }: Pr
         'py-4 px-8 gap-3 items-center justify-center'
       )}
     >
-      <CardHeader className="flex w-full h-32 rounded-md items-center justify-center bg-primary-subtle text-lg font-bold text-primary select-none">
-        {initials}
-      </CardHeader>
+      {imageUrl ? (
+        <div className="flex w-full h-32 rounded-md overflow-hidden bg-primary-subtle">
+          <img src={imageUrl} alt={name} className="w-full h-full object-cover" />
+        </div>
+      ) : (
+        <CardHeader className="flex w-full h-32 rounded-md items-center justify-center bg-primary-subtle text-lg font-bold text-primary select-none">
+          {initials}
+        </CardHeader>
+      )}
 
       <CardContent className="px-0 text-center">
         <span className="block text-sm font-semibold text-foreground leading-tight">

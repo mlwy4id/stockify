@@ -12,19 +12,23 @@ type Props = {
 
 const CreateProductForm = ({ onSuccess, onCancel }: Props) => {
   const { confirmCreate, isPending } = useConfirmCreateProduct(onSuccess);
-  const { register, handleSubmit, errors, control } = useCreateProductForm();
+  const { register, handleSubmit, errors, control, imageFile, setImageFile } = useCreateProductForm();
   const { data: categories, isLoading } = useGetCategories();
 
   if (isLoading) return <p>Loading</p>;
 
+  const onSubmit = handleSubmit((values) => confirmCreate(values, imageFile));
+
   return (
     <ProductForm
       register={register}
-      onSubmitHandler={handleSubmit(confirmCreate)}
+      onSubmitHandler={onSubmit}
       errors={errors}
       control={control}
       cancelHandler={onCancel ?? (() => {})}
       categoryList={categories ?? []}
+      imageFile={imageFile}
+      onImageChange={setImageFile}
       submitBtn={
         <Button disabled={isPending}>
           Add Product

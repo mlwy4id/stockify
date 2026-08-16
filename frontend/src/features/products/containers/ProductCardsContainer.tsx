@@ -57,6 +57,7 @@ const ProductCardsContainer = ({
             key={product.id}
             id={product.id}
             name={product.name}
+            imageUrl={product.imageUrl}
             quantity={product.quantity}
             categoryName={product.categoryId ? categoryNames.get(product.categoryId) : null}
             onEdit={onEdit}
