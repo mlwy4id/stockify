@@ -19,7 +19,7 @@ const CategoryForm = ({ register, errors, onSubmitHandler, cancelHandler, submit
       onSubmit={onSubmitHandler}
     >
       <div className="grid gap-2">
-        <label htmlFor="categoryName">Category Name:</label>
+        <label htmlFor="categoryName">Category Name</label>
         <Input
           id="categoryName"
           type="text"

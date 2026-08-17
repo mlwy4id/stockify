@@ -35,7 +35,7 @@ const TransactionForm = ({
     >
       {showProductSelect && registerProductId && (
         <div className="grid gap-2">
-          <label htmlFor="productName">Product:</label>
+          <label htmlFor="productName">Product</label>
           <Select id="productName" {...registerProductId}>
             <option value="">Select product</option>
             <ProductsOption products={products} />
@@ -44,7 +44,7 @@ const TransactionForm = ({
       )}
 
       <div className="grid gap-2">
-        <label htmlFor="transactionType">Action:</label>
+        <label htmlFor="transactionType">Action</label>
         <Select id="transactionType" {...register('action')}>
           <option value="">Select action</option>
           <option value="RESTOCK">Restock</option>
@@ -56,7 +56,7 @@ const TransactionForm = ({
       </div>
 
       <div className="grid gap-2">
-        <label htmlFor="quantity">Quantity:</label>
+        <label htmlFor="quantity">Quantity</label>
         <Input
           id="quantity"
           type="number"
@@ -67,18 +67,18 @@ const TransactionForm = ({
       </div>
 
       <div className="grid gap-2">
-        <label htmlFor="date">Date:</label>
+        <label htmlFor="date">Date</label>
         <Input id="date" type="date" {...register('date')} />
         {errors.date && <p className="text-danger">{errors.date.message}</p>}
       </div>
 
       <div className="grid gap-2">
-        <label htmlFor="source">Source (optional):</label>
+        <label htmlFor="source">Source (optional)</label>
         <Input id="source" type="text" placeholder="e.g. Supplier A" {...register('source')} />
       </div>
 
       <div className="grid gap-2">
-        <label htmlFor="reason">Reason (optional):</label>
+        <label htmlFor="reason">Reason (optional)</label>
         <Input id="reason" type="text" placeholder="e.g. Monthly restock" {...register('reason')} />
       </div>
 
