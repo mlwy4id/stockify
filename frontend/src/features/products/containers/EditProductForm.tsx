@@ -46,6 +46,7 @@ const EditProductForm = ({ productId, onSuccess, onCancel }: Props) => {
       imageFile={imageFile}
       onImageChange={setImageFile}
       imageUrl={product?.imageUrl}
+      showQuantity={false}
       submitBtn={
         <Button disabled={isPending}>
           Update Product

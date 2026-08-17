@@ -25,6 +25,7 @@ type Props = {
   imageFile?: File | null;
   onImageChange?: (file: File | null) => void;
   imageUrl?: string | null;
+  showQuantity?: boolean;
 };
 
 const ProductForm = ({
@@ -38,6 +39,7 @@ const ProductForm = ({
   imageFile,
   onImageChange,
   imageUrl,
+  showQuantity = true,
 }: Props) => {
   const imagePreview = useMemo(
     () => (imageFile ? URL.createObjectURL(imageFile) : imageUrl ?? null),
@@ -50,14 +52,14 @@ const ProductForm = ({
       onSubmit={onSubmitHandler}
     >
       <div className="grid gap-2">
-        <label htmlFor="productName">Product Name:</label>
+        <label htmlFor="productName">Product Name</label>
         <Input id="productName" type="text" {...register('name')} />
         {errors.name && <p className="text-danger">{String(errors.name.message)}</p>}
       </div>
 
       {onImageChange && (
         <div className="grid gap-2">
-          <label htmlFor="productImage">Product Image:</label>
+          <label htmlFor="productImage">Product Image</label>
           <Input
             id="productImage"
             type="file"
@@ -79,19 +81,21 @@ const ProductForm = ({
         </div>
       )}
 
-      <div className="grid gap-2">
-        <label htmlFor="productQuantity">Quantity:</label>
-        <Input
-          id="productQuantity"
-          type="number"
-          min={0}
-          {...register('quantity', { valueAsNumber: true })}
-        />
-        {errors.quantity && <p className="text-danger">{String(errors.quantity.message)}</p>}
-      </div>
+      {showQuantity && (
+        <div className="grid gap-2">
+          <label htmlFor="productQuantity">Quantity</label>
+          <Input
+            id="productQuantity"
+            type="number"
+            min={0}
+            {...register('quantity', { valueAsNumber: true })}
+          />
+          {errors.quantity && <p className="text-danger">{String(errors.quantity.message)}</p>}
+        </div>
+      )}
 
       <div className="grid gap-2">
-        <label htmlFor="productThreshold">Stock Threshold:</label>
+        <label htmlFor="productThreshold">Stock Threshold</label>
         <Input
           id="productThreshold"
           type="number"
@@ -104,7 +108,7 @@ const ProductForm = ({
       </div>
 
       <div className="grid gap-2">
-        <label>Category:</label>
+        <label>Category</label>
         <Controller
           name="categoryId"
           control={control}
