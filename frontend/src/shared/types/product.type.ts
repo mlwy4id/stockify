@@ -16,6 +16,7 @@ export type CreateProduct = {
 
 export type UpdateProduct = {
   name?: string;
+  imageUrl?: string;
   stockThreshold?: number;
   categoryId?: string;
 };
@@ -48,6 +49,7 @@ export type RestockInterval = {
 export type ProductDashboard = {
   productId?: string;
   productName?: string;
+  imageUrl?: string;
   currentStock: number;
   stockThreshold?: number;
   categoryId?: string;

@@ -24,6 +24,7 @@ type Props = {
   categoryList: Category[];
   imageFile?: File | null;
   onImageChange?: (file: File | null) => void;
+  imageUrl?: string | null;
 };
 
 const ProductForm = ({
@@ -36,10 +37,11 @@ const ProductForm = ({
   categoryList,
   imageFile,
   onImageChange,
+  imageUrl,
 }: Props) => {
   const imagePreview = useMemo(
-    () => (imageFile ? URL.createObjectURL(imageFile) : null),
-    [imageFile]
+    () => (imageFile ? URL.createObjectURL(imageFile) : imageUrl ?? null),
+    [imageFile, imageUrl]
   );
 
   return (

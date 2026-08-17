@@ -17,6 +17,7 @@ export const getProduct = async (id: string) => {
   const product: Product = {
     id: dashboard.productId,
     name: dashboard.productName,
+    imageUrl: dashboard.imageUrl ?? null,
     quantity: dashboard.currentStock,
     categoryId: dashboard.categoryId ?? null,
   };

@@ -18,7 +18,8 @@ const EditProductForm = ({ productId, onSuccess, onCancel }: Props) => {
   const { isLoading: categoryLoading, data: categories } = useGetCategories();
   const { isLoading: productLoading, product } = useCurrentProduct(productId);
   const { confirmUpdate, isPending } = useConfirmUpdateProduct(product, onSuccess);
-  const { register, handleSubmit, errors, control, reset } = useEditProductForm();
+  const { register, handleSubmit, errors, control, reset, imageFile, setImageFile } =
+    useEditProductForm();
 
   useEffect(() => {
     if (product) {
@@ -32,14 +33,19 @@ const EditProductForm = ({ productId, onSuccess, onCancel }: Props) => {
 
   if (categoryLoading || productLoading) return <Spinner />;
 
+  const onSubmit = handleSubmit((values) => confirmUpdate(values, imageFile));
+
   return (
     <ProductForm
       register={register}
-      onSubmitHandler={handleSubmit(confirmUpdate)}
+      onSubmitHandler={onSubmit}
       errors={errors}
       control={control}
       cancelHandler={onCancel ?? (() => {})}
       categoryList={categories ?? []}
+      imageFile={imageFile}
+      onImageChange={setImageFile}
+      imageUrl={product?.imageUrl}
       submitBtn={
         <Button disabled={isPending}>
           Update Product
