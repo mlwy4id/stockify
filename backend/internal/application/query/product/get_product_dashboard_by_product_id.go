@@ -51,9 +51,15 @@ func (h *GetProductDashboardByProductIDHandler) Handle(ctx context.Context, quer
 		categoryId = &v
 	}
 
+	var imageUrl *string
+	if url := product.ImageUrl(); url != "" {
+		imageUrl = &url
+	}
+
 	return dto.ProductDashboardDTO{
 		ProductId:       &productId,
 		ProductName:     &productName,
+		ImageUrl:        imageUrl,
 		CurrentStock:    product.Quantity().Value(),
 		StockThreshold:  stockThreshold,
 		CategoryId:      categoryId,

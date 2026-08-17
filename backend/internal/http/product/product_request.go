@@ -10,6 +10,7 @@ type CreateProductRequest struct {
 
 type UpdateProductRequest struct {
 	Name           *string `json:"name,omitempty"`
+	ImageUrl       *string `json:"imageUrl,omitempty"`
 	StockThreshold *int    `json:"stockThreshold,omitempty"`
 	CategoryID     *string `json:"categoryId,omitempty"`
 }

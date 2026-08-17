@@ -3,6 +3,8 @@ package product
 import (
 	"fmt"
 	"net/http"
+	"net/url"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -102,6 +104,13 @@ func (ph *ProductHandler) Create(ctx *gin.Context) {
 		categoryId = &cid
 	}
 
+	if req.ImageUrl != nil && *req.ImageUrl != "" {
+		if err := validateImageUrl(*req.ImageUrl); err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+	}
+
 	var imageUrl string
 
 	if req.ImageUrl != nil {
@@ -178,19 +187,6 @@ func (ph *ProductHandler) GetUploadURL(ctx *gin.Context) {
 	})
 }
 
-func imageExtension(contentType string) (string, error) {
-	switch contentType {
-	case "image/jpeg":
-		return ".jpg", nil
-	case "image/png":
-		return ".png", nil
-	case "image/webp":
-		return ".webp", nil
-	default:
-		return "", fmt.Errorf("unsupported image content type: %s", contentType)
-	}
-}
-
 // Update godoc
 // @Summary      Update a product
 // @Description  Update product name, stock threshold, or category
@@ -257,10 +253,18 @@ func (ph *ProductHandler) Update(ctx *gin.Context) {
 		cmdCategoryId = &categoryId
 	}
 
+	if req.ImageUrl != nil && *req.ImageUrl != "" {
+		if err := validateImageUrl(*req.ImageUrl); err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+	}
+
 	cmd := command.UpdateProductCommand{
 		UserId:         userId,
 		Id:             id,
 		Name:           cmdName,
+		ImageUrl:       req.ImageUrl,
 		StockThreshold: cmdThreshold,
 		CategoryId:     cmdCategoryId,
 	}
@@ -490,4 +494,38 @@ func (ph *ProductHandler) GetLowStock(ctx *gin.Context) {
 		"products": products,
 		"message":  "products retrieved successfully",
 	})
+}
+
+// --- helpers ---
+
+const maxImageUrlLength = 500
+
+func validateImageUrl(raw string) error {
+	if len(raw) > maxImageUrlLength {
+		return fmt.Errorf("image url exceeds maximum length of %d characters", maxImageUrlLength)
+	}
+
+	u, err := url.ParseRequestURI(raw)
+	if err != nil {
+		return fmt.Errorf("invalid image url: %s", err.Error())
+	}
+
+	if u.Scheme != "http" && u.Scheme != "https" && u.Scheme != "" {
+		return fmt.Errorf("image url must use http, https, or be a relative path")
+	}
+
+	return nil
+}
+
+func imageExtension(contentType string) (string, error) {
+	switch strings.ToLower(strings.TrimSpace(contentType)) {
+	case "image/jpeg", "jpg", "jpeg":
+		return ".jpg", nil
+	case "image/png", "png":
+		return ".png", nil
+	case "image/webp", "webp":
+		return ".webp", nil
+	default:
+		return "", fmt.Errorf("unsupported image content type: %s", contentType)
+	}
 }

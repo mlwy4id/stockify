@@ -92,12 +92,12 @@ func (p *Product) ReactivateProduct() error {
 	return nil
 }
 
-func (p *Product) UpdateProduct(name *string, stockThreshold *vo.StockThreshold, categoryId *vo.CategoryId) error {
+func (p *Product) UpdateProduct(name *string, stockThreshold *vo.StockThreshold, categoryId *vo.CategoryId, imageUrl *string) error {
 	if p.archivedAt != nil {
 		return errors.New("cannot update archived product")
 	}
 
-	if name == nil && stockThreshold == nil && categoryId == nil {
+	if name == nil && stockThreshold == nil && categoryId == nil && imageUrl == nil {
 		return errors.New("must update at least one field at the time")
 	}
 
@@ -117,6 +117,10 @@ func (p *Product) UpdateProduct(name *string, stockThreshold *vo.StockThreshold,
 
 	if categoryId != nil {
 		p.categoryId = categoryId
+	}
+
+	if imageUrl != nil {
+		p.imageUrl = *imageUrl
 	}
 
 	return nil

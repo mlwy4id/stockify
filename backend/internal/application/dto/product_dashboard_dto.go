@@ -3,6 +3,7 @@ package dto
 type ProductDashboardDTO struct {
 	ProductId       *string                                `json:"productId,omitempty"`
 	ProductName     *string                                `json:"productName,omitempty"`
+	ImageUrl        *string                                `json:"imageUrl,omitempty"`
 	CurrentStock    int                                    `json:"currentStock"`
 	StockThreshold  *int                                   `json:"stockThreshold,omitempty"`
 	CategoryId      *string                                `json:"categoryId,omitempty"`
