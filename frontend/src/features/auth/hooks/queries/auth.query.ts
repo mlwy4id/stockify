@@ -31,8 +31,7 @@ export const useSignInUser = () => {
 
   return useMutation({
     mutationFn: signIn,
-    onSuccess: (data) => {
-      localStorage.setItem('token', data.token);
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['User'] });
       addToast('Sign in success!', 'success');
       router.push('/dashboard');
@@ -48,7 +47,6 @@ export const useSignOutUser = () => {
   return useMutation({
     mutationFn: signOut,
     onSuccess: () => {
-      localStorage.removeItem('token');
       queryClient.clear();
       addToast('Signed out!', 'success');
       router.push('/sign-in');

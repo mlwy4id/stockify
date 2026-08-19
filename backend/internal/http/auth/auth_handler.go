@@ -2,6 +2,7 @@ package auth
 
 import (
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	command "github.com/mlwy4id/stockify/internal/application/command/auth"
@@ -103,13 +104,26 @@ func (h *AuthHandler) SignIn(ctx *gin.Context) {
 		return
 	}
 
-	ctx.SetSameSite(http.SameSiteLaxMode)
-	ctx.SetCookie("token", token, 86400, "/", "", false, true)
+	secure := os.Getenv("ENVIRONMENT") == "PROD"
+	sameSite := http.SameSiteLaxMode
+	if secure {
+		sameSite = http.SameSiteNoneMode
+	}
+	
+	http.SetCookie(ctx.Writer, &http.Cookie{
+		Name:     "token",
+		Value:    token,
+		MaxAge:   86400,
+		Path:     "/",
+		Domain:   "",
+		Secure:   secure,
+		HttpOnly: true,
+		SameSite: sameSite,
+	})
 
 	ctx.JSON(http.StatusOK, gin.H{
 		"message": "signed in successfully",
 		"user":    user,
-		"token":   token,
 	})
 }
 
@@ -153,7 +167,22 @@ func (h *AuthHandler) GetMe(ctx *gin.Context) {
 // @Router       /auth/sign-out [post]
 // @Security     CookieAuth
 func (h *AuthHandler) SignOut(ctx *gin.Context) {
-	ctx.SetCookie("token", "", -1, "/", "", false, true)
+	secure := os.Getenv("ENVIRONMENT") == "PROD"
+	sameSite := http.SameSiteLaxMode
+	if secure {
+		sameSite = http.SameSiteNoneMode
+	}
+
+	http.SetCookie(ctx.Writer, &http.Cookie{
+		Name:     "token",
+		Value:    "",
+		MaxAge:   -1,
+		Path:     "/",
+		Domain:   "",
+		Secure:   secure,
+		HttpOnly: true,
+		SameSite: sameSite,
+	})
 
 	ctx.JSON(http.StatusOK, gin.H{
 		"message": "signed out successfully",

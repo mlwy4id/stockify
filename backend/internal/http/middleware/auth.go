@@ -3,7 +3,6 @@ package middleware
 import (
 	"net/http"
 	"os"
-	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -49,11 +48,6 @@ func Auth() gin.HandlerFunc {
 func extractToken(c *gin.Context) (string, error) {
 	if cookie, err := c.Cookie("token"); err == nil && cookie != "" {
 		return cookie, nil
-	}
-
-	authHeader := c.GetHeader("Authorization")
-	if authHeader != "" && strings.HasPrefix(authHeader, "Bearer ") {
-		return strings.TrimPrefix(authHeader, "Bearer "), nil
 	}
 
 	return "", http.ErrNoCookie

@@ -1250,6 +1250,9 @@ const docTemplate = `{
                 "categoryId": {
                     "type": "string"
                 },
+                "imageUrl": {
+                    "type": "string"
+                },
                 "name": {
                     "type": "string"
                 },
