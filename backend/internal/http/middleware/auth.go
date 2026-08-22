@@ -54,7 +54,12 @@ func extractToken(c *gin.Context) (string, error) {
 }
 
 func GetUserIdFromContext(c *gin.Context) string {
-	userId, _ := c.Get("userId")
+	userId, ok := c.Get("userId")
+	
+	if !ok {
+		return ""
+	}
+	
 	return userId.(string)
 }
 
