@@ -31,7 +31,9 @@ func (h *UpdateProductCommandHandler) Handle(ctx context.Context, command Update
 		return "", err
 	}
 
-	product.UpdateProduct(command.Name, command.StockThreshold, command.CategoryId, command.ImageUrl)
+	if err := product.UpdateProduct(command.Name, command.StockThreshold, command.CategoryId, command.ImageUrl); err != nil {
+		return "", err
+	}
 
 	if err := h.productRepo.Save(ctx, product); err != nil {
 		return "", err

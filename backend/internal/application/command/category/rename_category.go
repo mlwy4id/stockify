@@ -28,7 +28,9 @@ func (h *RenameCategoryCommandHandler) Handle(ctx context.Context, command Renam
 		return "", err
 	}
 
-	category.RenameCategory(command.Name)
+	if err := category.RenameCategory(command.Name); err != nil {
+		return "", err
+	}
 
 	if err := h.categoryRepo.Save(ctx, category); err != nil {
 		return "", err

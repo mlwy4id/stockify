@@ -27,7 +27,9 @@ func (h *ReactivateProductCommandHandler) Handle(ctx context.Context, command Re
 		return err
 	}
 
-	product.ReactivateProduct()
+	if err := product.ReactivateProduct(); err != nil {
+		return err
+	}
 
 	if err := h.productRepo.Save(ctx, product); err != nil {
 		return err
