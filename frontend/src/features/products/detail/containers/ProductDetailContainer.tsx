@@ -6,6 +6,7 @@ import { AlertTriangle, ArrowLeft, Package, RefreshCcw, TrendingDown } from 'luc
 import { Card, CardContent, CardHeader } from '@/shared/components/ui/card';
 import SummaryCard from '@/shared/components/SummaryCard';
 import ProductDetailSkeleton from '../components/ProductDetailSkeleton';
+import ProductDetailCard from '../components/ProductDetailCard';
 import ProductChartContainer from './ProductChartContainer';
 import ProductRatioChart from '../components/ProductRatioChart';
 import ProductVolumeChart from '../components/ProductVolumeChart';
@@ -42,39 +43,47 @@ const ProductDetailContainer = ({ id }: Props) => {
         Back to Products
       </Link>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-        <SummaryCard
-          icon={Package}
-          cardTitle="Current Stock"
-          cardContent={`${currentStock} items`}
-          stripColor="bg-primary"
-          cardTitleColor="text-primary"
-          cardContentColor="text-primary"
+      <div className='flex flex-col lg:flex-row justify-between gap-4'>
+        <ProductDetailCard
+          name={dashboard?.productName ?? 'Unknown Product'}
+          imageUrl={dashboard?.imageUrl}
+          categoryId={dashboard?.categoryId}
         />
-        <SummaryCard
-          icon={AlertTriangle}
-          cardTitle="Stock Threshold"
-          cardContent={stockThreshold ? `${stockThreshold} items` : 'Not set'}
-          stripColor="bg-warning"
-          cardTitleColor="text-warning"
-          cardContentColor="text-warning"
-        />
-        <SummaryCard
-          icon={RefreshCcw}
-          cardTitle="Avg Restock Interval"
-          cardContent={avgRestockDays != null ? `${avgRestockDays} days` : 'No data'}
-          stripColor="bg-success"
-          cardTitleColor="text-success"
-          cardContentColor="text-success"
-        />
-        <SummaryCard
-          icon={TrendingDown}
-          cardTitle="Est. Stock Depletion"
-          cardContent={depletion?.daysLeft != null ? `${depletion.daysLeft} days` : 'No data'}
-          stripColor="bg-danger"
-          cardTitleColor="text-danger"
-          cardContentColor="text-danger"
-        />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-4 w-full">
+          <SummaryCard
+            icon={Package}
+            cardTitle="Current Stock"
+            cardContent={`${currentStock} items`}
+            stripColor="bg-primary"
+            cardTitleColor="text-primary"
+            cardContentColor="text-primary"
+          />
+          <SummaryCard
+            icon={AlertTriangle}
+            cardTitle="Stock Threshold"
+            cardContent={stockThreshold ? `${stockThreshold} items` : 'Not set'}
+            stripColor="bg-warning"
+            cardTitleColor="text-warning"
+            cardContentColor="text-warning"
+          />
+          <SummaryCard
+            icon={RefreshCcw}
+            cardTitle="Avg Restock Interval"
+            cardContent={avgRestockDays != null ? `${avgRestockDays} days` : 'No data'}
+            stripColor="bg-success"
+            cardTitleColor="text-success"
+            cardContentColor="text-success"
+          />
+          <SummaryCard
+            icon={TrendingDown}
+            cardTitle="Est. Stock Depletion"
+            cardContent={depletion?.daysLeft != null ? `${depletion.daysLeft} days` : 'No data'}
+            stripColor="bg-danger"
+            cardTitleColor="text-danger"
+            cardContentColor="text-danger"
+          />
+        </div>
       </div>
 
       <ProductChartContainer id={id} />
@@ -98,11 +107,7 @@ const ProductDetailContainer = ({ id }: Props) => {
             <h2>Sold vs Broken by Range</h2>
           </CardHeader>
           <CardContent className="flex flex-col gap-3">
-            <ProductRatioChart
-              ratio={ratio}
-              range={ratioRange}
-              onRangeChange={setRatioRange}
-            />
+            <ProductRatioChart ratio={ratio} range={ratioRange} onRangeChange={setRatioRange} />
           </CardContent>
         </Card>
       </div>
