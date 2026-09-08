@@ -3,8 +3,8 @@ on:
   push:
     branches:
       - 'master'
-    paths:
-      - 'backend/**'
+    # paths:
+    #   - 'backend/**'
 env:
   PROJECT_ID: 'ebvuevnievnuvni'
   REGION: 'asia-east1'
