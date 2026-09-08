@@ -121,6 +121,11 @@ func main() {
 		StockMovement: stockMovementH,
 	})
 
-	router.Run(":8080")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	
+	router.Run(":" + port)
 	log.Println("server started ✅")
 }
