@@ -40,7 +40,6 @@ jobs:
             DATABASE_URL=${{ secrets.DATABASE_URL }}
             JWT_SECRET=${{ secrets.JWT_SECRET }}
             FRONTEND_URL=${{ secrets.FRONTEND_URL }}
-            PORT=${{ secrets.PORT }}
             GCS_PROJECT_ID=${{ secrets.GCS_PROJECT_ID }}
             GCS_BUCKET_NAME=${{ secrets.GCS_BUCKET_NAME }}
             ENVIRONMENT=${{ secrets.ENVIRONMENT }}
