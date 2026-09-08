@@ -1,5 +1,5 @@
 'use client';
-import { CircleUser, Menu, Boxes } from 'lucide-react';
+import { Menu, Boxes } from 'lucide-react';
 
 const Navbar = ({ setIsOpen }: { setIsOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
   return (
@@ -12,7 +12,6 @@ const Navbar = ({ setIsOpen }: { setIsOpen: React.Dispatch<React.SetStateAction<
             <h1 className="font-bold text-xl">Stockify</h1>
           </div>
         </div>
-        <CircleUser size={24} />
       </nav>
     </header>
   );

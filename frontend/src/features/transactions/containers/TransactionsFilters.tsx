@@ -19,7 +19,7 @@ const TransactionFilters = ({ setSearchValue }: Props) => {
   const { action: actionValue, date: currentDate, setFilters } = useActionFilterQuery();
 
   return (
-    <div className="flex justify-between items-center gap-2">
+    <div className="flex flex-col md:flex-row justify-between items-center gap-2">
       <SearchInput setState={setSearchValue} />
       <div className="flex items-center gap-2">
         <input

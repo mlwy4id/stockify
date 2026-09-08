@@ -1,5 +1,6 @@
 'use client';
 import { useMemo } from 'react';
+import { AlertTriangle, Package } from 'lucide-react';
 import { Card } from '@/shared/components/ui/card';
 import { useGetCategories } from '@/features/category/hooks/queries/category.query';
 import { nameFormatter } from '@/shared/lib/formatters/nameFormatter';
@@ -8,6 +9,8 @@ type Props = {
   name: string;
   imageUrl?: string | null;
   categoryId?: string | null;
+  currentStock: number;
+  stockThreshold?: number;
 };
 
 function getInitials(name: string): string {
@@ -19,7 +22,13 @@ function getInitials(name: string): string {
     .slice(0, 2);
 }
 
-const ProductDetailCard = ({ name, imageUrl, categoryId }: Props) => {
+const ProductDetailCard = ({
+  name,
+  imageUrl,
+  categoryId,
+  currentStock,
+  stockThreshold,
+}: Props) => {
   const { data: categories } = useGetCategories();
   const initials = getInitials(name);
 
@@ -49,6 +58,27 @@ const ProductDetailCard = ({ name, imageUrl, categoryId }: Props) => {
             </span>
           </div>
         )}
+      </div>
+
+      <div className="ml-auto hidden md:flex items-center gap-6 lg:gap-10 pl-4 lg:pl-6 border-l border-border shrink-0">
+        <div>
+          <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
+            <Package className="size-3.5" />
+            Current Stock
+          </p>
+          <p className="mt-1 text-lg font-semibold text-primary whitespace-nowrap">
+            {currentStock} items
+          </p>
+        </div>
+        <div>
+          <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
+            <AlertTriangle className="size-3.5" />
+            Stock Threshold
+          </p>
+          <p className="mt-1 text-lg font-semibold text-warning whitespace-nowrap">
+            {stockThreshold ? `${stockThreshold} items` : 'Not set'}
+          </p>
+        </div>
       </div>
     </Card>
   );
