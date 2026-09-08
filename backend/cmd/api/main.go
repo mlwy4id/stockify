@@ -39,7 +39,7 @@ import (
 // @name token
 func main() {
 	if err := godotenv.Load(); err != nil {
-		log.Println("no .env file found, using system env")
+		log.Println("no .env file found using system env")
 	}
 
 	db, err := database.NewGormDB()
