@@ -9,7 +9,7 @@ env:
   PROJECT_ID: 'ebvuevnievnuvni'
   REGION: 'asia-east1'
   SERVICE: 'stockify'
-  WORKLOAD_IDENTITY_PROVIDER: 'projects/525706028191/locations/global/workloadIdentityPools/github-pool/github-provider'
+  WORKLOAD_IDENTITY_PROVIDER: 'projects/525706028191/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
 jobs:
   deploy:
     runs-on: 'ubuntu-latest'
