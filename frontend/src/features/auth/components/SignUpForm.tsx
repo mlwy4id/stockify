@@ -69,7 +69,7 @@ const SignUpForm = ({ register, errors, onSubmitHandler, submitBtn }: Props) => 
 
           <div className="grid gap-2">
             <label htmlFor="name" className="text-sm font-medium">
-              Nama
+              Nama <span className="text-danger">*</span>
             </label>
             <Input id="name" type="text" placeholder="Nama Anda" {...register('name')} />
             {errors.name && <p className="text-sm text-danger">{errors.name.message}</p>}
@@ -77,7 +77,7 @@ const SignUpForm = ({ register, errors, onSubmitHandler, submitBtn }: Props) => 
 
           <div className="grid gap-2">
             <label htmlFor="email" className="text-sm font-medium">
-              Email
+              Email <span className="text-danger">*</span>
             </label>
             <Input
               id="email"
@@ -90,7 +90,7 @@ const SignUpForm = ({ register, errors, onSubmitHandler, submitBtn }: Props) => 
 
           <div className="grid gap-2">
             <label htmlFor="password" className="text-sm font-medium">
-              Kata Sandi
+              Kata Sandi <span className="text-danger">*</span>
             </label>
             <PasswordInput
               id="password"

@@ -52,7 +52,9 @@ const ProductForm = ({
       onSubmit={onSubmitHandler}
     >
       <div className="grid gap-2">
-        <label htmlFor="productName">Nama Produk</label>
+        <label htmlFor="productName">
+          Nama Produk <span className="text-danger">*</span>
+        </label>
         <Input id="productName" type="text" {...register('name')} />
         {errors.name && <p className="text-danger">{String(errors.name.message)}</p>}
       </div>
@@ -83,7 +85,9 @@ const ProductForm = ({
 
       {showQuantity && (
         <div className="grid gap-2">
-          <label htmlFor="productQuantity">Jumlah</label>
+          <label htmlFor="productQuantity">
+          Jumlah <span className="text-danger">*</span>
+        </label>
           <Input
             id="productQuantity"
             type="number"
@@ -95,7 +99,9 @@ const ProductForm = ({
       )}
 
       <div className="grid gap-2">
-        <label htmlFor="productThreshold">Ambang Stok</label>
+        <label htmlFor="productThreshold">
+          Ambang Stok <span className="text-danger">*</span>
+        </label>
         <Input
           id="productThreshold"
           type="number"

@@ -35,7 +35,9 @@ const TransactionForm = ({
     >
       {showProductSelect && registerProductId && (
         <div className="grid gap-2">
-          <label htmlFor="productName">Produk</label>
+          <label htmlFor="productName">
+            Produk <span className="text-danger">*</span>
+          </label>
           <Select id="productName" {...registerProductId}>
             <option value="">Pilih produk</option>
             <ProductsOption products={products} />
@@ -44,7 +46,9 @@ const TransactionForm = ({
       )}
 
       <div className="grid gap-2">
-        <label htmlFor="transactionType">Aksi</label>
+        <label htmlFor="transactionType">
+          Aksi <span className="text-danger">*</span>
+        </label>
         <Select id="transactionType" {...register('action')}>
           <option value="">Pilih aksi</option>
           <option value="RESTOCK">Restok</option>
@@ -56,7 +60,9 @@ const TransactionForm = ({
       </div>
 
       <div className="grid gap-2">
-        <label htmlFor="quantity">Jumlah</label>
+        <label htmlFor="quantity">
+          Jumlah <span className="text-danger">*</span>
+        </label>
         <Input
           id="quantity"
           type="number"
@@ -67,7 +73,9 @@ const TransactionForm = ({
       </div>
 
       <div className="grid gap-2">
-        <label htmlFor="date">Tanggal</label>
+        <label htmlFor="date">
+          Tanggal <span className="text-danger">*</span>
+        </label>
         <Input id="date" type="date" {...register('date')} />
         {errors.date && <p className="text-danger">{errors.date.message}</p>}
       </div>

@@ -67,7 +67,7 @@ const SignInForm = ({ register, errors, onSubmitHandler, submitBtn }: Props) => 
 
           <div className="grid gap-2">
             <label htmlFor="email" className="text-sm font-medium">
-              Email
+              Email <span className="text-danger">*</span>
             </label>
             <Input
               id="email"
@@ -80,7 +80,7 @@ const SignInForm = ({ register, errors, onSubmitHandler, submitBtn }: Props) => 
 
           <div className="grid gap-2">
             <label htmlFor="password" className="text-sm font-medium">
-              Kata Sandi
+              Kata Sandi <span className="text-danger">*</span>
             </label>
             <PasswordInput
               id="password"

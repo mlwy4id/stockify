@@ -33,7 +33,7 @@ export default function TransactionsPage() {
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Buat Transaksi</DialogTitle>
+            <DialogTitle className="font-semibold" >Buat Transaksi</DialogTitle>
           </DialogHeader>
           <CreateTransactionForm
             onSuccess={() => setDialogOpen(false)}
