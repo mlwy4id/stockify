@@ -7,7 +7,7 @@ export const useGetUser = () => {
   return useQuery({
     queryKey: ['User'],
     queryFn: getUser,
-    retry: false,
+    retry: 1,
   });
 };
 
@@ -31,8 +31,8 @@ export const useSignInUser = () => {
 
   return useMutation({
     mutationFn: signIn,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['User'] });
+    onSuccess: (data) => {
+      queryClient.setQueryData(['User'], { user: data.user });
       addToast('Masuk berhasil!', 'success');
       router.push('/dashboard');
     },

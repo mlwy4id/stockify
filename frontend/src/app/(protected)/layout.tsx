@@ -9,15 +9,15 @@ import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
 export default function ProtectedLayout({ children }: { children: React.ReactNode }) {
-  const { isLoading, data, isError } = useGetUser();
+  const { isLoading, data } = useGetUser();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    if (!isLoading && (!data || isError)) {
+    if (!isLoading && !data) {
       router.replace('/sign-in');
     }
-  }, [isLoading, data, isError, router]);
+  }, [isLoading, data, router]);
 
   if (isLoading) {
     return (
@@ -27,7 +27,7 @@ export default function ProtectedLayout({ children }: { children: React.ReactNod
     );
   }
 
-  if (!data || isError) return null;
+  if (!data) return null;
 
   return (
     <div className="h-screen flex">
