@@ -28,7 +28,7 @@ const MobileSidebar = ({
               'fixed z-50',
               'bg-sidebar',
               'md:hidden flex flex-col',
-              'h-screen w-[50%] sm:w-[30%] top-0 left-0',
+              'h-screen w-[60%] sm:w-[40%] top-0 left-0',
               'gap-2',
               'shadow-md border border-sidebar-border'
             )}
@@ -46,10 +46,10 @@ const MobileSidebar = ({
                 </button>
               </div>
               <ul className="mt-4 px-1">
-                <SidebarOptions icon={House} name="Dashboard" />
-                <SidebarOptions icon={NotebookText} name="Transactions" />
-                <SidebarOptions icon={Archive} name="Products" />
-                <SidebarOptions icon={Tags} name="Categories" />
+                <SidebarOptions icon={House} name="Dashboard" setSidebarClose={setIsOpen} />
+                <SidebarOptions icon={NotebookText} name="Transactions" setSidebarClose={setIsOpen} />
+                <SidebarOptions icon={Archive} name="Products" setSidebarClose={setIsOpen} />
+                <SidebarOptions icon={Tags} name="Categories" setSidebarClose={setIsOpen} />
               </ul>
             </nav>
 

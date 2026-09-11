@@ -19,9 +19,10 @@ type Props = {
   icon: LucideIcon;
   name: string;
   childrenOptions?: ChildOption[];
+  setSidebarClose?: React.Dispatch<boolean>;
 };
 
-const SidebarOptions = ({ icon: Icon, name, childrenOptions }: Props) => {
+const SidebarOptions = ({ icon: Icon, name, childrenOptions, setSidebarClose }: Props) => {
   const pathname = usePathname();
   const basePath = `/${name.toLowerCase()}`;
   const hasChildren = childrenOptions && childrenOptions.length > 0;
@@ -35,6 +36,7 @@ const SidebarOptions = ({ icon: Icon, name, childrenOptions }: Props) => {
       <div className="flex items-center">
         <Link
           href={basePath}
+          onClick={() => setSidebarClose?.(false)}
           className={clsx(
             'group flex-1 flex gap-4 items-center',
             'mb-1 mx-2 p-2 rounded-md hover:cursor-pointer',
@@ -81,10 +83,13 @@ const SidebarOptions = ({ icon: Icon, name, childrenOptions }: Props) => {
                 <li key={child.to}>
                   <Link
                     href={child.to}
+                    onClick={() => setSidebarClose?.(false)}
                     className={clsx(
                       'flex items-center gap-3',
                       'block p-2 rounded text-sm text-muted-foreground',
-                      isChildActive ? 'bg-primary-subtle font-medium' : 'font-normal hover:bg-accent'
+                      isChildActive
+                        ? 'bg-primary-subtle font-medium'
+                        : 'font-normal hover:bg-accent'
                     )}
                   >
                     <child.icon
@@ -94,7 +99,9 @@ const SidebarOptions = ({ icon: Icon, name, childrenOptions }: Props) => {
                     <p
                       className={clsx(
                         'lg:text-[16px]',
-                        isChildActive ? 'text-primary-hover font-bold' : 'text-foreground font-semibold'
+                        isChildActive
+                          ? 'text-primary-hover font-bold'
+                          : 'text-foreground font-semibold'
                       )}
                     >
                       {child.name}
