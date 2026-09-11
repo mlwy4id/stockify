@@ -25,9 +25,9 @@ Aplikasi manajemen stok barang untuk UMKM — mencatat pergerakan stok (masuk/ke
 **Frontend**
 - Next.js, TypeScript
 - Tailwind CSS, shadcn/ui
-- Axios, React Query <!-- sesuaikan kalau beda -->
+- Axios, Tanstack Query 
 
-**Arsitektur:** Clean Architecture + Domain-Driven Design (DDD) — lihat [`docs/`](./docs) untuk domain model, functional requirements, dan Architecture Decision Records (ADR).
+**Arsitektur:** Clean Architecture + Domain-Driven Design (DDD)
 
 ## 📁 Struktur Repo
 
@@ -88,6 +88,8 @@ Buka `http://localhost:3000`.
 | `JWT_SECRET` | Secret buat signing JWT |
 | `FRONTEND_URL` | URL frontend (buat CORS) |
 | `GCS_BUCKET_NAME` | Nama bucket Google Cloud Storage |
+| `GCS_PROJECT_ID` | Id project Google Cloud Storage |
+| `PORT` | Nomor port untuk menjalankan project |
 
 **Frontend (`.env.local`)**
 | Variable | Deskripsi |
