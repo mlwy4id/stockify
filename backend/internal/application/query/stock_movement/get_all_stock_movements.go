@@ -25,13 +25,13 @@ func NewGetAllStockMovementsHandler(productRepo repo.ProductRepository) *GetAllS
 }
 
 func (h *GetAllStockMovementsHandler) Handle(ctx context.Context, query GetAllStockMovementsQuery) ([]dto.StockMovementDTO, error) {
-	var movements []*entity.StockMovement
+	var movements []*entity.StockMovementWithProduct
 	var err error
 
 	if query.Start != nil && query.End != nil {
-		movements, err = h.productRepo.GetAllStockMovementsAndDateRange(ctx, query.UserId, *query.Start, *query.End)
+		movements, err = h.productRepo.GetAllStockMovementsAndDateRangeWithProduct(ctx, query.UserId, *query.Start, *query.End)
 	} else {
-		movements, err = h.productRepo.GetAllStockMovements(ctx, query.UserId)
+		movements, err = h.productRepo.GetAllStockMovementsWithProduct(ctx, query.UserId)
 	}
 
 	if err != nil {
@@ -41,10 +41,12 @@ func (h *GetAllStockMovementsHandler) Handle(ctx context.Context, query GetAllSt
 	var dtos []dto.StockMovementDTO
 	for _, m := range movements {
 		d := dto.StockMovementDTO{
-			ID:       m.Id().Value(),
-			Action:   m.Action().String(),
-			Quantity: m.Quantity().Value(),
-			Date:     m.Date(),
+			ID:          m.Id().Value(),
+			ProductId:   m.ProductId().Value(),
+			ProductName: m.ProductName,
+			Action:      m.Action().String(),
+			Quantity:    m.Quantity().Value(),
+			Date:        m.Date(),
 		}
 
 		if m.Source() != nil {

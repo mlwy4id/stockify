@@ -42,10 +42,11 @@ func (h *GetStockMovementByProductIDHandler) Handle(ctx context.Context, query G
 	var dtos []dto.StockMovementDTO
 	for _, m := range movements {
 		d := dto.StockMovementDTO{
-			ID:       m.Id().Value(),
-			Action:   m.Action().String(),
-			Quantity: m.Quantity().Value(),
-			Date:     m.Date(),
+			ID:        m.Id().Value(),
+			ProductId: m.ProductId().Value(),
+			Action:    m.Action().String(),
+			Quantity:  m.Quantity().Value(),
+			Date:      m.Date(),
 		}
 
 		if m.Source() != nil {

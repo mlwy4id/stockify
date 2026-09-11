@@ -166,6 +166,38 @@ func (r *ProductRepository) GetAllStockMovementsAndDateRange(ctx context.Context
 	return r.toStockMovementEntities(models)
 }
 
+func (r *ProductRepository) GetAllStockMovementsWithProduct(ctx context.Context, userId vo.UserId) ([]*entity.StockMovementWithProduct, error) {
+	var rows []stockMovementProductRow
+	err := r.db.WithContext(ctx).
+		Table("stock_movements").
+		Select("stock_movements.*, products.name AS product_name").
+		Joins("JOIN products ON products.id = stock_movements.product_id").
+		Where("stock_movements.user_id = ?", userId.Value()).
+		Order("stock_movements.date DESC").
+		Scan(&rows).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return r.toStockMovementWithProductEntities(rows)
+}
+
+func (r *ProductRepository) GetAllStockMovementsAndDateRangeWithProduct(ctx context.Context, userId vo.UserId, start time.Time, end time.Time) ([]*entity.StockMovementWithProduct, error) {
+	var rows []stockMovementProductRow
+	err := r.db.WithContext(ctx).
+		Table("stock_movements").
+		Select("stock_movements.*, products.name AS product_name").
+		Joins("JOIN products ON products.id = stock_movements.product_id").
+		Where("stock_movements.user_id = ? AND stock_movements.date BETWEEN ? AND ?", userId.Value(), start, end).
+		Order("stock_movements.date DESC").
+		Scan(&rows).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return r.toStockMovementWithProductEntities(rows)
+}
+
 func (r *ProductRepository) GetTotalQuantity(ctx context.Context, userId vo.UserId) (int, error) {
 	var total int
 	err := r.db.WithContext(ctx).
@@ -256,6 +288,26 @@ func (r *ProductRepository) toStockMovementEntities(models []model.StockMovement
 			return nil, err
 		}
 		movements[i] = m
+	}
+	return movements, nil
+}
+
+type stockMovementProductRow struct {
+	model.StockMovementModel
+	ProductName string `gorm:"column:product_name"`
+}
+
+func (r *ProductRepository) toStockMovementWithProductEntities(rows []stockMovementProductRow) ([]*entity.StockMovementWithProduct, error) {
+	movements := make([]*entity.StockMovementWithProduct, len(rows))
+	for i := range rows {
+		base, err := r.toStockMovementEntity(&rows[i].StockMovementModel)
+		if err != nil {
+			return nil, err
+		}
+		movements[i] = &entity.StockMovementWithProduct{
+			StockMovement: *base,
+			ProductName:   rows[i].ProductName,
+		}
 	}
 	return movements, nil
 }

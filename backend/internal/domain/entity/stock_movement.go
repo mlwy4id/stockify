@@ -99,3 +99,8 @@ func ReconstructStockMovement(id vo.StockMovementId, userId vo.UserId, productId
 		date:           date,
 	}
 }
+
+type StockMovementWithProduct struct {
+	StockMovement
+	ProductName string
+}
