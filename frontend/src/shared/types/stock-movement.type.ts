@@ -4,6 +4,8 @@ export type StockMovementAction = 'RESTOCK' | 'REFUND' | 'SOLD' | 'BROKEN';
 
 export type StockMovement = {
   id: string;
+  productId?: string;
+  productName?: string;
   action: StockMovementAction;
   quantity: number;
   source?: string;

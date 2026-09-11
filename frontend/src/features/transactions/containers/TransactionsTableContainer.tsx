@@ -3,14 +3,11 @@ import TransactionsTable from '../components/TransactionsTable';
 import SearchNotFound from '@/shared/components/filters/SearchNotFound';
 import EmptyTransactionTable from '../components/EmptyTransactionTable';
 import TransactionsTableSkeleton from '../components/TransactionsTableSkeleton';
-import { useGetProducts } from '@/features/products/hooks/queries/product.query';
-import { useQueries } from '@tanstack/react-query';
-import { getStockMovementsByProduct } from '@/shared/lib/api/stock-movement.api';
+import { useGetAllStockMovements } from '../hooks/queries/stock-movement.query';
 import { useEffect, useMemo } from 'react';
 import type { StockMovement } from '@/shared/types/stock-movement.type';
-import type { Product } from '@/shared/types/product.type';
-import type { UseQueryResult } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
+import getTodayDateInISOFormat from '@/shared/lib/getTodayDateInISOFormat';
 
 type MovementWithProduct = StockMovement & { productName: string };
 
@@ -22,44 +19,29 @@ type Props = {
 const TransactionCardsContainers = ({ searchValue, setTransactionsDataAvailability }: Props) => {
   const searchParams = useSearchParams();
   const actionFilter = searchParams.get('action') ?? 'All';
-  const dateFilter = searchParams.get('date') ?? new Date().toISOString();
+  const dateFilter = searchParams.get('date') ?? getTodayDateInISOFormat();
 
-  const { isLoading: productsLoading, data: products } = useGetProducts();
+  const { data: allMovements, isLoading } = useGetAllStockMovements();
 
-  const productIds = useMemo(() => (products ?? []).map((p: Product) => p.id), [products]);
-
-  const movementResults = useQueries({
-    queries: productIds.map((id: string) => ({
-      queryKey: ['StockMovements', id],
-      queryFn: () => getStockMovementsByProduct(id),
-      enabled: productIds.length > 0,
-    })),
-  }) as UseQueryResult<StockMovement[]>[];
-
-  const isLoading = productsLoading || movementResults.some((r) => r.isLoading);
-
-  const allMovements: MovementWithProduct[] = useMemo(() => {
-    const movements: MovementWithProduct[] = [];
-    movementResults.forEach((result: UseQueryResult<StockMovement[]>, index: number) => {
-      if (result.data) {
-        const productName = products?.[index]?.name ?? '';
-        result.data.forEach((m: StockMovement) => {
-          movements.push({ ...m, productName });
-        });
-      }
-    });
+  const movementsWithProduct: MovementWithProduct[] = useMemo(() => {
+    const movements: MovementWithProduct[] = (allMovements ?? []).map((m: StockMovement) => ({
+      ...m,
+      productName: m.productName ?? '',
+    }));
     return movements.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-  }, [movementResults, products]);
-
-  useEffect(() => {
-    setTransactionsDataAvailability(allMovements.length > 0);
   }, [allMovements]);
 
-  if (isLoading) return <TransactionsTableSkeleton />;
-  if (allMovements.length === 0 && searchParams.toString() === '') return <EmptyTransactionTable />;
-  if (allMovements.length === 0) return <SearchNotFound message="Transaksi tidak ditemukan" />;
+  useEffect(() => {
+    setTransactionsDataAvailability(movementsWithProduct.length > 0);
+  }, [movementsWithProduct]);
 
-  const filteredMovements = allMovements.filter((m) => {
+  if (isLoading) return <TransactionsTableSkeleton />;
+  if (movementsWithProduct.length === 0 && searchParams.toString() === '')
+    return <EmptyTransactionTable />;
+  if (movementsWithProduct.length === 0)
+    return <SearchNotFound message="Transaksi tidak ditemukan" />;
+
+  const filteredMovements = movementsWithProduct.filter((m) => {
     const matchesSearch = m.productName.toLowerCase().includes(searchValue.toLowerCase());
     const matchesAction = actionFilter === 'All' || m.action === actionFilter;
     const matchesDate = !dateFilter || m.date.startsWith(dateFilter);

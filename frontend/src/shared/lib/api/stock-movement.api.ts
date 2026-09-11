@@ -11,6 +11,16 @@ export const getStockMovementsByProduct = async (productId: string) => {
   return res.data.movements ?? [];
 };
 
+export const getAllStockMovements = async (startDate?: string, endDate?: string) => {
+  const res = await api.get('stock-movements/all', {
+    params: {
+      ...(startDate ? { startDate } : {}),
+      ...(endDate ? { endDate } : {}),
+    },
+  });
+  return res.data.movements ?? [];
+};
+
 export const getStockMovementSummaryByProduct = async (productId: string, dateFilter?: string) => {
   const res = await api.get(`product/${productId}/stock-movements/summary`, {
     params: dateFilter ? { dateFilter } : {},

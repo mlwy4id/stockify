@@ -1,11 +1,19 @@
 import {
   createStockMovement,
+  getAllStockMovements,
   getStockMovementsByProduct,
   getStockMovementSummaryByProduct,
 } from '@/shared/lib/api/stock-movement.api';
 import type { CreateStockMovement } from '@/shared/types/stock-movement.type';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useToastStore } from '@/shared/store/toast';
+
+export const useGetAllStockMovements = (startDate?: string, endDate?: string) => {
+  return useQuery({
+    queryKey: ['StockMovements', 'all', startDate ?? '', endDate ?? ''],
+    queryFn: () => getAllStockMovements(startDate, endDate),
+  });
+};
 
 export const useGetStockMovementsByProduct = (productId: string) => {
   return useQuery({
