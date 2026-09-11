@@ -786,6 +786,42 @@ paths:
       summary: Get global stock movement summary
       tags:
       - Stock Movement
+  /stock-movements/all:
+    get:
+      description: Retrieve all stock movements across all products, optionally filtered
+        by date range
+      parameters:
+      - description: Start date (RFC3339)
+        in: query
+        name: startDate
+        type: string
+      - description: End date (RFC3339)
+        in: query
+        name: endDate
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: list of movements
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: invalid date format
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - CookieAuth: []
+      summary: Get all stock movements
+      tags:
+      - Stock Movement
   /stock-movements/chart:
     get:
       description: Get overall stock level over time across all products, optionally

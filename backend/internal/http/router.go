@@ -81,6 +81,7 @@ func NewRouter(h Handlers) *gin.Engine {
 			stockMovement := protected.Group("/stock-movements")
 			{
 				stockMovement.GET("/", h.StockMovement.GetDashboardSummary)
+				stockMovement.GET("/all", h.StockMovement.GetAll)
 				stockMovement.GET("/top-movers", h.StockMovement.GetTopMovers)
 				stockMovement.GET("/chart", h.StockMovement.GetChart)
 			}

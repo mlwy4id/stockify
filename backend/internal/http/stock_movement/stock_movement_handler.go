@@ -16,6 +16,7 @@ import (
 type StockMovementHandler struct {
 	createStockMovementHandler              *command.CreateStockMovementCommandHandler
 	getStockMovementByProductIDHandler      *query.GetStockMovementByProductIDHandler
+	getAllStockMovementsHandler             *query.GetAllStockMovementsHandler
 	getDashboardStockMovementSummaryHandler *query.GetDashboardStockMovementSummaryHandler
 	getTopMoversHandler                     *query.GetTopMoversHandler
 	getStockChartByProductIDHandler         *query.GetStockChartByProductIDHandler
@@ -25,6 +26,7 @@ type StockMovementHandler struct {
 func NewStockMovementHandler(
 	createHandler *command.CreateStockMovementCommandHandler,
 	getByProductIDHandler *query.GetStockMovementByProductIDHandler,
+	getAllHandler *query.GetAllStockMovementsHandler,
 	getGlobalSummaryHandler *query.GetDashboardStockMovementSummaryHandler,
 	getTopMoversHandler *query.GetTopMoversHandler,
 	getStockChartByProductIDHandler *query.GetStockChartByProductIDHandler,
@@ -33,6 +35,7 @@ func NewStockMovementHandler(
 	return &StockMovementHandler{
 		createStockMovementHandler:              createHandler,
 		getStockMovementByProductIDHandler:      getByProductIDHandler,
+		getAllStockMovementsHandler:             getAllHandler,
 		getDashboardStockMovementSummaryHandler: getGlobalSummaryHandler,
 		getTopMoversHandler:                     getTopMoversHandler,
 		getStockChartByProductIDHandler:         getStockChartByProductIDHandler,
@@ -146,6 +149,60 @@ func (smh *StockMovementHandler) GetByProductID(ctx *gin.Context) {
 	}
 
 	movements, err := smh.getStockMovementByProductIDHandler.Handle(ctx.Request.Context(), q)
+
+	if err != nil {
+		ctx.JSON(http.StatusUnprocessableEntity, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"movements": movements,
+		"message":   "movements retrieved successfully",
+	})
+}
+
+// GetAll godoc
+// @Summary      Get all stock movements
+// @Description  Retrieve all stock movements across all products, optionally filtered by date range
+// @Tags         Stock Movement
+// @Produce      json
+// @Param        startDate  query    string false "Start date (RFC3339)"
+// @Param        endDate    query    string false "End date (RFC3339)"
+// @Success      200  {object} map[string]interface{} "list of movements"
+// @Failure      400  {object} map[string]interface{} "invalid date format"
+// @Failure      401  {object} map[string]interface{} "unauthorized"
+// @Router       /stock-movements/all [get]
+// @Security     CookieAuth
+func (smh *StockMovementHandler) GetAll(ctx *gin.Context) {
+	userId, err := vo.ParseUserId(middleware.GetUserIdFromContext(ctx))
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+		return
+	}
+
+	q := query.GetAllStockMovementsQuery{
+		UserId: userId,
+	}
+
+	if startDate := ctx.Query("startDate"); startDate != "" {
+		start, err := time.Parse(time.RFC3339, startDate)
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "invalid startDate format, use RFC3339"})
+			return
+		}
+		q.Start = &start
+	}
+
+	if endDate := ctx.Query("endDate"); endDate != "" {
+		end, err := time.Parse(time.RFC3339, endDate)
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "invalid endDate format, use RFC3339"})
+			return
+		}
+		q.End = &end
+	}
+
+	movements, err := smh.getAllStockMovementsHandler.Handle(ctx.Request.Context(), q)
 
 	if err != nil {
 		ctx.JSON(http.StatusUnprocessableEntity, gin.H{"error": err.Error()})
