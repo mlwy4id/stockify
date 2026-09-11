@@ -18,7 +18,7 @@ export const useSignUpUser = () => {
   return useMutation({
     mutationFn: signUp,
     onSuccess: () => {
-      addToast('Sign up success!', 'success');
+      addToast('Pendaftaran berhasil!', 'success');
       router.push('/dashboard');
     },
   });
@@ -33,7 +33,7 @@ export const useSignInUser = () => {
     mutationFn: signIn,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['User'] });
-      addToast('Sign in success!', 'success');
+      addToast('Masuk berhasil!', 'success');
       router.push('/dashboard');
     },
   });
@@ -48,7 +48,7 @@ export const useSignOutUser = () => {
     mutationFn: signOut,
     onSuccess: () => {
       queryClient.clear();
-      addToast('Signed out!', 'success');
+      addToast('Berhasil keluar!', 'success');
       router.push('/sign-in');
     },
   });

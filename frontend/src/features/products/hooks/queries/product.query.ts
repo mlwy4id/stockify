@@ -34,10 +34,10 @@ export const useCreateProduct = (onSettled?: () => void) => {
     mutationFn: createProduct,
     onSuccess: () => {
       invalidateProductQuery(queryClient);
-      addToast('Product created successfully', 'success');
+      addToast('Produk berhasil dibuat', 'success');
     },
     onError: (error: Error) => {
-      addToast(error.message || 'Failed to create product', 'error');
+      addToast(error.message || 'Gagal membuat produk', 'error');
     },
     onSettled: () => {
       onSettled?.();
@@ -53,10 +53,10 @@ export const useUpdateProduct = (onSettled?: () => void) => {
     mutationFn: updateProduct,
     onSuccess: () => {
       invalidateProductQuery(queryClient);
-      addToast('Product updated successfully', 'success');
+      addToast('Produk berhasil diperbarui', 'success');
     },
     onError: (error: Error) => {
-      addToast(error.message || 'Failed to update product', 'error');
+      addToast(error.message || 'Gagal memperbarui produk', 'error');
     },
     onSettled: () => {
       onSettled?.();
@@ -72,10 +72,10 @@ export const useArchiveProduct = (onSettled?: () => void) => {
     mutationFn: archiveProduct,
     onSuccess: () => {
       invalidateProductQuery(queryClient);
-      addToast('Product archived successfully', 'success');
+      addToast('Produk berhasil diarsipkan', 'success');
     },
     onError: (error: Error) => {
-      addToast(error.message || 'Failed to archive product', 'error');
+      addToast(error.message || 'Gagal mengarsipkan produk', 'error');
     },
     onSettled: () => {
       onSettled?.();
@@ -91,10 +91,10 @@ export const useReactivateProduct = () => {
     mutationFn: reactivateProduct,
     onSuccess: () => {
       invalidateProductQuery(queryClient);
-      addToast('Product reactivated successfully', 'success');
+      addToast('Produk berhasil diaktifkan kembali', 'success');
     },
     onError: (error: Error) => {
-      addToast(error.message || 'Failed to reactivate product', 'error');
+      addToast(error.message || 'Gagal mengaktifkan kembali produk', 'error');
     },
   });
 };

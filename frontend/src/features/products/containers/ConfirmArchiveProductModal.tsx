@@ -25,12 +25,12 @@ const ConfirmArchiveProductModal = ({ productId, onSuccess, onCancel }: Props) =
           disabled={isPending}
           onClick={confirmArchive}
         >
-          Archive
+Arsipkan
         </Button>
       }
       cancelHandler={onCancel ?? (() => {})}
     >
-      This product will be archived and hidden from active listings.
+      Produk ini akan diarsipkan dan disembunyikan dari daftar item aktif.
     </ConfirmationModal>
   );
 };

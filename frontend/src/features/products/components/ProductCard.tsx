@@ -66,7 +66,7 @@ const ProductCard = ({ id, name, imageUrl, quantity, categoryName, onEdit, onArc
         <span className="block text-sm font-semibold text-foreground leading-tight">
           {nameFormatter(name)}
         </span>
-        <span className="block text-xs text-muted-foreground">Stock: {quantity}</span>
+        <span className="block text-xs text-muted-foreground">Stok: {quantity}</span>
         {categoryName && (
           <span className="inline-block mt-2 px-2 py-0.5 rounded-full text-xs bg-primary-subtle text-primary">
             {categoryName}
@@ -83,7 +83,7 @@ const ProductCard = ({ id, name, imageUrl, quantity, categoryName, onEdit, onArc
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" side="left" onClick={(e) => e.stopPropagation()}>
           <DropdownMenuItem onClick={() => onEdit(id)}>Edit</DropdownMenuItem>
-          <DropdownMenuItem onClick={() => onArchive(id)}>Archive</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => onArchive(id)}>Arsipkan</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </Card>

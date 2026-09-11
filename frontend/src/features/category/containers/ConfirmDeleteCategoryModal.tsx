@@ -25,12 +25,12 @@ const ConfirmDeleteCategoryModal = ({ categoryId, categoryName, onSuccess, onCan
           disabled={isPending}
           onClick={confirmDelete}
         >
-          Delete
+Hapus
         </Button>
       }
       cancelHandler={onCancel ?? (() => {})}
     >
-      Category "{categoryName}" will be deleted. Products using this category may be affected.
+      Kategori "{categoryName}" akan dihapus. Produk yang menggunakan kategori ini mungkin akan terpengaruh.
     </ConfirmationModal>
   );
 };

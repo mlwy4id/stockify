@@ -16,7 +16,7 @@ const SignInFormContainer = () => {
       onSubmitHandler={handleSubmit(confirmSignIn)}
       submitBtn={
         <Button size="lg" className="w-full" disabled={isPending}>
-          {isPending ? <Spinner /> : 'Sign In'}
+          {isPending ? <Spinner /> : 'Masuk'}
         </Button>
       }
     />

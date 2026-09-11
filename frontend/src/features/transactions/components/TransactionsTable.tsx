@@ -39,15 +39,15 @@ const TransactionsTable = ({ movements }: Props) => {
       <Table>
         <TableHeader className="bg-muted/50">
           <TableRow className="hover:bg-transparent">
-            <TableHead>Product</TableHead>
-            <TableHead className="border-l-2 border-border pl-3">Action</TableHead>
-            <TableHead className="border-l-2 border-border pl-3">Quantity</TableHead>
-            <TableHead className="border-l-2 border-border pl-3">Date</TableHead>
+            <TableHead>Produk</TableHead>
+            <TableHead className="border-l-2 border-border pl-3">Aksi</TableHead>
+            <TableHead className="border-l-2 border-border pl-3">Jumlah</TableHead>
+            <TableHead className="border-l-2 border-border pl-3">Tanggal</TableHead>
             <TableHead className="border-l-2 border-border pl-3 hidden lg:table-cell">
-              Source
+              Sumber
             </TableHead>
             <TableHead className="border-l-2 border-border pl-3 hidden lg:table-cell">
-              Reason
+              Alasan
             </TableHead>
           </TableRow>
         </TableHeader>

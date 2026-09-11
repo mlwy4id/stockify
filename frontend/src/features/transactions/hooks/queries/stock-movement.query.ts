@@ -37,10 +37,10 @@ export const useCreateStockMovement = (onSettled?: () => void) => {
       queryClient.invalidateQueries({ queryKey: ['TopMovers'] });
       queryClient.invalidateQueries({ queryKey: ['Products'] });
       queryClient.invalidateQueries({ queryKey: ['LowStockProducts'] });
-      addToast('Stock movement created successfully', 'success');
+      addToast('Transaksi stok berhasil dibuat', 'success');
     },
     onError: (error: Error) => {
-      addToast(error.message || 'Failed to create stock movement', 'error');
+      addToast(error.message || 'Gagal membuat transaksi stok', 'error');
     },
     onSettled: () => {
       onSettled?.();

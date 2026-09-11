@@ -10,7 +10,7 @@ const RANGES = [
   { label: '3M', value: '3m' },
   { label: '6M', value: '6m' },
   { label: '1Y', value: '1y' },
-  { label: 'All', value: '' },
+  { label: 'Semua', value: '' },
 ];
 
 type Props = {
@@ -25,7 +25,7 @@ const RatioTooltip = ({ active, payload }: any) => {
   return (
     <div className="rounded-md border bg-card px-3 py-2 text-xs shadow">
       <p className="font-medium">{payload[0].name}</p>
-      <p>{`${payload[0].value} items`}</p>
+      <p>{`${payload[0].value} item`}</p>
     </div>
   );
 };
@@ -38,8 +38,8 @@ const ProductRatioChart = ({ ratio, range = '', onRangeChange }: Props) => {
 
   const data = selected
     ? [
-        { name: 'Sold', value: selected.totalSold },
-        { name: 'Broken', value: selected.totalBroken },
+        { name: 'Terjual', value: selected.totalSold },
+        { name: 'Rusak', value: selected.totalBroken },
       ]
     : [];
 
@@ -68,9 +68,9 @@ const ProductRatioChart = ({ ratio, range = '', onRangeChange }: Props) => {
         {selected && (
           <span className="text-sm">
             <span className="font-medium text-success">{selected.soldPercentage}%</span>{' '}
-            <span className="text-muted-foreground">sold /</span>{' '}
+            <span className="text-muted-foreground">terjual /</span>{' '}
             <span className="font-medium text-danger">{selected.brokenPercentage}%</span>{' '}
-            <span className="text-muted-foreground">broken</span>
+            <span className="text-muted-foreground">rusak</span>
           </span>
         )}
       </div>
@@ -98,7 +98,7 @@ const ProductRatioChart = ({ ratio, range = '', onRangeChange }: Props) => {
         </ResponsiveContainer>
       ) : (
         <div className="flex items-center justify-center h-56 text-sm text-muted-foreground">
-          No data
+          Tidak ada data
         </div>
       )}
     </div>

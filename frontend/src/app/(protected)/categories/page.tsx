@@ -23,7 +23,7 @@ export default function CategoriesPage() {
   const closeDialog = () => setDialog({ type: null });
 
   return (
-    <PageLayout title="Categories" onAddClick={() => openDialog('create-category')}>
+    <PageLayout title="Kategori" onAddClick={() => openDialog('create-category')}>
       <Card
         className={cn(
           'bg-muted border-0 shadow-none',
@@ -45,7 +45,7 @@ export default function CategoriesPage() {
       >
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Create Category</DialogTitle>
+            <DialogTitle>Buat Kategori</DialogTitle>
           </DialogHeader>
           <CreateCategoryForm onSuccess={closeDialog} onCancel={closeDialog} />
         </DialogContent>
@@ -57,7 +57,7 @@ export default function CategoriesPage() {
       >
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Rename Category</DialogTitle>
+            <DialogTitle>Ubah Nama Kategori</DialogTitle>
           </DialogHeader>
           {dialog.categoryId && (
             <EditCategoryForm categoryId={dialog.categoryId} onSuccess={closeDialog} onCancel={closeDialog} />
@@ -71,7 +71,7 @@ export default function CategoriesPage() {
       >
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Delete Category?</DialogTitle>
+            <DialogTitle>Hapus Kategori?</DialogTitle>
           </DialogHeader>
           {dialog.categoryId && selectedCategory && (
             <ConfirmDeleteCategoryModal

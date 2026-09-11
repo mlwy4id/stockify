@@ -37,7 +37,7 @@ export default function ProductPage() {
   const closeDialog = () => setDialog({ type: null });
 
   return (
-    <PageLayout title="Products" onAddClick={() => openDialog('create-product')}>
+    <PageLayout title="Produk" onAddClick={() => openDialog('create-product')}>
       <Card
         className={cn(
           'bg-muted border-0 shadow-none',
@@ -67,7 +67,7 @@ export default function ProductPage() {
       >
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Create Product</DialogTitle>
+            <DialogTitle>Buat Produk</DialogTitle>
           </DialogHeader>
           <CreateProductForm onSuccess={closeDialog} onCancel={closeDialog} />
         </DialogContent>
@@ -76,7 +76,7 @@ export default function ProductPage() {
       <Dialog open={dialog.type === 'edit-product'} onOpenChange={(open) => !open && closeDialog()}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Edit Product</DialogTitle>
+            <DialogTitle>Edit Produk</DialogTitle>
           </DialogHeader>
           {dialog.productId && (
             <EditProductForm
@@ -94,7 +94,7 @@ export default function ProductPage() {
       >
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Archive Product?</DialogTitle>
+            <DialogTitle>Arsipkan Produk?</DialogTitle>
           </DialogHeader>
           {dialog.productId && (
             <ConfirmArchiveProductModal

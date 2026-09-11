@@ -52,14 +52,14 @@ const ProductForm = ({
       onSubmit={onSubmitHandler}
     >
       <div className="grid gap-2">
-        <label htmlFor="productName">Product Name</label>
+        <label htmlFor="productName">Nama Produk</label>
         <Input id="productName" type="text" {...register('name')} />
         {errors.name && <p className="text-danger">{String(errors.name.message)}</p>}
       </div>
 
       {onImageChange && (
         <div className="grid gap-2">
-          <label htmlFor="productImage">Product Image</label>
+          <label htmlFor="productImage">Gambar Produk</label>
           <Input
             id="productImage"
             type="file"
@@ -72,18 +72,18 @@ const ProductForm = ({
           {imagePreview ? (
             <img
               src={imagePreview}
-              alt="Product preview"
+              alt="Pratinjau produk"
               className="mt-1 h-32 w-32 object-cover rounded-md border"
             />
           ) : (
-            <p className="text-xs text-muted-foreground">No image selected</p>
+            <p className="text-xs text-muted-foreground">Tidak ada gambar dipilih</p>
           )}
         </div>
       )}
 
       {showQuantity && (
         <div className="grid gap-2">
-          <label htmlFor="productQuantity">Quantity</label>
+          <label htmlFor="productQuantity">Jumlah</label>
           <Input
             id="productQuantity"
             type="number"
@@ -95,7 +95,7 @@ const ProductForm = ({
       )}
 
       <div className="grid gap-2">
-        <label htmlFor="productThreshold">Stock Threshold</label>
+        <label htmlFor="productThreshold">Ambang Stok</label>
         <Input
           id="productThreshold"
           type="number"
@@ -108,7 +108,7 @@ const ProductForm = ({
       </div>
 
       <div className="grid gap-2">
-        <label>Category</label>
+        <label>Kategori</label>
         <Controller
           name="categoryId"
           control={control}
@@ -119,11 +119,11 @@ const ProductForm = ({
               onValueChange={field.onChange}
             >
               <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select Category" />
+                <SelectValue placeholder="Pilih Kategori" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectLabel>Categories</SelectLabel>
+                  <SelectLabel>Kategori</SelectLabel>
                   {categoryList.map((c) => (
                     <SelectItem key={c.id} value={c.id}>
                       {c.name}
@@ -138,7 +138,7 @@ const ProductForm = ({
 
       <div className="flex justify-end items-center gap-2">
         <Button variant="outline" onClick={cancelHandler} type="button">
-          Cancel
+          Batal
         </Button>
         {submitBtn}
       </div>

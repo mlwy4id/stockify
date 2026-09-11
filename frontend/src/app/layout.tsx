@@ -10,12 +10,12 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: 'Stockify',
-  description: 'Inventory management system',
+  description: 'Sistem manajemen inventaris',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="id">
       <body className={plusJakartaSans.variable}>
         <Providers>{children}</Providers>
       </body>

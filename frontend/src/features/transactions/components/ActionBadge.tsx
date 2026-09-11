@@ -13,10 +13,17 @@ const badgeVariants: Record<StockMovementAction, string> = {
   BROKEN: 'bg-danger',
 };
 
+const actionLabels: Record<StockMovementAction, string> = {
+  RESTOCK: 'Restok',
+  SOLD: 'Terjual',
+  REFUND: 'Retur',
+  BROKEN: 'Rusak',
+};
+
 const ActionBadge = ({ action }: Props) => {
   return (
     <Badge className={`${badgeVariants[action]} h-6 min-w-18`}>
-      {action.charAt(0) + action.slice(1).toLowerCase()}
+      {actionLabels[action]}
     </Badge>
   );
 };

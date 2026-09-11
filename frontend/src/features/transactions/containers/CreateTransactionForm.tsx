@@ -62,7 +62,7 @@ const CreateTransactionForm = ({ onSuccess, onCancel }: Props) => {
       }}
       submitBtn={
         <Button disabled={isPending}>
-          Add Transaction
+          Tambah Transaksi
         </Button>
       }
     />

@@ -37,7 +37,7 @@ const DashboardContainer = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <Card>
           <CardHeader className="font-semibold border-b">
-            <h1>Volume by Range</h1>
+            <h1>Volume</h1>
           </CardHeader>
           <CardContent className="flex flex-col gap-1">
             <ProductVolumeChart
@@ -49,7 +49,7 @@ const DashboardContainer = () => {
         </Card>
         <Card>
           <CardHeader className="font-semibold border-b">
-            <h1>Sold vs Broken by Range</h1>
+            <h1>Barang Terjual vs Barang Rusak</h1>
           </CardHeader>
           <CardContent className="flex flex-col gap-3">
             <ProductRatioChart

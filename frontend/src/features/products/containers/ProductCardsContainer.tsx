@@ -47,7 +47,7 @@ const ProductCardsContainer = ({
       (!categoryId || p.categoryId === categoryId) &&
       p.name.toLowerCase().includes(searchValue.toLowerCase())
   );
-  if (filteredProducts.length === 0) return <SearchNotFound message="No products found" />;
+  if (filteredProducts.length === 0) return <SearchNotFound message="Produk tidak ditemukan" />;
 
   return (
     <section className="flex min-h-0 overflow-y-auto justify-center lg:justify-start">

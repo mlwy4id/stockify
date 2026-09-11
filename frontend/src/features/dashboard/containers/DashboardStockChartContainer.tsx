@@ -14,7 +14,7 @@ const DashboardStockChartContainer = () => {
     <Card>
       <CardHeader className="font-semibold flex flex-row items-center gap-2 border-b">
         <LineChart size={20} className="text-primary" />
-        <h1>Stock Level Over Time</h1>
+        <h1>Level Stok</h1>
       </CardHeader>
       <CardContent>
         {isLoading ? (

@@ -46,10 +46,15 @@ const MobileSidebar = ({
                 </button>
               </div>
               <ul className="mt-4 px-1">
-                <SidebarOptions icon={House} name="Dashboard" setSidebarClose={setIsOpen} />
-                <SidebarOptions icon={NotebookText} name="Transactions" setSidebarClose={setIsOpen} />
-                <SidebarOptions icon={Archive} name="Products" setSidebarClose={setIsOpen} />
-                <SidebarOptions icon={Tags} name="Categories" setSidebarClose={setIsOpen} />
+                <SidebarOptions icon={House} name="Beranda" to="/dashboard" setSidebarClose={setIsOpen} />
+                <SidebarOptions
+                  icon={NotebookText}
+                  name="Transaksi"
+                  to="/transactions"
+                  setSidebarClose={setIsOpen}
+                />
+                <SidebarOptions icon={Archive} name="Produk" to="/products" setSidebarClose={setIsOpen} />
+                <SidebarOptions icon={Tags} name="Kategori" to="/categories" setSidebarClose={setIsOpen} />
               </ul>
             </nav>
 

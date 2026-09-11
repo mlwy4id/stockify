@@ -34,7 +34,7 @@ const EditCategoryForm = ({ categoryId, onSuccess, onCancel }: Props) => {
       errors={errors}
       submitBtn={
         <Button disabled={isPending}>
-          Save
+          Simpan
         </Button>
       }
       cancelHandler={onCancel ?? (() => {})}

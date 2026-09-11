@@ -24,10 +24,10 @@ export const useCreateCategory = (onSettled?: () => void) => {
     mutationFn: createCategory,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['Categories'] });
-      addToast('Category created successfully', 'success');
+      addToast('Kategori berhasil dibuat', 'success');
     },
     onError: (error: Error) => {
-      addToast(error.message || 'Failed to create category', 'error');
+      addToast(error.message || 'Gagal membuat kategori', 'error');
     },
     onSettled: () => {
       onSettled?.();
@@ -44,10 +44,10 @@ export const useDeleteCategory = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['Categories'] });
       queryClient.invalidateQueries({ queryKey: ['Products'] });
-      addToast('Category deleted successfully', 'success');
+      addToast('Kategori berhasil dihapus', 'success');
     },
     onError: (error: Error) => {
-      addToast(error.message || 'Failed to delete category', 'error');
+      addToast(error.message || 'Gagal menghapus kategori', 'error');
     },
   });
 };
@@ -60,10 +60,10 @@ export const useRenameCategory = () => {
     mutationFn: renameCategory,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['Categories'] });
-      addToast('Category renamed successfully', 'success');
+      addToast('Nama kategori berhasil diubah', 'success');
     },
     onError: (error: Error) => {
-      addToast(error.message || 'Failed to rename category', 'error');
+      addToast(error.message || 'Gagal mengubah nama kategori', 'error');
     },
   });
 };

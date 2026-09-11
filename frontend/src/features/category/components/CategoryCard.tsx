@@ -38,7 +38,7 @@ const CategoryCard = ({ id, name, productCount, onClick, onEdit, onDelete }: Pro
           <span className="text-sm font-semibold text-foreground truncate">{nameFormatter(name)}</span>
         </div>
         <p className="text-xs text-muted-foreground">
-          {productCount} Product{productCount <= 1 ? '' : 's'}
+          {productCount} Produk
         </p>
       </CardContent>
 
@@ -50,8 +50,8 @@ const CategoryCard = ({ id, name, productCount, onClick, onEdit, onDelete }: Pro
           <EllipsisVertical className="size-4" />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="center" side="bottom">
-          <DropdownMenuItem onClick={() => onEdit(id)}>Rename</DropdownMenuItem>
-          <DropdownMenuItem onClick={() => onDelete(id)}>Delete</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => onEdit(id)}>Ubah Nama</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => onDelete(id)}>Hapus</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </Card>

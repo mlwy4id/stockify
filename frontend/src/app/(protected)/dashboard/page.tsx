@@ -4,7 +4,7 @@ import DashboardContainer from '@/features/dashboard/containers/DashboardContain
 
 export default function DashboardPage() {
   return (
-    <PageLayout title="Dashboard">
+    <PageLayout title="Beranda">
       <DashboardContainer />
     </PageLayout>
   );

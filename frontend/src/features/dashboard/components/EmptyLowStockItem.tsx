@@ -6,8 +6,8 @@ const EmptyLowStockItem = () => {
     <div className="h-full flex flex-col items-center justify-center gap-4">
       <PackageCheck size={40} />
       <div className="text-center">
-        <p>All items are sufficiently stocked</p>
-        <p>There are no items running low at the moment</p>
+        <p>Semua item tersedia cukup</p>
+        <p>Tidak ada item yang stoknya menipis saat ini</p>
       </div>
     </div>
   );

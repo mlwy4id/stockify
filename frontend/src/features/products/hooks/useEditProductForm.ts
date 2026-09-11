@@ -5,8 +5,8 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 const UpdateProductSchema = z.object({
-  name: z.string().min(1, 'Name is required').optional(),
-  stockThreshold: z.number().min(0, 'Stock threshold must be at least 0').optional(),
+  name: z.string().min(1, 'Nama wajib diisi').optional(),
+  stockThreshold: z.number().min(0, 'Ambang stok minimal 0').optional(),
   categoryId: z.string().optional(),
 });
 

@@ -4,11 +4,11 @@ import SearchInput from '@/shared/components/filters/SearchInput';
 import { useActionFilterQuery } from '../hooks/useActionFilterQueryNavigation';
 
 const action = [
-  { id: 1, name: 'All' },
-  { id: 2, name: 'RESTOCK' },
-  { id: 3, name: 'SOLD' },
-  { id: 4, name: 'REFUND' },
-  { id: 5, name: 'BROKEN' },
+  { id: 1, name: 'All', label: 'Semua' },
+  { id: 2, name: 'RESTOCK', label: 'Restok' },
+  { id: 3, name: 'SOLD', label: 'Terjual' },
+  { id: 4, name: 'REFUND', label: 'Retur' },
+  { id: 5, name: 'BROKEN', label: 'Rusak' },
 ];
 
 type Props = {

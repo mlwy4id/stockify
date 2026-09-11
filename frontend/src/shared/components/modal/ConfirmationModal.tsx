@@ -15,7 +15,7 @@ const ConfirmationModal = ({ children, button, cancelHandler }: Props) => {
       <DialogFooter>
         <DialogClose>
           <Button variant="outline" onClick={cancelHandler}>
-            Cancel
+            Batal
           </Button>
         </DialogClose>
         {button}

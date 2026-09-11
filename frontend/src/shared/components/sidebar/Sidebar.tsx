@@ -28,10 +28,10 @@ const Sidebar = () => {
         </div>
 
         <ul className="mt-4 px-1">
-          <SidebarOptions icon={House} name="Dashboard" />
-          <SidebarOptions icon={NotebookText} name="Transactions" />
-          <SidebarOptions icon={Archive} name="Products" />
-          <SidebarOptions icon={Tags} name="Categories" />
+          <SidebarOptions icon={House} name="Beranda" to="/dashboard" />
+          <SidebarOptions icon={NotebookText} name="Transaksi" to="/transactions" />
+          <SidebarOptions icon={Archive} name="Produk" to="/products" />
+          <SidebarOptions icon={Tags} name="Kategori" to="/categories" />
         </ul>
       </nav>
 

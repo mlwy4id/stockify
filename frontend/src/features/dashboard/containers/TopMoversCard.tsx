@@ -23,7 +23,7 @@ const TopMoversCard = ({ topMovers }: Props) => {
       </CardHeader>
       <CardContent className="flex flex-col gap-3">
         {topMovers.length === 0 ? (
-          <p className="text-sm text-muted-foreground text-center py-4">No stock-out activity yet</p>
+          <p className="text-sm text-muted-foreground text-center py-4">Belum ada aktivitas pengurangan stok</p>
         ) : (
           topMovers.map((mover, index) => (
             <div
@@ -37,7 +37,7 @@ const TopMoversCard = ({ topMovers }: Props) => {
                 </p>
               </div>
               <p className="text-sm font-semibold text-neutral-action min-w-16 text-left">
-                -{mover.totalOut} items
+                -{mover.totalOut} item
               </p>
             </div>
           ))

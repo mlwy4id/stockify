@@ -19,7 +19,7 @@ const RANGES = [
   { label: '3M', value: '3m' },
   { label: '6M', value: '6m' },
   { label: '1Y', value: '1y' },
-  { label: 'All', value: '' },
+  { label: 'Semua', value: '' },
 ];
 
 type Props = {
@@ -83,7 +83,7 @@ const ProductChart = ({ points, range = '', onRangeChange }: Props) => {
             />
             <Tooltip
               labelFormatter={(label) => format(new Date(String(label)), 'd MMM yyyy')}
-              formatter={(value) => [`${value} items`, 'Stock']}
+              formatter={(value) => [`${value} item`, 'Stok']}
               contentStyle={{
                 backgroundColor: 'var(--card)',
                 borderColor: 'var(--border)',
@@ -104,7 +104,7 @@ const ProductChart = ({ points, range = '', onRangeChange }: Props) => {
         </ResponsiveContainer>
       ) : (
         <div className="flex items-center justify-center h-56 text-sm text-muted-foreground">
-          No stock data available
+          Tidak ada data stok
         </div>
       )}
     </div>

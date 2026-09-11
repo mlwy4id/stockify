@@ -14,7 +14,7 @@ export default function TransactionsPage() {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   return (
-    <PageLayout title="Transactions" onAddClick={() => setDialogOpen(true)}>
+    <PageLayout title="Transaksi" onAddClick={() => setDialogOpen(true)}>
       <Card
         className={cn(
           'bg-muted border-0 shadow-none',
@@ -33,7 +33,7 @@ export default function TransactionsPage() {
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Create Transaction</DialogTitle>
+            <DialogTitle>Buat Transaksi</DialogTitle>
           </DialogHeader>
           <CreateTransactionForm
             onSuccess={() => setDialogOpen(false)}

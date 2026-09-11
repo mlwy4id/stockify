@@ -35,28 +35,28 @@ const TransactionForm = ({
     >
       {showProductSelect && registerProductId && (
         <div className="grid gap-2">
-          <label htmlFor="productName">Product</label>
+          <label htmlFor="productName">Produk</label>
           <Select id="productName" {...registerProductId}>
-            <option value="">Select product</option>
+            <option value="">Pilih produk</option>
             <ProductsOption products={products} />
           </Select>
         </div>
       )}
 
       <div className="grid gap-2">
-        <label htmlFor="transactionType">Action</label>
+        <label htmlFor="transactionType">Aksi</label>
         <Select id="transactionType" {...register('action')}>
-          <option value="">Select action</option>
-          <option value="RESTOCK">Restock</option>
-          <option value="SOLD">Sold</option>
-          <option value="REFUND">Refund</option>
-          <option value="BROKEN">Broken</option>
+          <option value="">Pilih aksi</option>
+          <option value="RESTOCK">Restok</option>
+          <option value="SOLD">Terjual</option>
+          <option value="REFUND">Retur</option>
+          <option value="BROKEN">Rusak</option>
         </Select>
         {errors.action && <p className="text-danger">{errors.action.message}</p>}
       </div>
 
       <div className="grid gap-2">
-        <label htmlFor="quantity">Quantity</label>
+        <label htmlFor="quantity">Jumlah</label>
         <Input
           id="quantity"
           type="number"
@@ -67,24 +67,24 @@ const TransactionForm = ({
       </div>
 
       <div className="grid gap-2">
-        <label htmlFor="date">Date</label>
+        <label htmlFor="date">Tanggal</label>
         <Input id="date" type="date" {...register('date')} />
         {errors.date && <p className="text-danger">{errors.date.message}</p>}
       </div>
 
       <div className="grid gap-2">
-        <label htmlFor="source">Source (optional)</label>
-        <Input id="source" type="text" placeholder="e.g. Supplier A" {...register('source')} />
+        <label htmlFor="source">Sumber (opsional)</label>
+        <Input id="source" type="text" placeholder="contoh: Supplier A" {...register('source')} />
       </div>
 
       <div className="grid gap-2">
-        <label htmlFor="reason">Reason (optional)</label>
-        <Input id="reason" type="text" placeholder="e.g. Monthly restock" {...register('reason')} />
+        <label htmlFor="reason">Alasan (opsional)</label>
+        <Input id="reason" type="text" placeholder="contoh: Restok bulanan" {...register('reason')} />
       </div>
 
       <div className="flex justify-end items-center gap-2">
         <Button variant="outline" onClick={cancelHandler}>
-          Cancel
+          Batal
         </Button>
         {submitBtn}
       </div>

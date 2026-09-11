@@ -22,7 +22,7 @@ const ChangeBadge = ({ percentage }: { percentage: number }) => {
     >
       {positive ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
       {positive ? '+' : ''}
-      {percentage}% vs yesterday
+      {percentage}% dibanding kemarin
     </span>
   );
 };
@@ -39,8 +39,8 @@ const StocksSummaryCard = ({
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
       <SummaryCard
         icon={ArrowUp}
-        cardTitle="Restocked"
-        cardContent={`+${totalIn} items`}
+        cardTitle="Stok Masuk"
+        cardContent={`+${totalIn} item`}
         stripColor="bg-success"
         cardTitleColor="text-success"
         cardContentColor="text-success"
@@ -48,8 +48,8 @@ const StocksSummaryCard = ({
       />
       <SummaryCard
         icon={ArrowDown}
-        cardTitle="Sold / Broken"
-        cardContent={`-${totalOut} items`}
+        cardTitle="Terjual / Rusak"
+        cardContent={`-${totalOut} item`}
         stripColor="bg-danger"
         cardTitleColor="text-danger"
         cardContentColor="text-danger"
@@ -57,16 +57,16 @@ const StocksSummaryCard = ({
       />
       <SummaryCard
         icon={Package}
-        cardTitle="Active Products"
-        cardContent={`${totalActiveProduct} products`}
+        cardTitle="Produk Aktif"
+        cardContent={`${totalActiveProduct} produk`}
         stripColor="bg-primary"
         cardTitleColor="text-primary"
         cardContentColor="text-primary"
       />
       <SummaryCard
         icon={Boxes}
-        cardTitle="Total Stock"
-        cardContent={`${totalQuantity} items`}
+        cardTitle="Total Stok"
+        cardContent={`${totalQuantity} item`}
         stripColor="bg-warning"
         cardTitleColor="text-warning"
         cardContentColor="text-warning"

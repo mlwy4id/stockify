@@ -18,13 +18,14 @@ type ChildOption = {
 type Props = {
   icon: LucideIcon;
   name: string;
+  to?: string;
   childrenOptions?: ChildOption[];
   setSidebarClose?: React.Dispatch<boolean>;
 };
 
-const SidebarOptions = ({ icon: Icon, name, childrenOptions, setSidebarClose }: Props) => {
+const SidebarOptions = ({ icon: Icon, name, to, childrenOptions, setSidebarClose }: Props) => {
   const pathname = usePathname();
-  const basePath = `/${name.toLowerCase()}`;
+  const basePath = to ?? `/${name.toLowerCase()}`;
   const hasChildren = childrenOptions && childrenOptions.length > 0;
   const childActive = childrenOptions?.some((child) => pathname.startsWith(child.to));
   const isActive = !childActive && pathname.startsWith(basePath);

@@ -14,9 +14,9 @@ type Props = {
 };
 
 const features = [
-  'Real-time stock tracking across all products',
-  'Sales and broken item analytics',
-  'Smart restock and depletion predictions',
+  'Pelacakan stok real-time untuk semua produk',
+  'Analisis penjualan dan barang rusak',
+  'Prediksi cerdas untuk restok dan kehabisan stok',
 ];
 
 const SignUpForm = ({ register, errors, onSubmitHandler, submitBtn }: Props) => {
@@ -30,10 +30,10 @@ const SignUpForm = ({ register, errors, onSubmitHandler, submitBtn }: Props) => 
 
         <div className="flex flex-col gap-6">
           <h2 className="text-3xl font-bold leading-tight">
-            Manage your inventory with confidence
+            Kelola inventaris Anda dengan percaya diri
           </h2>
           <p className="text-primary-foreground/80">
-            Track stock levels, monitor sales, and predict when to restock — all in one place.
+            Pantau level stok, awasi penjualan, dan prediksi kapan harus restok — semua dalam satu tempat.
           </p>
           <ul className="flex flex-col gap-3">
             {features.map((feature) => (
@@ -61,17 +61,17 @@ const SignUpForm = ({ register, errors, onSubmitHandler, submitBtn }: Props) => 
           onSubmit={onSubmitHandler}
         >
           <div className="mb-2">
-            <h1 className="font-bold text-3xl">Create your account</h1>
+            <h1 className="font-bold text-3xl">Buat akun Anda</h1>
             <p className="text-muted-foreground mt-2">
-              Start managing your inventory with Stockify.
+              Mulai kelola inventaris Anda dengan Stockify.
             </p>
           </div>
 
           <div className="grid gap-2">
             <label htmlFor="name" className="text-sm font-medium">
-              Name
+              Nama
             </label>
-            <Input id="name" type="text" placeholder="Your name" {...register('name')} />
+            <Input id="name" type="text" placeholder="Nama Anda" {...register('name')} />
             {errors.name && <p className="text-sm text-danger">{errors.name.message}</p>}
           </div>
 
@@ -90,11 +90,11 @@ const SignUpForm = ({ register, errors, onSubmitHandler, submitBtn }: Props) => 
 
           <div className="grid gap-2">
             <label htmlFor="password" className="text-sm font-medium">
-              Password
+              Kata Sandi
             </label>
             <PasswordInput
               id="password"
-              placeholder="Enter your password"
+              placeholder="Masukkan kata sandi Anda"
               {...register('password')}
             />
             {errors.password && <p className="text-sm text-danger">{errors.password.message}</p>}
@@ -103,9 +103,9 @@ const SignUpForm = ({ register, errors, onSubmitHandler, submitBtn }: Props) => 
           {submitBtn}
 
           <p className="text-center text-sm text-muted-foreground">
-            Already have an account?{' '}
+            Sudah punya akun?{' '}
             <Link href={'/sign-in'} className="font-medium text-primary hover:underline">
-              Sign in
+              Masuk
             </Link>
           </p>
         </form>

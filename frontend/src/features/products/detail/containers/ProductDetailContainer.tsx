@@ -42,12 +42,12 @@ const ProductDetailContainer = ({ id }: Props) => {
         className="flex items-center gap-1 text-sm font-medium text-primary hover:underline w-fit"
       >
         <ArrowLeft className="size-4" />
-        Back to Products
+        Kembali ke Produk
       </Link>
 
       <div className="flex flex-col lg:flex-row justify-between gap-4">
         <ProductDetailCard
-          name={dashboard?.productName ?? 'Unknown Product'}
+          name={dashboard?.productName ?? 'Produk Tidak Dikenal'}
           imageUrl={dashboard?.imageUrl}
           categoryId={dashboard?.categoryId}
           currentStock={currentStock}
@@ -57,16 +57,16 @@ const ProductDetailContainer = ({ id }: Props) => {
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-4 w-full">
           <SummaryCard
             icon={RefreshCcw}
-            cardTitle="Avg Restock Interval"
-            cardContent={avgRestockDays != null ? `${avgRestockDays} days` : 'No data'}
+            cardTitle="Rata-rata Interval Restok"
+            cardContent={avgRestockDays != null ? `${avgRestockDays} hari` : 'Tidak ada data'}
             stripColor="bg-success"
             cardTitleColor="text-success"
             cardContentColor="text-success"
           />
           <SummaryCard
             icon={TrendingDown}
-            cardTitle="Est. Stock Depletion"
-            cardContent={depletion?.daysLeft != null ? `${depletion.daysLeft} days` : 'No data'}
+            cardTitle="Perkiraan Kehabisan Stok"
+            cardContent={depletion?.daysLeft != null ? `${depletion.daysLeft} hari` : 'Tidak ada data'}
             stripColor="bg-danger"
             cardTitleColor="text-danger"
             cardContentColor="text-danger"
@@ -78,10 +78,10 @@ const ProductDetailContainer = ({ id }: Props) => {
         <div className="py-3">
           <TabsList className="flex w-full justify-around">
             <TabsTrigger value="chart" className="w-[50%] cursor-pointer">
-              Chart
+              Grafik
             </TabsTrigger>
             <TabsTrigger value="history" className="w-[50%] cursor-pointer">
-              History
+              Riwayat
             </TabsTrigger>
           </TabsList>
         </div>
@@ -92,7 +92,7 @@ const ProductDetailContainer = ({ id }: Props) => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <Card>
               <CardHeader className="font-semibold border-b">
-                <h2>Volume by Range</h2>
+                <h2>Volume per Rentang</h2>
               </CardHeader>
               <CardContent className="flex flex-col gap-1">
                 <ProductVolumeChart
@@ -105,7 +105,7 @@ const ProductDetailContainer = ({ id }: Props) => {
 
             <Card>
               <CardHeader className="font-semibold border-b">
-                <h2>Sold vs Broken by Range</h2>
+                <h2>Terjual vs Rusak per Rentang</h2>
               </CardHeader>
               <CardContent className="flex flex-col gap-3">
                 <ProductRatioChart ratio={ratio} range={ratioRange} onRangeChange={setRatioRange} />
@@ -115,27 +115,27 @@ const ProductDetailContainer = ({ id }: Props) => {
 
           <Card>
             <CardHeader className="font-semibold border-b">
-              <h2>Restock &amp; Depletion Insights</h2>
+              <h2>Analisis Restok &amp; Kehabisan Stok</h2>
             </CardHeader>
             <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div>
-                <p className="text-xs text-muted-foreground">Restock Count</p>
+                <p className="text-xs text-muted-foreground">Jumlah Restok</p>
                 <p className="text-lg font-semibold">{restockInterval?.restockCount ?? 0}</p>
               </div>
               <div>
-                <p className="text-xs text-muted-foreground">Avg Restock Interval</p>
+                <p className="text-xs text-muted-foreground">Rata-rata Interval Restok</p>
                 <p className="text-lg font-semibold">
-                  {avgRestockDays != null ? `${avgRestockDays} days` : '—'}
+                  {avgRestockDays != null ? `${avgRestockDays} hari` : '—'}
                 </p>
               </div>
               <div>
-                <p className="text-xs text-muted-foreground">Avg Daily Outflow</p>
+                <p className="text-xs text-muted-foreground">Rata-rata Keluaran Harian</p>
                 <p className="text-lg font-semibold">
                   {depletion?.avgDailyOut != null ? depletion.avgDailyOut.toFixed(1) : '—'}
                 </p>
               </div>
               <div>
-                <p className="text-xs text-muted-foreground">Estimated Depletion Date</p>
+                <p className="text-xs text-muted-foreground">Perkiraan Tanggal Kehabisan Stok</p>
                 <p className="text-lg font-semibold">
                   {depletionDate ? format(depletionDate, 'd MMM yyyy') : '—'}
                 </p>

@@ -19,7 +19,7 @@ const RANGES = [
   { label: '3M', value: '3m' },
   { label: '6M', value: '6m' },
   { label: '1Y', value: '1y' },
-  { label: 'All', value: '' },
+  { label: 'Semua', value: '' },
 ];
 
 type Props = {
@@ -34,7 +34,7 @@ const VolumeTooltip = ({ active, payload, label }: any) => {
   return (
     <div className="rounded-md border bg-card px-3 py-2 text-xs shadow">
       <p className="font-medium">{label}</p>
-      <p>{`${payload[0].value} items`}</p>
+      <p>{`${payload[0].value} item`}</p>
     </div>
   );
 };
@@ -47,8 +47,8 @@ const ProductVolumeChart = ({ volume, range = '', onRangeChange }: Props) => {
 
   const data = selected
     ? [
-        { name: 'In', value: selected.totalIn },
-        { name: 'Out', value: selected.totalOut },
+        { name: 'Masuk', value: selected.totalIn },
+        { name: 'Keluar', value: selected.totalOut },
       ]
     : [];
 
@@ -74,9 +74,9 @@ const ProductVolumeChart = ({ volume, range = '', onRangeChange }: Props) => {
         </div>
         {selected && (
           <span className="text-sm">
-            <span className="font-medium text-success">+{selected.totalIn} in</span>{' '}
+            <span className="font-medium text-success">+{selected.totalIn} masuk</span>{' '}
             <span className="text-muted-foreground">/</span>{' '}
-            <span className="font-medium text-danger">-{selected.totalOut} out</span>
+            <span className="font-medium text-danger">-{selected.totalOut} keluar</span>
           </span>
         )}
       </div>
@@ -102,7 +102,7 @@ const ProductVolumeChart = ({ volume, range = '', onRangeChange }: Props) => {
               {data.map((entry) => (
                 <Cell
                   key={entry.name}
-                  fill={entry.name === 'In' ? 'var(--success)' : 'var(--danger)'}
+                  fill={entry.name === 'Masuk' ? 'var(--success)' : 'var(--danger)'}
                 />
               ))}
             </Bar>
@@ -110,7 +110,7 @@ const ProductVolumeChart = ({ volume, range = '', onRangeChange }: Props) => {
         </ResponsiveContainer>
       ) : (
         <div className="flex items-center justify-center h-56 text-sm text-muted-foreground">
-          No data
+          Tidak ada data
         </div>
       )}
     </div>

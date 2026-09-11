@@ -7,7 +7,7 @@ export default function ProductDetailPage() {
   const { id } = useParams<{ id: string }>();
 
   return (
-    <PageLayout title='Product Detail'>
+    <PageLayout title='Detail Produk'>
       <ProductDetailContainer id={id} />
     </PageLayout>
   );

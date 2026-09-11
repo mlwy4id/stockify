@@ -28,12 +28,12 @@ const ProductFilters = ({ setSearchValue, categories, categoryValue, onCategoryC
         onValueChange={(value) => onCategoryChange(value === 'all' ? null : value)}
       >
         <SelectTrigger className="w-48 bg-background shadow-sm rounded-md font-medium">
-          <SelectValue placeholder="All Categories" />
+          <SelectValue placeholder="Semua Kategori" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectLabel>Categories</SelectLabel>
-            <SelectItem value="all">All Categories</SelectItem>
+            <SelectLabel>Kategori</SelectLabel>
+            <SelectItem value="all">Semua Kategori</SelectItem>
             {categories.map((category) => (
               <SelectItem key={category.id} value={category.id}>
                 {nameFormatter(category.name)}

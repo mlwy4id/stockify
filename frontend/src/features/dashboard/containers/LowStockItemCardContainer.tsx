@@ -18,7 +18,7 @@ const LowStockItemCardContainer = ({ lowStockItems }: Props) => {
     <Card className="h-full">
       <CardHeader className="font-semibold flex items-center border-b">
         <TriangleAlert size={20} className="text-stamp" />
-        <h1>Low Stock Items</h1>
+        <h1>Barang Dengan Stok Menipis</h1>
       </CardHeader>
       <CardContent className="flex flex-col gap-3">
         {lowStockItems.length === 0 ? (
@@ -37,7 +37,7 @@ const LowStockItemCardContainer = ({ lowStockItems }: Props) => {
             className="cursor-pointer"
             onClick={() => router.push('/products')}
           >
-            View Products
+            Lihat Produk
           </Button>
         )}
       </CardFooter>

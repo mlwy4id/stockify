@@ -64,19 +64,19 @@ const ProductDetailCard = ({
         <div>
           <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
             <Package className="size-3.5" />
-            Current Stock
+            Stok Saat Ini
           </p>
           <p className="mt-1 text-lg font-semibold text-primary whitespace-nowrap">
-            {currentStock} items
+            {currentStock} item
           </p>
         </div>
         <div>
           <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
             <AlertTriangle className="size-3.5" />
-            Stock Threshold
+            Ambang Stok
           </p>
           <p className="mt-1 text-lg font-semibold text-warning whitespace-nowrap">
-            {stockThreshold ? `${stockThreshold} items` : 'Not set'}
+            {stockThreshold ? `${stockThreshold} item` : 'Belum diatur'}
           </p>
         </div>
       </div>

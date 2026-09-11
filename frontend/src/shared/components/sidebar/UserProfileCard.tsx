@@ -11,7 +11,7 @@ const UserProfileCard = () => {
 
   const user = data?.user;
   const initial = user?.name?.charAt(0)?.toUpperCase() ?? '?';
-  const displayName = user?.name ?? 'Unknown';
+  const displayName = user?.name ?? 'Tidak Dikenal';
   const displayEmail = user?.email ?? '';
 
   return (
@@ -40,7 +40,7 @@ const UserProfileCard = () => {
             'transition-colors duration-150',
             'cursor-pointer'
           )}
-          title="Sign out"
+          title="Keluar"
           variant="ghost"
         >
           <LogOut size={16} />

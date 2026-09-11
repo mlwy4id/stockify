@@ -49,7 +49,7 @@ const EditProductForm = ({ productId, onSuccess, onCancel }: Props) => {
       showQuantity={false}
       submitBtn={
         <Button disabled={isPending}>
-          Update Product
+          Perbarui Produk
         </Button>
       }
     />

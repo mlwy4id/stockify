@@ -19,11 +19,11 @@ const CategoryForm = ({ register, errors, onSubmitHandler, cancelHandler, submit
       onSubmit={onSubmitHandler}
     >
       <div className="grid gap-2">
-        <label htmlFor="categoryName">Category Name</label>
+        <label htmlFor="categoryName">Nama Kategori</label>
         <Input
           id="categoryName"
           type="text"
-          placeholder="(e.g. Electronics)"
+          placeholder="(contoh: Elektronik)"
           {...register('name')}
         />
         {errors.name && <p className="text-danger">{errors.name.message}</p>}
@@ -31,7 +31,7 @@ const CategoryForm = ({ register, errors, onSubmitHandler, cancelHandler, submit
 
       <div className="flex justify-end items-center gap-2">
         <Button variant="outline" onClick={cancelHandler} type="button">
-          Cancel
+          Batal
         </Button>
         {submitBtn}
       </div>

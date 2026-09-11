@@ -15,7 +15,7 @@ const CreateProductForm = ({ onSuccess, onCancel }: Props) => {
   const { register, handleSubmit, errors, control, imageFile, setImageFile } = useCreateProductForm();
   const { data: categories, isLoading } = useGetCategories();
 
-  if (isLoading) return <p>Loading</p>;
+  if (isLoading) return <p>Memuat</p>;
 
   const onSubmit = handleSubmit((values) => confirmCreate(values, imageFile));
 
@@ -31,7 +31,7 @@ const CreateProductForm = ({ onSuccess, onCancel }: Props) => {
       onImageChange={setImageFile}
       submitBtn={
         <Button disabled={isPending}>
-          Add Product
+          Tambah Produk
         </Button>
       }
     />

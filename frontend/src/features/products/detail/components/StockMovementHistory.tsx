@@ -31,21 +31,21 @@ const StockMovementHistory = ({ productId }: Props) => {
   return (
     <Card>
       <CardHeader className="font-semibold border-b">
-        <h2>Stock Movement History</h2>
+        <h2>Riwayat Pergerakan Stok</h2>
       </CardHeader>
       <CardContent className="flex flex-col gap-3">
         <div className="border border-border bg-background shadow-sm overflow-hidden rounded-md">
           <Table>
             <TableHeader className="bg-muted/50">
               <TableRow className="hover:bg-transparent">
-                <TableHead>Action</TableHead>
-                <TableHead className="border-l-2 border-border pl-3">Quantity</TableHead>
-                <TableHead className="border-l-2 border-border pl-3">Date</TableHead>
+                <TableHead>Aksi</TableHead>
+                <TableHead className="border-l-2 border-border pl-3">Jumlah</TableHead>
+                <TableHead className="border-l-2 border-border pl-3">Tanggal</TableHead>
                 <TableHead className="border-l-2 border-border pl-3 hidden lg:table-cell">
-                  Source
+                  Sumber
                 </TableHead>
                 <TableHead className="border-l-2 border-border pl-3 hidden lg:table-cell">
-                  Reason
+                  Alasan
                 </TableHead>
               </TableRow>
             </TableHeader>
@@ -53,13 +53,13 @@ const StockMovementHistory = ({ productId }: Props) => {
               {isLoading ? (
                 <TableRow>
                   <TableCell colSpan={5} className="text-center text-muted-foreground py-6">
-                    Loading...
+                    Memuat...
                   </TableCell>
                 </TableRow>
               ) : movements.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={5} className="text-center text-muted-foreground py-6">
-                    No stock movements recorded
+                    Tidak ada riwayat pergerakan stok
                   </TableCell>
                 </TableRow>
               ) : (

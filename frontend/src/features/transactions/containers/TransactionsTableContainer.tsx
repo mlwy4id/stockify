@@ -57,7 +57,7 @@ const TransactionCardsContainers = ({ searchValue, setTransactionsDataAvailabili
 
   if (isLoading) return <TransactionsTableSkeleton />;
   if (allMovements.length === 0 && searchParams.toString() === '') return <EmptyTransactionTable />;
-  if (allMovements.length === 0) return <SearchNotFound message="No transactions found" />;
+  if (allMovements.length === 0) return <SearchNotFound message="Transaksi tidak ditemukan" />;
 
   const filteredMovements = allMovements.filter((m) => {
     const matchesSearch = m.productName.toLowerCase().includes(searchValue.toLowerCase());
@@ -66,7 +66,7 @@ const TransactionCardsContainers = ({ searchValue, setTransactionsDataAvailabili
     return matchesSearch && matchesAction && matchesDate;
   });
 
-  if (filteredMovements.length === 0) return <SearchNotFound message="No transactions found" />;
+  if (filteredMovements.length === 0) return <SearchNotFound message="Transaksi tidak ditemukan" />;
 
   return (
     <section className="flex-1 min-h-0 overflow-y-auto pb-20">

@@ -20,7 +20,7 @@ const CreateCategoryForm = ({ onSuccess, onCancel }: Props) => {
       errors={errors}
       submitBtn={
         <Button disabled={isPending}>
-          Add Category
+          Tambah Kategori
         </Button>
       }
       cancelHandler={onCancel ?? (() => {})}

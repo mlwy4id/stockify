@@ -20,7 +20,7 @@ export const useConfirmUpdateProduct = (product?: Product, onSuccess?: () => voi
 
       mutate({ id: product.id, ...updatedProduct });
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Failed to upload product image';
+      const message = error instanceof Error ? error.message : 'Gagal mengunggah gambar produk';
       addToast(message, 'error');
     }
   };

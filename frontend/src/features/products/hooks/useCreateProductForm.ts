@@ -5,9 +5,9 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 const CreateProductSchema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  quantity: z.number().min(0, 'Quantity must be at least 0'),
-  stockThreshold: z.number().min(0, 'Stock threshold must be at least 0'),
+  name: z.string().min(1, 'Nama wajib diisi'),
+  quantity: z.number().min(0, 'Jumlah minimal 0'),
+  stockThreshold: z.number().min(0, 'Ambang stok minimal 0'),
   categoryId: z.string().optional(),
 });
 
