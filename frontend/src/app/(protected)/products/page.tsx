@@ -41,10 +41,10 @@ export default function ProductPage() {
       <Card
         className={cn(
           'bg-muted border-0 shadow-none',
-          isProductsDataAvailable ? 'h-[70vh]' : 'h-full'
+          isProductsDataAvailable ? 'h-full' : 'h-[70vh]'
         )}
       >
-        <CardContent className="h-full px-0 flex flex-col gap-2">
+        <CardContent className="px-0 flex flex-col gap-2">
           <ProductFilters
             setSearchValue={setSearchValue}
             categories={sortedCategories}

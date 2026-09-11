@@ -35,7 +35,7 @@ export default function ProtectedLayout({ children }: { children: React.ReactNod
       <MobileSidebar isOpen={isOpen} setIsOpen={setIsOpen} />
       <main className="overflow-y-auto w-screen min-h-screen">
         <Navbar setIsOpen={setIsOpen} />
-        <div className="px-6">{children}</div>
+        <div className="h-full px-6">{children}</div>
       </main>
     </div>
   );

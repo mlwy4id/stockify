@@ -28,7 +28,7 @@ const PageLayout = ({ title, navLink, onAddClick, children }: Props) => {
   ) : null;
 
   return (
-    <div className="w-full h-screen pt-4 md:pt-10 flex flex-col gap-2 relative">
+    <div className="w-full h-full md:h-screen pt-4 md:pt-10 flex flex-col gap-2 relative">
       <div className="flex justify-between items-center min-h-12 mb-2">
         <h1 className="text-2xl md:text-3xl font-bold">{title}</h1>
       </div>

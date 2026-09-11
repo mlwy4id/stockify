@@ -48,7 +48,7 @@ const ProductCard = ({ id, name, imageUrl, quantity, categoryName, onEdit, onArc
         }
       }}
       className={cn(
-        'group relative w-2xs cursor-pointer transition-shadow hover:shadow-md',
+        'group relative w-2xs md:w-60 lg:w-56 2xl:w-76 cursor-pointer transition-shadow hover:shadow-md',
         'py-4 px-8 gap-3 items-center justify-center'
       )}
     >
