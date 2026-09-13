@@ -4,6 +4,7 @@ export type Product = {
   imageUrl?: string | null;
   quantity: number;
   categoryId: string | null;
+  isArchived?: boolean;
 };
 
 export type CreateProduct = {

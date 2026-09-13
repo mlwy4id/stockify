@@ -10,10 +10,10 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { invalidateProductQuery } from './invalidateProductQuery';
 import { useToastStore } from '@/shared/store/toast';
 
-export const useGetProducts = () => {
+export const useGetProducts = (status?: string) => {
   return useQuery({
-    queryKey: ['Products'],
-    queryFn: getAllProducts,
+    queryKey: ['Products', status ?? 'active'],
+    queryFn: () => getAllProducts(status),
     staleTime: 1000 * 30,
   });
 };
@@ -83,7 +83,7 @@ export const useArchiveProduct = (onSettled?: () => void) => {
   });
 };
 
-export const useReactivateProduct = () => {
+export const useReactivateProduct = (onSettled?: () => void) => {
   const queryClient = useQueryClient();
   const { addToast } = useToastStore();
 
@@ -95,6 +95,9 @@ export const useReactivateProduct = () => {
     },
     onError: (error: Error) => {
       addToast(error.message || 'Gagal mengaktifkan kembali produk', 'error');
+    },
+    onSettled: () => {
+      onSettled?.();
     },
   });
 };

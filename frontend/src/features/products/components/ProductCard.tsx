@@ -17,8 +17,10 @@ type Props = {
   imageUrl?: string | null;
   quantity: number;
   categoryName?: string | null;
+  isArchived?: boolean;
   onEdit: (id: string) => void;
   onArchive: (id: string) => void;
+  onReactivate: (id: string) => void;
 };
 
 function getInitials(name: string): string {
@@ -30,7 +32,17 @@ function getInitials(name: string): string {
     .slice(0, 2);
 }
 
-const ProductCard = ({ id, name, imageUrl, quantity, categoryName, onEdit, onArchive }: Props) => {
+const ProductCard = ({
+  id,
+  name,
+  imageUrl,
+  quantity,
+  categoryName,
+  isArchived,
+  onEdit,
+  onArchive,
+  onReactivate,
+}: Props) => {
   const initials = getInitials(name);
   const router = useRouter();
 
@@ -49,7 +61,8 @@ const ProductCard = ({ id, name, imageUrl, quantity, categoryName, onEdit, onArc
       }}
       className={cn(
         'group relative w-2xs md:w-60 lg:w-56 2xl:w-76 cursor-pointer transition-shadow hover:shadow-md',
-        'py-4 px-8 gap-3 items-center justify-center'
+        'py-4 px-8 gap-3 items-center justify-center',
+        isArchived && 'opacity-75'
       )}
     >
       {imageUrl ? (
@@ -67,11 +80,18 @@ const ProductCard = ({ id, name, imageUrl, quantity, categoryName, onEdit, onArc
           {nameFormatter(name)}
         </span>
         <span className="block text-xs text-muted-foreground">Stok: {quantity}</span>
-        {categoryName && (
-          <span className="inline-block mt-2 px-2 py-0.5 rounded-full text-xs bg-primary-subtle text-primary">
-            {categoryName}
-          </span>
-        )}
+        <div className="flex items-center justify-center gap-2 mt-2">
+          {categoryName && (
+            <span className="inline-block px-2 py-0.5 rounded-full text-xs bg-primary-subtle text-primary">
+              {categoryName}
+            </span>
+          )}
+          {isArchived && (
+            <span className="inline-block px-2 py-0.5 rounded-full text-xs bg-muted text-muted-foreground">
+              Diarsipkan
+            </span>
+          )}
+        </div>
       </CardContent>
 
       <DropdownMenu>
@@ -82,8 +102,16 @@ const ProductCard = ({ id, name, imageUrl, quantity, categoryName, onEdit, onArc
           <EllipsisVertical className="size-4" />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" side="left" onClick={(e) => e.stopPropagation()}>
-          <DropdownMenuItem onClick={() => onEdit(id)}>Edit</DropdownMenuItem>
-          <DropdownMenuItem onClick={() => onArchive(id)}>Arsipkan</DropdownMenuItem>
+          {isArchived ? (
+            <DropdownMenuItem onClick={() => onReactivate(id)}>
+              Aktifkan kembali
+            </DropdownMenuItem>
+          ) : (
+            <>
+              <DropdownMenuItem onClick={() => onEdit(id)}>Edit</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => onArchive(id)}>Arsipkan</DropdownMenuItem>
+            </>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
     </Card>

@@ -1,8 +1,10 @@
 import type { CreateProduct, Product, UpdateProduct } from '@/shared/types/product.type';
 import api from '../axios/axios';
 
-export const getAllProducts = async () => {
-  const res = await api.get('product/');
+export const getAllProducts = async (status?: string) => {
+  const res = await api.get('product/', {
+    params: status ? { status } : undefined,
+  });
   return res.data.products ?? [];
 };
 

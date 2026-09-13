@@ -11,19 +11,23 @@ import { useEffect, useMemo } from 'react';
 type Props = {
   searchValue: string;
   categoryId?: string | null;
+  status: string;
   setProductsDataAvailability: React.Dispatch<React.SetStateAction<boolean>>;
   onEdit: (id: string) => void;
   onArchive: (id: string) => void;
+  onReactivate: (id: string) => void;
 };
 
 const ProductCardsContainer = ({
   searchValue,
   categoryId,
+  status,
   setProductsDataAvailability,
   onEdit,
   onArchive,
+  onReactivate,
 }: Props) => {
-  const { isLoading, data } = useGetProducts();
+  const { isLoading, data } = useGetProducts(status);
   const { data: categories } = useGetCategories();
 
   const products = useMemo(() => data ?? [], [data]);
@@ -40,7 +44,11 @@ const ProductCardsContainer = ({
 
   if (isLoading) return <ProductCardsSkeleton />;
 
-  if (products.length === 0) return <EmptyProductCards />;
+  if (products.length === 0) {
+    if (status === 'archived')
+      return <SearchNotFound message="Tidak ada produk yang diarsipkan" />;
+    return <EmptyProductCards />;
+  }
 
   const filteredProducts = products.filter(
     (p: Product) =>
@@ -60,8 +68,10 @@ const ProductCardsContainer = ({
             imageUrl={product.imageUrl}
             quantity={product.quantity}
             categoryName={product.categoryId ? categoryNames.get(product.categoryId) : null}
+            isArchived={product.isArchived}
             onEdit={onEdit}
             onArchive={onArchive}
+            onReactivate={onReactivate}
           />
         ))}
       </div>
