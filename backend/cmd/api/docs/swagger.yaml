@@ -362,12 +362,23 @@ paths:
       - Category
   /product/:
     get:
-      description: Retrieve all active products for the authenticated user
+      description: 'Retrieve products for the authenticated user, filtered by status:
+        active, archived, or all'
+      parameters:
+      - description: 'Filter: active, archived, or all (default active)'
+        in: query
+        name: status
+        type: string
       produces:
       - application/json
       responses:
         "200":
           description: list of products
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: invalid status
           schema:
             additionalProperties: true
             type: object

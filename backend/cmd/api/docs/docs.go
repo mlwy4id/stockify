@@ -419,7 +419,7 @@ const docTemplate = `{
                         "CookieAuth": []
                     }
                 ],
-                "description": "Retrieve all active products for the authenticated user",
+                "description": "Retrieve products for the authenticated user, filtered by status: active, archived, or all",
                 "produces": [
                     "application/json"
                 ],
@@ -427,9 +427,24 @@ const docTemplate = `{
                     "Product"
                 ],
                 "summary": "Get all products",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Filter: active, archived, or all (default active)",
+                        "name": "status",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "list of products",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "invalid status",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true

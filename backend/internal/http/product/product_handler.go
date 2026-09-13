@@ -362,10 +362,12 @@ func (ph *ProductHandler) Reactivate(ctx *gin.Context) {
 
 // GetAll godoc
 // @Summary      Get all products
-// @Description  Retrieve all active products for the authenticated user
+// @Description  Retrieve products for the authenticated user, filtered by status: active, archived, or all
 // @Tags         Product
 // @Produce      json
+// @Param        status  query    string false "Filter: active, archived, or all (default active)"
 // @Success      200  {object} map[string]interface{} "list of products"
+// @Failure      400  {object} map[string]interface{} "invalid status"
 // @Failure      401  {object} map[string]interface{} "unauthorized"
 // @Router       /product/ [get]
 // @Security     CookieAuth
@@ -376,7 +378,15 @@ func (ph *ProductHandler) GetAll(ctx *gin.Context) {
 		return
 	}
 
-	products, err := ph.getAllProductsHandler.Handle(ctx.Request.Context(), userId)
+	status := query.GetAllProductsStatus(ctx.DefaultQuery("status", string(query.GetAllProductsStatusActive)))
+
+	if !status.IsValid() {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "invalid status, use: active, archived, or all"})
+		return
+	}
+
+	q := query.GetAllProductsQuery{UserId: userId, Status: status}
+	products, err := ph.getAllProductsHandler.Handle(ctx.Request.Context(), q)
 
 	if err != nil {
 		ctx.JSON(http.StatusUnprocessableEntity, gin.H{"error": err.Error()})

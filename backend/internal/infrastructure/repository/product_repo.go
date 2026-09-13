@@ -100,6 +100,16 @@ func (r *ProductRepository) FindAllArchived(ctx context.Context, userId vo.UserI
 	return r.toEntities(models)
 }
 
+func (r *ProductRepository) FindAll(ctx context.Context, userId vo.UserId) ([]*entity.Product, error) {
+	var models []model.ProductModel
+	err := r.db.WithContext(ctx).Preload("StockMovements").Where("user_id = ?", userId.Value()).Find(&models).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return r.toEntities(models)
+}
+
 func (r *ProductRepository) FindByCategoryID(ctx context.Context, userId vo.UserId, categoryId vo.CategoryId) ([]*entity.Product, error) {
 	var models []model.ProductModel
 	err := r.db.WithContext(ctx).Preload("StockMovements").Where("user_id = ? AND category_id = ?", userId.Value(), categoryId.Value()).Find(&models).Error

@@ -6,4 +6,5 @@ type ProductSummaryDTO struct {
 	ImageUrl   *string `json:"imageUrl,omitempty"`
 	Quantity   int     `json:"quantity"`
 	CategoryId *string `json:"categoryId"`
+	IsArchived bool    `json:"isArchived"`
 }
