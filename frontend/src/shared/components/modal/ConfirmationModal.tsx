@@ -1,5 +1,4 @@
 'use client';
-import { Button } from '../ui/button';
 import { DialogClose, DialogFooter, DialogDescription } from '../ui/dialog';
 
 type Props = {
@@ -13,10 +12,8 @@ const ConfirmationModal = ({ children, button, cancelHandler }: Props) => {
     <div className="flex flex-col gap-4">
       <DialogDescription>{children}</DialogDescription>
       <DialogFooter>
-        <DialogClose>
-          <Button variant="outline" onClick={cancelHandler}>
-            Batal
-          </Button>
+        <DialogClose onClick={cancelHandler}>
+          Batal
         </DialogClose>
         {button}
       </DialogFooter>

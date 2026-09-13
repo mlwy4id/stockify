@@ -23,8 +23,8 @@ export const useCreateProductForm = () => {
     resolver: zodResolver(CreateProductSchema),
     defaultValues: {
       name: '',
-      quantity: 0,
-      stockThreshold: 0,
+      quantity: 1,
+      stockThreshold: 1,
       categoryId: undefined,
     },
   });

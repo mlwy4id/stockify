@@ -91,7 +91,7 @@ const ProductForm = ({
           <Input
             id="productQuantity"
             type="number"
-            min={0}
+            min={1}
             {...register('quantity', { valueAsNumber: true })}
           />
           {errors.quantity && <p className="text-danger">{String(errors.quantity.message)}</p>}
@@ -105,7 +105,7 @@ const ProductForm = ({
         <Input
           id="productThreshold"
           type="number"
-          min={0}
+          min={1}
           {...register('stockThreshold', { valueAsNumber: true })}
         />
         {errors.stockThreshold && (
