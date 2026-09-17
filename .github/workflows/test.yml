@@ -1,0 +1,67 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'backend/**'
+      - '.github/workflows/test.yml'
+  pull_request:
+    paths:
+      - 'backend/**'
+      - '.github/workflows/test.yml'
+
+jobs:
+  backend-test:
+    name: Backend — test & quality
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v6
+        with:
+          go-version-file: backend/go.mod
+          cache: true
+          cache-dependency-path: backend/go.sum
+
+      - name: Verify formatting (gofmt)
+        working-directory: backend
+        run: test -z "$(gofmt -l .)" || { echo "files not gofmt-clean:"; gofmt -l .; exit 1; }
+
+      - name: Lint (golangci-lint)
+        uses: golangci/golangci-lint-action@v7
+        with:
+          working-directory: backend
+          version: v2.11.3
+
+      - name: Vet
+        working-directory: backend
+        run: go vet ./...
+
+      - name: Test & coverage
+        working-directory: backend
+        run: |
+          go test ./... -count=1 \
+            -coverpkg=./internal/application/...,./internal/domain/...,./internal/http/auth/...,./internal/http/middleware/...,./internal/http/product/...,./internal/http/stock_movement/... \
+            -coverprofile=cover.out
+
+      - name: Coverage summary
+        working-directory: backend
+        run: |
+          echo "## Backend coverage" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          go tool cover -func=cover.out | tail -n 40 >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: backend/cover.out
+
+      - name: Race detector
+        working-directory: backend
+        run: go test -race ./... -count=1

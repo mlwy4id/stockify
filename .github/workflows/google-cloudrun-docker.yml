@@ -11,7 +11,30 @@ env:
   SERVICE: "stockify"
   WORKLOAD_IDENTITY_PROVIDER: "projects/525706028191/locations/global/workloadIdentityPools/github-pool/providers/github-provider"
 jobs:
+  test:
+    name: "Test backend before deploy"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v4"
+
+      - name: "Setup Go"
+        uses: "actions/setup-go@v6"
+        with:
+          go-version-file: "backend/go.mod"
+          cache: true
+          cache-dependency-path: "backend/go.sum"
+
+      - name: "Vet"
+        working-directory: "backend"
+        run: go vet ./...
+
+      - name: "Test"
+        working-directory: "backend"
+        run: go test ./... -count=1
+
   deploy:
+    needs: test
     runs-on: "ubuntu-latest"
     environment: Production
     permissions:
