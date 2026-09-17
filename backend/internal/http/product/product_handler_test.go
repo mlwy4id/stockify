@@ -219,7 +219,7 @@ func Test_ProductHandler_ArchiveAndReactivate_AllCases_CorrectResults(t *testing
 	t.Run("reactivates an archived product", func(t *testing.T) {
 		h := newProductHandlerHarness(t)
 		archived := productPtr(t, "Kopi", 5, 2)
-		archived.ArchiveProduct()
+		_ = archived.ArchiveProduct()
 		h.repo.On("FindByID", mock.Anything, mock.Anything, mock.Anything).Return(archived, nil)
 		h.repo.On("Save", mock.Anything, mock.Anything).Return(nil)
 
@@ -232,7 +232,7 @@ func Test_ProductHandler_ArchiveAndReactivate_AllCases_CorrectResults(t *testing
 	t.Run("returns 422 when archiving twice", func(t *testing.T) {
 		h := newProductHandlerHarness(t)
 		archived := productPtr(t, "Kopi", 5, 2)
-		archived.ArchiveProduct()
+		_ = archived.ArchiveProduct()
 		h.repo.On("FindByID", mock.Anything, mock.Anything, mock.Anything).Return(archived, nil)
 
 		recorder := doProductJSON(t, h.engine, http.MethodPatch, "/product/"+productID+"/archive", "")

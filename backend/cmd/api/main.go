@@ -126,7 +126,9 @@ func main() {
 	if port == "" {
 		port = "8080"
 	}
-	
-	router.Run(":" + port)
+
+	if err := router.Run(":" + port); err != nil {
+		log.Fatalf("server failed to start: %v", err)
+	}
 	log.Println("server started ✅")
 }

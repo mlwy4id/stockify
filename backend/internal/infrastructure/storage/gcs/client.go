@@ -34,7 +34,7 @@ func (s *gcsStorage) Upload(ctx context.Context, path string, data []byte, conte
 	storageWriter.ContentType = contentType
 
 	if _, err := storageWriter.Write(data); err != nil {
-		storageWriter.Close()
+		_ = storageWriter.Close() // best-effort close on the error path
 		return "", fmt.Errorf("failed to write object: %w", err)
 	}
 

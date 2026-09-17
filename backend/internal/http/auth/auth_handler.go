@@ -109,7 +109,7 @@ func (h *AuthHandler) SignIn(ctx *gin.Context) {
 	if secure {
 		sameSite = http.SameSiteNoneMode
 	}
-	
+
 	http.SetCookie(ctx.Writer, &http.Cookie{
 		Name:     "token",
 		Value:    token,
