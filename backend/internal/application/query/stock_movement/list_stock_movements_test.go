@@ -10,7 +10,7 @@ import (
 	"github.com/mlwy4id/stockify/internal/domain/entity"
 	"github.com/mlwy4id/stockify/internal/domain/enum"
 	vo "github.com/mlwy4id/stockify/internal/domain/values_object"
-	"github.com/mlwy4id/stockify/internal/test/fakes"
+	"github.com/mlwy4id/stockify/internal/test/mocks"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
@@ -22,7 +22,7 @@ func Test_GetStockMovementByProductIDQuery_AllCases_CorrectResults(t *testing.T)
 	boom := errors.New("boom")
 
 	t.Run("returns an empty list on repository error", func(t *testing.T) {
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("GetStockMovementsByProductID", mock.Anything, userID, productID, false).Return(nil, boom)
 
 		dtos, err := stockmovement.NewGetStockMovementByProductIDHandler(repo).Handle(
@@ -39,10 +39,10 @@ func Test_GetStockMovementByProductIDQuery_AllCases_CorrectResults(t *testing.T)
 	t.Run("maps movements without a date range", func(t *testing.T) {
 		date := time.Now().Add(-2 * time.Hour)
 		movements := pointerMovements(
-			fakes.MustStockMovementWithNote(t, userID, productID, enum.Sold, 3, 7, "Tokopedia", "online order", date),
+			mocks.MustStockMovementWithNote(t, userID, productID, enum.Sold, 3, 7, "Tokopedia", "online order", date),
 		)
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("GetStockMovementsByProductID", mock.Anything, userID, productID, false).Return(movements, nil)
 
 		dtos, err := stockmovement.NewGetStockMovementByProductIDHandler(repo).Handle(
@@ -68,7 +68,7 @@ func Test_GetStockMovementByProductIDQuery_AllCases_CorrectResults(t *testing.T)
 			newMovement(t, userID, productID, enum.Restock, 5, 15, time.Now().Add(-time.Hour)),
 		)
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("GetStockMovementsByProductID", mock.Anything, userID, productID, false).Return(movements, nil)
 
 		dtos, err := stockmovement.NewGetStockMovementByProductIDHandler(repo).Handle(
@@ -86,7 +86,7 @@ func Test_GetStockMovementByProductIDQuery_AllCases_CorrectResults(t *testing.T)
 		start := time.Now().AddDate(0, 0, -7)
 		end := time.Now()
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("GetStockMovementsByProductIDAndDateRange", mock.Anything, userID, productID, start, end).
 			Return(pointerMovements(), nil)
 
@@ -104,7 +104,7 @@ func Test_GetStockMovementByProductIDQuery_AllCases_CorrectResults(t *testing.T)
 	t.Run("ignores a one sided date range", func(t *testing.T) {
 		start := time.Now().AddDate(0, 0, -7)
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("GetStockMovementsByProductID", mock.Anything, userID, productID, false).Return(pointerMovements(), nil)
 
 		_, err := stockmovement.NewGetStockMovementByProductIDHandler(repo).Handle(
@@ -125,7 +125,7 @@ func Test_GetAllStockMovementsQuery_AllCases_CorrectResults(t *testing.T) {
 	boom := errors.New("boom")
 
 	t.Run("returns an empty list on repository error", func(t *testing.T) {
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("GetAllStockMovementsWithProduct", mock.Anything, userID).Return(nil, boom)
 
 		dtos, err := stockmovement.NewGetAllStockMovementsHandler(repo).Handle(
@@ -139,11 +139,11 @@ func Test_GetAllStockMovementsQuery_AllCases_CorrectResults(t *testing.T) {
 	})
 
 	t.Run("maps movements including the product name", func(t *testing.T) {
-		movement := fakes.MustStockMovementWithNote(t, userID, productID, enum.Broken, 2, 8, "Gudang", "rusak", time.Now())
-		withProduct := fakes.MustStockMovementWithProduct(t, movement, "Kopi Susu")
+		movement := mocks.MustStockMovementWithNote(t, userID, productID, enum.Broken, 2, 8, "Gudang", "rusak", time.Now())
+		withProduct := mocks.MustStockMovementWithProduct(t, movement, "Kopi Susu")
 		movements := []*entity.StockMovementWithProduct{&withProduct}
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("GetAllStockMovementsWithProduct", mock.Anything, userID).Return(movements, nil)
 
 		dtos, err := stockmovement.NewGetAllStockMovementsHandler(repo).Handle(
@@ -165,7 +165,7 @@ func Test_GetAllStockMovementsQuery_AllCases_CorrectResults(t *testing.T) {
 		start := time.Now().AddDate(0, 0, -30)
 		end := time.Now()
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("GetAllStockMovementsAndDateRangeWithProduct", mock.Anything, userID, start, end).
 			Return([]*entity.StockMovementWithProduct{}, nil)
 
@@ -181,7 +181,7 @@ func Test_GetAllStockMovementsQuery_AllCases_CorrectResults(t *testing.T) {
 	t.Run("ignores a one sided date range", func(t *testing.T) {
 		end := time.Now()
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("GetAllStockMovementsWithProduct", mock.Anything, userID).Return([]*entity.StockMovementWithProduct{}, nil)
 
 		dtos, err := stockmovement.NewGetAllStockMovementsHandler(repo).Handle(

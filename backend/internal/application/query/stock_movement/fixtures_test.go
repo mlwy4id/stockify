@@ -8,7 +8,7 @@ import (
 	"github.com/mlwy4id/stockify/internal/domain/entity"
 	"github.com/mlwy4id/stockify/internal/domain/enum"
 	vo "github.com/mlwy4id/stockify/internal/domain/values_object"
-	"github.com/mlwy4id/stockify/internal/test/fakes"
+	"github.com/mlwy4id/stockify/internal/test/mocks"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -18,7 +18,7 @@ var rangeKeys = []string{"1w", "1m", "3m", "6m", "1y", "all"}
 
 // --- time helpers ---
 // The Compute* helpers take `now` as a parameter, so those tests stay fully
-// deterministic by passing fakes.FixedTime(). Only the *Handler tests (which call
+// deterministic by passing mocks.FixedTime(). Only the *Handler tests (which call
 // time.Now() internally) build timestamps relative to a captured `now`.
 
 func startOfDay(ref time.Time) time.Time {
@@ -37,7 +37,7 @@ func hoursAgo(ref time.Time, hours int) time.Time {
 
 func newMovement(t *testing.T, userID vo.UserId, productID vo.ProductId, action enum.Action, qty int, balance int, date time.Time) entity.StockMovement {
 	t.Helper()
-	return fakes.MustStockMovement(t, userID, productID, action, qty, balance, date)
+	return mocks.MustStockMovement(t, userID, productID, action, qty, balance, date)
 }
 
 func pointerMovements(ms ...entity.StockMovement) []*entity.StockMovement {

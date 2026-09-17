@@ -9,7 +9,7 @@ import (
 	stockmovement "github.com/mlwy4id/stockify/internal/application/query/stock_movement"
 	"github.com/mlwy4id/stockify/internal/domain/enum"
 	vo "github.com/mlwy4id/stockify/internal/domain/values_object"
-	"github.com/mlwy4id/stockify/internal/test/fakes"
+	"github.com/mlwy4id/stockify/internal/test/mocks"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
@@ -21,7 +21,7 @@ func Test_StockChartByProductIDQuery_ErrorCases_RepoErrorsPropagated(t *testing.
 	boom := errors.New("boom")
 
 	t.Run("product is not found", func(t *testing.T) {
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindByID", mock.Anything, userID, productID).Return(nil, boom)
 
 		_, err := stockmovement.NewGetStockChartByProductIDHandler(repo).Handle(
@@ -33,9 +33,9 @@ func Test_StockChartByProductIDQuery_ErrorCases_RepoErrorsPropagated(t *testing.
 	})
 
 	t.Run("movements query fails", func(t *testing.T) {
-		product := fakes.MustProductFull(t, userID, "Kopi", "", 10, 2, nil)
+		product := mocks.MustProductFull(t, userID, "Kopi", "", 10, 2, nil)
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindByID", mock.Anything, userID, productID).Return(&product, nil)
 		repo.On("GetStockMovementsByProductID", mock.Anything, userID, productID, false).Return(nil, boom)
 
@@ -48,9 +48,9 @@ func Test_StockChartByProductIDQuery_ErrorCases_RepoErrorsPropagated(t *testing.
 	})
 
 	t.Run("ranged movements query fails", func(t *testing.T) {
-		product := fakes.MustProductFull(t, userID, "Kopi", "", 10, 2, nil)
+		product := mocks.MustProductFull(t, userID, "Kopi", "", 10, 2, nil)
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindByID", mock.Anything, userID, productID).Return(&product, nil)
 		repo.On("GetStockMovementsByProductIDAndDateRange", mock.Anything, userID, productID, mock.Anything, mock.Anything).
 			Return(nil, boom)
@@ -71,9 +71,9 @@ func Test_StockChartByProductIDQuery_AllCases_CorrectResults(t *testing.T) {
 	productID := vo.NewProductId()
 
 	t.Run("without movements returns the product stock as single point", func(t *testing.T) {
-		product := fakes.MustProductFull(t, userID, "Kopi Susu", "", 12, 3, nil)
+		product := mocks.MustProductFull(t, userID, "Kopi Susu", "", 12, 3, nil)
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindByID", mock.Anything, userID, productID).Return(&product, nil)
 		repo.On("GetStockMovementsByProductID", mock.Anything, userID, productID, false).Return(pointerMovements(), nil)
 
@@ -92,13 +92,13 @@ func Test_StockChartByProductIDQuery_AllCases_CorrectResults(t *testing.T) {
 	})
 
 	t.Run("sorts the movements it gets back and starts at the oldest one", func(t *testing.T) {
-		product := fakes.MustProductFull(t, userID, "Kopi", "", 25, 3, nil)
+		product := mocks.MustProductFull(t, userID, "Kopi", "", 25, 3, nil)
 
 		newest := newMovement(t, userID, productID, enum.Sold, 5, 25, hoursAgo(time.Now(), 2))
 		oldest := newMovement(t, userID, productID, enum.Restock, 10, 30, hoursAgo(time.Now(), 3))
 		movements := pointerMovements(newest, oldest) // repository returns newest first
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindByID", mock.Anything, userID, productID).Return(&product, nil)
 		repo.On("GetStockMovementsByProductID", mock.Anything, userID, productID, false).Return(movements, nil)
 
@@ -117,9 +117,9 @@ func Test_StockChartByProductIDQuery_AllCases_CorrectResults(t *testing.T) {
 	})
 
 	t.Run("without filter asks the repository for oldest first", func(t *testing.T) {
-		product := fakes.MustProductFull(t, userID, "Kopi", "", 15, 3, nil)
+		product := mocks.MustProductFull(t, userID, "Kopi", "", 15, 3, nil)
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindByID", mock.Anything, userID, productID).Return(&product, nil)
 		// asc = false on purpose: the handler sorts ascending itself.
 		repo.On("GetStockMovementsByProductID", mock.Anything, userID, productID, false).Return(pointerMovements(), nil)
@@ -133,13 +133,13 @@ func Test_StockChartByProductIDQuery_AllCases_CorrectResults(t *testing.T) {
 	})
 
 	t.Run("start balance is derived from the current product stock", func(t *testing.T) {
-		product := fakes.MustProductFull(t, userID, "Kopi", "", 15, 3, nil)
+		product := mocks.MustProductFull(t, userID, "Kopi", "", 15, 3, nil)
 
 		movements := pointerMovements(
 			newMovement(t, userID, productID, enum.Sold, 5, 15, time.Now().AddDate(0, 0, -10)),
 		)
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindByID", mock.Anything, userID, productID).Return(&product, nil)
 		repo.On("GetStockMovementsByProductIDAndDateRange", mock.Anything, userID, productID, mock.Anything, mock.Anything).
 			Return(movements, nil)

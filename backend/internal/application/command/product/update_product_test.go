@@ -8,7 +8,7 @@ import (
 	command "github.com/mlwy4id/stockify/internal/application/command/product"
 	"github.com/mlwy4id/stockify/internal/domain/entity"
 	vo "github.com/mlwy4id/stockify/internal/domain/values_object"
-	"github.com/mlwy4id/stockify/internal/test/fakes"
+	"github.com/mlwy4id/stockify/internal/test/mocks"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
@@ -20,7 +20,7 @@ func Test_UpdateProductCommand_AllCases_CorrectResults(t *testing.T) {
 	boom := errors.New("boom")
 
 	newProduct := func() *entity.Product {
-		p := fakes.MustProductFull(t, userID, "Kopi", "", 10, 3, nil)
+		p := mocks.MustProductFull(t, userID, "Kopi", "", 10, 3, nil)
 		return &p
 	}
 
@@ -28,7 +28,7 @@ func Test_UpdateProductCommand_AllCases_CorrectResults(t *testing.T) {
 		product := newProduct()
 		name := "Teh"
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindByID", mock.Anything, userID, productID).Return(product, nil)
 		repo.On("Save", mock.Anything, mock.MatchedBy(func(p *entity.Product) bool {
 			return p.Name() == "Teh" && p.StockThreshold().Value() == 9
@@ -38,7 +38,7 @@ func Test_UpdateProductCommand_AllCases_CorrectResults(t *testing.T) {
 			UserId:         userID,
 			Id:             productID,
 			Name:           &name,
-			StockThreshold: fakes.Ptr(fakes.MustThreshold(t, 9)),
+			StockThreshold: mocks.Ptr(mocks.MustThreshold(t, 9)),
 		})
 
 		require.NoError(t, err)
@@ -47,7 +47,7 @@ func Test_UpdateProductCommand_AllCases_CorrectResults(t *testing.T) {
 	})
 
 	t.Run("propagates the lookup error", func(t *testing.T) {
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindByID", mock.Anything, userID, productID).Return(nil, boom)
 
 		name := "Teh"
@@ -60,7 +60,7 @@ func Test_UpdateProductCommand_AllCases_CorrectResults(t *testing.T) {
 	})
 
 	t.Run("rejects an update without fields and does not save", func(t *testing.T) {
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindByID", mock.Anything, userID, productID).Return(newProduct(), nil)
 
 		_, err := command.NewUpdateProductCommandHandler(repo).Handle(context.Background(), command.UpdateProductCommand{
@@ -72,9 +72,9 @@ func Test_UpdateProductCommand_AllCases_CorrectResults(t *testing.T) {
 	})
 
 	t.Run("rejects updating an archived product and does not save", func(t *testing.T) {
-		archived := fakes.MustArchivedProduct(t, userID, "Kopi", 10, 3)
+		archived := mocks.MustArchivedProduct(t, userID, "Kopi", 10, 3)
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindByID", mock.Anything, userID, productID).Return(&archived, nil)
 
 		name := "Teh"
@@ -87,7 +87,7 @@ func Test_UpdateProductCommand_AllCases_CorrectResults(t *testing.T) {
 	})
 
 	t.Run("propagates the save error", func(t *testing.T) {
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindByID", mock.Anything, userID, productID).Return(newProduct(), nil)
 		repo.On("Save", mock.Anything, mock.Anything).Return(boom)
 

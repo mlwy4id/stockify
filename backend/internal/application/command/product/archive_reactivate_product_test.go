@@ -8,7 +8,7 @@ import (
 	command "github.com/mlwy4id/stockify/internal/application/command/product"
 	"github.com/mlwy4id/stockify/internal/domain/entity"
 	vo "github.com/mlwy4id/stockify/internal/domain/values_object"
-	"github.com/mlwy4id/stockify/internal/test/fakes"
+	"github.com/mlwy4id/stockify/internal/test/mocks"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
 )
@@ -19,9 +19,9 @@ func Test_ArchiveProductCommand_AllCases_CorrectResults(t *testing.T) {
 	boom := errors.New("boom")
 
 	t.Run("archives the product", func(t *testing.T) {
-		product := fakes.MustProductFull(t, userID, "Kopi", "", 10, 3, nil)
+		product := mocks.MustProductFull(t, userID, "Kopi", "", 10, 3, nil)
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindByID", mock.Anything, userID, productID).Return(&product, nil)
 		repo.On("Save", mock.Anything, mock.MatchedBy(func(p *entity.Product) bool {
 			return p.ArchivedAt() != nil
@@ -36,7 +36,7 @@ func Test_ArchiveProductCommand_AllCases_CorrectResults(t *testing.T) {
 	})
 
 	t.Run("propagates the lookup error", func(t *testing.T) {
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindByID", mock.Anything, userID, productID).Return(nil, boom)
 
 		err := command.NewArchiveProductCommandHandler(repo).Handle(context.Background(), command.ArchiveProductCommand{
@@ -48,9 +48,9 @@ func Test_ArchiveProductCommand_AllCases_CorrectResults(t *testing.T) {
 	})
 
 	t.Run("rejects archiving twice without saving", func(t *testing.T) {
-		archived := fakes.MustArchivedProduct(t, userID, "Kopi", 10, 3)
+		archived := mocks.MustArchivedProduct(t, userID, "Kopi", 10, 3)
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindByID", mock.Anything, userID, productID).Return(&archived, nil)
 
 		err := command.NewArchiveProductCommandHandler(repo).Handle(context.Background(), command.ArchiveProductCommand{
@@ -62,9 +62,9 @@ func Test_ArchiveProductCommand_AllCases_CorrectResults(t *testing.T) {
 	})
 
 	t.Run("propagates the save error", func(t *testing.T) {
-		product := fakes.MustProductFull(t, userID, "Kopi", "", 10, 3, nil)
+		product := mocks.MustProductFull(t, userID, "Kopi", "", 10, 3, nil)
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindByID", mock.Anything, userID, productID).Return(&product, nil)
 		repo.On("Save", mock.Anything, mock.Anything).Return(boom)
 
@@ -83,9 +83,9 @@ func Test_ReactivateProductCommand_AllCases_CorrectResults(t *testing.T) {
 	boom := errors.New("boom")
 
 	t.Run("reactivates the product", func(t *testing.T) {
-		archived := fakes.MustArchivedProduct(t, userID, "Kopi", 10, 3)
+		archived := mocks.MustArchivedProduct(t, userID, "Kopi", 10, 3)
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindByID", mock.Anything, userID, productID).Return(&archived, nil)
 		repo.On("Save", mock.Anything, mock.MatchedBy(func(p *entity.Product) bool {
 			return p.ArchivedAt() == nil
@@ -100,7 +100,7 @@ func Test_ReactivateProductCommand_AllCases_CorrectResults(t *testing.T) {
 	})
 
 	t.Run("propagates the lookup error", func(t *testing.T) {
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindByID", mock.Anything, userID, productID).Return(nil, boom)
 
 		err := command.NewReactivateProductCommandHandler(repo).Handle(context.Background(), command.ReactivateProductCommand{
@@ -112,9 +112,9 @@ func Test_ReactivateProductCommand_AllCases_CorrectResults(t *testing.T) {
 	})
 
 	t.Run("rejects reactivating an active product without saving", func(t *testing.T) {
-		active := fakes.MustProductFull(t, userID, "Kopi", "", 10, 3, nil)
+		active := mocks.MustProductFull(t, userID, "Kopi", "", 10, 3, nil)
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindByID", mock.Anything, userID, productID).Return(&active, nil)
 
 		err := command.NewReactivateProductCommandHandler(repo).Handle(context.Background(), command.ReactivateProductCommand{
@@ -126,9 +126,9 @@ func Test_ReactivateProductCommand_AllCases_CorrectResults(t *testing.T) {
 	})
 
 	t.Run("propagates the save error", func(t *testing.T) {
-		archived := fakes.MustArchivedProduct(t, userID, "Kopi", 10, 3)
+		archived := mocks.MustArchivedProduct(t, userID, "Kopi", 10, 3)
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindByID", mock.Anything, userID, productID).Return(&archived, nil)
 		repo.On("Save", mock.Anything, mock.Anything).Return(boom)
 

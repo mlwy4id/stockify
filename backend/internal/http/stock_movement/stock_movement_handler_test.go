@@ -15,17 +15,17 @@ import (
 	"github.com/mlwy4id/stockify/internal/domain/enum"
 	vo "github.com/mlwy4id/stockify/internal/domain/values_object"
 	handler "github.com/mlwy4id/stockify/internal/http/stock_movement"
-	"github.com/mlwy4id/stockify/internal/test/fakes"
+	"github.com/mlwy4id/stockify/internal/test/mocks"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
 )
 
-func newStockMovementHandlerHarness(t *testing.T) (*fakes.MockProductRepository, *gin.Engine) {
+func newStockMovementHandlerHarness(t *testing.T) (*mocks.MockProductRepository, *gin.Engine) {
 	t.Helper()
 	gin.SetMode(gin.TestMode)
 
-	repo := new(fakes.MockProductRepository)
+	repo := new(mocks.MockProductRepository)
 
 	stockMovementHandler := handler.NewStockMovementHandler(
 		command.NewCreateStockMovementCommandHandler(repo),
@@ -309,7 +309,7 @@ func Test_StockMovementHandler_GetDashboardSummary_AllCases_CorrectResults(t *te
 // productForMovement builds an active product the movement can attach to.
 func productForMovement(t *testing.T, quantity int, threshold int) *entity.Product {
 	t.Helper()
-	p, err := entity.NewProduct(vo.NewUserId(), "Kopi", "", fakes.MustQuantity(t, quantity), fakes.MustThreshold(t, threshold), nil)
+	p, err := entity.NewProduct(vo.NewUserId(), "Kopi", "", mocks.MustQuantity(t, quantity), mocks.MustThreshold(t, threshold), nil)
 	require.NoError(t, err)
 	return &p
 }
@@ -318,7 +318,7 @@ func productForMovement(t *testing.T, quantity int, threshold int) *entity.Produ
 func movementOf(t *testing.T) *entity.StockMovement {
 	t.Helper()
 	p := productForMovement(t, 10, 2)
-	require.NoError(t, p.AddStockMovement(enum.Restock, fakes.MustQuantity(t, 4), "supplier", "refill", fakes.FixedTime()))
+	require.NoError(t, p.AddStockMovement(enum.Restock, mocks.MustQuantity(t, 4), "supplier", "refill", mocks.FixedTime()))
 	require.Len(t, p.StockMovements(), 1)
 	m := p.StockMovements()[0]
 	return &m

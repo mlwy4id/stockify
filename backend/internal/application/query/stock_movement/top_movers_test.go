@@ -10,7 +10,7 @@ import (
 	"github.com/mlwy4id/stockify/internal/domain/entity"
 	"github.com/mlwy4id/stockify/internal/domain/enum"
 	vo "github.com/mlwy4id/stockify/internal/domain/values_object"
-	"github.com/mlwy4id/stockify/internal/test/fakes"
+	"github.com/mlwy4id/stockify/internal/test/mocks"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
@@ -21,7 +21,7 @@ func Test_TopMoversQuery_ErrorCases_RepoErrorsPropagated(t *testing.T) {
 	boom := errors.New("boom")
 
 	t.Run("active products query fails", func(t *testing.T) {
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindAllActive", mock.Anything, userID).Return(nil, boom)
 
 		_, err := stockmovement.NewGetTopMoversHandler(repo).Handle(
@@ -33,9 +33,9 @@ func Test_TopMoversQuery_ErrorCases_RepoErrorsPropagated(t *testing.T) {
 	})
 
 	t.Run("movements query fails", func(t *testing.T) {
-		coffee := fakes.MustProductFull(t, userID, "Kopi", "", 10, 2, nil)
+		coffee := mocks.MustProductFull(t, userID, "Kopi", "", 10, 2, nil)
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindAllActive", mock.Anything, userID).Return([]*entity.Product{&coffee}, nil)
 		repo.On("GetAllStockMovements", mock.Anything, userID).Return(nil, boom)
 
@@ -53,8 +53,8 @@ func Test_TopMoversQuery_AllCases_CorrectResults(t *testing.T) {
 
 	t.Run("aggregates in and out per active product and sorts by outflow", func(t *testing.T) {
 		now := time.Now()
-		coffee := fakes.MustProductFull(t, userID, "Kopi", "", 10, 2, nil)
-		tea := fakes.MustProductFull(t, userID, "Teh", "", 8, 2, nil)
+		coffee := mocks.MustProductFull(t, userID, "Kopi", "", 10, 2, nil)
+		tea := mocks.MustProductFull(t, userID, "Teh", "", 8, 2, nil)
 
 		movements := pointerMovements(
 			newMovement(t, userID, coffee.Id(), enum.Sold, 6, 4, hoursAgo(now, 1)),
@@ -64,7 +64,7 @@ func Test_TopMoversQuery_AllCases_CorrectResults(t *testing.T) {
 			newMovement(t, userID, vo.NewProductId(), enum.Sold, 99, 0, hoursAgo(now, 5)),
 		)
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindAllActive", mock.Anything, userID).Return([]*entity.Product{&coffee, &tea}, nil)
 		repo.On("GetAllStockMovements", mock.Anything, userID).Return(movements, nil)
 
@@ -89,10 +89,10 @@ func Test_TopMoversQuery_AllCases_CorrectResults(t *testing.T) {
 
 	t.Run("keeps products without movements at zero", func(t *testing.T) {
 		now := time.Now()
-		coffee := fakes.MustProductFull(t, userID, "Kopi", "", 10, 2, nil)
-		tea := fakes.MustProductFull(t, userID, "Teh", "", 8, 2, nil)
+		coffee := mocks.MustProductFull(t, userID, "Kopi", "", 10, 2, nil)
+		tea := mocks.MustProductFull(t, userID, "Teh", "", 8, 2, nil)
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindAllActive", mock.Anything, userID).Return([]*entity.Product{&coffee, &tea}, nil)
 		repo.On("GetAllStockMovements", mock.Anything, userID).Return(pointerMovements(
 			newMovement(t, userID, coffee.Id(), enum.Sold, 4, 6, hoursAgo(now, 1)),
@@ -113,10 +113,10 @@ func Test_TopMoversQuery_AllCases_CorrectResults(t *testing.T) {
 
 	t.Run("limit truncates after sorting", func(t *testing.T) {
 		now := time.Now()
-		coffee := fakes.MustProductFull(t, userID, "Kopi", "", 10, 2, nil)
-		tea := fakes.MustProductFull(t, userID, "Teh", "", 8, 2, nil)
+		coffee := mocks.MustProductFull(t, userID, "Kopi", "", 10, 2, nil)
+		tea := mocks.MustProductFull(t, userID, "Teh", "", 8, 2, nil)
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindAllActive", mock.Anything, userID).Return([]*entity.Product{&coffee, &tea}, nil)
 		repo.On("GetAllStockMovements", mock.Anything, userID).Return(pointerMovements(
 			newMovement(t, userID, tea.Id(), enum.Sold, 9, 0, hoursAgo(now, 1)),
@@ -134,9 +134,9 @@ func Test_TopMoversQuery_AllCases_CorrectResults(t *testing.T) {
 	})
 
 	t.Run("a limit above the product count returns everything", func(t *testing.T) {
-		coffee := fakes.MustProductFull(t, userID, "Kopi", "", 10, 2, nil)
+		coffee := mocks.MustProductFull(t, userID, "Kopi", "", 10, 2, nil)
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindAllActive", mock.Anything, userID).Return([]*entity.Product{&coffee}, nil)
 		repo.On("GetAllStockMovements", mock.Anything, userID).Return(pointerMovements(), nil)
 
@@ -149,10 +149,10 @@ func Test_TopMoversQuery_AllCases_CorrectResults(t *testing.T) {
 	})
 
 	t.Run("non positive limit returns everything", func(t *testing.T) {
-		coffee := fakes.MustProductFull(t, userID, "Kopi", "", 10, 2, nil)
-		tea := fakes.MustProductFull(t, userID, "Teh", "", 8, 2, nil)
+		coffee := mocks.MustProductFull(t, userID, "Kopi", "", 10, 2, nil)
+		tea := mocks.MustProductFull(t, userID, "Teh", "", 8, 2, nil)
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindAllActive", mock.Anything, userID).Return([]*entity.Product{&coffee, &tea}, nil)
 		repo.On("GetAllStockMovements", mock.Anything, userID).Return(pointerMovements(), nil)
 
@@ -165,9 +165,9 @@ func Test_TopMoversQuery_AllCases_CorrectResults(t *testing.T) {
 	})
 
 	t.Run("a valid date filter switches to the ranged query", func(t *testing.T) {
-		coffee := fakes.MustProductFull(t, userID, "Kopi", "", 10, 2, nil)
+		coffee := mocks.MustProductFull(t, userID, "Kopi", "", 10, 2, nil)
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindAllActive", mock.Anything, userID).Return([]*entity.Product{&coffee}, nil)
 		repo.On("GetAllStockMovementsAndDateRange", mock.Anything, userID, mock.Anything, mock.Anything).
 			Return(pointerMovements(), nil)

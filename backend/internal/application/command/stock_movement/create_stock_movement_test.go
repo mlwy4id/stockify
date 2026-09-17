@@ -10,7 +10,7 @@ import (
 	"github.com/mlwy4id/stockify/internal/domain/entity"
 	"github.com/mlwy4id/stockify/internal/domain/enum"
 	vo "github.com/mlwy4id/stockify/internal/domain/values_object"
-	"github.com/mlwy4id/stockify/internal/test/fakes"
+	"github.com/mlwy4id/stockify/internal/test/mocks"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
@@ -23,9 +23,9 @@ func Test_CreateStockMovementCommand_AllCases_CorrectResults(t *testing.T) {
 	date := time.Now().Add(-time.Hour)
 
 	t.Run("restock increases stock and saves the pending movement", func(t *testing.T) {
-		product := fakes.MustProductFull(t, userID, "Kopi", "", 10, 3, nil)
+		product := mocks.MustProductFull(t, userID, "Kopi", "", 10, 3, nil)
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindByID", mock.Anything, userID, productID).Return(&product, nil)
 		repo.On("Save", mock.Anything, mock.MatchedBy(func(p *entity.Product) bool {
 			return p.Quantity().Value() == 16 && len(p.PendingStockMovements()) == 1
@@ -35,7 +35,7 @@ func Test_CreateStockMovementCommand_AllCases_CorrectResults(t *testing.T) {
 			UserId:    userID,
 			ProductId: productID,
 			Action:    enum.Restock,
-			Quantity:  fakes.MustQuantity(t, 6),
+			Quantity:  mocks.MustQuantity(t, 6),
 			Source:    "Supplier",
 			Date:      date,
 		})
@@ -45,9 +45,9 @@ func Test_CreateStockMovementCommand_AllCases_CorrectResults(t *testing.T) {
 	})
 
 	t.Run("a sale decreases stock", func(t *testing.T) {
-		product := fakes.MustProductFull(t, userID, "Kopi", "", 10, 3, nil)
+		product := mocks.MustProductFull(t, userID, "Kopi", "", 10, 3, nil)
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindByID", mock.Anything, userID, productID).Return(&product, nil)
 		repo.On("Save", mock.Anything, mock.MatchedBy(func(p *entity.Product) bool {
 			return p.Quantity().Value() == 6
@@ -57,7 +57,7 @@ func Test_CreateStockMovementCommand_AllCases_CorrectResults(t *testing.T) {
 			UserId:    userID,
 			ProductId: productID,
 			Action:    enum.Sold,
-			Quantity:  fakes.MustQuantity(t, 4),
+			Quantity:  mocks.MustQuantity(t, 4),
 			Date:      date,
 		})
 
@@ -66,16 +66,16 @@ func Test_CreateStockMovementCommand_AllCases_CorrectResults(t *testing.T) {
 	})
 
 	t.Run("rejects a sale beyond the available stock", func(t *testing.T) {
-		product := fakes.MustProductFull(t, userID, "Kopi", "", 2, 3, nil)
+		product := mocks.MustProductFull(t, userID, "Kopi", "", 2, 3, nil)
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindByID", mock.Anything, userID, productID).Return(&product, nil)
 
 		err := command.NewCreateStockMovementCommandHandler(repo).Handle(context.Background(), command.CreateStockMovementCommand{
 			UserId:    userID,
 			ProductId: productID,
 			Action:    enum.Sold,
-			Quantity:  fakes.MustQuantity(t, 3),
+			Quantity:  mocks.MustQuantity(t, 3),
 			Date:      date,
 		})
 
@@ -86,16 +86,16 @@ func Test_CreateStockMovementCommand_AllCases_CorrectResults(t *testing.T) {
 	})
 
 	t.Run("rejects an invalid action", func(t *testing.T) {
-		product := fakes.MustProductFull(t, userID, "Kopi", "", 10, 3, nil)
+		product := mocks.MustProductFull(t, userID, "Kopi", "", 10, 3, nil)
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindByID", mock.Anything, userID, productID).Return(&product, nil)
 
 		err := command.NewCreateStockMovementCommandHandler(repo).Handle(context.Background(), command.CreateStockMovementCommand{
 			UserId:    userID,
 			ProductId: productID,
 			Action:    enum.Action("NOPE"),
-			Quantity:  fakes.MustQuantity(t, 1),
+			Quantity:  mocks.MustQuantity(t, 1),
 			Date:      date,
 		})
 
@@ -104,14 +104,14 @@ func Test_CreateStockMovementCommand_AllCases_CorrectResults(t *testing.T) {
 	})
 
 	t.Run("propagates the lookup error", func(t *testing.T) {
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindByID", mock.Anything, userID, productID).Return(nil, boom)
 
 		err := command.NewCreateStockMovementCommandHandler(repo).Handle(context.Background(), command.CreateStockMovementCommand{
 			UserId:    userID,
 			ProductId: productID,
 			Action:    enum.Restock,
-			Quantity:  fakes.MustQuantity(t, 1),
+			Quantity:  mocks.MustQuantity(t, 1),
 			Date:      date,
 		})
 
@@ -120,9 +120,9 @@ func Test_CreateStockMovementCommand_AllCases_CorrectResults(t *testing.T) {
 	})
 
 	t.Run("propagates the save error", func(t *testing.T) {
-		product := fakes.MustProductFull(t, userID, "Kopi", "", 10, 3, nil)
+		product := mocks.MustProductFull(t, userID, "Kopi", "", 10, 3, nil)
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindByID", mock.Anything, userID, productID).Return(&product, nil)
 		repo.On("Save", mock.Anything, mock.Anything).Return(boom)
 
@@ -130,7 +130,7 @@ func Test_CreateStockMovementCommand_AllCases_CorrectResults(t *testing.T) {
 			UserId:    userID,
 			ProductId: productID,
 			Action:    enum.Restock,
-			Quantity:  fakes.MustQuantity(t, 1),
+			Quantity:  mocks.MustQuantity(t, 1),
 			Date:      date,
 		})
 

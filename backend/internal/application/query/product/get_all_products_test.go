@@ -8,7 +8,7 @@ import (
 	query "github.com/mlwy4id/stockify/internal/application/query/product"
 	"github.com/mlwy4id/stockify/internal/domain/entity"
 	vo "github.com/mlwy4id/stockify/internal/domain/values_object"
-	"github.com/mlwy4id/stockify/internal/test/fakes"
+	"github.com/mlwy4id/stockify/internal/test/mocks"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
@@ -39,9 +39,9 @@ func Test_GetAllProductsQuery_AllCases_CorrectResults(t *testing.T) {
 	boom := errors.New("boom")
 
 	t.Run("active status asks for active products", func(t *testing.T) {
-		coffee := fakes.MustProductFull(t, userID, "Kopi", "https://img", 10, 3, &categoryID)
+		coffee := mocks.MustProductFull(t, userID, "Kopi", "https://img", 10, 3, &categoryID)
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindAllActive", mock.Anything, userID).Return([]*entity.Product{&coffee}, nil)
 
 		products, err := query.NewGetAllProductsHandler(repo).Handle(context.Background(), query.GetAllProductsQuery{
@@ -63,9 +63,9 @@ func Test_GetAllProductsQuery_AllCases_CorrectResults(t *testing.T) {
 	})
 
 	t.Run("archived status asks for archived products", func(t *testing.T) {
-		archived := fakes.MustArchivedProduct(t, userID, "Teh", 5, 2)
+		archived := mocks.MustArchivedProduct(t, userID, "Teh", 5, 2)
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindAllArchived", mock.Anything, userID).Return([]*entity.Product{&archived}, nil)
 
 		products, err := query.NewGetAllProductsHandler(repo).Handle(context.Background(), query.GetAllProductsQuery{
@@ -82,10 +82,10 @@ func Test_GetAllProductsQuery_AllCases_CorrectResults(t *testing.T) {
 	})
 
 	t.Run("all status asks for every product", func(t *testing.T) {
-		coffee := fakes.MustProductFull(t, userID, "Kopi", "", 10, 3, nil)
-		tea := fakes.MustArchivedProduct(t, userID, "Teh", 5, 2)
+		coffee := mocks.MustProductFull(t, userID, "Kopi", "", 10, 3, nil)
+		tea := mocks.MustArchivedProduct(t, userID, "Teh", 5, 2)
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindAll", mock.Anything, userID).Return([]*entity.Product{&coffee, &tea}, nil)
 
 		products, err := query.NewGetAllProductsHandler(repo).Handle(context.Background(), query.GetAllProductsQuery{
@@ -99,7 +99,7 @@ func Test_GetAllProductsQuery_AllCases_CorrectResults(t *testing.T) {
 	})
 
 	t.Run("an unknown status falls back to active products", func(t *testing.T) {
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindAllActive", mock.Anything, userID).Return([]*entity.Product{}, nil)
 
 		products, err := query.NewGetAllProductsHandler(repo).Handle(context.Background(), query.GetAllProductsQuery{
@@ -113,7 +113,7 @@ func Test_GetAllProductsQuery_AllCases_CorrectResults(t *testing.T) {
 	})
 
 	t.Run("propagates the repository error", func(t *testing.T) {
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindAllActive", mock.Anything, userID).Return(nil, boom)
 
 		_, err := query.NewGetAllProductsHandler(repo).Handle(context.Background(), query.GetAllProductsQuery{

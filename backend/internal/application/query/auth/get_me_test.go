@@ -7,7 +7,7 @@ import (
 
 	query "github.com/mlwy4id/stockify/internal/application/query/auth"
 	vo "github.com/mlwy4id/stockify/internal/domain/values_object"
-	"github.com/mlwy4id/stockify/internal/test/fakes"
+	"github.com/mlwy4id/stockify/internal/test/mocks"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
@@ -18,9 +18,9 @@ func Test_GetMeQuery_AllCases_CorrectResults(t *testing.T) {
 	boom := errors.New("boom")
 
 	t.Run("returns the profile of the authenticated user", func(t *testing.T) {
-		user := fakes.MustUser(t, "budi@example.com", "Budi", "hash")
+		user := mocks.MustUser(t, "budi@example.com", "Budi", "hash")
 
-		repo := new(fakes.MockUserRepository)
+		repo := new(mocks.MockUserRepository)
 		repo.On("FindByID", mock.Anything, userID).Return(&user, nil)
 
 		profile, err := query.NewGetMeQueryHandler(repo).Handle(context.Background(), query.GetMeQuery{UserID: userID})
@@ -34,7 +34,7 @@ func Test_GetMeQuery_AllCases_CorrectResults(t *testing.T) {
 	})
 
 	t.Run("returns the repository error", func(t *testing.T) {
-		repo := new(fakes.MockUserRepository)
+		repo := new(mocks.MockUserRepository)
 		repo.On("FindByID", mock.Anything, userID).Return(nil, boom)
 
 		profile, err := query.NewGetMeQueryHandler(repo).Handle(context.Background(), query.GetMeQuery{UserID: userID})

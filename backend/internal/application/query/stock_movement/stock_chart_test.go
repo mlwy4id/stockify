@@ -9,7 +9,7 @@ import (
 	stockmovement "github.com/mlwy4id/stockify/internal/application/query/stock_movement"
 	"github.com/mlwy4id/stockify/internal/domain/enum"
 	vo "github.com/mlwy4id/stockify/internal/domain/values_object"
-	"github.com/mlwy4id/stockify/internal/test/fakes"
+	"github.com/mlwy4id/stockify/internal/test/mocks"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
@@ -20,7 +20,7 @@ func Test_StockChartQuery_ErrorCases_RepoErrorsPropagated(t *testing.T) {
 	boom := errors.New("boom")
 
 	t.Run("movements query fails", func(t *testing.T) {
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("GetAllStockMovements", mock.Anything, userID).Return(nil, boom)
 
 		_, err := stockmovement.NewGetStockChartHandler(repo).Handle(
@@ -32,7 +32,7 @@ func Test_StockChartQuery_ErrorCases_RepoErrorsPropagated(t *testing.T) {
 	})
 
 	t.Run("total quantity query fails", func(t *testing.T) {
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("GetAllStockMovements", mock.Anything, userID).Return(pointerMovements(), nil)
 		repo.On("GetTotalQuantity", mock.Anything, userID).Return(0, boom)
 
@@ -45,7 +45,7 @@ func Test_StockChartQuery_ErrorCases_RepoErrorsPropagated(t *testing.T) {
 	})
 
 	t.Run("date range query fails", func(t *testing.T) {
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("GetAllStockMovementsAndDateRange", mock.Anything, userID, mock.Anything, mock.Anything).Return(nil, boom)
 
 		filter := enum.Filter1w
@@ -62,7 +62,7 @@ func Test_StockChartQuery_WithoutMovements_EmptyChart(t *testing.T) {
 	userID := vo.NewUserId()
 
 	t.Run("returns a single point carrying the current balance", func(t *testing.T) {
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("GetAllStockMovements", mock.Anything, userID).Return(pointerMovements(), nil)
 		repo.On("GetTotalQuantity", mock.Anything, userID).Return(42, nil)
 
@@ -77,7 +77,7 @@ func Test_StockChartQuery_WithoutMovements_EmptyChart(t *testing.T) {
 	})
 
 	t.Run("an invalid date filter falls back to all movements", func(t *testing.T) {
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("GetAllStockMovements", mock.Anything, userID).Return(pointerMovements(), nil)
 		repo.On("GetTotalQuantity", mock.Anything, userID).Return(7, nil)
 
@@ -98,7 +98,7 @@ func Test_StockChartQuery_DateFilterWindows_ExpectedWindows(t *testing.T) {
 	userID := vo.NewUserId()
 
 	t.Run("1d filter asks for today and yields two daily points", func(t *testing.T) {
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 
 		windowStart := startOfDay(time.Now()).Add(-24 * time.Hour)
 		windowEnd := endOfDay(time.Now())
@@ -124,7 +124,7 @@ func Test_StockChartQuery_DateFilterWindows_ExpectedWindows(t *testing.T) {
 	})
 
 	t.Run("1m filter buckets one point per day", func(t *testing.T) {
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("GetAllStockMovementsAndDateRange", mock.Anything, userID, mock.Anything, mock.Anything).Return(pointerMovements(), nil)
 		repo.On("GetTotalQuantity", mock.Anything, userID).Return(0, nil)
 
@@ -139,7 +139,7 @@ func Test_StockChartQuery_DateFilterWindows_ExpectedWindows(t *testing.T) {
 	})
 
 	t.Run("3m filter buckets per week starting on monday", func(t *testing.T) {
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("GetAllStockMovementsAndDateRange", mock.Anything, userID, mock.Anything, mock.Anything).Return(pointerMovements(), nil)
 		repo.On("GetTotalQuantity", mock.Anything, userID).Return(0, nil)
 
@@ -160,7 +160,7 @@ func Test_StockChartQuery_DateFilterWindows_ExpectedWindows(t *testing.T) {
 	})
 
 	t.Run("1y filter buckets per month", func(t *testing.T) {
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("GetAllStockMovementsAndDateRange", mock.Anything, userID, mock.Anything, mock.Anything).Return(pointerMovements(), nil)
 		repo.On("GetTotalQuantity", mock.Anything, userID).Return(0, nil)
 
@@ -187,7 +187,7 @@ func Test_StockChartQuery_BucketingWithoutFilter_ExpectedBuckets(t *testing.T) {
 	productID := vo.NewProductId()
 
 	t.Run("a span beyond a year buckets per month", func(t *testing.T) {
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 
 		date := time.Now().AddDate(0, 0, -400)
 		movements := pointerMovements(
@@ -213,7 +213,7 @@ func Test_StockChartQuery_BucketingWithoutFilter_ExpectedBuckets(t *testing.T) {
 	})
 
 	t.Run("carries the previous balance into empty buckets", func(t *testing.T) {
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 
 		movements := pointerMovements(
 			newMovement(t, userID, productID, enum.Sold, 5, 25, time.Now().AddDate(0, 0, -10)),
@@ -237,7 +237,7 @@ func Test_StockChartQuery_BucketingWithoutFilter_ExpectedBuckets(t *testing.T) {
 	})
 
 	t.Run("orders movements ascending before accumulating", func(t *testing.T) {
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 
 		// The SQL query returns newest first; the handler has to sort ascending,
 		// otherwise the running balance is applied in the wrong order.
@@ -269,7 +269,7 @@ func Test_StockChartQuery_BucketingWithoutFilter_ExpectedBuckets(t *testing.T) {
 	})
 
 	t.Run("a span between half a year and a year buckets per week", func(t *testing.T) {
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 
 		movements := pointerMovements(
 			newMovement(t, userID, productID, enum.Restock, 5, 15, time.Now().AddDate(0, 0, -200)),
@@ -291,10 +291,10 @@ func Test_StockChartQuery_BucketingWithoutFilter_ExpectedBuckets(t *testing.T) {
 	})
 
 	t.Run("an unknown action does not move the balance", func(t *testing.T) {
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 
 		// Reconstruct bypasses validation, which is how a legacy action can reach the query layer.
-		unknown := fakes.MustStockMovement(t, userID, productID, enum.Action("UNKNOWN"), 5, 20, time.Now().AddDate(0, 0, -10))
+		unknown := mocks.MustStockMovement(t, userID, productID, enum.Action("UNKNOWN"), 5, 20, time.Now().AddDate(0, 0, -10))
 		movements := pointerMovements(unknown)
 
 		repo.On("GetAllStockMovementsAndDateRange", mock.Anything, userID, mock.Anything, mock.Anything).Return(movements, nil)
@@ -312,7 +312,7 @@ func Test_StockChartQuery_BucketingWithoutFilter_ExpectedBuckets(t *testing.T) {
 	})
 
 	t.Run("a future dated movement does not break the chart", func(t *testing.T) {
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 
 		movements := pointerMovements(
 			newMovement(t, userID, productID, enum.Restock, 5, 25, time.Now().AddDate(0, 0, 2)),

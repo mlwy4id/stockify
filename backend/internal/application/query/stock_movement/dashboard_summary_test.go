@@ -10,7 +10,7 @@ import (
 	"github.com/mlwy4id/stockify/internal/domain/entity"
 	"github.com/mlwy4id/stockify/internal/domain/enum"
 	vo "github.com/mlwy4id/stockify/internal/domain/values_object"
-	"github.com/mlwy4id/stockify/internal/test/fakes"
+	"github.com/mlwy4id/stockify/internal/test/mocks"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
@@ -32,7 +32,7 @@ func Test_DashboardSummaryQuery_ErrorCases_RepoErrorsPropagated(t *testing.T) {
 	boom := errors.New("boom")
 
 	t.Run("active products query fails", func(t *testing.T) {
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindAllActive", mock.Anything, userID).Return(nil, boom)
 
 		_, err := stockmovement.NewGetDashboardStockMovementSummaryHandler(repo).Handle(
@@ -44,10 +44,10 @@ func Test_DashboardSummaryQuery_ErrorCases_RepoErrorsPropagated(t *testing.T) {
 	})
 
 	t.Run("today window query fails", func(t *testing.T) {
-		coffee := fakes.MustProductFull(t, userID, "Kopi", "", 10, 2, nil)
+		coffee := mocks.MustProductFull(t, userID, "Kopi", "", 10, 2, nil)
 		_, _, _, _ = dashboardWindows(time.Now())
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindAllActive", mock.Anything, userID).Return([]*entity.Product{&coffee}, nil)
 		repo.On("GetAllStockMovementsAndDateRange", mock.Anything, userID, mock.Anything, mock.Anything).Return(nil, boom)
 
@@ -62,9 +62,9 @@ func Test_DashboardSummaryQuery_ErrorCases_RepoErrorsPropagated(t *testing.T) {
 	t.Run("previous window query fails", func(t *testing.T) {
 		now := time.Now()
 		currentStart, _, prevStart, _ := dashboardWindows(now)
-		coffee := fakes.MustProductFull(t, userID, "Kopi", "", 10, 2, nil)
+		coffee := mocks.MustProductFull(t, userID, "Kopi", "", 10, 2, nil)
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindAllActive", mock.Anything, userID).Return([]*entity.Product{&coffee}, nil)
 		repo.On("GetAllStockMovementsAndDateRange", mock.Anything, userID,
 			mock.MatchedBy(func(got time.Time) bool { return got.Equal(currentStart) }), mock.Anything).
@@ -84,9 +84,9 @@ func Test_DashboardSummaryQuery_ErrorCases_RepoErrorsPropagated(t *testing.T) {
 	t.Run("all movements query fails", func(t *testing.T) {
 		now := time.Now()
 		currentStart, _, prevStart, _ := dashboardWindows(now)
-		coffee := fakes.MustProductFull(t, userID, "Kopi", "", 10, 2, nil)
+		coffee := mocks.MustProductFull(t, userID, "Kopi", "", 10, 2, nil)
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindAllActive", mock.Anything, userID).Return([]*entity.Product{&coffee}, nil)
 		repo.On("GetAllStockMovementsAndDateRange", mock.Anything, userID,
 			mock.MatchedBy(func(got time.Time) bool { return got.Equal(currentStart) }), mock.Anything).
@@ -108,11 +108,11 @@ func Test_DashboardSummaryQuery_ErrorCases_RepoErrorsPropagated(t *testing.T) {
 // newSummaryRepo wires both windowed queries (current + previous) and the "all movements"
 // query used for volume/ratio. Windows are matched on their start so expectations stay
 // unambiguous, and AssertExpectations proves both windows were actually requested.
-func newSummaryRepo(t *testing.T, userID vo.UserId, current, previous, all []*entity.StockMovement) *fakes.MockProductRepository {
+func newSummaryRepo(t *testing.T, userID vo.UserId, current, previous, all []*entity.StockMovement) *mocks.MockProductRepository {
 	t.Helper()
 	currentStart, _, prevStart, _ := dashboardWindows(time.Now())
 
-	repo := new(fakes.MockProductRepository)
+	repo := new(mocks.MockProductRepository)
 	repo.On("GetAllStockMovementsAndDateRange", mock.Anything, userID,
 		mock.MatchedBy(func(got time.Time) bool { return got.Equal(currentStart) }), mock.Anything).
 		Return(current, nil)
@@ -129,8 +129,8 @@ func Test_DashboardSummaryQuery_AllCases_CorrectResults(t *testing.T) {
 	t.Run("summarises the current window against the previous one", func(t *testing.T) {
 		now := time.Now()
 		currentStart, _, prevStart, _ := dashboardWindows(now)
-		coffee := fakes.MustProductFull(t, userID, "Kopi", "", 10, 2, nil)
-		tea := fakes.MustProductFull(t, userID, "Teh", "", 5, 2, nil)
+		coffee := mocks.MustProductFull(t, userID, "Kopi", "", 10, 2, nil)
+		tea := mocks.MustProductFull(t, userID, "Teh", "", 5, 2, nil)
 
 		currentMovements := pointerMovements(
 			newMovement(t, userID, coffee.Id(), enum.Restock, 8, 18, currentStart.Add(2*time.Hour)),
@@ -173,7 +173,7 @@ func Test_DashboardSummaryQuery_AllCases_CorrectResults(t *testing.T) {
 	t.Run("growth from an empty previous window is reported as 100 percent", func(t *testing.T) {
 		now := time.Now()
 		currentStart, _, _, _ := dashboardWindows(now)
-		coffee := fakes.MustProductFull(t, userID, "Kopi", "", 10, 2, nil)
+		coffee := mocks.MustProductFull(t, userID, "Kopi", "", 10, 2, nil)
 
 		currentMovements := pointerMovements(
 			newMovement(t, userID, coffee.Id(), enum.Restock, 5, 15, currentStart.Add(2*time.Hour)),
@@ -196,7 +196,7 @@ func Test_DashboardSummaryQuery_AllCases_CorrectResults(t *testing.T) {
 	})
 
 	t.Run("a silent period reports zero change", func(t *testing.T) {
-		coffee := fakes.MustProductFull(t, userID, "Kopi", "", 10, 2, nil)
+		coffee := mocks.MustProductFull(t, userID, "Kopi", "", 10, 2, nil)
 
 		repo := newSummaryRepo(t, userID, pointerMovements(), pointerMovements(), pointerMovements())
 		repo.On("FindAllActive", mock.Anything, userID).Return([]*entity.Product{&coffee}, nil)

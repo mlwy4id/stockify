@@ -7,13 +7,13 @@ import (
 	stockmovement "github.com/mlwy4id/stockify/internal/application/query/stock_movement"
 	"github.com/mlwy4id/stockify/internal/domain/enum"
 	vo "github.com/mlwy4id/stockify/internal/domain/values_object"
-	"github.com/mlwy4id/stockify/internal/test/fakes"
+	"github.com/mlwy4id/stockify/internal/test/mocks"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
 func Test_ComputeDepletion_Calculation_ExpectedWindows(t *testing.T) {
-	now := fakes.FixedTime()
+	now := mocks.FixedTime()
 	userID := vo.NewUserId()
 	productID := vo.NewProductId()
 	window := enum.Filter1m.Duration()

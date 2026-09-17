@@ -12,7 +12,7 @@ import (
 	"github.com/mlwy4id/stockify/internal/application/query/auth"
 	vo "github.com/mlwy4id/stockify/internal/domain/values_object"
 	handler "github.com/mlwy4id/stockify/internal/http/auth"
-	"github.com/mlwy4id/stockify/internal/test/fakes"
+	"github.com/mlwy4id/stockify/internal/test/mocks"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
@@ -20,7 +20,7 @@ import (
 
 type authHarness struct {
 	engine *gin.Engine
-	repo   *fakes.MockUserRepository
+	repo   *mocks.MockUserRepository
 }
 
 func newAuthHandlerHarness(t *testing.T) authHarness {
@@ -29,7 +29,7 @@ func newAuthHandlerHarness(t *testing.T) authHarness {
 	t.Setenv("ENVIRONMENT", "TEST")
 	gin.SetMode(gin.TestMode)
 
-	repo := new(fakes.MockUserRepository)
+	repo := new(mocks.MockUserRepository)
 	authHandler := handler.NewAuthHandler(
 		command.NewSignUpCommandHandler(repo),
 		command.NewSignInCommandHandler(repo),
@@ -95,7 +95,7 @@ func Test_AuthHandler_SignUp_AllCases_CorrectResults(t *testing.T) {
 
 	t.Run("maps a duplicate email to 422", func(t *testing.T) {
 		h := newAuthHandlerHarness(t)
-		existing := fakes.MustUser(t, "budi@example.com", "Budi", "hash")
+		existing := mocks.MustUser(t, "budi@example.com", "Budi", "hash")
 		h.repo.On("FindByEmail", mock.Anything, "budi@example.com").Return(&existing, nil)
 
 		recorder := doJSON(t, h.engine, http.MethodPost, "/api/auth/sign-up/email", `{"email":"budi@example.com","name":"Budi","password":"password123"}`)
@@ -118,7 +118,7 @@ func Test_AuthHandler_SignIn_AllCases_CorrectResults(t *testing.T) {
 	t.Run("signs in and sets an httponly token cookie", func(t *testing.T) {
 		h := newAuthHandlerHarness(t)
 		// bcrypt-min-cost hash of "password123", generated with bcrypt.GenerateFromPassword.
-		user := fakes.MustUser(t, "budi@example.com", "Budi", mustHash(t, "password123"))
+		user := mocks.MustUser(t, "budi@example.com", "Budi", mustHash(t, "password123"))
 		h.repo.On("FindByEmail", mock.Anything, "budi@example.com").Return(&user, nil)
 
 		recorder := doJSON(t, h.engine, http.MethodPost, "/api/auth/sign-in/email", `{"email":"budi@example.com","password":"password123"}`)
@@ -144,7 +144,7 @@ func Test_AuthHandler_SignIn_AllCases_CorrectResults(t *testing.T) {
 func Test_AuthHandler_GetMe_AllCases_CorrectResults(t *testing.T) {
 	t.Run("returns the profile of the user id in the context", func(t *testing.T) {
 		h := newAuthHandlerHarness(t)
-		user := fakes.MustUser(t, "budi@example.com", "Budi", "hash")
+		user := mocks.MustUser(t, "budi@example.com", "Budi", "hash")
 		h.repo.On("FindByID", mock.Anything, mock.Anything).Return(&user, nil)
 
 		req := httptest.NewRequest(http.MethodGet, "/api/auth/me", nil)

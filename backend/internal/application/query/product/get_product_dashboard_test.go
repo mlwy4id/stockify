@@ -10,7 +10,7 @@ import (
 	"github.com/mlwy4id/stockify/internal/domain/entity"
 	"github.com/mlwy4id/stockify/internal/domain/enum"
 	vo "github.com/mlwy4id/stockify/internal/domain/values_object"
-	"github.com/mlwy4id/stockify/internal/test/fakes"
+	"github.com/mlwy4id/stockify/internal/test/mocks"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
@@ -31,7 +31,7 @@ func Test_GetProductDashboardQuery_AllCases_CorrectResults(t *testing.T) {
 	boom := errors.New("boom")
 
 	t.Run("propagates the lookup error", func(t *testing.T) {
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindByID", mock.Anything, userID, productID).Return(nil, boom)
 
 		_, err := query.NewGetProductDashboardByProductIDHandler(repo).Handle(
@@ -44,9 +44,9 @@ func Test_GetProductDashboardQuery_AllCases_CorrectResults(t *testing.T) {
 	})
 
 	t.Run("propagates the movements error", func(t *testing.T) {
-		product := fakes.MustProductFull(t, userID, "Kopi", "", 10, 3, nil)
+		product := mocks.MustProductFull(t, userID, "Kopi", "", 10, 3, nil)
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindByID", mock.Anything, userID, productID).Return(&product, nil)
 		repo.On("GetStockMovementsByProductID", mock.Anything, userID, productID, true).Return(nil, boom)
 
@@ -61,17 +61,17 @@ func Test_GetProductDashboardQuery_AllCases_CorrectResults(t *testing.T) {
 
 	t.Run("combines stock, volume, ratio, depletion and restock interval", func(t *testing.T) {
 		categoryID := vo.NewCategoryId()
-		product := fakes.MustProductFull(t, userID, "Kopi Susu", "https://img", 10, 3, &categoryID)
+		product := mocks.MustProductFull(t, userID, "Kopi Susu", "https://img", 10, 3, &categoryID)
 
 		now := time.Now()
 		movements := movementsPtr(
-			fakes.MustStockMovement(t, userID, productID, enum.Restock, 20, 10, now.AddDate(0, 0, -20)),
-			fakes.MustStockMovement(t, userID, productID, enum.Restock, 20, 30, now.AddDate(0, 0, -10)),
-			fakes.MustStockMovement(t, userID, productID, enum.Sold, 5, 25, now.AddDate(0, 0, -5)),
-			fakes.MustStockMovement(t, userID, productID, enum.Broken, 1, 24, now.AddDate(0, 0, -2)),
+			mocks.MustStockMovement(t, userID, productID, enum.Restock, 20, 10, now.AddDate(0, 0, -20)),
+			mocks.MustStockMovement(t, userID, productID, enum.Restock, 20, 30, now.AddDate(0, 0, -10)),
+			mocks.MustStockMovement(t, userID, productID, enum.Sold, 5, 25, now.AddDate(0, 0, -5)),
+			mocks.MustStockMovement(t, userID, productID, enum.Broken, 1, 24, now.AddDate(0, 0, -2)),
 		)
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindByID", mock.Anything, userID, productID).Return(&product, nil)
 		// asc = true: the restock interval calculation depends on chronological order.
 		repo.On("GetStockMovementsByProductID", mock.Anything, userID, productID, true).Return(movements, nil)
@@ -118,9 +118,9 @@ func Test_GetProductDashboardQuery_AllCases_CorrectResults(t *testing.T) {
 	})
 
 	t.Run("omits optional fields that are empty", func(t *testing.T) {
-		product := fakes.MustProductFull(t, userID, "Kopi", "", 4, 0, nil)
+		product := mocks.MustProductFull(t, userID, "Kopi", "", 4, 0, nil)
 
-		repo := new(fakes.MockProductRepository)
+		repo := new(mocks.MockProductRepository)
 		repo.On("FindByID", mock.Anything, userID, productID).Return(&product, nil)
 		repo.On("GetStockMovementsByProductID", mock.Anything, userID, productID, true).Return(movementsPtr(), nil)
 

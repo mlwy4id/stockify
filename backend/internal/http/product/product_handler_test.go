@@ -14,7 +14,7 @@ import (
 	"github.com/mlwy4id/stockify/internal/domain/entity"
 	vo "github.com/mlwy4id/stockify/internal/domain/values_object"
 	handler "github.com/mlwy4id/stockify/internal/http/product"
-	"github.com/mlwy4id/stockify/internal/test/fakes"
+	"github.com/mlwy4id/stockify/internal/test/mocks"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
@@ -22,14 +22,14 @@ import (
 
 type productHarness struct {
 	engine *gin.Engine
-	repo   *fakes.MockProductRepository
+	repo   *mocks.MockProductRepository
 }
 
 func newProductHandlerHarness(t *testing.T) productHarness {
 	t.Helper()
 	gin.SetMode(gin.TestMode)
 
-	repo := new(fakes.MockProductRepository)
+	repo := new(mocks.MockProductRepository)
 
 	productHandler := handler.NewProductHandler(
 		command.NewCreateProductCommandHandler(repo),
@@ -40,7 +40,7 @@ func newProductHandlerHarness(t *testing.T) productHarness {
 		query.NewGetProductByCategoryHandler(repo),
 		query.NewGetLowStockProductsHandler(repo),
 		query.NewGetProductDashboardByProductIDHandler(repo),
-		new(fakes.MockFileStorage),
+		new(mocks.MockFileStorage),
 	)
 
 	engine := gin.New()
@@ -346,7 +346,7 @@ func Test_ProductHandler_GetDashboardByProductId_AllCases_CorrectResults(t *test
 // productPtr builds a minimal active product owned by a fresh user.
 func productPtr(t *testing.T, name string, quantity int, threshold int) *entity.Product {
 	t.Helper()
-	p, err := entity.NewProduct(vo.NewUserId(), name, "", fakes.MustQuantity(t, quantity), fakes.MustThreshold(t, threshold), nil)
+	p, err := entity.NewProduct(vo.NewUserId(), name, "", mocks.MustQuantity(t, quantity), mocks.MustThreshold(t, threshold), nil)
 	require.NoError(t, err)
 	return &p
 }

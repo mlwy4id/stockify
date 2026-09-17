@@ -8,7 +8,7 @@ import (
 	query "github.com/mlwy4id/stockify/internal/application/query/category"
 	"github.com/mlwy4id/stockify/internal/domain/entity"
 	vo "github.com/mlwy4id/stockify/internal/domain/values_object"
-	"github.com/mlwy4id/stockify/internal/test/fakes"
+	"github.com/mlwy4id/stockify/internal/test/mocks"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
@@ -19,10 +19,10 @@ func Test_GetAllCategoriesQuery_AllCases_CorrectResults(t *testing.T) {
 	boom := errors.New("boom")
 
 	t.Run("maps every category of the user", func(t *testing.T) {
-		drinks := fakes.MustCategory(t, userID, "Minuman")
-		snacks := fakes.MustCategory(t, userID, "Makanan")
+		drinks := mocks.MustCategory(t, userID, "Minuman")
+		snacks := mocks.MustCategory(t, userID, "Makanan")
 
-		repo := new(fakes.MockCategoryRepository)
+		repo := new(mocks.MockCategoryRepository)
 		repo.On("FindAll", mock.Anything, userID).Return([]*entity.Category{&drinks, &snacks}, nil)
 
 		categories, err := query.NewGetAllCategoryQueryHandler(repo).Handle(context.Background(), userID)
@@ -36,7 +36,7 @@ func Test_GetAllCategoriesQuery_AllCases_CorrectResults(t *testing.T) {
 	})
 
 	t.Run("returns the repository error", func(t *testing.T) {
-		repo := new(fakes.MockCategoryRepository)
+		repo := new(mocks.MockCategoryRepository)
 		repo.On("FindAll", mock.Anything, userID).Return(nil, boom)
 
 		categories, err := query.NewGetAllCategoryQueryHandler(repo).Handle(context.Background(), userID)
@@ -52,9 +52,9 @@ func Test_GetCategoryByIDQuery_AllCases_CorrectResults(t *testing.T) {
 	boom := errors.New("boom")
 
 	t.Run("maps the category", func(t *testing.T) {
-		drinks := fakes.MustCategory(t, userID, "Minuman")
+		drinks := mocks.MustCategory(t, userID, "Minuman")
 
-		repo := new(fakes.MockCategoryRepository)
+		repo := new(mocks.MockCategoryRepository)
 		repo.On("FindByID", mock.Anything, userID, categoryID).Return(&drinks, nil)
 
 		category, err := query.NewGetCategoryByIDQueryHandler(repo).Handle(context.Background(), query.GetCategoryByIDQuery{
@@ -70,7 +70,7 @@ func Test_GetCategoryByIDQuery_AllCases_CorrectResults(t *testing.T) {
 	})
 
 	t.Run("returns the repository error", func(t *testing.T) {
-		repo := new(fakes.MockCategoryRepository)
+		repo := new(mocks.MockCategoryRepository)
 		repo.On("FindByID", mock.Anything, userID, categoryID).Return(nil, boom)
 
 		category, err := query.NewGetCategoryByIDQueryHandler(repo).Handle(context.Background(), query.GetCategoryByIDQuery{
